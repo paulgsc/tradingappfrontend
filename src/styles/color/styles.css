@@ -1,0 +1,41 @@
+:root{
+    --bl100: #eef6f6;
+    --gr600: rgb(111, 116, 125);
+    --gr100: rgb(151, 160, 175);
+    --gr400: rgb(111, 113, 117);
+    --bl900: rgba(9, 23, 180, 0.314);
+}
+
+.bg-inpt-container-bl100{
+    background-color: var(--bl100);
+}
+
+.bg-container-gr-600{
+    background-color: var(--gr600);
+}
+.txt-container-gr100{
+    color: var(--gr100);
+}
+.txt-container-wt{
+    color: #eef6f6;
+}
+
+.bg-wht-smk{
+    background-color: rgb(250, 251, 246);
+}
+
+.blu-900{
+    color: var(--bl900);
+}
+
+.bg-blk{
+    background-color: rgb(64, 64, 60);
+}
+
+.cl-wht{
+    color: #fff;
+}
+
+.gr-400{
+    color: var(--gr400)
+}   

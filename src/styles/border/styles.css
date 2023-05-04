@@ -1,0 +1,136 @@
+
+
+.round-corner-container-1{
+    border: calc(0 * var(--size)) solid;
+    border-radius: calc(1 * var(--size));
+}
+
+.round-corner-container-1-cl{
+  position: relative;
+  align-items: center;
+  background-color: rgb(132, 124, 246);
+  border: 1px solid #cccccc;
+  border-radius: 40px 40px 40px 40px;
+  box-shadow: inset 0 1px 2px #eee;
+  caret-color: #0f0f0f;
+  color: hsl(0, 0%, 96%);
+  padding: 2px 16px 2px 16px;
+  flex: 1;
+  flex-basis: 1e-9px;
+  display: flex;
+  flex-direction: row;
+}
+
+.box-shadow-container-1{
+
+  box-shadow:
+    0px 0px 20px 4px rgba(0, 0, .2, 0.1),
+    1px 1px 2px 0px rgba(0, .2, 0, .2);
+
+}
+
+.round-container{
+  border-radius: 50%;
+}
+
+.solid-border-container-1{
+  border: calc(.125 * var(--size)) solid;
+}
+
+.no-border-container{
+  border: none;
+}
+
+.bx-shd-container{
+  box-shadow:
+  0px 0px 20px 4px rgba(155, 153, 153, 0.1),
+  1px 1px 2px 0px rgba(128, 125, 125, 0.2);
+}
+
+.rd-crn-container-1{
+  border-radius: calc(.325 * var(--size));
+}
+
+.bm-brd-container{
+  border-bottom: 1px solid;
+}
+
+.bm-brd-container-gr{
+  border-bottom: 1px solid slategrey;
+}
+
+.btn-container-zero{
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.square-90 {
+  width: 90vw;
+  height: 90vh;
+  border: 1px solid;
+}
+.square-40 {
+  width: 44.5vw;
+  height: 89.5vh;
+  border: 1px solid;
+}
+
+.image-bx-rd{
+  width: calc(40 * var(--size));
+  height: calc(30 * var(--size));
+  border-radius: 5%;
+  box-shadow:rgba(0, .2, 0, .2);
+}
+
+.brd-shd-none{
+ border: none;
+ box-shadow: none;
+}
+
+.search-border{
+  position: relative;
+  align-items: center;
+  background-color:  hsl(0, 0%, 100%);
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 40px 0 0 40px;
+  box-shadow: inset 0 1px 2px #eee;
+  caret-color: #0f0f0f;
+  color: hsl(0, 0%, 6.7%);
+  padding: 0px 4px 0px 16px;
+  margin-left: 32px;
+  flex: 1;
+  flex-basis: 1e-9px;
+  display: flex;
+  flex-direction: row;
+}
+
+.search-border-button{
+  border: 1px solid #d3d3d3;
+  background-color: #f8f8f8;
+  box-shadow: inset 0 1px 2px #eee;
+  border-radius: 0 40px 40px 0;
+  cursor: pointer;
+  height: 40px;
+  width: 64px;
+  margin: 0;
+}
+
+.home-brd{
+  border-radius: 50px;
+  background-color: #efeeee;
+  box-shadow: inset 0 1px 2px #989393;
+  padding: 6px 6px 4px 4px;
+  align-items: center;
+  margin-bottom: 2px;
+  width: 28px;
+  text-align: center;
+  
+}
+
+.zer-outl{
+  outline: none;
+}

@@ -1,0 +1,58 @@
+
+
+
+body {
+    font-family: "Capsule Sans Text", sans-serif;
+    font-size: 16px;
+}
+
+.italic-container{
+    font-style: italic;
+}
+.alert-message-font {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+  }
+
+.ft-sz-container-sm{
+    font-size:  calc(1.2 * var(--size));
+}
+
+.ft-bld-container{
+    font-weight: bold;
+}
+
+.ft-container-12 {
+    font-size: 12px;
+}
+
+.ft-small{
+    font-size: small;
+}
+
+
+.font-9{
+    font-size: 9px;
+}
+
+.font-50{
+    font-size: 50px;
+}
+
+.font-60{
+    font-size: 60px;
+}
+
+.txt-prop{
+    text-transform: capitalize;
+}
+
+.ft-lgr{
+    font-size: larger;
+}
+
+
+
+
+
+  

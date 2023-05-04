@@ -1,0 +1,31 @@
+import React, { useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { gmailRegister } from "../../contexts/redux/actions/userActions";
+
+function GoogleSignIn() {
+  const dispatch = useDispatch();
+  function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+    const gmailInfo = jwt_decode(response.credential);
+    dispatch(gmailRegister(gmailInfo));
+  }
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id:
+        "583245376877-ilrfvjtnictvnp08m3lskhos4h37490l.apps.googleusercontent.com",
+      callback: handleCredentialResponse,
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" } // customization attributes
+    );
+  }, []);
+
+  return <div id="buttonDiv">dd</div>;
+}
+
+export default GoogleSignIn;
