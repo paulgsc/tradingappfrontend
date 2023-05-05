@@ -6,7 +6,7 @@ import {
   gmailRegister,
   register,
 } from "../../contexts/redux/actions/userActions";
-import GoogleSignIn from "../ui/GoogleSignIn";
+import GoogleSignUp from "../ui/GoogleSignUp";
 
 function Register() {
   const location = useLocation();
@@ -15,15 +15,10 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { userInfo: { firebaseInfo = "", token = "" } = {} } = useSelector(
+  const { userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
   const redirect = location.search ? location.search.split("=")[1] : "/";
-
-  const handleGmail = (e) => {
-    e.preventDefault();
-    dispatch(gmailRegister());
-  };
 
   const handleGoBack = (e) => {
     e.preventDefault();
@@ -43,18 +38,10 @@ function Register() {
   };
 
   useEffect(() => {
-    if (firebaseInfo) {
-      const formData = {
-        ...firebaseInfo,
-        username: firebaseInfo.email,
-        password: firebaseInfo.uid,
-      };
-      dispatch(register(formData));
-    }
     if (token) {
       navigate(redirect);
     }
-  }, [firebaseInfo, token, redirect]);
+  }, [token, redirect]);
 
   return (
     <div className="">
@@ -75,7 +62,7 @@ function Register() {
       <div className="login-pos round-corner-container-1 box-shadow-container-1 login-pos-ms">
         <form classsName="flex-col-container">
           <div className="flex-col-container">
-            <GoogleSignIn />
+            <GoogleSignUp />
             <div className="line-eff-container txt-container-gr100">or</div>
             <div className="flex-col-container">
               <input

@@ -105,6 +105,7 @@
     margin-right: 12px;
     cursor: pointer;
     font-size: 16px;
+    
   }
   
   .btn-prompt button:hover {
@@ -165,5 +166,27 @@
   .account_nav{
     margin: 0px 0px 0px 350px;
   }
+
+
+  .hidden-popup{
+    display: none;
+  }
+ 
+  #trade-buy-button:disabled {
+    pointer-events: none;
+    cursor: not-allowed; /* change the cursor to not-allowed */
+  }
+  
+   #trade-buy-button:enabled {
+    pointer-events: all;
+    cursor: pointer;
+  }
+
+  .transfer-btn:disabled{
+    opacity: .4;
+    cursor: not-allowed;
+  }
+
+
 
 

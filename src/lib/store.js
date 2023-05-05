@@ -3,6 +3,7 @@ import userAuthReducer from '../reducers/userAuthReducer';
 import plaidAuthReducer from '../reducers/plaidAuthReducer';
 import stripeAuthReducer from '../reducers/stripeAuthReducer';
 import fetchDataReducers from '../reducers/fetchDataReducers';
+import fetchPropertyReducers from '../reducers/fetchPropertyReducers';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         plaid: plaidAuthReducer,
         stripe: stripeAuthReducer,
         fetchData: fetchDataReducers,
+        propertyData: fetchPropertyReducers,
     },
     // devTools: process.env.NODE_ENV !== 'production',    
 });

@@ -1,7 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { userLogOut, userLoginFailure, userLoginRequest, userLoginSuccess, userLoginWithGmailRequest, userLoginWithGmailSuccessful, userProtectedView, userRegisterWithGmailSuccessful, userRegistration, userRegistrationFailure, userRegistrationSuccess } from "../../../reducers/userAuthReducer";
 import API from '../../../api/django';
-import { auth } from '../../../firebase';
 import { userLogoutPlaid } from "../../../reducers/plaidAuthReducer";
 import { userLogOutClearData } from "../../../reducers/fetchDataReducers";
 
@@ -49,27 +48,41 @@ export const login = (formData) => async (dispatch) => {
     };
 };
 
-export const gmailLogin = () => async (dispatch) => {
+export const gmailLogin = (gmailInfo) => async (dispatch) => {
     dispatch(userLoginWithGmailRequest());
 
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-    .then((result) => {
+    try{
+        dispatch(userLoginWithGmailSuccessful({
+            userInfo: {
+                gmailInfo,
+            }
+        }))
+        const {
+            email = "",
+            password = "blank",
+          } = gmailInfo
+          const formdata = {
+            username: email,
+            password: password,
+          }
+     
+        
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        };
 
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    const user = result.user
-    const { uid, email } = user
-    const formdata = {
-        username: email,
-        password: uid,
-    }
-    dispatch(userLoginWithGmailSuccessful({
-        firebaseInfo: user
-    }));
-    dispatch(login(formdata));
-
-    }).catch((error) => {
+        const response = await API.post(
+            'users/gmail_login/',
+            formdata,
+            config
+        );
+        // localStorage.setItem('userInfo', JSON.stringify(response.data));
+        dispatch(userLoginSuccess(response.data));
+ 
+        
+    }catch(error)  {
         let payload
         switch (error.code) {
             case 'auth/invalid-email':
@@ -92,16 +105,19 @@ export const gmailLogin = () => async (dispatch) => {
             error: payload,
           }));
  
-})};
+}}
+
+
 
 export const gmailRegister = (gmailInfo) => async (dispatch) => {
     dispatch(userLoginWithGmailRequest());
-    dispatch(userRegisterWithGmailSuccessful({
-        userInfo: {
-            gmailInfo,
-        }
-    }))
+
     try{
+        dispatch(userRegisterWithGmailSuccessful({
+            userInfo: {
+                gmailInfo,
+            }
+        }))
         const {
             email = "",
             family_name = "",
@@ -116,7 +132,7 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
             last_name: family_name,
             photoUrl: picture,
           }
-          console.log(formdata);
+     
           dispatch(register(formdata));
     }catch(error)  {
         let payload

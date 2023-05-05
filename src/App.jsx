@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Home from "./screens/Home";
 import Listings from "./screens/Listings";
-import { useStateValue } from "./contexts/firebase/StateProvider";
-import { auth } from "./firebase";
 import Register from "./components/auth/Register";
 import ProfileScreen from "./screens/profile/ProfileScreen";
 import PlaidHome from "./screens/plaid/PlaidHome";

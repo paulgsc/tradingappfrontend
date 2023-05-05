@@ -134,3 +134,29 @@
 .zer-outl{
   outline: none;
 }
+
+.transfer-btn{
+  background-color: rgb(134, 134, 119);
+  padding: 28px;
+  border-radius: 50px;
+  border: none;
+  color: #ebebeb;
+  font-weight: bolder;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.transfer-back-btn{
+  position: fixed;
+  top: 5%;
+  left: 1%;
+  width: 100px;
+  height: 60px;
+  border-radius: 50px;
+  border: none;
+  background-color: rgb(44, 52, 58);
+  align-items: center;
+  justify-content: center;
+  opacity: .6;
+  cursor: pointer;
+}

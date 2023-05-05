@@ -35,12 +35,20 @@ body {
     font-size: 9px;
 }
 
+.font-16{
+    font-size: 16px;
+}
+
 .font-50{
     font-size: 50px;
 }
 
 .font-60{
     font-size: 60px;
+}
+
+.font-80 {
+    font-size: 80px;
 }
 
 .txt-prop{

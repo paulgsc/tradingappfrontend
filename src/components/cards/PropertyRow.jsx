@@ -12,13 +12,14 @@ function PropertyRow({ payload, maxCol }) {
             .map((item, index) => (
               <Property
                 key={`${rowIndex}-${index}`}
-                thumbnail={item.thumbnail}
-                street={item.street}
-                title={item.title}
-                shares={item.shares}
+                thumbnail={item.url}
+                street={item.property_address}
+                title={item.property_name}
+                shares={item.total_shares_remaining}
                 income={item.income}
-                expense={item.expense}
-                date={item.date}
+                expense={item.expenses}
+                propertyValue={item.current_property_value}
+                classId={item.id}
               />
             ))}
         </div>

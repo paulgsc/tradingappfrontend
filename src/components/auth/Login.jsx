@@ -17,8 +17,9 @@ function Login() {
   const [password, setPassword] = useState("");
   const [alert, toggleAlert] = useState(false);
 
-  const { userInfo: { firebaseInfo = "", token = "" } = {}, error = null } =
-    useSelector((state) => state.userAuth);
+  const { userInfo: { token = "" } = {}, error = null } = useSelector(
+    (state) => state.userAuth
+  );
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -42,7 +43,7 @@ function Login() {
     if (token) {
       navigate(redirect);
     }
-  }, [token, redirect, error]);
+  }, [token, redirect]);
 
   return (
     <div className="">

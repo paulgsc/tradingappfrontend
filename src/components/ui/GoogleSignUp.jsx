@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
-import { gmailLogin } from "../../contexts/redux/actions/userActions";
+import { gmailRegister } from "../../contexts/redux/actions/userActions";
+import { useEffect } from "react";
 
-function GoogleSignIn() {
+function GoogleSignUp() {
   const dispatch = useDispatch();
   function handleCredentialResponse(response) {
     const gmailInfo = jwt_decode(response.credential);
-    dispatch(gmailLogin(gmailInfo));
+    dispatch(gmailRegister(gmailInfo));
   }
 
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
       client_id:
-        "583245376877-pjrompg2vbbmcs1jgjmit6q2med9sf21.apps.googleusercontent.com",
-
+        "583245376877-ilrfvjtnictvnp08m3lskhos4h37490l.apps.googleusercontent.com",
       callback: handleCredentialResponse,
     });
 
@@ -28,4 +28,4 @@ function GoogleSignIn() {
   return <div id="buttonDiv"></div>;
 }
 
-export default GoogleSignIn;
+export default GoogleSignUp;

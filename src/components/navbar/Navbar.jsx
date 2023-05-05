@@ -3,7 +3,6 @@ import NavbarLogins from "./navlogins/NavbarLogins";
 import NavbarLogo from "./navlogo/NavbarLogo";
 import NavbarItems from "./menubar/NavbarItems";
 import "../../styles/components/navbar.css";
-import { useStateValue } from "../../contexts/firebase/StateProvider";
 import Profile from "../profile/Profile";
 import { useSelector } from "react-redux";
 

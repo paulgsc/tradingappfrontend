@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setTransferAmount } from "../../contexts/redux/actions/plaidActions";
@@ -6,6 +6,7 @@ import Spinner from "../loading/Spinner";
 
 function KeyPad() {
   const [amount, setAmount] = useState("0");
+  const [btnDisabled, ToggleDisabledBtn] = useState(true);
   const navigate = useNavigate();
   const {
     loading,
@@ -44,6 +45,18 @@ function KeyPad() {
       setAmount(amount === "0" ? clickedValue : amount + clickedValue);
     }
   };
+
+  useEffect(() => {
+    const validateAmount = () => {
+      const amountInt = parseInt(amount);
+      if (isNaN(amountInt) || amountInt < 5) {
+        ToggleDisabledBtn(true);
+        return;
+      }
+      ToggleDisabledBtn(false);
+    };
+    validateAmount();
+  }, [amount]);
 
   return (
     <>
@@ -146,15 +159,13 @@ function KeyPad() {
                       0
                     </button>
                   </td>
-                  <td className="wd-7">
-                    <button
-                      id="decimal"
-                      onClick={handleClick}
-                      className="btn-container-zero cl-wht font-50"
-                    >
-                      .
-                    </button>
-                  </td>
+                  <button
+                    id="decimal"
+                    onClick={handleClick}
+                    className="btn-container-zero cl-wht font-50"
+                  >
+                    <td className="wd-">.</td>
+                  </button>
                   <td className="wd-7">
                     <button
                       id="erase"
@@ -167,9 +178,15 @@ function KeyPad() {
                 </tr>
               </tbody>
             </table>
-            <div>
-              <button onClick={handleTransfer}>Initiate Transfer</button>
-            </div>
+          </div>
+          <div className="mg-lft-8 mg-tp-200 ">
+            <button
+              className="transfer-btn"
+              onClick={handleTransfer}
+              disabled={btnDisabled}
+            >
+              Initiate Transfer
+            </button>
           </div>
         </div>
       ) : (

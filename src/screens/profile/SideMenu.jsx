@@ -11,7 +11,7 @@ const openMenu = (e) => {
   Main.classList.toggle("hidden");
 };
 
-function SideMenu({ className }) {
+function SideMenu() {
   const showNav = (flag) => {
     if (flag) {
       // Main.classList.toggle("-translate-x-full");
