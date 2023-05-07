@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "./Card";
 import PurchasePopUp from "../ui/PurchasePopUp";
+import { useDispatch, useSelector } from "react-redux";
+import { popUpClose } from "../../contexts/redux/actions/tradingActions";
 
 function Property({
   thumbnail,
   title,
   street,
-  shares,
+  availableshares,
   income,
   expense,
   classId,
+  propertyId,
   propertyValue,
 }) {
   const [popup, setPopup] = useState("");
   const [popupButton, setPopupButton] = useState("");
+  const dispatch = useDispatch();
+
   const testing = (e) => {
     e.preventDefault();
     const element = document.getElementsByClassName(
       `_${classId}purchase-popup`
     )[0];
+
     setPopup(element);
     setPopupButton(e.target);
     element.style.position = "fixed";
@@ -48,9 +54,9 @@ function Property({
       if (event.target !== popupButton && !popup.contains(event.target)) {
         // Clicked outside popup, hide it
         popup.style.display = "none";
-        console.log("why this ran?");
         setPopup(null);
         setPopupButton("");
+        dispatch(popUpClose());
       }
     };
 
@@ -75,7 +81,7 @@ function Property({
       <Card.Footer className="flx-btw-container">
         <div>
           <p>current Value: {propertyValue}</p>
-          <p>shares: {shares}</p>
+          <p>shares: {availableshares}</p>
           <p>income: {income}</p>
           <p>expense: {expense}</p>
         </div>
@@ -86,7 +92,7 @@ function Property({
           <button>add to favorites</button>
         </div>
       </Card.Footer>
-      <PurchasePopUp classId={classId} />
+      <PurchasePopUp classId={classId} propertyId={propertyId} />
     </Card>
   );
 }

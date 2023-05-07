@@ -15,11 +15,12 @@ function PropertyRow({ payload, maxCol }) {
                 thumbnail={item.url}
                 street={item.property_address}
                 title={item.property_name}
-                shares={item.total_shares_remaining}
+                availableshares={item.total_shares_remaining}
                 income={item.income}
                 expense={item.expenses}
                 propertyValue={item.current_property_value}
                 classId={item.id}
+                propertyId={item.id}
               />
             ))}
         </div>

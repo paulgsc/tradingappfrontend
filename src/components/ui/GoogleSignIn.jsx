@@ -14,7 +14,7 @@ function GoogleSignIn() {
     /* global google */
     google.accounts.id.initialize({
       client_id:
-        "583245376877-pjrompg2vbbmcs1jgjmit6q2med9sf21.apps.googleusercontent.com",
+        "583245376877-6o3icnabhu6gqbiabjs22tj6tbs0vuar.apps.googleusercontent.com",
 
       callback: handleCredentialResponse,
     });

@@ -1,12 +1,20 @@
 import currency from "currency.js";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
+import { clearOrderInfo, storeOrderInfo } from "../../reducers/tradingReducers";
+import { useMemo } from "react";
+import { getPropertyById } from "../../contexts/redux/selectors/propertySelectors";
+import { excersiseTrade } from "../../contexts/redux/actions/tradingActions";
 
-function PurchasePopUp({ classId }) {
-  const [shares, setShares] = useState("");
-  const [amount, setAmount] = useState("");
+function PurchasePopUp({ classId, propertyId }) {
+  const { orderInfo: { amount = "", shares = "" } = {} } = useSelector(
+    (state) => state.trade
+  );
+
+  const dispatch = useDispatch();
+  const [inputshares, setInputShares] = useState("");
   const [review, setReview] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -14,6 +22,39 @@ function PurchasePopUp({ classId }) {
   const { userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
+  const {
+    id = "",
+    price_per_share = "",
+    property_name = "",
+    url = "",
+    available_shares = "",
+  } = useSelector((state) => getPropertyById(state, propertyId));
+
+  const payload = useMemo(() => {
+    if (isNaN(parseInt(inputshares)) || parseInt(inputshares) < 1) {
+      return null;
+    } else if (inputshares > 500) {
+      return {
+        shares: shares,
+        amount: amount,
+        propertyId: propertyId,
+        transactionType: "BUY",
+      };
+    } else {
+      const purchaseAmount =
+        parseInt(inputshares) * parseFloat(price_per_share);
+      if (isNaN(purchaseAmount)) {
+        return null;
+      } else {
+        return {
+          shares: inputshares,
+          amount: purchaseAmount,
+          propertyId: id,
+          transactionType: "BUY",
+        };
+      }
+    }
+  }, [inputshares]);
 
   const handleReview = (e) => {
     e.preventDefault();
@@ -22,35 +63,26 @@ function PurchasePopUp({ classId }) {
     } else if (token && amount && !review) {
       setReview(true);
     } else if (token && amount && review) {
-      navigate("/personal");
+      dispatch(excersiseTrade());
     }
   };
 
   const handleInputChange = (e) => {
-    const inputshares = parseInt(e.target.value);
-
-    // Only allow positive integers
-    if (isNaN(parseInt(inputshares)) || parseInt(inputshares) < 1) {
-      setShares("");
-      return;
-    }
-
-    // Restrict the input to a maximum shares of 500
-    if (inputshares > 500) {
-      setShares(shares);
-      return;
-    }
-
-    setShares(parseInt(inputshares));
+    e.preventDefault();
+    setInputShares(parseInt(e.target.value));
   };
 
   useEffect(() => {
-    if (shares) {
-      const purchaseAmount = currency(
-        parseInt(shares) * parseFloat(".55")
-      ).format();
+    if (payload) {
+      dispatch(storeOrderInfo(payload));
+    } else {
+      shares && dispatch(clearOrderInfo());
+    }
+  }, [payload]);
 
-      setAmount(purchaseAmount);
+  useEffect(() => {
+    if (!shares) {
+      setReview(false);
     }
   }, [shares]);
   return (
@@ -90,7 +122,7 @@ function PurchasePopUp({ classId }) {
 
           <div>
             <div>
-              <span>$.55/share</span>
+              <span>{currency(price_per_share).format()}/share</span>
               {amount && <span>{amount} Total</span>}
             </div>
             <input
@@ -107,11 +139,19 @@ function PurchasePopUp({ classId }) {
       ) : (
         <div>
           <h4>Review Your Order</h4>
+          <div>
+            <div>
+              <img src={url} />
+            </div>
+            <div>
+              <span>{property_name}</span>
+            </div>
+          </div>
           <div>{amount && <span>{amount}</span>}</div>
           <div>
-            .<p>55 shares</p>
+            .<p>{shares} shares</p>
           </div>
-          <div></div>
+
           <div>
             <p>some discolusure...</p>
           </div>

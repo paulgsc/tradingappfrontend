@@ -4,6 +4,18 @@ import API from '../../../api/django';
 import { userLogoutPlaid } from "../../../reducers/plaidAuthReducer";
 import { userLogOutClearData } from "../../../reducers/fetchDataReducers";
 
+
+function generatePassword(length) {
+    let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      let randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
+    return password;
+  }
+  
+
 export const register = (formData) => async (dispatch) => {
     dispatch(userRegistration());
     try {
@@ -101,6 +113,7 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
                 payload =  error.message;
               break;
           }
+          dispatch(userLogOut());
           dispatch(userLoginFailure({
             error: payload,
           }));
@@ -118,6 +131,9 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
                 gmailInfo,
             }
         }))
+
+        const password = generatePassword(10);
+
         const {
             email = "",
             family_name = "",
@@ -131,6 +147,7 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
             first_name: given_name,
             last_name: family_name,
             photoUrl: picture,
+            password: password,
           }
      
           dispatch(register(formdata));

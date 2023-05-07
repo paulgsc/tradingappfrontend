@@ -26,7 +26,7 @@ const userAuthentification = createSlice({
       return { access: false, loading: false, userInfo: { ...state.userInfo,  ...action.payload } };
     },
     userLogOut(state, action){
-      return { access: false, userInfo: {} };
+      return {  };
     },
     userLoginWithGmailRequest(state, actiion) {
       return { ...state, loading: true }
@@ -35,7 +35,6 @@ const userAuthentification = createSlice({
       return { access: false, userInfo: { ...state.userInfo, ...action.payload },  loading: false }
     },
     userRegisterWithGmailSuccessful(state, action) {
-      localStorage.setItem('userInfo', JSON.stringify({ ...state.userInfo, ...action.payload }));
       return { access: false, userInfo: { ...state.userInfo, ...action.payload },  loading: false }
     },
     userLoginFailure(state, action) {

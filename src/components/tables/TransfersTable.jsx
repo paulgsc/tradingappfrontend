@@ -3,26 +3,26 @@ import { useSelector } from "react-redux";
 import { useTable } from "react-table";
 
 function TransfersTable() {
-  const { transfers = {} } = useSelector((state) => state.fetchData);
-  const data = useMemo(() => transfers, [transfers]);
+  const { history = [] } = useSelector((state) => state.fetchData);
+
+  const data = useMemo(() => history, [history]);
 
   const columns = useMemo(
     () => [
       {
-        Header: "Created At",
-        accessor: "created_at",
-      },
-      {
-        Header: "Expected Settlment Date",
-        accessor: "expected_settlement_date",
-      },
-      {
-        Header: "Status",
-        accessor: "status",
+        Header: "Transaction",
+        accessor: (row) =>
+          row.recordType === "Transfer" ? row.recordType : row.transaction_type,
       },
       {
         Header: "Amount",
-        accessor: "amount",
+        accessor: (row) =>
+          row.recordType === "Transfer" ? row.amount : row.order_amount,
+      },
+      {
+        Header: "Created At",
+        accessor: (row) =>
+          row.recordType === "Transfer" ? row.created_at : row.purchase_date,
       },
     ],
     []

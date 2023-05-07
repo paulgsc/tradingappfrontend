@@ -60,7 +60,7 @@ function Register() {
         </button>
       </div>
       <div className="login-pos round-corner-container-1 box-shadow-container-1 login-pos-ms">
-        <form classsName="flex-col-container">
+        <form>
           <div className="flex-col-container">
             <GoogleSignUp />
             <div className="line-eff-container txt-container-gr100">or</div>

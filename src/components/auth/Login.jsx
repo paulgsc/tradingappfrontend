@@ -62,7 +62,7 @@ function Login() {
         </button>
       </div>
       <div className="login-pos round-corner-container-1 box-shadow-container-1 login-pos-ms">
-        <form className="">
+        <form>
           {!alert ? (
             <div className="flex-col-container">
               <GoogleSignIn />

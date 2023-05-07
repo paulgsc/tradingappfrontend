@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { Card } from "../../components/cards/Card";
 import TransfersTable from "../../components/tables/TransfersTable";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTransfers } from "../../contexts/redux/actions/fetchDataActions";
+import {
+  fetchOrders,
+  fetchTransactions,
+  fetchTransfers,
+} from "../../contexts/redux/actions/fetchDataActions";
 import Spinner from "../../components/loading/Spinner";
 
 function History() {
@@ -10,7 +14,7 @@ function History() {
   const { loading } = useSelector((state) => state.fetchData);
 
   useEffect(() => {
-    dispatch(fetchTransfers());
+    dispatch(fetchTransactions());
   }, [dispatch]);
 
   return (
