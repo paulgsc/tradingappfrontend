@@ -72,8 +72,9 @@ export const fetchOrders = () => async (dispatch, getState) => {
             'users/orders/',
             config,
         )
+        const transactionData = [].concat(...response.data.map((item) => item.orders)) ;
        
-        dispatch(userOrdersDataRequestSuccessful(response.data));
+        dispatch(userOrdersDataRequestSuccessful(transactionData));
 
 
     }catch (error){

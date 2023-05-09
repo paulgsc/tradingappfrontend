@@ -16,6 +16,8 @@ import "./styles/color/styles.css";
 import CreateAccount from "./screens/legal/CreateAccount";
 import AuthRoute from "./components/auth/AuthRoute";
 import Index from "./screens/transfers/Index";
+import TradingScreen from "./screens/tradingportal/TradingScreen";
+import Test from "./Test";
 
 function App() {
   return (
@@ -54,6 +56,24 @@ function App() {
           element={
             <>
               <Register />
+            </>
+          }
+        />
+        <Route
+          exact
+          path="/trade"
+          element={
+            <>
+              <TradingScreen />
+            </>
+          }
+        />
+        <Route
+          exact
+          path="/test"
+          element={
+            <>
+              <Test />
             </>
           }
         />

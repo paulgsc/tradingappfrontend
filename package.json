@@ -19,7 +19,6 @@
     "chart.js": "^4.2.1",
     "clsx": "^1.2.1",
     "currency.js": "^2.0.4",
-    "firebase": "^9.21.0",
     "jwt-decode": "^3.1.2",
     "lucide-react": "^0.145.0",
     "plaid": "^13.0.0",

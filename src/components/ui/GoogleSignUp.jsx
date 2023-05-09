@@ -21,7 +21,7 @@ function GoogleSignUp() {
 
     google.accounts.id.renderButton(
       document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" } // customization attributes
+      { theme: "outline", size: "large", text: "signup_with" } // customization attributes
     );
   }, []);
 

@@ -1,0 +1,32 @@
+.property-table-container {
+    width: 100%;
+  }
+  
+  .property-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .property-table-container th,
+  .property-table-container td {
+    padding: 0.5rem;
+    text-align: left;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .property-table-container th {
+    background-color: #eee;
+  }
+  
+  .property-table-container tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .property-table-container button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+  }
+  

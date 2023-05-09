@@ -78,7 +78,7 @@ function SideMenu() {
         </div>
         <div className="flex-col-container bm-brd-container margin-rt-lft-container-1">
           {sideMenuNavs.map((item, index) => (
-            <Link to={item.path}>
+            <Link to={item.path} key={`icon-menu${index}`}>
               <button
                 key={item.id}
                 className="btn-container-zero flx-al-ct-container txt-container-wt "
@@ -113,15 +113,20 @@ function SideMenu() {
                 className="hidden margin-rt-lft-container-1"
               >
                 {menuItems.content.map((item, itemIndex) => (
-                  <Link to={item.path} key={itemIndex}>
-                    <button className="btn-container-zero flx-al-ct-container">
-                      <PlaceHolder.Icon
-                        className={item.className}
-                        name={item.icon}
-                      />
-                      <p className="">{item.title}</p>
-                    </button>
-                  </Link>
+                  <div key={`menu-item${itemIndex}`}>
+                    <Link to={item.path} key={`c${itemIndex}`}>
+                      <button
+                        className="btn-container-zero flx-al-ct-container"
+                        key={`c${itemIndex}`}
+                      >
+                        <PlaceHolder.Icon
+                          className={item.className}
+                          name={item.icon}
+                        />
+                        <p className="">{item.title}</p>
+                      </button>
+                    </Link>
+                  </div>
                 ))}
               </div>
             </div>

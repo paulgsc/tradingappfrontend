@@ -3,6 +3,8 @@ import { Card } from "./Card";
 import PurchasePopUp from "../ui/PurchasePopUp";
 import { useDispatch, useSelector } from "react-redux";
 import { popUpClose } from "../../contexts/redux/actions/tradingActions";
+import { storeOrderInfo } from "../../reducers/tradingReducers";
+import { useNavigate } from "react-router";
 
 function Property({
   thumbnail,
@@ -18,6 +20,17 @@ function Property({
   const [popup, setPopup] = useState("");
   const [popupButton, setPopupButton] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    dispatch(
+      storeOrderInfo({
+        propertyId: propertyId,
+      })
+    );
+    navigate("/trade");
+  };
 
   const testing = (e) => {
     e.preventDefault();
@@ -68,15 +81,18 @@ function Property({
   }, [popup, popupButton]);
 
   return (
-    <Card className="mg-auto block not-ready">
+    <Card className="mg-auto block">
       <Card.Content className={""}>
         <img
           src={thumbnail}
           alt={title}
-          className="image-bx-rd not-ready image-bx-rd-ms"
+          className="image-bx-rd  image-bx-rd-ms curs-pt"
+          onClick={handleClick}
         />
       </Card.Content>
-      <Card.Title className="ft-sz-14-ms">{street}</Card.Title>
+      <Card.Title className="curs-pt ft-sz-14-ms" onClick={handleClick}>
+        {street}
+      </Card.Title>
       <Card.Description>{title}</Card.Description>
       <Card.Footer className="flx-btw-container">
         <div>
@@ -87,7 +103,7 @@ function Property({
         </div>
         <div className="flex-col-container">
           <button id={classId} onClick={testing}>
-            add shares
+            Quick Trade
           </button>
           <button>add to favorites</button>
         </div>

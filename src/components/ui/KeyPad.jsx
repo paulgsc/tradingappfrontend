@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setTransferAmount } from "../../contexts/redux/actions/plaidActions";
 import Spinner from "../loading/Spinner";
+import { Card } from "../cards/Card";
+import currency from "currency.js";
 
 function KeyPad() {
   const [amount, setAmount] = useState("0");
@@ -59,7 +61,7 @@ function KeyPad() {
   }, [amount]);
 
   return (
-    <>
+    <div>
       {loading ? (
         <Spinner />
       ) : !transferAmount ? (
@@ -159,13 +161,15 @@ function KeyPad() {
                       0
                     </button>
                   </td>
-                  <button
+
+                  <td
                     id="decimal"
                     onClick={handleClick}
                     className="btn-container-zero cl-wht font-50"
                   >
-                    <td className="wd-">.</td>
-                  </button>
+                    .
+                  </td>
+
                   <td className="wd-7">
                     <button
                       id="erase"
@@ -190,11 +194,29 @@ function KeyPad() {
           </div>
         </div>
       ) : (
-        <Link to={"/personal/transfer/plaid"}>
-          <button>Go to Plaid </button>
-        </Link>
+        <div>
+          <Card className="transfer-review">
+            <Card.Header className="pd-10">
+              <h3 className="pd-mg-0">Transfering</h3>
+            </Card.Header>
+            <Card.Content className="pd-10">
+              <h1 className="pd-mg-0">{currency(transferAmount).format()}</h1>
+            </Card.Content>
+            <Card.Footer className="pd-20">
+              <span>
+                <h4 className="pd-mg-0">From ...</h4>
+              </span>
+              <span>
+                <h4 className="">To ...</h4>
+              </span>
+              <Link to={"/personal/transfer/plaid"}>
+                <button>Go to Plaid </button>
+              </Link>
+            </Card.Footer>
+          </Card>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 

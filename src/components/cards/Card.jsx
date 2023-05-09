@@ -27,8 +27,8 @@ Card.Description = function CardDescription({ ...props }) {
 Card.Skeleton = function CardSeleton() {
   return (
     <Card>
-      <Card.Header className="gap-2">
-        <Skeleton className="h-5 w-1/5" />
+      <Card.Header>
+        <Skeleton />
         <Skeleton className="h-4 w-4/5" />
       </Card.Header>
       <Card.Content className="h-10" />

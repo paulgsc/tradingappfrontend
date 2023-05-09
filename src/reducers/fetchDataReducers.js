@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const fetchDataReducers = createSlice({
     name: "fetchData",
-    initialState: { loading: false, history: [], summary: {}, },
+    initialState: { loading: false, history: [], summary: {}, propertyData: [], },
     reducers: {
         userRequestData(state, action){
             return { ...state, loading: true };
@@ -20,6 +20,9 @@ const fetchDataReducers = createSlice({
         fetchSummaryDataSuccessful(state, action){
             return { ...state, loading: false, summary: { ...action.payload }  };
         },
+        propertyTradeDataRequestSuccess(state, action){
+            return { ...state, loading: false, propertyData: [ ...action.payload ]  };
+        },
         userTransfersDataRequestFailure(state, action){
             return { ...state, error: action.payload, loading: false }
         },
@@ -27,6 +30,9 @@ const fetchDataReducers = createSlice({
             return { ...state, error: action.payload, loading: false }
         },
         userTransactionsDataRequestFailure(state, action){
+            return { ...state, error: action.payload, loading: false }
+        },
+        propertyTradeDataRequestFailed(state, action){
             return { ...state, error: action.payload, loading: false }
         },
         userLogOutClearData(state, action){
@@ -41,9 +47,11 @@ export const {
     userTransferDataRequestSuccessful,
     userOrdersDataRequestSuccessful,
     userTransactionsDataRequestSuccessful,
+    propertyTradeDataRequestSuccess,
     userTransactionsDataRequestFailure,
     userRequestData,
     fetchSummaryDataSuccessful,
+    propertyTradeDataRequestFailed,
     userLogOutClearData,
 } = fetchDataReducers.actions;
 

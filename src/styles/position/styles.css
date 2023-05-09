@@ -54,6 +54,14 @@ body {
 .flx-al-ct-container{
     display: flex;
     align-items: center;
+    
+}
+
+.flx-btw-inh{
+    display: flex;
+    flex: 1;
+    max-height: max-content;
+    justify-content: center;
 }
 
 
@@ -97,6 +105,12 @@ body {
 }
 .right-margin-container-12 {
     margin-left: calc(12 * var(--size));
+}
+
+
+
+.lft-mg-40{
+    margin-left: calc(40 * var(--size));
 }
 
 .lft-mg-25{
@@ -226,6 +240,13 @@ body {
     align-items: center;
 }
 
+.flx-inh{
+    display: flex;
+    flex-grow: inherit;
+    margin: 0;
+    padding: 0;
+}
+
 .margin-rt-lft-container-1{
     margin-right: calc(1 * var(--size));
     margin-left: calc(1 * var(--size));
@@ -352,9 +373,75 @@ body {
     margin-top: 200px;
 }
 
+.mg-bm-2{
+    margin-bottom: calc(2 * var(--size));
+}
+
+.mg-bm-6{
+    margin-bottom: calc(4 * var(--size));
+}
+
+input.trade_input {
+    border-radius:6px;
+    border: none;
+    width: 60%;
+    margin-left: 5%;
+    margin-right: 1%;
+    margin-top: 15%;
+    margin-bottom: 5%;
+    padding: 4px;
+    box-sizing: border-box;
+    text-align: right;
+    font-size: 24px;
+    font-weight: bolder;
+  }
+
+.pd-bm-20{
+    padding-bottom: 20px;
+}
+.trade-type{
+    width: 60%;
+    margin-left: 6%;
+    height: 20px;
+    align-items: center;
+    
+}
+
+.pd-mg-0{
+    flex-grow: inherit;
+    margin: 0;
+    padding: 0;
+}
 
 
+.trade-mg{
+    padding: 20px 50px 20px 50px;
+}
 
+
+.amount_container{
+    margin-bottom: 60px;
+    text-align: left;
+}
+
+
+.mg-input-trade{
+    margin-top: 16%;
+}
+
+.transfer-review{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    top:  20%;
+    right: 45%;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: rgba(185, 185, 185, 0.35) 0px 5px 15px;
+}
 
 
 

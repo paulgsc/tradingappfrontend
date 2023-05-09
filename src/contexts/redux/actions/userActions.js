@@ -1,8 +1,9 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
 import { userLogOut, userLoginFailure, userLoginRequest, userLoginSuccess, userLoginWithGmailRequest, userLoginWithGmailSuccessful, userProtectedView, userRegisterWithGmailSuccessful, userRegistration, userRegistrationFailure, userRegistrationSuccess } from "../../../reducers/userAuthReducer";
 import API from '../../../api/django';
 import { userLogoutPlaid } from "../../../reducers/plaidAuthReducer";
 import { userLogOutClearData } from "../../../reducers/fetchDataReducers";
+import { clearTradeInfoOnLogout } from "../../../reducers/tradingReducers";
 
 
 function generatePassword(length) {
@@ -170,6 +171,7 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
                 payload =  error.message;
               break;
           }
+          dispatch(userLogOut());
           dispatch(userRegistrationFailure({
             error: payload,
           }));
@@ -181,6 +183,7 @@ export const logout = ()  => (dispatch) => {
     localStorage.removeItem('link_token');
     dispatch(userLogoutPlaid());
     dispatch(userLogOutClearData());
+    dispatch(clearTradeInfoOnLogout());
     dispatch(userLogOut());
 };
 

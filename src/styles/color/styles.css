@@ -35,7 +35,24 @@
 .cl-wht{
     color: #fff;
 }
+.cl-blk{
+    color: #020202;
+}
 
 .gr-400{
     color: var(--gr400)
-}   
+} 
+
+.bg-gr-yl{
+    background-color: rgb(229, 240, 211);
+}
+.bg-gr-100{
+    background-color: rgb(235, 235, 235);
+}
+
+.bg-blk-1000{
+    background-color: black;
+}
+.bg-gr-1000{
+    background-color: rgb(224, 219, 219);
+}

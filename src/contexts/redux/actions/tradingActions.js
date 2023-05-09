@@ -1,5 +1,5 @@
 import API from "../../../api/django";
-import { clearOrderInfo, startTradeRequest, storeOrderInfo, tradeRequestFailure, tradeRequestSuccessful } from "../../../reducers/tradingReducers"
+import { clearOrderInfo, fetchBalanceInfoSuccessful, requestBalanceInfo, startTradeRequest, storeOrderInfo, tradeRequestFailure, tradeRequestSuccessful } from "../../../reducers/tradingReducers"
 
 
 export const popUpTradeInfo = (payload)  => (dispatch) => {
@@ -39,6 +39,44 @@ export const excersiseTrade = () => async (dispatch, getState) => {
             exercisedOrderInfo: {
                 ...response.data,
             },
+        }));
+    } catch (error){
+        dispatch(tradeRequestFailure(error.message));
+    };
+};
+
+export const fetchBalance = () => async (dispatch, getState) => {
+    dispatch(requestBalanceInfo());
+    try{
+        const {
+           userAuth: { userInfo: { token } },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await API.get(
+            'users/summary/',
+            config,
+        )
+        const data = response.data.reduce((acc, curr) => {
+            return {
+              id: curr.id,
+              transfers_total: (acc.transfers_total || 0) + curr.transfers_total,
+              buy_amount_total: (acc.buy_amount_total || 0) + curr.buy_amount_total,
+              sell_amount_total: (acc.sell_amount_total || 0) + curr.sell_amount_total,
+              amount_purchased: (acc.amount_purchased || 0) + curr.amount_purchased,
+              transfer_remaining: (acc.transfer_remaining || 0) + curr.transfer_remaining,
+            }
+          }, {});
+        dispatch(fetchBalanceInfoSuccessful({
+            balanceInfo: {
+                transferAmountRemaining: data?.transfer_remaining,
+                amountPurchased: data?.amount_purchased,
+            }
         }));
     } catch (error){
         dispatch(tradeRequestFailure(error.message));
