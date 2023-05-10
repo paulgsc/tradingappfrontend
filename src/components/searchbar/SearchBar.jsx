@@ -7,7 +7,7 @@ import {
 import API from "../../api/django";
 import { useDispatch } from "react-redux";
 
-function SearchBar() {
+function SearchBar({ classname }) {
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
   const fetchData = (searchQuery) => async (dispatch) => {
@@ -39,7 +39,7 @@ function SearchBar() {
   };
 
   return (
-    <div id="center" className="flx-st-container ">
+    <div id="center" className="flx-st-container">
       <div id="search_area" className="">
         <form id="search-form" className="" onSubmit={handleSubmit}>
           <div id="container" className="" slot="search-input">
@@ -58,7 +58,7 @@ function SearchBar() {
                 placeholder="Search"
                 aria-label="Search"
                 role="combobox"
-                className=" brd-shd-none zer-outl"
+                className={`brd-shd-none zer-outl ${classname}`}
                 onChange={(e) => {
                   setInput(e.target.value);
                 }}

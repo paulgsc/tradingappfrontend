@@ -1,0 +1,42 @@
+
+.shares-table-header {
+  display: table-header-group;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+.shares-table-row-group {
+  display: table;
+}
+
+.shares-table-row {
+  display: table-row;
+}
+
+.shares-table-cell {
+  display: table-cell;
+  padding: 16px;
+  border-bottom: 1px solid #ccc;
+  width: 180px; /* set a fixed width for the cells */
+  cursor: pointer;
+
+}
+
+
+.shares-table-cell-text{
+  white-space: nowrap;
+  text-align: center;
+}
+
+#shares_orders_history{
+
+  display: none;
+
+}
+
+#shares_orders_history{
+
+  z-index: 1000;
+
+}
+

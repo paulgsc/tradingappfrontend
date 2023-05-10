@@ -26,7 +26,7 @@ const userAuthentification = createSlice({
       return { access: false, loading: false, userInfo: { ...state.userInfo,  ...action.payload } };
     },
     userLogOut(state, action){
-      return {  };
+      return { state: {} };
     },
     userLoginWithGmailRequest(state, actiion) {
       return { ...state, loading: true }

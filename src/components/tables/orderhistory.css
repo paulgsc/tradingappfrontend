@@ -1,0 +1,35 @@
+
+.orders-table-header {
+    display: table-header-group;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+  }
+  
+  .orders-table-row-group {
+    display: table;
+    z-index: 1000;
+  }
+  
+  .orders-table-row {
+    display: table-row;
+    z-index: 1000;
+  }
+  
+  .orders-table-cell {
+    display: table-cell;
+    padding: 16px;
+    border-bottom: 1px solid #ccc;
+    width: 120px; /* set a fixed width for the cells */
+    cursor: pointer;
+    z-index: 1000;
+  
+  }
+  
+  
+  .orders-table-cell-text{
+    white-space: nowrap;
+    text-align: left;
+    z-index: 1000;
+  }
+  

@@ -21,8 +21,21 @@ function TransfersTable() {
       },
       {
         Header: "Created At",
-        accessor: (row) =>
-          row.recordType === "Transfer" ? row.created_at : row.purchase_date,
+        accessor: (row) => {
+          const dateStr =
+            row.recordType === "Transfer" ? row.created_at : row.purchase_date;
+          const dateObj = new Date(dateStr);
+          const options = {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            hour12: false,
+          };
+          return new Intl.DateTimeFormat("en-US", options).format(dateObj);
+        },
       },
     ],
     []

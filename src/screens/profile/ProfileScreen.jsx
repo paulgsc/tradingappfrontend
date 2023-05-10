@@ -5,7 +5,6 @@ import Account from "./Account";
 function ProfileScreen() {
   return (
     <div>
-      {/* <SideMenu /> */}
       <Account />
     </div>
   );

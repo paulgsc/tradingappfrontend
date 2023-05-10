@@ -13,6 +13,9 @@ body {
     z-index: var(--max-z-index);
 }
 
+.pos-fxd{
+    position: fixed;
+}
 
 .block{
     display: block;
@@ -107,7 +110,9 @@ body {
     margin-left: calc(12 * var(--size));
 }
 
-
+.lft-45-pct{
+    left: 45%;
+}
 
 .lft-mg-40{
     margin-left: calc(40 * var(--size));
@@ -181,8 +186,9 @@ body {
 }
 
 .absolute-container{
-    position: absolutes;
+    position: absolute;
 }
+
 
 
 .center-container{
@@ -337,6 +343,10 @@ body {
     width: calc(7 * var(--size));
 }
 
+.mg-lft-5{
+    margin-left: 5%;
+}
+
 
 .mg-200px-0{
     margin: 200px 0px 0px 0px;
@@ -385,7 +395,7 @@ input.trade_input {
     border-radius:6px;
     border: none;
     width: 60%;
-    margin-left: 5%;
+    margin-left: 16%;
     margin-right: 1%;
     margin-top: 15%;
     margin-bottom: 5%;
@@ -401,7 +411,7 @@ input.trade_input {
 }
 .trade-type{
     width: 60%;
-    margin-left: 6%;
+    margin-left: 16%;
     height: 20px;
     align-items: center;
     
@@ -443,6 +453,80 @@ input.trade_input {
     box-shadow: rgba(185, 185, 185, 0.35) 0px 5px 15px;
 }
 
+.chart-sz{
+    position: fixed;
+    height: max-content;
+    top: 8.4%;
+    left: 40%;
+}
+.txt-al-lft{
+    text-align: left;
+}
+.txt-al-ct{
+    text-align: center;
+}
+
+.txt-pd-1{
+    margin: 0;
+    padding: 5px 0 10px 0;
+}
+
+.fxd-pos-1{
+    position: fixed;
+    height: max-content;
+    width: 580px;
+    left: 260px;
+    z-index: 1;
+}
+
+.fxd-pos-2{
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    height: max-content;
+    width: 600px;
+    top: 14%;
+    left: 250px;
+    z-index: 1;
+}
+
+.fxd-pos-3{
+    width: 180px;
+    height: max-content;
+}
 
 
+.parent {
+    position: relative;
+  }
+  
+  .fixed-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+  }
+  
+  .next-container {
+    margin-top: 80px;
+  }
+  
+.shares-container{
+    margin-top: 220px;
+    width: 600px;
+    height: max-content;
+    left: 250px;
+    position: absolute;
+    z-index: 1;
+}
 
+.trade-widget{
+    position: fixed;
+    right: 5%;
+    top: 6.5%;
+}
+
+.trade_search_width{
+    width: 300px;
+}

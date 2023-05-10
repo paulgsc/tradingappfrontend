@@ -117,7 +117,7 @@ function TradingScreen() {
       <div className="flx-btw-inh">
         <SideBar sideMenuItems={sideMenuItems} sideMenuNavs={sideMenuNavs} />
         <div className="flx-btw-inh">
-          <Card className="trade-cards">
+          <Card className="trade-cards_history">
             <Card.Title>Recent Orders</Card.Title>
             <Card.Content>
               {loading ? <Spinner /> : <TransfersTable />}
@@ -149,10 +149,10 @@ function TradingScreen() {
               }
             >
               <div className="flip-card-front">
-                <div className="  flx-st-container mg-bm-6 ">
-                  <SearchBar />
+                <div className=" mg-bm-6">
+                  <SearchBar classname={"trade_search_width"} />
                 </div>
-                <Card.Header className="bg-gr-100  trade-type">
+                <Card.Header className="">
                   <ul className="flx-al-ct-container pd-mg-0">
                     <li className="">
                       <button className="btn-container-zero">

@@ -175,9 +175,6 @@
   height: 50vh;
 }
 
-
-
-
 .trade-container{
   border: none;
   margin: 0;
@@ -191,6 +188,20 @@
   border-radius: 5px;
   box-shadow: 0 2px 8px rgba(208,192,255,.5);
   height: max-content;
+  margin: 20px;
+  align-items: center;
+  display: block;
+  justify-content: center;
+}
+
+.trade-cards_history{
+  position: relative;
+  background: #fff;
+  padding: 10px 20px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(208,192,255,.5);
+  height: max-content;
+  width: 425px;
   margin: 20px;
   align-items: center;
   display: block;
@@ -222,5 +233,23 @@
   margin: 20px;
   align-items: center;
   display: block;
+  justify-content: center;
+}
+
+.bx-shd-brd-1{
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgb(160, 160, 160);
+}
+
+.port_summary{
+  margin: 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgb(160, 160, 160);
+  padding: 0 0 0 0;
+  height: max-content;
+  width: 350px;
+  display: flex;
+  align-items: center;
+  text-align: center;
   justify-content: center;
 }

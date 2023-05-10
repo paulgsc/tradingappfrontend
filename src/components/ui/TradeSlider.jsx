@@ -6,7 +6,6 @@ import { fetchPropertyRows } from "../../contexts/redux/actions/fetchPropertyAct
 import { useMemo } from "react";
 import { useEffect } from "react";
 import { clearOrderInfo, storeOrderInfo } from "../../reducers/tradingReducers";
-import SearchBar from "../searchbar/SearchBar";
 import { fetchBalance } from "../../contexts/redux/actions/tradingActions";
 import currency from "currency.js";
 function TradeSlider({ propertyId }) {
@@ -107,7 +106,7 @@ function TradeSlider({ propertyId }) {
         value={parseInt(shares) || 0}
         onChange={handleSliderChange}
       />
-      <span>{shares}</span>
+
       <div className="bar-max">
         <div
           className="purchase-power"

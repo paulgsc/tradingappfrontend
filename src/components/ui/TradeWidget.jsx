@@ -1,11 +1,16 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card } from "./components/cards/Card";
-import SearchBar from "./components/searchbar/SearchBar";
-import TradeSlider from "./components/ui/TradeSlider";
+import { fetchOrders } from "../../contexts/redux/actions/fetchDataActions";
+import { clearOrderInfo } from "../../reducers/tradingReducers";
+import { excersiseTrade } from "../../contexts/redux/actions/tradingActions";
+import SearchBar from "../searchbar/SearchBar";
+import { Card } from "../cards/Card";
+import TradeSlider from "./TradeSlider";
 import currency from "currency.js";
+import { useState } from "react";
+import { useEffect } from "react";
 
-function SlideshowComponent() {
+function TradeWidget() {
   const {
     orderInfo: {
       amount = "",
@@ -49,19 +54,19 @@ function SlideshowComponent() {
         }
       >
         <div className="flip-card-front">
-          <div className="  flx-st-container mg-bm-6 mg-lft-5">
-            <SearchBar />
+          <div className=" mg-bm-6">
+            <SearchBar classname={"trade_search_width"} />
           </div>
-          <Card.Header className="bg-gr-100  trade-type">
+          <Card.Header className="">
             <ul className="flx-al-ct-container pd-mg-0">
               <li className="">
                 <button className="btn-container-zero">
-                  <span className="pd-20 bg-blk-1000 cl-wht trade-mg">Buy</span>
+                  <span className=" bg-blk-1000 cl-wht trade-mg">Buy</span>
                 </button>
               </li>
               <li className="">
                 <button className="btn-container-zero no-pointer">
-                  <span className="pd-20 bg-gr-1000 cl-blk trade-mg">Sell</span>
+                  <span className="bg-gr-1000 cl-blk trade-mg">Sell</span>
                 </button>
               </li>
             </ul>
@@ -130,4 +135,4 @@ function SlideshowComponent() {
   );
 }
 
-export default SlideshowComponent;
+export default TradeWidget;
