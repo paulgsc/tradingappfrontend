@@ -1,0 +1,25 @@
+.transfers-table-container {
+  z-index: 1;
+    width: 100%;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  }
+
+  .transfers-table tr{
+    border-radius: 0 0 0 0;
+    z-index: 1;
+  }
+  
+  .transfers-table tbody tr:nth-child(even) {
+    background-color: #def2ee;
+  }
+  .transfers-table tbody tr:nth-child(odd) {
+    background-color: rgb(241, 232, 216);
+  }  
+
+.transfers-table th, .transfers-table td {
+    width: 33vw;
+    text-align: left;
+    padding: 10px 0 10px 10px;
+    z-index: 1;
+}
+

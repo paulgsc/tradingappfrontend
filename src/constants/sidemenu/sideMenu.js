@@ -46,7 +46,7 @@ export const sideMenuItems = [
         content: [
             {
                 id: 'side_3-1',
-                icon: "billing",
+                icon: "bank",
                 className: "",
                 title: "Transfer Money",
                 subtitle: "",
@@ -54,11 +54,11 @@ export const sideMenuItems = [
             },
             {
                 id: 'side_3-2',
-                icon: "billing",
+                icon: "bank",
                 className: "",
                 title: "Linked Accounts",
                 subtitle: "",
-                path: "/personal",
+                path: "/personal/banking/link",
             },
 
         ]

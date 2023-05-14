@@ -6,6 +6,7 @@ import {
 } from "../../reducers/fetchDataReducers";
 import API from "../../api/django";
 import { useDispatch } from "react-redux";
+import "./searchbar.css";
 
 function SearchBar({ classname }) {
   const [input, setInput] = useState("");
@@ -34,20 +35,15 @@ function SearchBar({ classname }) {
   }
   const hanldleClick = (e) => {
     e.preventDefault();
-    console.log(input);
     dispatch(fetchData(input));
   };
 
   return (
-    <div id="center" className="flx-st-container">
+    <div id="center" className="searchbar__container">
       <div id="search_area" className="">
         <form id="search-form" className="" onSubmit={handleSubmit}>
-          <div id="container" className="" slot="search-input">
-            <div
-              id="search-input"
-              className="search-border ht-40"
-              slot="search-input"
-            >
+          <div className="" slot="search-input">
+            <div className="searchbar__input-container" slot="search-input">
               <input
                 id="search"
                 autoCapitalize="none"
@@ -58,8 +54,21 @@ function SearchBar({ classname }) {
                 placeholder="Search"
                 aria-label="Search"
                 role="combobox"
-                className={`brd-shd-none zer-outl ${classname}`}
+                className={`zer-outl ${classname}`}
                 onChange={(e) => {
+                  console.log(!e.target.value);
+                  if (!e.target.value) {
+                    console.log(e.target.value);
+                    const element = document.getElementById(
+                      "trade_searchResultList"
+                    );
+                    element.style.display = "none";
+                  } else {
+                    const element = document.getElementById(
+                      "trade_searchResultList"
+                    );
+                    element.style.display = "block";
+                  }
                   setInput(e.target.value);
                 }}
               />
@@ -69,7 +78,7 @@ function SearchBar({ classname }) {
       </div>
       <button
         id="search-icon-legacy"
-        className="search-border-button"
+        className="trade-widget__search-btn"
         aria-label="Search"
         onClick={hanldleClick}
       >

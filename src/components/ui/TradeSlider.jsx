@@ -1,16 +1,23 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPropertyById } from "../../contexts/redux/selectors/propertySelectors";
+import { getSelectedPropertyById } from "../../contexts/redux/selectors/propertySelectors";
 import { fetchPropertyRows } from "../../contexts/redux/actions/fetchPropertyActions";
 import { useMemo } from "react";
 import { useEffect } from "react";
 import { clearOrderInfo, storeOrderInfo } from "../../reducers/tradingReducers";
 import { fetchBalance } from "../../contexts/redux/actions/tradingActions";
 import currency from "currency.js";
-function TradeSlider({ propertyId }) {
+import "./tradeslider.css";
+
+function TradeSlider() {
   const {
-    orderInfo: { amount = "", shares = "", pricePerShare = "" } = {},
+    orderInfo: {
+      amount = "",
+      shares = "",
+      pricePerShare = "",
+      propertyId = "",
+    } = {},
     balanceInfo: { transferAmountRemaining = "", amountPurchased = "" } = {},
   } = useSelector((state) => state.trade);
 
@@ -25,7 +32,7 @@ function TradeSlider({ propertyId }) {
     id = "",
     price_per_share = "",
     available_shares = "",
-  } = useSelector((state) => getPropertyById(state, propertyId));
+  } = useSelector((state) => getSelectedPropertyById(state, propertyId || 49));
   const payload = useMemo(() => {
     if (isNaN(parseInt(inputshares)) || parseInt(inputshares) < 1) {
       return null;
@@ -73,6 +80,7 @@ function TradeSlider({ propertyId }) {
         );
         setMaxShares(isNaN(maxShareAmount) ? 0 : maxShareAmount);
       };
+
       transferAmountRemaining && getMaxShares();
     });
   }, [
@@ -80,6 +88,7 @@ function TradeSlider({ propertyId }) {
     transferAmountRemaining,
     price_per_share,
     transferAmountRemaining,
+    propertyId,
   ]);
 
   const handleSliderChange = (e) => {
@@ -87,19 +96,19 @@ function TradeSlider({ propertyId }) {
     setInputShares(parseInt(e.target.value));
   };
   return (
-    <div className=" flex-col-container trade-container">
-      <div className="flx-al-ct-container txt-al-ct">
+    <div className="trade_slider__container ">
+      <div className="trade_slider__text-inpt-container">
         <input
-          className="brd-shd-none zer-outl bg-gr-100 trade_input"
+          className=""
           type="text"
           value={shares}
           onChange={handleInputChange}
+          placeholder="Enter Shares"
         />
-        <p className="font-20 mg-input-trade">Shares</p>
       </div>
 
       <input
-        className="trade-slider"
+        className="trade-slider__slider"
         type="range"
         min="0"
         max={maxShares}
@@ -107,9 +116,9 @@ function TradeSlider({ propertyId }) {
         onChange={handleSliderChange}
       />
 
-      <div className="bar-max">
+      <div className={parseInt(shares) ? "trade-slider__bar-max" : ""}>
         <div
-          className="purchase-power"
+          className="trade-slider__bar"
           style={{
             width: `${
               100 * ((parseInt(shares) || 0) / (parseInt(maxShares) || 1))
@@ -117,9 +126,9 @@ function TradeSlider({ propertyId }) {
           }}
         ></div>
         {shares && (
-          <div className="flex-col-container">
-            <span className="ft-bldr">Buying power</span>
-            <span className="ft-bldr">
+          <div className="trade-slider__text-display">
+            <span className="text1">Buying power</span>
+            <span className="text2">
               {currency(amount).format()} of{" "}
               {currency(transferAmountRemaining).format()}
             </span>

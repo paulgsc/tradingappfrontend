@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const fetchDataReducers = createSlice({
     name: "fetchData",
-    initialState: { loading: false, history: [], summary: {}, propertyData: [], sharesData: [], propertyOrders: [], },
+    initialState: { loading: false, history: [], summary: {}, propertyData: [], sharesData: [], propertyOrders: [], linkedAccounts: [], },
     reducers: {
         userRequestData(state, action){
             return { ...state, loading: true };
@@ -29,6 +29,9 @@ const fetchDataReducers = createSlice({
         propertyTradeDataRequestSuccess(state, action){
             return { ...state, loading: false, propertyData: [ ...action.payload ]  };
         },
+        fetchUserLinkedAccountsSusccess(state, action){
+            return { ...state, loading: false, linkedAccounts: [ ...action.payload ] };
+        },
         userTransfersDataRequestFailure(state, action){
             return { ...state, error: action.payload, loading: false }
         },
@@ -50,6 +53,9 @@ const fetchDataReducers = createSlice({
         fetchOrdersByPropertyFailed(state, action){
             return { ...state, error: action.payload, loading: false }
         },
+        fetchUserLinkedAccountsFailed(state, action){
+            return { ...state, error: action.payload, loading: false };
+        },
         userLogOutClearData(state, action){
             return { state: {} };
         },
@@ -63,6 +69,7 @@ export const {
     userOrdersDataRequestSuccessful,
     userTransactionsDataRequestSuccessful,
     propertyTradeDataRequestSuccess,
+    fetchUserLinkedAccountsSusccess,
     userTransactionsDataRequestFailure,
     userRequestData,
     fetchSummaryDataSuccessful,
@@ -72,6 +79,7 @@ export const {
     userSummaryDataRequestFailure,
     fetchSharesDataFailed,
     fetchOrdersByPropertyFailed,
+    fetchUserLinkedAccountsFailed,
     userLogOutClearData,
 } = fetchDataReducers.actions;
 

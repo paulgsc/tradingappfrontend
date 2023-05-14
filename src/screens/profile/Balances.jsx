@@ -2,10 +2,11 @@ import React from "react";
 import { Card } from "../../components/cards/Card";
 import { balances } from "../../constants/profile/balances";
 import currency from "currency.js";
+import "./balances.css";
 
 function Balances({ transersTotal }) {
   return (
-    <Card className="left-margin-container-20">
+    <Card className="balances__container">
       <Card.Title>{currency(transersTotal).format()} Total in app.</Card.Title>
 
       {balances.map((item) => {

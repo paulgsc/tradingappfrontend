@@ -9,17 +9,15 @@ import TradeSlider from "./TradeSlider";
 import currency from "currency.js";
 import { useState } from "react";
 import { useEffect } from "react";
+import "./tradewidget.css";
+import ResultList from "../searchResult/ResultList";
 
 function TradeWidget() {
   const {
-    orderInfo: {
-      amount = "",
-      shares = "",
-      pricePerShare = "",
-      propertyId = "",
-    } = {},
+    orderInfo: { amount = "", shares = "", pricePerShare = "" } = {},
     balanceInfo: { transferAmountRemaining = "", amountPurchased = "" } = {},
   } = useSelector((state) => state.trade);
+  const { propertyData = [] } = useSelector((state) => state.fetchData);
   const dispatch = useDispatch();
   const [flipped, setFlipped] = useState(false);
   const handleClick = () => {
@@ -45,73 +43,79 @@ function TradeWidget() {
   }, [amount]);
 
   return (
-    <div className={flipped ? "flip-card hoverme" : "flip-card"}>
+    <div
+      className={
+        flipped
+          ? "trade-widget__container flip-card hoverme"
+          : "trade-widget__container flip-card"
+      }
+    >
       <Card
         className={
           flipped
-            ? "trade-cards_trade_flipped blk-center pd-20 flip-card-inner"
-            : "trade-cards_trade blk-center pd-20 flip-card-inner"
+            ? "trade-widget__flipped flip-card-inner"
+            : "trade-widget__not-flipped flip-card-inner"
         }
       >
         <div className="flip-card-front">
-          <div className=" mg-bm-6">
-            <SearchBar classname={"trade_search_width"} />
-          </div>
+          <ul className="trade-widget__search">
+            <li>
+              <SearchBar classname={"trade__search_width"} />
+            </li>
+            <li>
+              {" "}
+              <ResultList propertyData={propertyData} />{" "}
+            </li>
+          </ul>
           <Card.Header className="">
-            <ul className="flx-al-ct-container pd-mg-0">
-              <li className="">
-                <button className="btn-container-zero">
-                  <span className=" bg-blk-1000 cl-wht trade-mg">Buy</span>
+            <ul className="trade-widget__trade-type">
+              <li className="buy-btn">
+                <button className="">
+                  <span className=" ">Buy</span>
                 </button>
               </li>
-              <li className="">
-                <button className="btn-container-zero no-pointer">
-                  <span className="bg-gr-1000 cl-blk trade-mg">Sell</span>
+              <li className="sell-btn">
+                <button id="sell-btn" className="">
+                  <span className="">Sell</span>
                 </button>
               </li>
             </ul>
           </Card.Header>
-          <Card.Content className="amount_container">
-            <TradeSlider propertyId={propertyId} />
+          <Card.Content className="">
+            <TradeSlider />
           </Card.Content>
-          <Card.Footer className="top-margin-container">
+          <Card.Footer className="trade-widget__review-section">
             <button
-              className="btn-container-zero trade-buy-button"
+              className=""
               disabled={!parseInt(shares)}
               onClick={handleClick}
             >
-              <span className=" bg-blk-1000 cl-wht trade-mg">Review</span>
+              <span className="">Review</span>
             </button>
           </Card.Footer>
         </div>
         <div className="flip-card-back">
           <div className="">
-            <h4 className="bm-brd-container-gr">Trade Summary</h4>
-            <div className="flx-btw-container rt-lft-mg-container-8  ">
-              <p className="ft-container-12">price per share</p>
-              <p className="ft-container-12 wd-container-10-abs">
-                {pricePerShare}
-              </p>
+            <h4 className="">Trade Summary</h4>
+            <div className="  ">
+              <p className="">price per share</p>
+              <p className="">{pricePerShare}</p>
             </div>
-            <div className="flx-btw-container rt-lft-mg-container-8  ">
-              <p className="ft-container-12">...</p>
-              <p className="ft-container-12 wd-container-10-abs">
-                {pricePerShare}
-              </p>
+            <div className="  ">
+              <p className="">...</p>
+              <p className="">{pricePerShare}</p>
             </div>
-            <div className="flx-btw-container rt-lft-mg-container-8  ">
-              <p className="ft-container-12">dividends</p>
-              <p className="ft-container-12 wd-container-10-abs">
-                {pricePerShare}
-              </p>
+            <div className="">
+              <p className="">dividends</p>
+              <p className="">{pricePerShare}</p>
             </div>
           </div>
           <h1>{currency(amount).format()}</h1>
           <h4>{shares} shares</h4>
           <p>some discolure...</p>
-          <Card.Footer className="top-margin-container">
-            <button className="btn-container-zero" onClick={handleSubmit}>
-              <span className=" bg-blk-1000 cl-wht trade-mg">Submit</span>
+          <Card.Footer className="">
+            <button className="" onClick={handleSubmit}>
+              <span className="">Submit</span>
             </button>
           </Card.Footer>
         </div>
@@ -125,8 +129,8 @@ function TradeWidget() {
             </span>
           </Card.Header>
           <Card.Footer className="">
-            <button className="btn-container-zero">
-              <span className=" bg-blk-1000 cl-wht ">Transfer Funds</span>
+            <button className="">
+              <span className=" ">Transfer Funds</span>
             </button>
           </Card.Footer>
         </Card>

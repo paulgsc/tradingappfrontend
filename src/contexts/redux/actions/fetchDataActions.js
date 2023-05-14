@@ -1,5 +1,5 @@
 import API from "../../../api/django";
-import { fetchOrdersByProperty, fetchOrdersByPropertyFailed, fetchSharesDataFailed, fetchSharesDataSuccessful, fetchSummaryDataSuccessful, userOrdersDataRequestFailure, userOrdersDataRequestSuccessful, userRequestData, userSummaryDataRequestFailure, userTransactionsDataRequestFailure, userTransactionsDataRequestSuccessful, userTransferDataRequestSuccessful, userTransfersDataRequestFailure } from "../../../reducers/fetchDataReducers"
+import { fetchOrdersByProperty, fetchOrdersByPropertyFailed, fetchSharesDataFailed, fetchSharesDataSuccessful, fetchSummaryDataSuccessful, fetchUserLinkedAccountsFailed, fetchUserLinkedAccountsSusccess, userOrdersDataRequestFailure, userOrdersDataRequestSuccessful, userRequestData, userSummaryDataRequestFailure, userTransactionsDataRequestFailure, userTransactionsDataRequestSuccessful, userTransferDataRequestSuccessful, userTransfersDataRequestFailure } from "../../../reducers/fetchDataReducers"
 
 export const fetchTransactions = () => async (dispatch, getState) => {
     dispatch(userRequestData());
@@ -132,6 +132,33 @@ export const fetchOrderForProperty = (propertyId) => async (dispatch, getState) 
 
     }catch (error){
         dispatch(fetchOrdersByPropertyFailed(error.message));
+    }
+}
+
+export const fetchLinkedAccounts = () => async (dispatch, getState) => {
+    dispatch(userRequestData());
+    try{
+        const {
+            userAuth: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        const response = await API.get(
+            'users/banking/linked/accounts/',
+            config,
+        )
+
+        const data = [].concat( ...response.data.map((item) => item.accounts) );
+        dispatch(fetchUserLinkedAccountsSusccess(data))
+
+
+    }catch (error){
+        dispatch(fetchUserLinkedAccountsFailed(error.message));
     }
 }
 

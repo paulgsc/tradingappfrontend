@@ -4,6 +4,8 @@ import SearchNavbar from "../../components/navbar/SearchNavbar";
 import CustomSvg from "../../components/ui/CustomSvg";
 import { sideMenuItems, sideMenuNavs } from "../../constants/sidemenu/sideMenu";
 import { Link } from "react-router-dom";
+import "./sidemenu.css";
+import { useSelector } from "react-redux";
 
 const openMenu = (e) => {
   e.preventDefault();
@@ -11,7 +13,17 @@ const openMenu = (e) => {
   Main.classList.toggle("hidden");
 };
 
+const iconStyle = {
+  width: 40,
+  height: 40,
+  color: "#FFF",
+};
+
 function SideMenu() {
+  const { userInfo: { username = "", url = "" } = {} } = useSelector(
+    (state) => state.userAuth
+  );
+
   const showNav = (flag) => {
     if (flag) {
       // Main.classList.toggle("-translate-x-full");
@@ -58,22 +70,23 @@ function SideMenu() {
           <CustomSvg.CloseX />
         </button>
       </div>
-      <div
-        id="Main"
-        className="wd-12vw hidden bg-container-gr-600 full-ht-container start-container-flx-st ht-container-100vh"
-      >
+      <div id="Main" className="account_side-menu_container">
         <div className=" ">
-          <div className="bm-brd-container flx-al-ct-container">
-            <div className="flx-al-ct-container">
-              <div>
-                <img className="rounded-full" src="" alt="avatar" />
+          <div className="">
+            <div className="acount_side-menu__username-container">
+              <div className="account_side-menu__faceIcon-container">
+                {url ? (
+                  <img className="" src={url} alt="avatar" />
+                ) : (
+                  <PlaceHolder.Icon name="faceIcon" styles={iconStyle} />
+                )}
+                <PlaceHolder.Icon name="brush" />
               </div>
 
               <div className="">
-                <p className="">name / email</p>
+                <p className="side-menu__username">{username}</p>
               </div>
             </div>
-            <PlaceHolder.Icon className={""} name="brush" />
           </div>
         </div>
         <div className="flex-col-container bm-brd-container margin-rt-lft-container-1">

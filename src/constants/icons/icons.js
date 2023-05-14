@@ -35,6 +35,8 @@ import BrushIcon from '@mui/icons-material/Brush';
 import HistoryIcon from '@mui/icons-material/History';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export const Icons = {
     bank: AccountBalanceIcon,
@@ -54,6 +56,7 @@ export const Icons = {
     billing: CreditCard,
     ellipsis: MoreVertical,
     add: Plus,
+    addIcon: AddCircleOutlineIcon,
     warning: AlertTriangle,
     user: User,
     arrowRight: ArrowRight,
@@ -69,4 +72,5 @@ export const Icons = {
     securityKey: KeyIcon,
     brush: BrushIcon,
     history: HistoryIcon,
+    faceIcon: AddReactionIcon,
 }

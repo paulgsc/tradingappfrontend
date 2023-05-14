@@ -21,6 +21,9 @@ import Spinner from "../../components/loading/Spinner";
 import PropertyShares from "../../components/tables/PropertyShares";
 import Profile from "../../components/profile/Profile";
 import TradeWidget from "../../components/ui/TradeWidget";
+import "./account.css";
+import ResultList from "../../components/searchResult/ResultList";
+import Property from "../../components/searchResult/Property";
 
 function Account() {
   const location = useLocation();
@@ -34,6 +37,7 @@ function Account() {
       transfers_total = "",
     } = {},
     sharesData = [],
+    propertyData = [],
     loading,
   } = useSelector((state) => state.fetchData);
 
@@ -63,23 +67,25 @@ function Account() {
   }, []);
 
   return (
-    <div className="parent">
-      <div className="flx-btw-container bm-brd-container pd-20 fixed-container bg-wht">
-        <div className="flx-st-container">
+    <div className="account_container">
+      <div className="account__top-section">
+        <div className="account__top-section__left-side">
           <button
             aria-label="open"
             id="open"
             onClick={openMenu}
-            className="btn-container-zero"
+            className="account-top-section-menu-btn"
           >
             <CustomSvg.HamburgerMenu />
           </button>
           <NavbarLogo />
         </div>
-        <Profile user={profileInitial} />
+        <div className="account__profile-container">
+          <Profile user={profileInitial} />
+        </div>
       </div>
-      <div className="next-container">
-        <div className="flx">
+      <div className="account__content-section">
+        <div className="account__content">
           {location.pathname.includes("/register") ? (
             <></>
           ) : (
@@ -88,30 +94,26 @@ function Account() {
             </div>
           )}
           {/^\/personal\/?$/.test(location.pathname) && (
-            <div>
-              <div className="flex-col-container">
-                <div className="pd-mg-0 bx-shd-brd-1 fxd-pos-1 bg-wht">
+            <div className="account__content_right-side">
+              <div className="">
+                <div className="account__content__cards my-account-section">
                   {loading ? (
                     <Spinner />
                   ) : (
                     <div>
-                      <p className="pd-mg-0 txt-al-lft">My Account</p>
-                      <h3 className="txt-pd-1 txt-al-ct">
-                        $ {transfers_total}
-                      </h3>
+                      <p className="">My Account</p>
+                      <h3 className="">$ {transfers_total}</h3>
                     </div>
                   )}
                 </div>
-                <div className="pd-mg-0  fxd-pos-2">
+                <div className="account__content__cards account__content_card__breakdown">
                   <div>
                     {loading ? (
                       <Spinner />
                     ) : (
-                      <div className="bg-wht bx-shd-brd-1 pd-10 fxd-pos-3">
-                        <p className="pd-mg-0 txt-al-lft">Investments</p>
-                        <h5 className="txt-pd-1 txt-al-ct">
-                          $ {amount_purchased}
-                        </h5>
+                      <div className="account-breadown-section">
+                        <p>Investments</p>
+                        <h5 className="">$ {amount_purchased}</h5>
                       </div>
                     )}
                   </div>
@@ -119,11 +121,9 @@ function Account() {
                     {loading ? (
                       <Spinner />
                     ) : (
-                      <div className="bg-wht bx-shd-brd-1 pd-10 fxd-pos-3">
-                        <p className="pd-mg-0 txt-al-lft">Cash</p>
-                        <h5 className="txt-pd-1 txt-al-ct">
-                          $ {transfer_remaining}
-                        </h5>
+                      <div className="account-breadown-section">
+                        <p className="">Cash</p>
+                        <h5 className="">$ {transfer_remaining}</h5>
                       </div>
                     )}
                   </div>
@@ -131,39 +131,37 @@ function Account() {
                     {loading ? (
                       <Spinner />
                     ) : (
-                      <div className="bg-wht bx-shd-brd-1 pd-10 fxd-pos-3">
-                        <p className="pd-mg-0 txt-al-lft">Reserved</p>
-                        <h5 className="txt-pd-1 txt-al-ct">
-                          $ {transfers_total}
-                        </h5>
+                      <div className="account-breadown-section">
+                        <p className="">Reserved</p>
+                        <h5 className="">$ {transfers_total}</h5>
                       </div>
                     )}
                   </div>
                 </div>
-                <div className=" bx-shd-brd-1 shares-container">
+                <div className="account__content__cards account__content_shares">
                   <PropertyShares sharesData={sharesData} />
                 </div>
               </div>
-              <div className="bg-wht-smk pd-20 bx-shd-brd-1 chart-sz">
-                {" "}
-                <PortfolioChart />
+              <div>
+                <div className="account__content__cards account-chart">
+                  <PortfolioChart />
+                </div>
+                <div className="account__content__cards">
+                  <Property />
+                </div>
               </div>
-              <div className="trade-widget">
+              <div className="account-trade-section">
                 <TradeWidget />
               </div>
             </div>
           )}
 
           {location.pathname.includes("/balances") ? (
-            <div>
-              <Card className="flx-st-container left-margin-container-20 bm-brd-container-gr ">
-                <Card.Description className="left-margin-container-2 right-margin-container-2">
+            <div className="account__balances-container">
+              <Card>
+                <Card.Description className="account__balances-title">
                   Overview
                 </Card.Description>
-                <Card.Description className="right-margin-container-2">
-                  Cash
-                </Card.Description>
-                <Card.Description>Investments</Card.Description>
               </Card>
               <Balances transersTotal={transfers_total} />
             </div>

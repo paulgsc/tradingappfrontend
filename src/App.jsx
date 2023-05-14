@@ -18,6 +18,7 @@ import AuthRoute from "./components/auth/AuthRoute";
 import Index from "./screens/transfers/Index";
 import TradingScreen from "./screens/tradingportal/TradingScreen";
 import Test from "./Test";
+import LinkBank from "./screens/linkBank/LinkBank";
 
 function App() {
   return (
@@ -88,6 +89,7 @@ function App() {
             path="/personal/transfer/plaid"
             element={<PlaidHome />}
           />
+          <Route exact path="/personal/banking/link" element={<LinkBank />} />
         </Route>
       </Routes>
     </Router>

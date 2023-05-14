@@ -1,0 +1,101 @@
+
+
+.trade_slider__container{
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.trade_slider__text-inpt-container input{
+    border: none;
+    margin: 20px 0 40px 0;
+    padding: 10px 10px 5px 0;
+    text-align: right;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    background-color: rgb(239, 239, 233);
+    
+}
+
+input.trade-slider__slider {
+    width: 100%;
+    height: 5px;
+    background: transparent;
+    -webkit-appearance: none;
+    padding: 0;
+    margin: 0 0 40px 0
+  }
+
+  input.trade-slider__slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 1px;
+    cursor: pointer;
+    box-shadow: none;
+    background: #a7a70b;
+    border-radius: 0px;
+    border: 0px solid #010101;
+}
+input.trade-slider__slider::-moz-range-track {
+    width: 100%;
+    height: 1px;
+    cursor: pointer;
+    box-shadow: none;
+    background: #ffffff;
+    border-radius: 0px;
+    border: 0px solid #010101;
+}
+
+input.trade-slider__slider::-webkit-slider-thumb {
+    box-shadow: none;
+    border: 0px solid #ffffff;
+    box-shadow: 0px 10px 10px rgba(0,0,0,0.25);
+    height: 35px;
+    width: 22px;
+    border-radius: 20px;
+    background: #fff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -20px;
+}
+input.trade-slider__slider::-moz-range-thumb{
+    box-shadow: none;
+    border: 0px solid #ffffff;
+    box-shadow: 0px 10px 10px rgba(0,0,0,0.25);
+    height: 35px;
+    width: 22px;
+    border-radius: 20px;
+    background: rgba(255,255,255,1);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -20px;
+}
+
+.trade-slider__bar-max{
+    background-color: #010101;
+    height: 19.5px;
+}
+
+.trade-slider__bar{
+    background-color: #7dbeef;
+    height: 20px;
+}
+
+.trade-slider__text-display{
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+span.text1{
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+span.text2{
+    background-color: #b6d7f1;
+    font-weight: 500;
+    padding: 10px;
+}

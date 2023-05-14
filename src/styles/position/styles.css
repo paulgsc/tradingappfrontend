@@ -485,7 +485,7 @@ input.trade_input {
     position: fixed;
     height: max-content;
     width: 600px;
-    top: 14%;
+    top: 190px;
     left: 250px;
     z-index: 1;
 }
@@ -528,5 +528,38 @@ input.trade_input {
 }
 
 .trade_search_width{
-    width: 300px;
+    width: 12vw;
 }
+
+.history_container{
+    top: 44px;
+    left: 13%;
+    width: 35vw;
+
+}
+
+.history_content{
+    left: 13%;
+    top: 85px;
+    z-index: 2;
+}
+
+.history_filters{
+    top: 225px;
+    z-index: 2;
+    background-color: #fff;
+}
+
+.history_table__content{
+    position: absolute;
+    margin-top: 140px;
+    left: 0;
+    margin-left: 0;
+    width: 35vw;
+    z-index: 1;
+}
+
+.zndx-2{
+    z-index: 2;
+}
+

@@ -2,6 +2,7 @@ import React from "react";
 import PlaceHolder from "../loading/PlaceHolder";
 import CustomSvg from "../ui/CustomSvg";
 import { Link } from "react-router-dom";
+import "./sidebar.css";
 
 function SideBar({ sideMenuItems, sideMenuNavs }) {
   const showMenu = (e) => {
@@ -24,7 +25,7 @@ function SideBar({ sideMenuItems, sideMenuNavs }) {
   return (
     <div
       id="Main"
-      className="wd-12vw hidden bg-container-gr-600 full-ht-container start-container-flx-st ht-container-100h"
+      className=" wd-12vw hidden bg-container-gr-600 full-ht-container start-container-flx-st ht-container-100h"
     >
       <div className=" ">
         <div className="bm-brd-container flx-al-ct-container">

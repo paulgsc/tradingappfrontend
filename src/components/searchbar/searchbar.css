@@ -1,0 +1,70 @@
+
+
+.searchbar__container{
+    display: flex;
+    height: max-content;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchbar__input-container{
+    position: relative;
+    height: 36px;
+    align-items: center;
+    background-color:  hsl(0, 0%, 100%);
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 40px 0 0 40px;
+    box-shadow: inset 0 1px 2px #eee;
+    caret-color: #0f0f0f;
+    color: hsl(0, 0%, 6.7%);
+    padding: 8px 4px 8px 16px;
+    margin: 0;
+    flex: 1;
+    flex-basis: 1e-9px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .searchbar__input-container input {
+    border: none;
+  }
+
+
+  
+  .trade-widget__search-btn{
+    border: 1px solid #d3d3d3;
+    background-color: #f8f8f8;
+    box-shadow: inset 0 1px 2px #eee;
+    border-radius: 0 40px 40px 0;
+    cursor: pointer;
+    height: 36px;
+    width: 64px;
+    margin: 0;
+  }
+
+
+  @media only screen and (min-width: 850px) and (max-width: 1099px) {
+    .searchbar__container{
+      height: 36px;
+    }
+
+    .searchbar__input-container{
+        height: 28px;
+    }
+    .trade-widget__search-btn{
+        height: 28px;
+        width: 32px;
+    }
+  }
+
+  @media only screen and (min-width: 650px) and (max-width: 849px) {
+    .searchbar__input-container{
+        height: 20px;
+        width: 20px;
+    }
+    .trade-widget__search-btn{
+        height: 28px;
+        width: 16px;
+    }
+  }

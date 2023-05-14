@@ -1,0 +1,67 @@
+
+
+.account_side-menu_container{
+    position: absolute;
+    top: 55px;
+    width: 250px;
+    height: 100vh;
+    background-color: rgb(119, 118, 118);
+    z-index: 1000;
+}
+
+.acount_side-menu__username-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+
+}
+
+.account_side-menu__faceIcon-container{
+    display: flex;
+    justify-content: center;
+    margin: 4px 0px 0 0px;
+}
+
+.side-menu__username{
+    color: rgb(4, 18, 110);
+    font-weight: bolder;
+}
+
+
+
+
+@media only screen and (max-width: 599px) { 
+    .login-pos-ms{
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       width: 50vw;
+       height: 40vh;
+       margin: 20vh 0 0 22vw;
+    }
+   
+    .left-margin-container-5-ms{
+       margin-left: calc(1.2 * var(--size));
+    }
+    .label-zr-ms{
+       display: none;
+    }
+   
+   }
+   
+   
+   @media only screen and (min-width: 600px) and (max-width: 880px) { 
+    .account_side-menu_container{
+        width: 180px;
+    }
+   }
+
+   @media only screen and (max-width: 599px) { 
+    .account_side-menu_container{
+        width: 120px;
+    }
+   }

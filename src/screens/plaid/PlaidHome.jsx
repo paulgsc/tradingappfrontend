@@ -4,20 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createTransferIntent,
   initiatePlaid,
+  requestLinkToken,
   requestToken,
 } from "../../contexts/redux/actions/plaidActions";
 import Spinner from "../../components/loading/Spinner";
 import { useLocation } from "react-router";
+import AuthLink from "./AuthLink";
 
 function PlaidHome() {
   const dispatch = useDispatch();
 
   const { plaidInfo: { request_id = "", transferAmount = "" } = {}, loading } =
     useSelector((state) => state.plaid);
-
-  const getInfo = useCallback(() => {
-    return dispatch(initiatePlaid());
-  }, [dispatch]);
 
   const launchTransferIntent = useCallback(() => {
     dispatch(createTransferIntent());
@@ -31,21 +29,23 @@ function PlaidHome() {
     if (transferAmount) {
       launchTransferIntent();
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const init = async () => {
       // do not generate a new token for OAuth redirect; instead
       // setLinkToken from localStorage
 
-      if (request_id) generateToken();
+      if (request_id) {
+        generateToken();
+      }
     };
     init();
   }, [dispatch, generateToken, request_id]);
   return (
     <div className="plaid-app">
       <div className="plaid-app_container">
-        {loading ? <Spinner /> : <Header />}
+        <AuthLink />
       </div>
     </div>
   );

@@ -6,18 +6,14 @@ export default function PlaceHolder({ classname, ...props }) {
   return <div className={cn(classname)} {...props}></div>;
 }
 
-PlaceHolder.Icon = function PlaceHolderIcon({ name, ...props }) {
+PlaceHolder.Icon = function PlaceHolderIcon({ name, styles, ...props }) {
   const Icon = Icons[name];
 
   if (!Icon) {
     return null;
   }
 
-  return (
-    <div>
-      <Icon {...props} />
-    </div>
-  );
+  return <Icon style={{ ...styles }} />;
 };
 
 PlaceHolder.Title = function PlaceHolderTitle({ classname, ...props }) {

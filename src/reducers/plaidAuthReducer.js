@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const plaidAuthentification = createSlice({
     name: "plaid",
     initialState: { loading: false, plaidInfo: {
+        initiationType: "",
         transferAmount: "",
         linkSuccess: false,
         isItemAccess: true,
@@ -44,6 +45,12 @@ const plaidAuthentification = createSlice({
         plaidUGetTransferStatusSuccessful(state, action){
             return {  ...state, plaidInfo: { ...state.plaidInfo, ...action.payload.plaidInfo }, loading: false };
         },
+        plaidGetLinkedAccountInfoSuccess(state, action){
+            return { ...state, loading: false, linkedAcct: action.payload };
+        },
+        plaidGetLinkedAccountFailed(state, action){
+            return { ...state, loading: false, error: action.payload };
+        },
         plaidSetAmountFailure(state, action){
             return { ...state, loading: false, amount: "", error: action.payload };
         },
@@ -66,6 +73,8 @@ export const {
     plaidUpdatePymtIntentSuccessful,
     plaidSetTransferAmount,
     plaidUGetTransferStatusSuccessful,
+    plaidGetLinkedAccountFailed,
+    plaidGetLinkedAccountInfoSuccess,
     userLogoutPlaid,
     plaidSetAmountFailure,
 } = plaidAuthentification.actions;
