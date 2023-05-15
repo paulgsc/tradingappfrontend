@@ -24,8 +24,11 @@ const iconStyle = {
 function LinkBank() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { linkedAccounts = [], summary: { transfer_remaining = "" } = {} } =
-    useSelector((state) => state.fetchData);
+  const {
+    linkedAccounts = [],
+    summary: { transfer_remaining = "" } = {},
+    history = [],
+  } = useSelector((state) => state.fetchData);
   const {
     plaidInfo: { initiationType = "", isError, linkSuccess, isItemAccess } = {},
   } = useSelector((state) => state.plaid);

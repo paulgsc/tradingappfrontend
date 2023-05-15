@@ -25,6 +25,9 @@ function TransfersTable() {
         accessor: (row) => {
           const dateStr =
             row.recordType === "Transfer" ? row.created_at : row.purchase_date;
+          if (!dateStr) {
+            return "";
+          }
           const dateObj = new Date(dateStr);
           const options = {
             year: "numeric",
@@ -35,7 +38,7 @@ function TransfersTable() {
             second: "numeric",
             hour12: false,
           };
-          return new Intl.DateTimeFormat("en-US", options).format(dateObj);
+          return new Intl.DateTimeFormat("en-US", options)?.format(dateObj);
         },
       },
     ],

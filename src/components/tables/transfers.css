@@ -10,7 +10,11 @@
   }
   
   .transfers-table tbody tr:nth-child(even) {
-    background-color: #def2ee;
+    background-color: #ffffff;
+  }
+
+  .transfers-table tbody td:nth-child(even) {
+    color: black;
   }
   .transfers-table tbody tr:nth-child(odd) {
     background-color: rgb(241, 232, 216);

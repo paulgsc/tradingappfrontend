@@ -3,10 +3,14 @@ import KeyPad from "../../components/ui/KeyPad";
 import { Link, useNavigate } from "react-router-dom";
 import PlaceHolder from "../../components/loading/PlaceHolder";
 import { useDispatch, useSelector } from "react-redux";
-import { setTransferAmount } from "../../contexts/redux/actions/plaidActions";
+import {
+  initiatePlaid,
+  setTransferAmount,
+} from "../../contexts/redux/actions/plaidActions";
 import Spinner from "../../components/loading/Spinner";
 import "./transfers.css";
 import { fetchLinkedAccounts } from "../../contexts/redux/actions/fetchDataActions";
+import { userLogoutPlaid } from "../../reducers/plaidAuthReducer";
 
 function Index() {
   const {
@@ -19,11 +23,13 @@ function Index() {
   const handleGoBack = (e) => {
     e.preventDefault();
     dispatch(setTransferAmount(""));
-    navigate(-1);
+    dispatch(userLogoutPlaid());
+    navigate("/personal");
   };
 
   useEffect(() => {
     dispatch(fetchLinkedAccounts());
+    dispatch(initiatePlaid("transfer"));
   }, [dispatch]);
 
   return (

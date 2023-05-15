@@ -46,8 +46,11 @@ export const fetchTransfers = () => async (dispatch, getState) => {
             'users/banking/transfer_history/',
             config,
         )
+
+        const data = response.data.map((item) => ( { ...item, recordType: "Transfer" } ))
        
-        dispatch(userTransferDataRequestSuccessful(response.data));
+       
+        dispatch(userTransferDataRequestSuccessful(data));
 
 
     }catch (error){
