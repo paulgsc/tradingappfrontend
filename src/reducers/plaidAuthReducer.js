@@ -58,7 +58,7 @@ const plaidAuthentification = createSlice({
             return { ...state, plaidInfo: { ...state.plaidInfo, ...action.payload.plaidInfo }, error: action.payload.error, loading: false };
         },
         userLogoutPlaid(state, action){
-            return {state: {  } };
+            return { loading: false, plaidInfo: {} };
         },
     },
 });

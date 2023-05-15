@@ -13,9 +13,9 @@ import { fetchLinkedAccounts } from "../../contexts/redux/actions/fetchDataActio
 import { userLogoutPlaid } from "../../reducers/plaidAuthReducer";
 
 function Index() {
-  const {
-    plaidInfo: { loading },
-  } = useSelector((state) => state.plaid);
+  const { plaidInfo: { loading = false } = {} } = useSelector(
+    (state) => state.plaid
+  );
   const { linkedAccounts = [] } = useSelector((state) => state.fetchData);
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -27,3 +27,13 @@
     z-index: 1;
 }
 
+@media only screen and (min-width: 850px) and (max-width: 1099px) {
+  .transfers-table th, .transfers-table td {
+    width: 25vw;
+    padding: 10px 0 10px 10px;
+    line-height: 18px;
+    font-size: 14px;
+
+}
+}
+

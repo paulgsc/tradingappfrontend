@@ -24,6 +24,7 @@ import TradeWidget from "../../components/ui/TradeWidget";
 import "./account.css";
 import ResultList from "../../components/searchResult/ResultList";
 import Property from "../../components/searchResult/Property";
+import currency from "currency.js";
 
 function Account() {
   const location = useLocation();
@@ -102,7 +103,10 @@ function Account() {
                   ) : (
                     <div>
                       <p className="">My Account</p>
-                      <h3 className="">$ {transfers_total}</h3>
+                      <h3 className="">
+                        {" "}
+                        {currency(transfers_total).format()}
+                      </h3>
                     </div>
                   )}
                 </div>
@@ -113,7 +117,9 @@ function Account() {
                     ) : (
                       <div className="account-breadown-section">
                         <p>Investments</p>
-                        <h5 className="">$ {amount_purchased}</h5>
+                        <h5 className="">
+                          {currency(amount_purchased).format()}
+                        </h5>
                       </div>
                     )}
                   </div>
@@ -123,7 +129,9 @@ function Account() {
                     ) : (
                       <div className="account-breadown-section">
                         <p className="">Cash</p>
-                        <h5 className="">$ {transfer_remaining}</h5>
+                        <h5 className="">
+                          {currency(transfer_remaining).format()}
+                        </h5>
                       </div>
                     )}
                   </div>
@@ -133,7 +141,9 @@ function Account() {
                     ) : (
                       <div className="account-breadown-section">
                         <p className="">Reserved</p>
-                        <h5 className="">$ {transfers_total}</h5>
+                        <h5 className="">
+                          {currency(transfers_total).format()}
+                        </h5>
                       </div>
                     )}
                   </div>
