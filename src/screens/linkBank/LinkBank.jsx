@@ -30,7 +30,12 @@ function LinkBank() {
     history = [],
   } = useSelector((state) => state.fetchData);
   const {
-    plaidInfo: { initiationType = "", isError, linkSuccess, isItemAccess } = {},
+    plaidInfo: {
+      initiationType = "",
+      isError = false,
+      linkSuccess = false,
+      isItemAccess = true,
+    } = {},
   } = useSelector((state) => state.plaid);
 
   useEffect(() => {

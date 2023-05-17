@@ -20,6 +20,8 @@ import { fetchOrders } from "../../contexts/redux/actions/fetchDataActions";
 import PropertyTrade from "../../components/tables/PropertyTrade";
 import { getPropertyById } from "../../contexts/redux/selectors/propertySelectors";
 import { clearOrderInfo } from "../../reducers/tradingReducers";
+import ResultList from "../../components/searchResult/ResultList";
+import "./tradingscreen.css";
 
 function TradingScreen() {
   const {
@@ -32,7 +34,9 @@ function TradingScreen() {
     balanceInfo: { transferAmountRemaining = "", amountPurchased = "" } = {},
   } = useSelector((state) => state.trade);
 
-  const { loading } = useSelector((state) => state.fetchData);
+  const { loading, propertyData = [] } = useSelector(
+    (state) => state.fetchData
+  );
   const dispatch = useDispatch();
   const [flipped, setFlipped] = useState(false);
   const location = useLocation();
@@ -65,12 +69,6 @@ function TradingScreen() {
     JSON.parse(localStorage.getItem("userInfo"))?.email?.charAt(0) || "";
   const [profileInitial, setProfileInitial] = useState(initLetter());
 
-  const openMenu = (e) => {
-    e.preventDefault();
-    const Main = document.getElementById("Main");
-    Main.classList.toggle("hidden");
-  };
-
   const handleClick = () => {
     setFlipped(!flipped);
   };
@@ -94,28 +92,8 @@ function TradingScreen() {
   }, [amount]);
 
   return (
-    <div className="bg-wht-smk">
-      <div className="flx-btw-container pd-20">
-        <div
-          aria-label="toggler"
-          className="margin-rt-lft-container-1 flx-st-container"
-        >
-          <button
-            aria-label="open"
-            id="open"
-            onClick={openMenu}
-            className="btn-container-zero"
-          >
-            <CustomSvg.HamburgerMenu />
-          </button>
-          <NavbarLogo />
-        </div>
-        <div className="right-margin-container-2 ">
-          {token ? <Profile user={profileInitial} /> : <NavbarLogins />}
-        </div>
-      </div>
+    <div className="">
       <div className="flx-btw-inh">
-        <SideBar sideMenuItems={sideMenuItems} sideMenuNavs={sideMenuNavs} />
         <div className="flx-btw-inh">
           <Card className="trade-cards_history">
             <Card.Title>Recent Orders</Card.Title>
@@ -140,46 +118,56 @@ function TradingScreen() {
               </Card.Footer>
             </Card>
           </div>
-          <div className={flipped ? "flip-card hoverme" : "flip-card"}>
+          <div
+            className={
+              flipped
+                ? "tradingscreen__trade-widget-container hoverme"
+                : "tradingscreen__trade-widget-container"
+            }
+          >
             <Card
               className={
                 flipped
-                  ? "trade-cards_trade_flipped blk-center pd-20 flip-card-inner"
-                  : "trade-cards_trade blk-center pd-20 flip-card-inner"
+                  ? "tradingscreen__trade-card-flipped flip-card-inner"
+                  : "tradingscreen__trade-card flip-card-inner"
               }
             >
-              <div className="flip-card-front">
-                <div className=" mg-bm-6">
-                  <SearchBar classname={"trade_search_width"} />
+              <div className="tradingscreen__flip-card-front">
+                <div className="tradingscreen__trade-top">
+                  <ul className="">
+                    <li>
+                      <SearchBar classname={"trade__search_width"} />
+                    </li>
+                    <li>
+                      {" "}
+                      <ResultList propertyData={propertyData} />{" "}
+                    </li>
+                  </ul>
                 </div>
-                <Card.Header className="">
-                  <ul className="flx-al-ct-container pd-mg-0">
-                    <li className="">
-                      <button className="btn-container-zero">
-                        <span className="pd-20 bg-blk-1000 cl-wht trade-mg">
-                          Buy
-                        </span>
+                <Card.Header className="tradingscreen__order-type">
+                  <ul className="">
+                    <li className="tradingscreen__buy-type">
+                      <button className="">
+                        <span className="">Buy</span>
                       </button>
                     </li>
-                    <li className="">
-                      <button className="btn-container-zero no-pointer">
-                        <span className="pd-20 bg-gr-1000 cl-blk trade-mg">
-                          Sell
-                        </span>
+                    <li className="tradingscreen__sell-type">
+                      <button className="">
+                        <span className="">Sell</span>
                       </button>
                     </li>
                   </ul>
                 </Card.Header>
-                <Card.Content className="amount_container">
+                <Card.Content className="">
                   <TradeSlider propertyId={propertyId} />
                 </Card.Content>
-                <Card.Footer className="top-margin-container">
+                <Card.Footer className="tradingscreen__review">
                   <button
-                    className="btn-container-zero trade-buy-button"
+                    className=""
                     disabled={!parseInt(shares)}
                     onClick={handleClick}
                   >
-                    <span className=" bg-blk-1000 cl-wht trade-mg">Review</span>
+                    <span className="">Review</span>
                   </button>
                 </Card.Footer>
               </div>
@@ -216,7 +204,7 @@ function TradingScreen() {
               </div>
             </Card>
             {transferAmountRemaining < 5 && (
-              <Card className="trade-cards">
+              <Card className="">
                 <Card.Header>
                   <span>i</span>
                   <span>
@@ -225,8 +213,8 @@ function TradingScreen() {
                   </span>
                 </Card.Header>
                 <Card.Footer className="">
-                  <button className="btn-container-zero">
-                    <span className=" bg-blk-1000 cl-wht ">Transfer Funds</span>
+                  <button className="">
+                    <span className="">Transfer Funds</span>
                   </button>
                 </Card.Footer>
               </Card>

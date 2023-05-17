@@ -1,0 +1,36 @@
+.navbaritems__container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+ul.navbaritems__menu{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.navbaritems__menu li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar__right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}

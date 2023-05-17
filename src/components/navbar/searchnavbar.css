@@ -1,0 +1,29 @@
+
+
+.searchnavbar__container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 16px;
+    border-bottom: 1px solid;
+}
+
+.searchnavbar__right-side{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+}
+
+.searchnavbar__search{
+    padding: 0;
+    margin: 0;
+    margin-left: 25rem;
+    width: 100%;
+}
+
+.searchnavbar__search-input{
+    width: 35vw;
+}

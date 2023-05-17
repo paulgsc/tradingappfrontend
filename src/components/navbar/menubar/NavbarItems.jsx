@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { json, Link } from "react-router-dom";
 import MenuItems from "../menuItems/MenuItems";
 import { menubar } from "../../../constants/navbar/menubar";
-import { v4 as uuidv4 } from "uuid";
+import "./navbaritems.css";
 
 function NavbarItems() {
   return (
-    <div className="flx-st-container">
+    <div className="navbaritems__container">
       {menubar.map((menu) => (
-        <ul key={menu.id} className="ls-none">
+        <ul key={menu.id} className="navbaritems__menu">
           <li key={menu.id} className="">
             <Link to={menu.path} className="">
               <span>{menu.title}</span>

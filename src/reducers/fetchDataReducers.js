@@ -57,7 +57,7 @@ const fetchDataReducers = createSlice({
             return { ...state, error: action.payload, loading: false };
         },
         userLogOutClearData(state, action){
-            return { state: {} };
+            return { loading: false, history: [], summary: {}, propertyData: [], sharesData: [], propertyOrders: [], linkedAccounts: [],  };
         },
     },
 });

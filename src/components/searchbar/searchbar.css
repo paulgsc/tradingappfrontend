@@ -24,6 +24,7 @@
     flex-basis: 1e-9px;
     display: flex;
     flex-direction: row;
+    
   }
 
   .searchbar__input-container input {

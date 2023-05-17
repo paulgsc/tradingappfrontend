@@ -27,7 +27,9 @@ const tradingReducers = createSlice({
             propertyId: "", transcationType: "", } }
         },
         clearTradeInfoOnLogout(state, action){
-            return { state: {} };
+            return { loading: false, orderInfo: { shares: "", amount: "", 
+            propertyId: "", transcationType: "", }, balanceInfo: { transferAmountRemaining: "",
+            amountPurchased: "" } };
         },
         fetchBalanceInfoFailure(state, action){
             return { ...state, loading: false, error: action.payload, balanceInfo: {} }

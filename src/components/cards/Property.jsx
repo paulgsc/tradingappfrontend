@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { popUpClose } from "../../contexts/redux/actions/tradingActions";
 import { storeOrderInfo } from "../../reducers/tradingReducers";
 import { useNavigate } from "react-router";
+import { fetchPropertyQuery } from "../../contexts/redux/actions/fetchDataActions";
 
 function Property({
   thumbnail,
@@ -29,6 +30,7 @@ function Property({
         propertyId: propertyId,
       })
     );
+    dispatch(fetchPropertyQuery(street));
     navigate("/trade");
   };
 

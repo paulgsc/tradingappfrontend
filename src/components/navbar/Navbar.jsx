@@ -5,8 +5,10 @@ import NavbarItems from "./menubar/NavbarItems";
 import "../../styles/components/navbar.css";
 import Profile from "../profile/Profile";
 import { useSelector } from "react-redux";
+import CustomSvg from "../ui/CustomSvg";
+import "./navbar.css";
 
-function Navbar() {
+function Navbar({ showMenu }) {
   const { userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
@@ -21,13 +23,27 @@ function Navbar() {
     JSON.parse(localStorage.getItem("userInfo"))?.email?.charAt(0) || "";
   const [profileInitial, setProfileInitial] = useState(initLetter());
 
+  const openMenu = (e) => {
+    e.preventDefault();
+    const Main = document.getElementById("Main");
+    Main.classList.toggle("hidden");
+  };
+
   return (
-    <div className="flx-btw-container">
-      <div className="flx-st-container">
+    <div className="navbar__container">
+      <div className="navbar__left">
+        <button
+          aria-label="open"
+          id="open"
+          onClick={openMenu}
+          className="btn-container-zero"
+        >
+          <CustomSvg.HamburgerMenu />
+        </button>
         <NavbarLogo />
-        <NavbarItems />
+        {showMenu && <NavbarItems />}
       </div>
-      <div className="">
+      <div className="navbar__right">
         {token ? (
           <Profile user={profileInitial} className="home_nav" />
         ) : (

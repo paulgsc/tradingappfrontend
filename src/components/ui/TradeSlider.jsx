@@ -23,11 +23,8 @@ function TradeSlider() {
 
   const dispatch = useDispatch();
   const [inputshares, setInputShares] = useState(0);
-  const [review, setReview] = useState(false);
   const [maxShares, setMaxShares] = useState(0);
-  const { userInfo: { token = "" } = {} } = useSelector(
-    (state) => state.userAuth
-  );
+
   const {
     id = "",
     price_per_share = "",
@@ -35,7 +32,13 @@ function TradeSlider() {
   } = useSelector((state) => getSelectedPropertyById(state, propertyId || 49));
   const payload = useMemo(() => {
     if (isNaN(parseInt(inputshares)) || parseInt(inputshares) < 1) {
-      return null;
+      return {
+        shares: 0,
+        amount: 0,
+        propertyId: propertyId,
+        transactionType: "BUY",
+        pricePerShare: pricePerShare,
+      };
     } else if (inputshares > maxShares) {
       return {
         shares: shares,
@@ -78,6 +81,7 @@ function TradeSlider() {
         const maxShareAmount = parseInt(
           parseFloat(transferAmountRemaining) / parseFloat(price_per_share)
         );
+
         setMaxShares(isNaN(maxShareAmount) ? 0 : maxShareAmount);
       };
 

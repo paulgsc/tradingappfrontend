@@ -1,7 +1,6 @@
 import React from "react";
 import SearchNavbar from "../components/navbar/SearchNavbar";
 import PropertyRow from "../components/cards/PropertyRow";
-import { db_properties } from "../constants/db/property";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPropertyRows } from "../contexts/redux/actions/fetchPropertyActions";

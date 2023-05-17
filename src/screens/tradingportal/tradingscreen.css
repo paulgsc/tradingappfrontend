@@ -1,0 +1,141 @@
+
+.tradingscreen__trade-widget-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(208,192,255,.5);
+    border-radius: 5px;
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0;
+    background-color: #fff;
+
+  }
+
+.tradingscreen__flip-card-front, .tradingscreen__flip-card-back {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+  }
+
+  .tradingscreen__trade-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+
+  }
+
+  .tradingscreen__trade-card-flipped{
+    position: relative;
+    background: #fff;
+    padding: 20px 20px 40px;
+
+    box-shadow: 0 2px 8px rgba(208,192,255,.5);
+    height: 60vh;
+    width: 20vw;
+    margin: 20px;
+    align-items: center;
+    display: block;
+    justify-content: center;
+  }
+
+  .flip-card-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+
+  .hoverme .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .tradingscreen__trade-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    margin-top: 15%;
+    padding: 0;
+  }
+
+  .tradingscreen__trade-top ul, .tradingscreen__trade-top li {
+    margin: 0;
+    padding: 0;
+  }
+
+ .tradingscreen__order-type{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    margin-top: 20px;
+    padding: 0;
+
+ } 
+
+.tradingscreen__order-type ul, .tradingscreen__order-type li {
+    margin: 0;
+    padding: 0;
+}
+
+.tradingscreen__order-type ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.tradingscreen__sell-type button, .tradingscreen__buy-type button {
+    background-color: transparent;
+    border: none;
+    padding: 16px;
+    width: 90px;
+}
+
+.tradingscreen__buy-type button {
+    cursor: pointer;
+    color: #fff;
+}
+
+.tradingscreen__sell-type button {
+    pointer-events: none;
+    font-weight: 600;
+}
+
+li.tradingscreen__buy-type{ 
+    background-color: black;
+}
+
+li.tradingscreen__sell-type{ 
+    background-color: gray;
+}
+
+
+.tradingscreen__review button {
+    background-color: black;
+    border: none;
+    color: #fff;
+    font-weight: 400;
+    font-size:medium;
+    padding: 16px;
+}
+
+.tradingscreen__review button:disabled {
+    opacity: .4;
+    pointer-events: none;
+}
+
+.tradingscreen__review button:enabled {
+    opacity: 1;
+    cursor: pointer;
+}

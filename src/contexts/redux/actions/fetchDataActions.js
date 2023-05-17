@@ -1,5 +1,5 @@
 import API from "../../../api/django";
-import { fetchOrdersByProperty, fetchOrdersByPropertyFailed, fetchSharesDataFailed, fetchSharesDataSuccessful, fetchSummaryDataSuccessful, fetchUserLinkedAccountsFailed, fetchUserLinkedAccountsSusccess, userOrdersDataRequestFailure, userOrdersDataRequestSuccessful, userRequestData, userSummaryDataRequestFailure, userTransactionsDataRequestFailure, userTransactionsDataRequestSuccessful, userTransferDataRequestSuccessful, userTransfersDataRequestFailure } from "../../../reducers/fetchDataReducers"
+import { fetchOrdersByProperty, fetchOrdersByPropertyFailed, fetchSharesDataFailed, fetchSharesDataSuccessful, fetchSummaryDataSuccessful, fetchUserLinkedAccountsFailed, fetchUserLinkedAccountsSusccess, propertyTradeDataRequestFailed, propertyTradeDataRequestSuccess, userOrdersDataRequestFailure, userOrdersDataRequestSuccessful, userRequestData, userSummaryDataRequestFailure, userTransactionsDataRequestFailure, userTransactionsDataRequestSuccessful, userTransferDataRequestSuccessful, userTransfersDataRequestFailure } from "../../../reducers/fetchDataReducers"
 
 export const fetchTransactions = () => async (dispatch, getState) => {
     dispatch(userRequestData());
@@ -199,3 +199,21 @@ export const fetchSummary = () => async (dispatch, getState) => {
         dispatch(userSummaryDataRequestFailure(error.message));
     }
 }
+
+export const fetchPropertyQuery = (searchQuery) => async (dispatch) => {
+    dispatch(userRequestData());
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const response = await API.get(
+        `data/property/search?query=${searchQuery}`,
+        config
+      );
+      dispatch(propertyTradeDataRequestSuccess(response.data));
+    } catch (error) {
+      dispatch(propertyTradeDataRequestFailed(error.message));
+    }
+  };

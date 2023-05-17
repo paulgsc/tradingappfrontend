@@ -38,6 +38,8 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+import { createCampaign, dashboard, logout, payment, profile, withdraw } from '../../assets';
+
 export const Icons = {
     bank: AccountBalanceIcon,
     chevronLeft: ChevronLeft,
@@ -74,3 +76,40 @@ export const Icons = {
     history: HistoryIcon,
     faceIcon: AddReactionIcon,
 }
+
+
+export const navlinks = [
+  {
+    name: 'dashboard',
+    imgUrl: dashboard,
+    link: '/',
+  },
+  {
+    name: 'campaign',
+    imgUrl: createCampaign,
+    link: '/create-campaign',
+  },
+  {
+    name: 'payment',
+    imgUrl: payment,
+    link: '/',
+    disabled: true,
+  },
+  {
+    name: 'withdraw',
+    imgUrl: withdraw,
+    link: '/',
+    disabled: true,
+  },
+  {
+    name: 'profile',
+    imgUrl: profile,
+    link: '/profile',
+  },
+  {
+    name: 'logout',
+    imgUrl: logout,
+    link: '/',
+    disabled: true,
+  },
+];

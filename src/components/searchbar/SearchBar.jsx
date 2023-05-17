@@ -56,9 +56,7 @@ function SearchBar({ classname }) {
                 role="combobox"
                 className={`zer-outl ${classname}`}
                 onChange={(e) => {
-                  console.log(!e.target.value);
                   if (!e.target.value) {
-                    console.log(e.target.value);
                     const element = document.getElementById(
                       "trade_searchResultList"
                     );

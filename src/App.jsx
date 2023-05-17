@@ -19,6 +19,9 @@ import Index from "./screens/transfers/Index";
 import TradingScreen from "./screens/tradingportal/TradingScreen";
 import Test from "./Test";
 import LinkBank from "./screens/linkBank/LinkBank";
+import Sidebar2 from "./components/sidemenu/Sidebar2";
+import "./app.css";
+import Navbar from "./components/navbar/Navbar";
 
 function App() {
   return (
@@ -64,18 +67,34 @@ function App() {
           exact
           path="/trade"
           element={
-            <>
-              <TradingScreen />
-            </>
+            <div>
+              <Navbar showMenu={false} />
+
+              <div className="app__route-container">
+                <div className="app__side-bar">
+                  <Sidebar2 />
+                </div>
+                <div className="app_main-content">
+                  {" "}
+                  <TradingScreen />
+                </div>
+              </div>
+            </div>
           }
         />
         <Route
           exact
           path="/test"
           element={
-            <>
+            <div className="test">
               <Test />
-            </>
+              <div className="app__route-container">
+                <div className="app__side-bar">
+                  <Sidebar2 />
+                </div>
+                <div className="app_main-content"> </div>
+              </div>
+            </div>
           }
         />
         <Route element={<AuthRoute />}>

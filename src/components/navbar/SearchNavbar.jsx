@@ -4,6 +4,7 @@ import NavbarLogins from "./navlogins/NavbarLogins";
 import SearchBar from "../searchbar/SearchBar";
 import Profile from "../profile/Profile";
 import { useSelector } from "react-redux";
+import "./searchnavbar.css";
 
 function SearchNavbar({ className }) {
   const { userInfo: { token = "" } = {} } = useSelector(
@@ -21,13 +22,14 @@ function SearchNavbar({ className }) {
   const [profileInitial, setProfileInitial] = useState(initLetter());
 
   return (
-    <div className="pd-tp-bm-2 flx-btw-container">
-      <div className=" left-margin-container-2 flx-st-container ">
+    <div className="searchnavbar__container">
+      <div className="searchnavbar__right-side">
         <NavbarLogo />
-
-        <SearchBar />
+        <div className="searchnavbar__search">
+          <SearchBar classname={"searchnavbar__search-input"} />
+        </div>
       </div>
-      <div className="right-margin-container-2">
+      <div className="">
         {token ? (
           <Profile user={profileInitial} className={className} />
         ) : (
