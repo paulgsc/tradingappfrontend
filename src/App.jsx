@@ -16,12 +16,13 @@ import "./styles/color/styles.css";
 import CreateAccount from "./screens/legal/CreateAccount";
 import AuthRoute from "./components/auth/AuthRoute";
 import Index from "./screens/transfers/Index";
-import TradingScreen from "./screens/tradingportal/TradingScreen";
+
 import Test from "./Test";
 import LinkBank from "./screens/linkBank/LinkBank";
-import Sidebar2 from "./components/sidemenu/Sidebar2";
+
 import "./app.css";
-import Navbar from "./components/navbar/Navbar";
+
+import Trading from "./screens/tradingportal/Trading";
 
 function App() {
   return (
@@ -63,40 +64,9 @@ function App() {
             </>
           }
         />
-        <Route
-          exact
-          path="/trade"
-          element={
-            <div>
-              <Navbar showMenu={false} />
 
-              <div className="app__route-container">
-                <div className="app__side-bar">
-                  <Sidebar2 />
-                </div>
-                <div className="app_main-content">
-                  {" "}
-                  <TradingScreen />
-                </div>
-              </div>
-            </div>
-          }
-        />
-        <Route
-          exact
-          path="/test"
-          element={
-            <div className="test">
-              <Test />
-              <div className="app__route-container">
-                <div className="app__side-bar">
-                  <Sidebar2 />
-                </div>
-                <div className="app_main-content"> </div>
-              </div>
-            </div>
-          }
-        />
+        <Route exact path="/trade" element={<Trading />} />
+        <Route exact path="/test" element={<Test />} />
         <Route element={<AuthRoute />}>
           <Route exact path="/personal" element={<ProfileScreen />} />
           <Route exact path="/personal/balances" element={<ProfileScreen />} />

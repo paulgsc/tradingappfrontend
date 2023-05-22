@@ -1,11 +1,13 @@
 import React from "react";
 import Navbar from "../components/navbar/Navbar";
-import Backdrop from "../components/backdrop/Backdrop";
+
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchTransactions } from "../contexts/redux/actions/fetchDataActions";
 import Disclaimer from "../components/bottom/Disclaimer";
 import "./home.css";
+import Index from "../components/hero/Index";
+import Property from "../components/three/Property";
 
 function Home() {
   const dispatch = useDispatch();
@@ -18,10 +20,8 @@ function Home() {
       <div className="home__navbar">
         <Navbar showMenu={true} />
       </div>
-
-      <div>
-        <Backdrop />
-      </div>
+      <Index />
+      <Property />
       <Disclaimer />
     </div>
   );

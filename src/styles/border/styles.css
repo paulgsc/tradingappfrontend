@@ -194,19 +194,7 @@
   justify-content: center;
 }
 
-.trade-cards_history{
-  position: relative;
-  background: #fff;
-  padding: 10px 20px 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 8px rgba(208,192,255,.5);
-  height: max-content;
-  width: 425px;
-  margin: 20px;
-  align-items: center;
-  display: block;
-  justify-content: center;
-}
+
 
 .trade-cards_trade{
   position: relative;

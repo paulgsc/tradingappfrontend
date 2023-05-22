@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Chart from "chart.js/auto";
 import PortfolioChart from "./PortfolioChart";
 import SideMenu from "./SideMenu";
-import PlaidHome from "../plaid/PlaidHome";
-import StripeLink from "../stripe/StripeLink";
-import Balances from "./Balances";
-import { Card } from "../../components/cards/Card";
 import CustomSvg from "../../components/ui/CustomSvg";
-import SearchBar from "../../components/searchbar/SearchBar";
 import NavbarLogo from "../../components/navbar/navlogo/NavbarLogo";
 import { useLocation } from "react-router";
-import History from "./History";
-import Register from "../legal/Register";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchSummary,
   fetchShares,
 } from "../../contexts/redux/actions/fetchDataActions";
-import Spinner from "../../components/loading/Spinner";
 import PropertyShares from "../../components/tables/PropertyShares";
 import Profile from "../../components/profile/Profile";
-import TradeWidget from "../../components/ui/TradeWidget";
 import "./account.css";
-import ResultList from "../../components/searchResult/ResultList";
-import Property from "../../components/searchResult/Property";
 import currency from "currency.js";
+import OrderHistory from "../../components/tables/OrderHistory";
 
 function Account() {
   const location = useLocation();
@@ -34,7 +23,7 @@ function Account() {
     summary: {
       amount_purchased = "",
       transfer_remaining = "",
-      shares_purchased = "",
+      propertyOrders = [],
       transfers_total = "",
     } = {},
     sharesData = [],
@@ -58,8 +47,8 @@ function Account() {
 
   const openMenu = (e) => {
     e.preventDefault();
-    const Main = document.getElementById("Main");
-    Main.classList.toggle("hidden");
+    const sideBar = document.getElementById("sidebar");
+    sideBar.classList.toggle("hidden");
   };
 
   useEffect(() => {
@@ -68,120 +57,99 @@ function Account() {
   }, []);
 
   return (
-    <div className="account_container">
-      <div className="account__top-section">
-        <div className="account__top-section__left-side">
-          <button
-            aria-label="open"
-            id="open"
-            onClick={openMenu}
-            className="account-top-section-menu-btn"
-          >
-            <CustomSvg.HamburgerMenu />
-          </button>
-          <NavbarLogo />
-        </div>
-        <div className="account__profile-container">
-          <Profile user={profileInitial} />
-        </div>
-      </div>
-      <div className="account__content-section">
-        <div className="account__content">
-          {location.pathname.includes("/register") ? (
-            <></>
-          ) : (
-            <div className="z-mx pos-fxd">
-              <SideMenu />
+    <div className="bg-gray-50 h-screen flex flex-col flex-1">
+      <nav className="fixed top-0 z-50 w-full bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="px-3 py-3 lg:px-5 lg:pl-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center justify-start">
+              <button
+                aria-label="open"
+                id="open"
+                className="account-top-section-menu-btn"
+                onClick={openMenu}
+              >
+                <CustomSvg.HamburgerMenu />
+              </button>
+              <NavbarLogo />
             </div>
-          )}
-          {/^\/personal\/?$/.test(location.pathname) && (
-            <div className="account__content_right-side">
-              <div className="">
-                <div className="account__content__cards my-account-section">
-                  {loading ? (
-                    <Spinner />
-                  ) : (
-                    <div>
-                      <p className="">My Account</p>
-                      <h3 className="">
-                        {" "}
-                        {currency(transfers_total).format()}
-                      </h3>
-                    </div>
-                  )}
+            <div className="flex items-center">
+              <div className="flex items-center ml-3">
+                <div>
+                  <Profile user={profileInitial} />
                 </div>
-                <div className="account__content__cards account__content_card__breakdown">
-                  <div>
-                    {loading ? (
-                      <Spinner />
-                    ) : (
-                      <div className="account-breadown-section">
-                        <p>Investments</p>
-                        <h5 className="">
-                          {currency(amount_purchased).format()}
-                        </h5>
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    {loading ? (
-                      <Spinner />
-                    ) : (
-                      <div className="account-breadown-section">
-                        <p className="">Cash</p>
-                        <h5 className="">
-                          {currency(transfer_remaining).format()}
-                        </h5>
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    {loading ? (
-                      <Spinner />
-                    ) : (
-                      <div className="account-breadown-section">
-                        <p className="">Reserved</p>
-                        <h5 className="">
-                          {currency(transfers_total).format()}
-                        </h5>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="account__content__cards account__content_shares">
-                  <PropertyShares sharesData={sharesData} />
-                </div>
-              </div>
-              <div>
-                <div className="account__content__cards account-chart">
-                  <PortfolioChart />
-                </div>
-                <div className="account__content__cards">
-                  <Property />
-                </div>
-              </div>
-              <div className="account-trade-section">
-                <TradeWidget />
               </div>
             </div>
-          )}
+          </div>
+        </div>
+      </nav>
 
-          {location.pathname.includes("/balances") ? (
-            <div className="account__balances-container">
-              <Card>
-                <Card.Description className="account__balances-title">
-                  Overview
-                </Card.Description>
-              </Card>
-              <Balances transersTotal={transfers_total} />
+      <aside
+        id="sidebar"
+        className="hidden fixed top-0 left-0 w-96 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        aria-label="Sidebar"
+      >
+        <div className="z-0 h-full overflow-y-auto bg-[#FFF] dark:bg-gray-800">
+          <SideMenu />
+        </div>
+      </aside>
+      <div className="p-4 flex flex-1">
+        <div className="p-4  rounded-lg dark:border-gray-700 mt-14 z-60">
+          <div className=" flex items-center justify-center h-24 mb-4 rounded shadow-sm bg-white dark:bg-gray-800">
+            <h3 className=" text-6xl font-bold">
+              {" "}
+              {currency(transfers_total).format()}
+            </h3>
+          </div>
+          <div className=" top-40 grid grid-cols-3 gap-4 mb-4">
+            <div className="text-left ">
+              <span className="w-full flex items-start flex-1 justify-start">
+                <p className=" font-semibold w-1/4 text-xl px-4 shadow-md rounded-sm bg-white">
+                  Investments
+                </p>
+              </span>
+              <div className="flex items-center justify-center h-24 rounded shadow-sm bg-green-50 dark:bg-gray-800">
+                <p className="text-2xl font-bold text-gray-900 dark:text-gray-500">
+                  {currency(amount_purchased).format()}
+                </p>
+              </div>
             </div>
-          ) : location.pathname.includes("/history") ? (
-            <History />
-          ) : location.pathname.includes("/registerr") ? (
-            <Register />
-          ) : (
-            <></>
-          )}
+            <div className="text-left ">
+              <span className="w-full flex items-start flex-1 justify-start">
+                <p className=" font-semibold w-1/4 text-xl px-4 shadow-md rounded-sm bg-white">
+                  Cash
+                </p>
+              </span>
+              <div className="flex items-center justify-center h-24 rounded shadow-sm bg-green-50  dark:bg-gray-800">
+                <p className=" text-2xl font-bold text-gray-900 dark:text-gray-500">
+                  {currency(transfer_remaining).format()}
+                </p>
+              </div>
+            </div>
+            <div className="text-left ">
+              <span className="w-full flex items-start flex-1 justify-start">
+                <p className=" font-semibold w-1/4 text-xl px-4 shadow-md rounded-sm bg-white">
+                  Reserved
+                </p>
+              </span>
+              <div className="flex items-center justify-center h-24 rounded shadow-sm bg-green-50 dark:bg-gray-800">
+                <p className="text-2xl font-bold text-gray-900 dark:text-gray-500">
+                  {currency(amount_purchased).format()}
+                </p>
+              </div>
+            </div>
+          </div>{" "}
+          <div className="flex items-center justify-center h-[2/5-screen] w-full mb-4 rounded bg-gray-50 dark:bg-gray-800">
+            <PortfolioChart />
+          </div>
+          <div className="grid grid-cols-2 gap-4 mb-4 h-full bg-gray-50 ">
+            <div className="flex items-start justify-center h-full rounded dark:bg-gray-800">
+              <PropertyShares sharesData={sharesData} />
+            </div>
+
+            <div className="flex items-start justify-center h-full rounded bg-gray-50 dark:bg-gray-800">
+              <OrderHistory orders={propertyOrders} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

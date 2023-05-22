@@ -51,13 +51,34 @@ function TransfersTable() {
     tableInstance;
 
   return (
-    <div className="transfers-table-container">
-      <table {...getTableProps()} className="transfers-table">
-        <thead className="transfers-table_head">
+    <div className="">
+      <table {...getTableProps()} className="table ">
+        <thead className="">
           {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+              className="flex items-center text-center justify-center"
+            >
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                <th
+                  {...column.getHeaderProps()}
+                  className="flex items-center gap-0 p-0 xl:p-2  border-b-2 border-gray-400 font-light text-base lg:text-2xl xl:text-4xl text-center"
+                >
+                  <span>{column.render("Header")}</span>
+                  <span>
+                    {" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-8 w-8  bg-tranparent"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <circle cx="10" cy="4" r="1.5" />
+                      <circle cx="10" cy="10" r="1.5" />
+                      <circle cx="10" cy="16" r="1.5" />
+                    </svg>
+                  </span>
+                </th>
               ))}
             </tr>
           ))}

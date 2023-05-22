@@ -23,6 +23,7 @@
     display: flex;
     justify-content: center;
     margin: 4px 0px 0 0px;
+    cursor: pointer;
 }
 
 .side-menu__username{
@@ -51,6 +52,10 @@
        display: none;
     }
    
+   }
+
+   .hidden{
+    display: none;
    }
    
    

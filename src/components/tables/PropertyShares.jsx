@@ -10,34 +10,8 @@ import OrderHistory from "./OrderHistory";
 
 function PropertyShares({ sharesData }) {
   const data = useMemo(() => sharesData, [sharesData]);
-  const [popup, setPopup] = useState(null);
-  const { propertyOrders = [] } = useSelector((state) => state.fetchData);
+
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!popup) {
-      return;
-    }
-
-    const handleClickOutside = (event) => {
-      // Check if clicked element is inside the popup
-
-      if (
-        popup !== event.target &&
-        !event.target.classList.contains("shares-row-cell")
-      ) {
-        console.log(event.target);
-        popup.style.display = "none";
-        setPopup(null);
-      }
-    };
-
-    window.addEventListener("click", handleClickOutside);
-
-    return () => {
-      window.removeEventListener("click", handleClickOutside);
-    };
-  }, [popup]);
 
   const columns = useMemo(
     () => [
@@ -152,9 +126,6 @@ function PropertyShares({ sharesData }) {
             </div>
           );
         })}
-      </div>
-      <div id="shares_orders_history">
-        <OrderHistory orders={propertyOrders} />{" "}
       </div>
     </div>
   );

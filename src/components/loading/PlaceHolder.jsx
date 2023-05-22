@@ -13,7 +13,7 @@ PlaceHolder.Icon = function PlaceHolderIcon({ name, styles, ...props }) {
     return null;
   }
 
-  return <Icon style={{ ...styles }} />;
+  return <Icon style={{ ...styles }} {...props} />;
 };
 
 PlaceHolder.Title = function PlaceHolderTitle({ classname, ...props }) {

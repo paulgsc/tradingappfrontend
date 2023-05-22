@@ -1,0 +1,62 @@
+.hero {
+    background-color: #f8f8f8;
+    padding: 60px 0;
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .hero-heading {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .hero-subheading {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #777;
+  }
+  
+  .cta-button {
+    background-color: #ff5e00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #e54d00;
+  }
+  
+  .hero-description {
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #555;
+  }
+  
+  .hero-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  .hero-feature {
+    max-width: 280px;
+    text-align: center;
+  }
+  
+  .feature-heading {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  

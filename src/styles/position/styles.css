@@ -17,9 +17,7 @@ body {
     position: fixed;
 }
 
-.block{
-    display: block;
-}
+
 .flex-col-container{
     display: flex;
     flex-direction: column;

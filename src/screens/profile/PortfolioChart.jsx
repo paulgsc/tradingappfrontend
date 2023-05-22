@@ -1,4 +1,5 @@
 import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
 
 const data = {
   labels: [
@@ -43,12 +44,31 @@ const options = {
       display: false,
     },
   },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
 };
 
-import React from "react";
-
 const PortfolioChart = () => {
-  return <Line data={data} options={options} width={400} height={150} />;
+  return (
+    <div className="flex items-center justify-center w-full h-full">
+      <div
+        className="chart-container flex items-center justify-center"
+        style={{ width: "50vw", height: "100%" }}
+      >
+        <Line data={data} options={options} />
+      </div>
+    </div>
+  );
 };
 
 export default PortfolioChart;

@@ -125,38 +125,15 @@
   }
 
   .prof-menu{
-    position: absolute;
-    top: 55px;
-    right: 40px;
-    height: max-content;
-    width: max-content;
-    padding: 20px 40px 60px 0px;
-    background-color: whitesmoke;
-    z-index: calc(100 + var(--max-z-index));
-    border-radius: 0px 0px 20px 20px;
-    text-align: center;
-    align-items: center;
+
     display: none;
+    z-index: 10000;
+    background-color:whitesmoke;
 
-  }
-
-  .prof-icon{
-    cursor: pointer;
-    text-transform: uppercase;
-    background-color: #0a6b6d;
-    border-radius: 50%;
-    text-align: center;
-    align-items: center;
-    padding: 12px;
-    color: #fff;
   }
 
   .prof-focus:focus-within .prof-menu {
     display: block;
-  }
-
-  .home_nav{
-    margin: 00px 60px 0px 0px;
   }
 
   .listings_nav{
@@ -306,4 +283,12 @@ input.trade-slider::-moz-range-thumb{
 /* Style the back side */
 .flip-card-back {
   transform: rotateY(180deg);
+}
+
+.test{
+  z-index: -1;
+}
+
+.test1{
+  z-index: 1000;
 }

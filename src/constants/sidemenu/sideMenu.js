@@ -84,10 +84,10 @@ export const sideMenuItems = [
 
 export const sideMenuNavs = [
     {
-        title: 'Dashboard',
+        title: 'Trade',
         icon: "gridView",
         id: 'side-navs_1',
-        path: '/personal',
+        path: '/trade',
     },
     {
         title: "Membership",
