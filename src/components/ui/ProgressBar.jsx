@@ -13,7 +13,7 @@ function ProgressBar({ percent, sold, available, raised }) {
       <div className="w-full orange-gradient">
         <div className="mb-1 text-base font-light">
           <p className="px-2">
-            {sold} shares sold of {available} shares
+            {parseInt(sold)} shares sold of {parseInt(available)} shares
           </p>
         </div>
         <div className="">

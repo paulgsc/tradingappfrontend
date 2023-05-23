@@ -19,8 +19,6 @@
 }
 
 input.trade-slider__slider {
-    width: 60%;
-    height: 100%;
     background: transparent;
     -webkit-appearance: none;
     padding: 0;

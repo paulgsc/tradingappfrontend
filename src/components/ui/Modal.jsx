@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 
-const Test = ({ title, body, Footer }) => {
+const Modal = ({ title, body, Footer }) => {
   const [showModal, setShowModal] = useState(true);
   const modalRef = useRef(null);
 
@@ -43,10 +43,10 @@ const Test = ({ title, body, Footer }) => {
         >
           <div className="relative w-full max-w-2xl max-h-full">
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-              <Test.Header handleCloseModal={handleCloseModal} title={title} />
+              <Modal.Header handleCloseModal={handleCloseModal} title={title} />
 
-              <Test.Content body={body} />
-              <Test.Footer Footer={Footer} />
+              <Modal.Content body={body} />
+              <Modal.Footer Footer={Footer} />
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@ const Test = ({ title, body, Footer }) => {
   );
 };
 
-Test.Header = ({ handleCloseModal, title }) => (
+Modal.Header = ({ handleCloseModal, title }) => (
   <div className=" flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
     <h3 className="text-xl xl:text-2xl font-semibold text-gray-900 dark:text-white">
       {title}
@@ -84,8 +84,8 @@ Test.Header = ({ handleCloseModal, title }) => (
   </div>
 );
 
-Test.Content = ({ body }) => <div className="p-6 space-y-6">{body}</div>;
+Modal.Content = ({ body }) => <div className="p-6 space-y-6">{body}</div>;
 
-Test.Footer = ({ Footer }) => <>{Footer}</>;
+Modal.Footer = ({ Footer }) => <>{Footer}</>;
 
-export default Test;
+export default Modal;

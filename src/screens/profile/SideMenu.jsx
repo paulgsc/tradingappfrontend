@@ -4,7 +4,6 @@ import SearchNavbar from "../../components/navbar/SearchNavbar";
 import CustomSvg from "../../components/ui/CustomSvg";
 import { sideMenuItems, sideMenuNavs } from "../../constants/sidemenu/sideMenu";
 import { Link } from "react-router-dom";
-import "./sidemenu.css";
 import { useSelector } from "react-redux";
 import ProfilePopUp from "../../components/ui/ProfilePopUp";
 import { centerScreenPopUp } from "../../styles/events";

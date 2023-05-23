@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPropertyById } from "../../contexts/redux/selectors/propertySelectors";
 import Tabs from "../../components/ui/Tabs";
 import { Link } from "react-router-dom";
 import SlideshowComponent from "../../components/animation/SlideShowComponent";
+import { fetchPropertyRows } from "../../contexts/redux/actions/fetchPropertyActions";
+import { fetchPropertyQuery } from "../../contexts/redux/actions/fetchDataActions";
+import { storeOrderInfo } from "../../reducers/tradingReducers";
 
 function Trading() {
+  const dispatch = useDispatch();
   const {
     orderInfo: {
       amount = "",
@@ -20,10 +24,23 @@ function Trading() {
     id = "",
     price_per_share = "",
     available_shares = "",
-    url = "",
+    total_purchased_shares = "",
+    total_property_shares = "",
+    total_purchased_amount = "",
     property_name = "",
     property_address = "",
   } = useSelector((state) => getPropertyById(state, propertyId));
+
+  useEffect(() => {
+    dispatch(fetchPropertyRows());
+    dispatch(
+      storeOrderInfo({
+        propertyId: 55,
+      })
+    );
+    dispatch(fetchPropertyQuery(""));
+  }, [dispatch]);
+
   return (
     <div className="h-screen flex flex-col w-full ">
       <Navbar />
@@ -36,7 +53,11 @@ function Trading() {
             <div className="hidden lg:block lg:col-span-1 xl:col-span-2 w-full">
               <div className="flex items-center justify-center rounded bg-gray-50 h-full w-full dark:bg-gray-800">
                 <div className="flex flex-col justify-start m-0 p-4 w-full h-full mb-4 rounded shadow-xl bg-white dark:bg-gray-800">
-                  <Tabs />
+                  <Tabs
+                    soldShares={total_purchased_shares}
+                    totalShares={total_property_shares}
+                    raisedAmount={total_purchased_amount}
+                  />
                 </div>
               </div>
             </div>
@@ -117,7 +138,7 @@ Trading.PropertyCard = () => (
 Trading.PropertyImage = () => {
   return (
     <div className="flex items-center justify-center w-full h-full rounded bg-gray-50 dark:bg-gray-800">
-      <div className="flex justify-center items-start w-full h-[440px] md:h-[524px] lg:[440px] xl:h-[524px] p-0 m-0 bg-center bg-no-repeat bg-cover">
+      <div className="flex justify-center items-start w-full h-[440px] md:h-[524px] lg:h-[440px] xl:h-[524px] p-0 m-0 bg-center bg-no-repeat bg-cover">
         <SlideshowComponent />
       </div>
     </div>

@@ -22,6 +22,7 @@ import housePic_7 from './IMG_0361.jpg';
 import housePic_8 from './IMG_0362.jpg';
 import housePic_9 from './IMG_0363.jpg';
 
+
 export {
   tagType,
   createCampaign,

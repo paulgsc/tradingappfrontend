@@ -20,8 +20,6 @@ import Index from "./screens/transfers/Index";
 import Test from "./Test";
 import LinkBank from "./screens/linkBank/LinkBank";
 
-import "./app.css";
-
 import Trading from "./screens/tradingportal/Trading";
 
 function App() {

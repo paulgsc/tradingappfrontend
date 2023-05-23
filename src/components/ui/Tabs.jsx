@@ -4,7 +4,7 @@ import TransfersTable from "../tables/TransfersTable";
 import Dropdown from "./Dropdown";
 import FlipCard from "./FlipCard";
 
-function Tabs() {
+function Tabs({ soldShares, totalShares, raisedAmount }) {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   const handleTabClick = (tabId) => {
@@ -18,61 +18,10 @@ function Tabs() {
   return (
     <div className="flex flex-col w-full">
       <div className="w-full mb-4 border-b border-gray-200 dark:border-gray-700">
-        <ul
-          className="w-full flex flex-wrap p-0 m-0 -mb-px text-xl font-medium text-center"
-          id="myTab"
-          role="tablist"
-        >
-          <li className="mr-2" role="presentation">
-            <button
-              className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-blue-600 hover:border-gray-300 dark:hover:text ${
-                isTabActive("dashboard")
-                  ? "border-blue-600"
-                  : "border-transparent"
-              }`}
-              id="dashboard-tab"
-              type="button"
-              role="tab"
-              aria-controls="dashboard"
-              aria-selected={isTabActive("dashboard")}
-              onClick={() => handleTabClick("dashboard")}
-            >
-              Dashboard
-            </button>
-          </li>
-          <li className="mr-2" role="presentation">
-            <button
-              className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-blue-600 hover:border-gray-300 dark:hover:text ${
-                isTabActive("orders") ? "border-blue-600" : "border-transparent"
-              }`}
-              id="orders-tab"
-              type="button"
-              role="tab"
-              aria-controls="orders"
-              aria-selected={isTabActive("orders")}
-              onClick={() => handleTabClick("orders")}
-            >
-              Orders
-            </button>
-          </li>
-          <li className="mr-2" role="presentation">
-            <button
-              className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-blue-600 hover:border-gray-300 dark:hover:text ${
-                isTabActive("settings")
-                  ? "border-blue-600"
-                  : "border-transparent"
-              }`}
-              id="settings-tab"
-              type="button"
-              role="tab"
-              aria-controls="settings"
-              aria-selected={isTabActive("settings")}
-              onClick={() => handleTabClick("settings")}
-            >
-              Settings
-            </button>
-          </li>
-        </ul>
+        <Tabs.Header
+          handleTabClick={handleTabClick}
+          isTabActive={isTabActive}
+        />
       </div>
       <div id="myTabContent">
         <div
@@ -85,14 +34,11 @@ function Tabs() {
         >
           <div className="grid grid-rows-auto gap-4 mb-4">
             <div className="flex items-center justify-center rounded bg-gray-50  dark:bg-gray-800">
-              <div className="w-full h-fit mb-06 rounded-lg shadow-lg">
-                <ProgressBar
-                  percent={40}
-                  sold={1000}
-                  available={3000}
-                  raised={25.5}
-                />
-              </div>
+              <Tabs.ProgressBar
+                soldShares={soldShares}
+                totalShares={totalShares}
+                raisedAmount={raisedAmount}
+              />
             </div>
 
             <div className="flex items-center xl:my-4">
@@ -134,5 +80,75 @@ function Tabs() {
     </div>
   );
 }
+
+Tabs.Header = ({ isTabActive, handleTabClick }) => (
+  <ul
+    className="w-full flex flex-wrap p-0 m-0 -mb-px text-xl font-medium text-center"
+    id="myTab"
+    role="tablist"
+  >
+    <li className="mr-2" role="presentation">
+      <button
+        className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-blue-600 hover:border-gray-300 dark:hover:text ${
+          isTabActive("dashboard") ? "border-blue-600" : "border-transparent"
+        }`}
+        id="dashboard-tab"
+        type="button"
+        role="tab"
+        aria-controls="dashboard"
+        aria-selected={isTabActive("dashboard")}
+        onClick={() => handleTabClick("dashboard")}
+      >
+        Dashboard
+      </button>
+    </li>
+    <li className="mr-2" role="presentation">
+      <button
+        className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-blue-600 hover:border-gray-300 dark:hover:text ${
+          isTabActive("orders") ? "border-blue-600" : "border-transparent"
+        }`}
+        id="orders-tab"
+        type="button"
+        role="tab"
+        aria-controls="orders"
+        aria-selected={isTabActive("orders")}
+        onClick={() => handleTabClick("orders")}
+      >
+        Orders
+      </button>
+    </li>
+    <li className="mr-2" role="presentation">
+      <button
+        className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-blue-600 hover:border-gray-300 dark:hover:text ${
+          isTabActive("settings") ? "border-blue-600" : "border-transparent"
+        }`}
+        id="settings-tab"
+        type="button"
+        role="tab"
+        aria-controls="settings"
+        aria-selected={isTabActive("settings")}
+        onClick={() => handleTabClick("settings")}
+      >
+        Settings
+      </button>
+    </li>
+  </ul>
+);
+
+Tabs.ProgressBar = ({ soldShares, totalShares, raisedAmount }) => {
+  const percent = 100 * (parseFloat(soldShares) / parseFloat(totalShares));
+  return (
+    <div className="flex items-center justify-center w-full rounded bg-gray-50  dark:bg-gray-800">
+      <div className="w-full h-fit mb-06 rounded-lg shadow-lg">
+        <ProgressBar
+          percent={percent}
+          sold={soldShares}
+          available={totalShares}
+          raised={raisedAmount}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default Tabs;

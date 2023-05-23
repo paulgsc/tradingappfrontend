@@ -80,7 +80,7 @@ function Navbar({ showMenu }) {
       </nav>
       <aside
         id="navbar-sidebar"
-        className="hidden fixed top-0 left-0 w-56 h-screen pt-10 transition-transform -translate-x-full bg-transparent sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        className="hidden z-50 fixed top-0 left-0 w-56 h-screen pt-10 transition-transform -translate-x-full bg-transparent sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar"
       >
         <div className="top-0 h-full overflow-y-auto bg-transparent dark:bg-gray-800">
