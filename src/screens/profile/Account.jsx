@@ -11,7 +11,6 @@ import {
 } from "../../contexts/redux/actions/fetchDataActions";
 import PropertyShares from "../../components/tables/PropertyShares";
 import Profile from "../../components/profile/Profile";
-import "./account.css";
 import currency from "currency.js";
 import OrderHistory from "../../components/tables/OrderHistory";
 
@@ -85,7 +84,7 @@ function Account() {
 
       <aside
         id="sidebar"
-        className="hidden fixed top-0 left-0 w-96 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        className="hidden fixed top-0 left-0 lg:w-[25%] xl:w-1/6 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar"
       >
         <div className="z-0 h-full overflow-y-auto bg-[#FFF] dark:bg-gray-800">

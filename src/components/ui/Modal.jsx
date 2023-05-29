@@ -12,7 +12,7 @@ const Modal = ({ title, body, Footer }) => {
   };
 
   const hanldeClickOutsideModal = (event) => {
-    const input = document.getElementById("inputshares");
+    const input = document.getElementById("inputAmount");
     const slider = document.getElementById("inputSlider");
     if (input.contains(event.target) || slider.contains(event.target)) {
       setShowModal(true);
@@ -32,7 +32,7 @@ const Modal = ({ title, body, Footer }) => {
   }, []);
 
   return (
-    <div className="absolute flex items-center justify-center">
+    <div className="flex items-center justify-center">
       {showModal && (
         <div
           id="defaultModal"

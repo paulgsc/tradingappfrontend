@@ -1,54 +1,41 @@
 import React, { useCallback, useEffect } from "react";
-import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createTransferIntent,
-  initiatePlaid,
-  requestLinkToken,
-  requestToken,
-} from "../../contexts/redux/actions/plaidActions";
-import Spinner from "../../components/loading/Spinner";
-import { useLocation } from "react-router";
-import AuthLink from "./AuthLink";
+import { authorizeAndCreateTransfer } from "../../contexts/redux/actions/plaidActions";
 
 function PlaidHome() {
   const dispatch = useDispatch();
+  const {
+    plaidInfo: {
+      type = "",
+      transferAmount = "",
+      account = "",
+      description = "",
+    } = {},
+  } = useSelector((state) => state.plaid);
 
-  const { plaidInfo: { request_id = "", transferAmount = "" } = {}, loading } =
-    useSelector((state) => state.plaid);
+  const validate = () => {
+    const validType = ["debit", "credit"];
+    const parsedAmount = parseFloat(transferAmount).toFixed(2);
+    const isValidType = validType.includes(type);
+    const isValidAmount =
+      !isNaN(parsedAmount) && parsedAmount === transferAmount;
+    const isValidAccount = Number.isInteger(parseInt(account));
+    const isValidDescription = description.length <= 10;
 
-  const launchTransferIntent = useCallback(() => {
-    dispatch(createTransferIntent());
-  }, [dispatch]);
+    return isValidType && isValidAmount && isValidAccount && isValidDescription;
+  };
 
   const generateToken = useCallback(() => {
-    dispatch(requestToken());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (transferAmount) {
-      launchTransferIntent();
+    if (validate()) {
+      dispatch(authorizeAndCreateTransfer());
     }
-  }, [dispatch]);
+  }, [dispatch, validate]);
 
   useEffect(() => {
-    const init = async () => {
-      // do not generate a new token for OAuth redirect; instead
-      // setLinkToken from localStorage
+    generateToken();
+  }, []);
 
-      if (request_id) {
-        generateToken();
-      }
-    };
-    init();
-  }, [dispatch, generateToken, request_id]);
-  return (
-    <div className="plaid-app">
-      <div className="plaid-app_container">
-        <AuthLink />
-      </div>
-    </div>
-  );
+  return <></>;
 }
 
 export default PlaidHome;

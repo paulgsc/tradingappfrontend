@@ -48,137 +48,141 @@ function SideMenu() {
     centerScreenPopUp("profile-popup");
   };
   return (
-    <div id="Main" className="">
-      <div className=" ">
-        <div className="">
-          <div className="flex flex-col items-center">
-            <div
-              id="profile-icon-button"
-              className="flex items-center py-4 cursor-pointer"
-              onClick={handleProfile}
-            >
-              {url ? (
-                <img className="" src={url} alt="avatar" />
-              ) : (
-                <PlaceHolder.Icon
-                  name="faceIcon"
-                  sx={{
-                    color: "grey",
-                    width: {
-                      xs: 16,
-                      sm: 20,
-                      md: 30,
-                      lg: 40,
-                      xlg: 40,
-                    },
-                    height: {
-                      xs: 16,
-                      sm: 20,
-                      md: 30,
-                      lg: 40,
-                      xlg: 40,
-                    },
-                  }}
-                />
-              )}
-              <PlaceHolder.Icon name="brush" />
-            </div>
-
-            <ProfilePopUp />
-
-            <div className="">
-              <p className="">{username}</p>
-            </div>
-          </div>
-        </div>
+    <div id="Main" className="flex flex-col gap-2 w-full">
+      <SideMenu.Profile
+        handleProfile={handleProfile}
+        url={url}
+        username={username}
+      />
+      <div>
+        <SideMenu.Main sideMenuNavs={sideMenuNavs} />
+        <SideMenu.MenuItems sideMenuItems={sideMenuItems} showMenu={showMenu} />
       </div>
-      <div className="flex flex-col border-b border-black">
-        {sideMenuNavs.map((item, index) => (
-          <Link
-            to={item.path}
-            key={`icon-menu${index}`}
-            className="m-0 p-0 w-full"
-          >
-            <button
-              key={item.id}
-              className="flex items-center gap-4 p-2 my-4 w-full text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-70"
-            >
-              <PlaceHolder.Icon
-                sx={{
-                  color: "white",
-                  fill: "black",
-                  width: {
-                    xs: 12,
-                    sm: 16,
-                    md: 20,
-                    lg: 30,
-                    xlg: 40,
-                  },
-                  height: {
-                    xs: 12,
-                    sm: 16,
-                    md: 20,
-                    lg: 30,
-                    xlg: 40,
-                  },
-                }}
-                name={item.icon}
-              />
-              <p className="">{item.title}</p>
-            </button>
-          </Link>
-        ))}
-      </div>
-      {sideMenuItems.map((menuItems, menuIndex) => {
-        return (
-          <div key={menuItems.id} className="flex flex-col">
-            <button
-              onClick={showMenu}
-              id={menuIndex + 1}
-              className="flex items-center border-b border-black w-full gap-0 px-10 py-4 hover:bg-gray-300 hover:text-black dark:hover:bg-gray-70"
-            >
-              <div
-                className="flex items-center flex-grow"
-                id={`gap${menuIndex + 1}`}
-              >
-                <p className="" id={menuIndex + 1}>
-                  {menuItems.title}
-                </p>
-              </div>
-              <div className="flex items-center">
-                <CustomSvg.Arrow
-                  id={`icon${menuIndex + 1}`}
-                  className="rotate-180"
-                />
-              </div>
-            </button>
-            <div
-              id={`menu${menuIndex + 1}`}
-              className="hidden m-0 p-0 bg-gray-300 dark:bg-gray-800 shadow-inner"
-            >
-              {menuItems.content.map((item, itemIndex) => (
-                <div key={`menu-item${itemIndex}`} className="flex m-0 p-0">
-                  <Link
-                    to={item.path}
-                    key={`c${itemIndex}`}
-                    className="p-0 m-0 flex flex-1"
-                  >
-                    <button className="flex items-center gap-4 px-2 py-2 text-white hover:bg-gray-600 hover:text-black dark:hover:bg-gray-70 w-full">
-                      <PlaceHolder.Icon
-                        className={item.className}
-                        name={item.icon}
-                      />
-                      <p className="">{item.title}</p>
-                    </button>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      })}
     </div>
   );
 }
+
+SideMenu.Profile = ({ handleProfile, url, username }) => (
+  <div className="flex justify-center gap-2 items-center w-full">
+    <div
+      id="profile-icon-button"
+      className="flex items-center py-4 cursor-pointer text-gray-300"
+      onClick={handleProfile}
+    >
+      {url ? (
+        <img className="" src={url} alt="avatar" />
+      ) : (
+        <PlaceHolder.Icon
+          name="faceIcon"
+          sx={{
+            width: {
+              xs: 16,
+              sm: 20,
+              md: 30,
+              lg: 30,
+            },
+            height: {
+              xs: 16,
+              sm: 20,
+              md: 30,
+              lg: 30,
+            },
+          }}
+        />
+      )}
+    </div>
+
+    <ProfilePopUp />
+
+    <span className="text-xs xl:text-sm h-10 w-24 -600 break-all ">
+      {username}
+    </span>
+  </div>
+);
+
+SideMenu.Main = ({ sideMenuNavs }) => (
+  <div className="flex flex-col w-full border-b border-black">
+    {sideMenuNavs.map((item, index) => (
+      <Link to={item.path} key={`icon-menu${index}`}>
+        <button
+          key={item.id}
+          className="flex items-center justify-between px-10 w-full h-12  text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-70"
+        >
+          <p className="">{item.title}</p>
+          <PlaceHolder.Icon
+            sx={{
+              color: "white",
+              fill: "black",
+              width: {
+                xs: 12,
+                sm: 16,
+                md: 20,
+                lg: 30,
+                xlg: 40,
+              },
+              height: {
+                xs: 12,
+                sm: 16,
+                md: 20,
+                lg: 30,
+                xlg: 40,
+              },
+            }}
+            name={item.icon}
+          />
+        </button>
+      </Link>
+    ))}
+  </div>
+);
+
+SideMenu.MenuItems = ({ sideMenuItems, showMenu }) => (
+  <>
+    {sideMenuItems.map((menuItems, menuIndex) => {
+      return (
+        <div key={menuItems.id} className="flex flex-col w-full">
+          <button
+            onClick={showMenu}
+            id={menuIndex + 1}
+            className="flex items-center border-b border-black w-full h-12 px-10 hover:bg-gray-300 hover:text-black dark:hover:bg-gray-70"
+          >
+            <div
+              className="flex items-center flex-grow h-full w-full"
+              id={`gap${menuIndex + 1}`}
+            >
+              <p className="" id={menuIndex + 1}>
+                {menuItems.title}
+              </p>
+            </div>
+            <div className="flex items-center">
+              <CustomSvg.Arrow
+                id={`icon${menuIndex + 1}`}
+                className="rotate-180"
+              />
+            </div>
+          </button>
+          <div
+            id={`menu${menuIndex + 1}`}
+            className="hidden dark:bg-gray-800 shadow-inner w-full"
+          >
+            {menuItems.content.map((item, itemIndex) => (
+              <div key={`menu-item${itemIndex}`} className="w-full">
+                <Link to={item.path} key={`c${itemIndex}`} className="flex">
+                  <button className="flex w-full items-center  gap-4 pl-12 py-2 text-black hover:bg-indigo-200 hover:text-white dark:hover:bg-gray-70">
+                    <PlaceHolder.Icon
+                      className={item.className}
+                      name={item.icon}
+                    />
+                    <p className="">{item.title}</p>
+                  </button>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </>
+);
 
 export default SideMenu;

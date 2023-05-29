@@ -39,7 +39,7 @@ function Trading() {
       })
     );
     dispatch(fetchPropertyQuery(""));
-  }, [dispatch]);
+  }, [dispatch, total_property_shares]);
 
   return (
     <div className="h-screen flex flex-col w-full ">
@@ -70,7 +70,7 @@ function Trading() {
 
 Trading.Header = ({ property_name }) => (
   <div className="flex items-center justify-center h-24 w-full mb-4 rounded bg-gray-50 dark:bg-gray-800">
-    <h1 className="sm:text-xl md:text-4xl leading-relaxed text-gray-600 dark:text-gray-500">
+    <h1 className="text-base lg:text-2xl xl:text-3xl leading-relaxed text-gray-600 dark:text-gray-500">
       Own a Piece of {property_name}: Invest Now, Reap the Benefits Forever
     </h1>
   </div>
@@ -80,7 +80,7 @@ Trading.Alert = ({ transferAmountRemaining }) => (
   <div className="grid lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-4 w-full">
     <div className=" lg:col-span-2 xl:col-span-4 invisible">
       <div className="flex items-center justify-center rounded bg-gray-50 h-4/5 dark:bg-gray-800">
-        <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500">+</p>
       </div>
     </div>
 
@@ -90,7 +90,7 @@ Trading.Alert = ({ transferAmountRemaining }) => (
           <div className="w-full rounded-full m-0 px-1 py-0 bg-blue-100 border-t border-b border-blue-500 text-blue-700 flex items-center justify-center">
             <div className="">
               <svg
-                className="fill-current h-6 w-6 text-teal-500 mr-4"
+                className=" fill-current h-4 w-4 text-teal-500 mr-4"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
               >
@@ -98,11 +98,11 @@ Trading.Alert = ({ transferAmountRemaining }) => (
               </svg>
             </div>
             <div className="flex justify-center items-center">
-              <p className="font-semibold text-base lg:text-md xl:text-xl">
+              <p className="font-semibold text-xs xl:text-base">
                 Transfer Funds To Trade
               </p>
               <Link
-                className="p-0  m-0 text-base lg:text-md xl:text-lg mx-2 bg-gray-100 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded py-0 xl:py-2 px-4 mt-2 md:mt-0"
+                className="p-0  m-0 text-sm xl:text-base mx-2 bg-gray-100 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded py-0 xl:py-2 px-4 mt-2 md:mt-0"
                 to="/personal/banking"
               >
                 <span className="">Transfer</span>

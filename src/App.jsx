@@ -8,19 +8,13 @@ import ProfileScreen from "./screens/profile/ProfileScreen";
 import PlaidHome from "./screens/plaid/PlaidHome";
 import "./styles/position/styles.css";
 import "./styles/border/styles.css";
-import "./styles/mediascreens/styles.css";
-import "./styles/images/styles.css";
 import "./styles/events/styles.css";
-import "./styles/Fonts/styles.css";
-import "./styles/color/styles.css";
 import CreateAccount from "./screens/legal/CreateAccount";
 import AuthRoute from "./components/auth/AuthRoute";
-import Index from "./screens/transfers/Index";
-
 import Test from "./Test";
-import LinkBank from "./screens/linkBank/LinkBank";
-
 import Trading from "./screens/tradingportal/Trading";
+import Index from "./screens/banking/Index";
+import LinkAccount from "./screens/plaid/LinkAccount";
 
 function App() {
   return (
@@ -64,19 +58,23 @@ function App() {
         />
 
         <Route exact path="/trade" element={<Trading />} />
-        <Route exact path="/test" element={<Test />} />
+        <Route path="/test" element={<Test />} />
         <Route element={<AuthRoute />}>
           <Route exact path="/personal" element={<ProfileScreen />} />
           <Route exact path="/personal/balances" element={<ProfileScreen />} />
           <Route exact path="/personal/history" element={<ProfileScreen />} />
           <Route exact path="/personal/banking" element={<Index />} />
+          <Route
+            exact
+            path="/personal/banking/transfer/:redirect?"
+            element={<PlaidHome />}
+          />
           <Route exact path="/personal/register" element={<CreateAccount />} />
           <Route
             exact
-            path="/personal/transfer/plaid"
-            element={<PlaidHome />}
+            path="/personal/banking/link/:redirect?"
+            element={<LinkAccount />}
           />
-          <Route exact path="/personal/banking/link" element={<LinkBank />} />
         </Route>
       </Routes>
     </Router>

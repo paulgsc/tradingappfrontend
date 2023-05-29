@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ProgressBar from "./ProgressBar";
-import TransfersTable from "../tables/TransfersTable";
 import Dropdown from "./Dropdown";
 import FlipCard from "./FlipCard";
+import OrderHistory from "../tables/OrderHistory";
 
 function Tabs({ soldShares, totalShares, raisedAmount }) {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -26,13 +26,13 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
       <div id="myTabContent">
         <div
           className={`${
-            isTabActive("dashboard") ? "" : "hidden"
+            isTabActive("dashboard") ? "bg-gray-50 " : "hidden"
           } p-0 py-4 rounded-lg dark:bg-gray-800`}
           id="dashboard"
           role="tabpanel"
           aria-labelledby="dashboard-tab"
         >
-          <div className="grid grid-rows-auto gap-4 mb-4">
+          <div className="grid gap-4 mb-4">
             <div className="flex items-center justify-center rounded bg-gray-50  dark:bg-gray-800">
               <Tabs.ProgressBar
                 soldShares={soldShares}
@@ -43,7 +43,7 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
 
             <div className="flex items-center xl:my-4">
               <div className="flex-1 h-0.5 bg-black mr-2"></div>
-              <p className="text-2xl text-gray-400 dark:text-gray-500">
+              <p className="text-sm xl:text-base text-gray-400 dark:text-gray-500">
                 Purchase Shares
               </p>
               <div className="flex-1 h-0.5 bg-black ml-2"></div>
@@ -51,6 +51,7 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
             <div className="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
               <FlipCard />
             </div>
+            <div className="row-span-2"></div>
           </div>
         </div>
         <div
@@ -62,8 +63,57 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
           aria-labelledby="orders-tab"
         >
           <div className="flex fle-col items-center">
-            <TransfersTable />
-            <Dropdown />
+            <OrderHistory />
+            <Dropdown
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8  bg-tranparent"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <circle cx="10" cy="4" r="1.5" />
+                  <circle cx="10" cy="10" r="1.5" />
+                  <circle cx="10" cy="16" r="1.5" />
+                </svg>
+              }
+              menu={
+                <ul className="py-1">
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                    >
+                      Pending Orders
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                    >
+                      Recurring
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                    >
+                      Completed
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+                    >
+                      Canceled
+                    </a>
+                  </li>
+                </ul>
+              }
+            />
           </div>
         </div>
         <div
@@ -83,7 +133,7 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
 
 Tabs.Header = ({ isTabActive, handleTabClick }) => (
   <ul
-    className="w-full flex flex-wrap p-0 m-0 -mb-px text-xl font-medium text-center"
+    className="w-full flex flex-wrap p-0 m-0 -mb-px text-sm xl:text-xl font-medium text-center"
     id="myTab"
     role="tablist"
   >

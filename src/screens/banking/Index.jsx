@@ -4,23 +4,24 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getLinkedAccounts,
-  setTransferAmount,
-} from "./contexts/redux/actions/plaidActions";
 import { useEffect } from "react";
+import TransfersTable from "../../components/tables/TransfersTable";
+import TabWidget from "../../components/ui/TabWidget";
+import KeyPad from "../../components/ui/KeyPad";
+import Selection from "../../components/ui/Selection";
+import currency from "currency.js";
 import {
   fetchLinkedAccounts,
   fetchSummary,
   fetchTransfers,
-} from "./contexts/redux/actions/fetchDataActions";
-import TransfersTable from "./components/tables/TransfersTable";
-import TabWidget from "./components/ui/TabWidget";
-import KeyPad from "./components/ui/KeyPad";
-import Selection from "./components/ui/Selection";
-import currency from "currency.js";
+} from "../../contexts/redux/actions/fetchDataActions";
+import {
+  getTransferStatus,
+  initiatePlaid,
+  setTransferAmount,
+} from "../../contexts/redux/actions/plaidActions";
 
-const Test = () => {
+const Index = () => {
   const [amount, setAmount] = useState("0");
   const [transferTo, setTransferTo] = useState("");
   const [transferFrom, setTransferFrom] = useState("");
@@ -48,9 +49,10 @@ const Test = () => {
     navigate(-1);
   };
 
-  const handleClick = (e) => {
+  const handleNewAccount = (e) => {
     e.preventDefault();
     dispatch(initiatePlaid("link")).then(() => {});
+    navigate(`/personal/banking/link/?redirect=${redirect}`);
   };
 
   const handleTranserTo = (value) => {
@@ -73,6 +75,8 @@ const Test = () => {
     const data = {
       transferAmount: parseFloat(amount).toFixed(2).toString(),
       account: transferFromId,
+      type: transferTo === "brokerage" ? "debit" : "credit",
+      description: transferTo === "brokerage" ? "deposit" : "withdr",
     };
     dispatch(setTransferAmount(data));
     setShowReview(true);
@@ -85,7 +89,13 @@ const Test = () => {
 
   const handleTransferConfirm = (e) => {
     e.preventDefault();
+    dispatch(initiatePlaid("transfer")).then(() => {});
     navigate(`/personal/banking/transfer/?redirect=${redirect}`);
+  };
+
+  const handleExitTransfer = (e) => {
+    e.preventDefault();
+    toggleLaunchTransfer(false);
   };
 
   useEffect(() => {
@@ -107,16 +117,17 @@ const Test = () => {
     dispatch(fetchLinkedAccounts());
     dispatch(fetchSummary());
     dispatch(fetchTransfers());
+    dispatch(getTransferStatus());
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col h-screen gap-8">
-      <Test.Nav handleGoBack={handleGoBack} />
+    <div className="flex flex-col h-screen gap-2">
+      <Index.Nav handleGoBack={handleGoBack} />
       <div className="flex items-center justify-center h-screen w-full  ">
         {launchTransfer ? (
-          <div className="flex flex-col mx-4 items-start justify-start w-6/12 h-screen ">
+          <div className="flex flex-col mx-2 items-start justify-start w-6/12 h-screen ">
             {showReview ? (
-              <Test.Summary
+              <Index.Summary
                 linkedAccounts={linkedAccounts}
                 transferFrom={transferFrom}
                 transferTo={transferTo}
@@ -124,23 +135,29 @@ const Test = () => {
                 handleCloseModal={handleCloseModal}
               />
             ) : (
-              <KeyPad amount={amount} setAmount={setAmount} />
+              <>
+                <Index.KeyPad
+                  handleExitTransfer={handleExitTransfer}
+                  amount={amount}
+                  setAmount={setAmount}
+                />
+              </>
             )}
           </div>
         ) : (
-          <div className="flex flex-col gap-10 items-start justify-start w-6/12 h-screen ">
-            <Test.LinkedAcct
-              handleClick={handleClick}
+          <div className="flex flex-col gap-4 items-start justify-start w-6/12 h-screen ">
+            <Index.LinkedAcct
+              handleNewAccount={handleNewAccount}
               linkedAccounts={linkedAccounts}
             />
 
-            <Test.Balance transferRemaining={transfer_remaining} />
-            <Test.Transfers />
+            <Index.Balance transferRemaining={transfer_remaining} />
+            <Index.Transfers />
           </div>
         )}
 
         <div className="flex  w-3/12 h-full">
-          <Test.Tabs
+          <Index.Tabs
             handleLaunchTransfer={handleLaunchTransfer}
             launchTransfer={launchTransfer}
             linkedAccounts={linkedAccounts}
@@ -159,10 +176,10 @@ const Test = () => {
   );
 };
 
-Test.Nav = ({ handleGoBack }) => (
-  <nav className="sticky top-0 flex items-center justify-start top-0 left-0 shadow-md w-full h-full bg-transparent opacity-40 hover:opacity-60">
-    <div className="flex items-center justify-center gap-14 p-1">
-      <div className="flex items-center justify-center text-center border rounded-full h-full w-full px-[14px] py-[12px] xl:px-[14px] xl:py-[14px] border-gray-400 border-opacity-10 hover:bg-gray-100 hover:border-opacity-100 ">
+Index.Nav = ({ handleGoBack }) => (
+  <nav className="sticky top-0 flex items-center justify-start left-0 shadow-md w-full h-full bg-transparent opacity-40 hover:opacity-60">
+    <div className="flex items-center justify-center gap-8 ml-1 ">
+      <div className="flex items-center justify-center text-center border rounded-full h-full w-full px-[8px] py-[4px]  border-gray-400 border-opacity-10 hover:bg-gray-100 hover:border-opacity-100 ">
         <Link to={"/"}>
           <HomeIcon
             sx={{
@@ -171,14 +188,14 @@ Test.Nav = ({ handleGoBack }) => (
               width: {
                 xs: 12,
                 sm: 16,
-                md: 20,
-                lg: 20,
+                md: 16,
+                lg: 16,
               },
               height: {
                 xs: 12,
                 sm: 16,
-                md: 20,
-                lg: 20,
+                md: 16,
+                lg: 16,
               },
             }}
           />
@@ -186,12 +203,12 @@ Test.Nav = ({ handleGoBack }) => (
       </div>
 
       <button
-        className="flex items-center justify-center text-center border rounded-full h-full w-full px-[14px] py-[16px] xl:px-[16px] xl:py-[16px] border-gray-400 border-opacity-10 hover:bg-gray-100 hover:border-opacity-100"
+        className="flex items-center justify-center text-center border rounded-full h-full w-full px-[10px] py-[12px]  border-gray-400 border-opacity-10 hover:bg-gray-100 hover:border-opacity-100"
         onClick={handleGoBack}
       >
         <svg
           fill="inherit"
-          className="h-4 w-6 lg:h-6 lg:w-8 xl:h-8 "
+          className="h-3 w-4"
           version="1.1"
           id="Layer_1"
           xmlns="http://www.w3.org/2000/svg"
@@ -211,31 +228,29 @@ C232.322,328.536,236.161,330,240,330s7.678-1.464,10.607-4.394c5.858-5.858,5.858-
   </nav>
 );
 
-Test.LinkedAcct = ({ linkedAccounts, handleClick }) => (
-  <div className="flex flex-col w-full gap-8 items-center">
+Index.LinkedAcct = ({ linkedAccounts, handleNewAccount }) => (
+  <div className="flex flex-col w-full gap-2 items-center">
     <div className="flex w-11/12">
-      <h1 className=" text-base lg:text-3xl xl:text-4xl font-bold">
-        Linked accounts
-      </h1>
+      <h1 className=" text-base lg:text-xl font-bold">Linked accounts</h1>
     </div>
     <ul className="flex flex-col border rounded-lg shadow-sm gap-2 p-2 w-11/12 items-center justify-center">
       {linkedAccounts.map((acct, index) => (
         <li
           key={index}
-          className="flex flex-col justify-center gap-4 border-b h-20 w-11/12 text-base lg:text-xl font-medium text-gray-800"
+          className="flex flex-col justify-end items-start border-b h-16 w-11/12 text-base font-medium text-gray-800"
         >
-          {acct?.official_name}
+          <span> {acct?.official_name}</span>
 
-          <span className=" text-base  lg:text-lg text-gray-400">
+          <span className="text-sm text-gray-400">
             {acct?.type}
 
             {acct?.mask}
           </span>
         </li>
       ))}
-      <li className="flex w-11/12 h-20">
+      <li className="flex w-11/12 h-16">
         <button
-          onClick={handleClick}
+          onClick={handleNewAccount}
           className="flex items-center w-full gap-1 text-base lg:text-xl font-semibold text-gray-500"
         >
           <span className="mb-1">
@@ -257,39 +272,39 @@ Test.LinkedAcct = ({ linkedAccounts, handleClick }) => (
               }}
             />
           </span>
-          <span className="">Add new account</span>
+          <span className="text-base">Add new account</span>
         </button>
       </li>
     </ul>
   </div>
 );
 
-Test.Balance = ({ transferRemaining }) => (
-  <div className="flex flex-col w-full gap-8 items-center">
-    <div className="flex w-11/12">
-      <h1 className="text-base lg:text-3xl xl:text-4xl font-bold">Cash</h1>
-    </div>
-    <div className="flex justify-between w-11/12 border-b">
-      <span className="ml-10 text-base lg:text-xl xl:text-2xl ">
-        Withdrawable cash
-      </span>
-      <span className=" mr-20 text-base lg:text-2xl">{transferRemaining}</span>
-    </div>
-    <div className="flex justify-between w-11/12 border-b">
-      <span className="ml-10 text-base lg:text-xl xl:text-2xl">
-        Pending deposits
-      </span>
-      <span className="mr-20 text-base lg:text-2xl">{transferRemaining}</span>
+Index.Balance = ({ transferRemaining }) => (
+  <div className="flex flex-col w-full gap-2 items-center mb-2 mt-2 ">
+    <div className="w-11/12 m-1 shadow-sm border-r">
+      <div className="flex w-11/12">
+        <h1 className="text-base lg:text-xl font-bold">Cash</h1>
+      </div>
+      <div className="flex items-end justify-between w-11/12 h-10 border-b ">
+        <span className="ml-10 text-base">Withdrawable cash</span>
+        <span className=" mr-20 text-base">
+          {currency(transferRemaining).format()}
+        </span>
+      </div>
+      <div className="flex items-end justify-between w-11/12 h-10 border-b">
+        <span className="ml-10 text-base">Pending deposits</span>
+        <span className="mr-20 text-base">
+          {currency(transferRemaining).format()}
+        </span>
+      </div>
     </div>
   </div>
 );
 
-Test.Transfers = () => (
-  <div className="flex flex-col w-full h-full gap-8 items-center">
+Index.Transfers = () => (
+  <div className="flex flex-col w-full h-full gap-2 items-center">
     <div className="flex w-11/12">
-      <h1 className="text-base lg:text-3xl xl:text-4xl font-bold">
-        Transfer history
-      </h1>
+      <h1 className="text-base lg:text-xl  font-bold">Transfer history</h1>
     </div>
     <div className="w-11/12">
       <TransfersTable />
@@ -297,7 +312,7 @@ Test.Transfers = () => (
   </div>
 );
 
-Test.Tabs = ({
+Index.Tabs = ({
   handleLaunchTransfer,
   launchTransfer,
   linkedAccounts,
@@ -313,9 +328,9 @@ Test.Tabs = ({
   const headers = [
     {
       id: "tab_1",
-      title: "Dashbaord",
+      title: "Dashboard",
       content: (
-        <Test.Dashboard
+        <Index.Dashboard
           handleLaunchTransfer={handleLaunchTransfer}
           launchTransfer={launchTransfer}
           linkedAccounts={linkedAccounts}
@@ -333,7 +348,7 @@ Test.Tabs = ({
     {
       id: "tab_2",
       title: "notifications",
-      content: <Test.Notifications />,
+      content: <Index.Notifications />,
     },
   ];
   return (
@@ -343,7 +358,7 @@ Test.Tabs = ({
   );
 };
 
-Test.Dashboard = ({
+Index.Dashboard = ({
   handleLaunchTransfer,
   launchTransfer,
   linkedAccounts,
@@ -358,7 +373,7 @@ Test.Dashboard = ({
 }) => (
   <div className="mx-2">
     {launchTransfer ? (
-      <Test.Selection
+      <Index.Selection
         linkedAccounts={linkedAccounts}
         transferFrom={transferFrom}
         transferTo={transferTo}
@@ -371,10 +386,10 @@ Test.Dashboard = ({
       />
     ) : (
       <div className="flex flex-col border p-4 gap-2">
-        <span className="font-semibold text-gray-700 text-base lg:text-xl xl:text-2xl">
+        <span className="font-semibold text-gray-700 text-base lg:text-lg xl:text-xl">
           Transfer Money
         </span>
-        <span className="text-base lg:text-lg xl:text-xl">
+        <span className="text-sm xl:text-lg">
           Launch transfer portal, and deposit money to your account or widthraw
           to your bank.
         </span>
@@ -382,7 +397,7 @@ Test.Dashboard = ({
           className="flex border rounded-lg shadow-lg w-fit bg-gray-700"
           onClick={handleLaunchTransfer}
         >
-          <span className="p-3 text-base lg:text-lg xl:text-xl break-normal text-white">
+          <span className="p-2 text-sm xl:text-base break-normal text-white">
             Launch Transfer
           </span>
         </button>
@@ -391,7 +406,7 @@ Test.Dashboard = ({
   </div>
 );
 
-Test.Notifications = () => (
+Index.Notifications = () => (
   <div>
     <div>
       <span>Your recent transfer is still pending!</span>
@@ -399,7 +414,7 @@ Test.Notifications = () => (
   </div>
 );
 
-Test.Selection = ({
+Index.Selection = ({
   linkedAccounts,
   transferTo,
   transferFrom,
@@ -412,7 +427,7 @@ Test.Selection = ({
 }) => (
   <div className="hidden flex-col gap-8 xl:gap-12 lg:flex items-center justify-center border shadow-sm rounded-lg p-2 bg-gray-50 dark:bg-gray-800">
     <div className="flex flex-col w-full">
-      <span className="flex h-12 w-full text-base lg:text-lg xl:text-xl font-semibold">
+      <span className="flex h-6 w-full text-xs xl:text-sm font-semibold">
         {transferFrom && "Transfer From"}
       </span>
       <div className="w-full">
@@ -427,7 +442,7 @@ Test.Selection = ({
       </div>
     </div>
     <div className="flex flex-col w-full ">
-      <span className="flex h-8 w-full text-base lg:text-lg xl:text-xl font-semibold">
+      <span className="flex h-6 w-full text-xs xl:text-sm font-semibold">
         {transferTo && "Transfer To"}
       </span>
       <div className="w-full">
@@ -450,7 +465,7 @@ Test.Selection = ({
         <button
           onClick={handleTransferConfirm}
           disabled={btnDisabled}
-          className="text-base lg:text-xl xl:text-2xl p-4 text-white rounded-lg shadow-md bg-gray-700 enabled:hover:bg-gray-900 enabled:hover:text-white cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+          className="text-base  xl:text-lg p-4 text-white rounded-lg shadow-md bg-gray-700 enabled:hover:bg-gray-900 enabled:hover:text-white cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
         >
           Confirm
         </button>
@@ -458,7 +473,7 @@ Test.Selection = ({
         <button
           onClick={handleTransfer}
           disabled={btnDisabled}
-          className="text-base lg:text-xl xl:text-2xl p-4 text-white rounded-lg shadow-md bg-gray-700 enabled:hover:bg-gray-900 enabled:hover:text-white cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+          className="text-base  xl:text-lg p-4 text-white rounded-lg shadow-md bg-gray-700 enabled:hover:bg-gray-900 enabled:hover:text-white cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
         >
           Review
         </button>
@@ -467,7 +482,7 @@ Test.Selection = ({
   </div>
 );
 
-Test.Summary = ({
+Index.Summary = ({
   linkedAccounts,
   transferFrom,
   transferTo,
@@ -477,7 +492,7 @@ Test.Summary = ({
   <div className="flex flex-col gap-8 mt-6 w-11/12">
     <button
       type="button"
-      className="text-base w-10 h-10 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg  p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+      className="text-base w-8 h-8 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg  p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
       data-modal-hide="defaultModal"
       onClick={handleCloseModal}
     >
@@ -496,13 +511,13 @@ Test.Summary = ({
       <span className="sr-only">Close modal</span>
     </button>
     <div className="flex w-full items-center justify-center">
-      <span className="text-base lg:text-8xl xl:text-9xl">
+      <span className="text-base lg:text-6xl xl:text-8xl">
         {currency(transferAmount).format()}
       </span>
     </div>
-    <div className="flex flex-col lg:h-20 xl:h-24 w-full border-b border-gray-400 ">
-      <span className="w-full text-base lg:text-xl cursor-default">From </span>
-      <span className="w-full text-base lg:text-4xl xl:text-6xl break-normal cursor-default">
+    <div className="flex flex-col lg:h-12 xl:h-16 w-full border-b border-gray-400 ">
+      <span className="w-full text-sm xl:text-base cursor-default">From </span>
+      <span className="w-full text-base lg:text-2xl xl:text-4xl break-normal cursor-default">
         {
           [
             ...linkedAccounts,
@@ -512,11 +527,11 @@ Test.Summary = ({
       </span>
     </div>
 
-    <div className="flex flex-col lg:h-20 xl:h-24 border-b border-gray-400">
-      <span className="w-full text-base h-full lg:text-xl cursor-default">
+    <div className="flex flex-col lg:h-12 xl:h-16 border-b border-gray-400">
+      <span className="w-full text-sm xl:text-base h-full cursor-default">
         To
       </span>
-      <span className="w-full text-base lg:text-4xl xl:text-6xl break-normal cursor-default">
+      <span className="w-full text-base lg:text-2xl xl:text-4xl break-normal cursor-default">
         {
           [
             ...linkedAccounts,
@@ -528,4 +543,33 @@ Test.Summary = ({
   </div>
 );
 
-export default Test;
+Index.KeyPad = ({ handleExitTransfer, amount, setAmount }) => (
+  <div className="flex flex-col w-full">
+    <div className="flex justify-end mr-2">
+      <button
+        type="button"
+        className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-hide="defaultModal"
+        onClick={handleExitTransfer}
+      >
+        <svg
+          aria-hidden="true"
+          className="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+        <span className="sr-only">Close modal</span>
+      </button>
+    </div>
+    <KeyPad amount={amount} setAmount={setAmount} />
+  </div>
+);
+
+export default Index;

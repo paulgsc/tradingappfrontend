@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { json, Link } from "react-router-dom";
 import MenuItems from "../menuItems/MenuItems";
 import { menubar } from "../../../constants/navbar/menubar";
-import "./navbaritems.css";
 
 function NavbarItems() {
   return (

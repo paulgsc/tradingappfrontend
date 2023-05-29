@@ -1,5 +1,5 @@
 import API from "../../../api/django";
-import { plaidAuthCreatePymtIntentSuccessful, plaidAuthExchangeTokenSuccessful, plaidAuthFailure, plaidAuthGetInfoSuccessful, plaidAuthRequest, plaidAuthRequestTokenSuccessful, plaidGetLinkedAccountFailed, plaidGetLinkedAccountInfoSuccess, plaidSetAmountFailure, plaidSetTransferAmount, plaidUGetTransferStatusSuccessful, plaidUpdatePymtIntentSuccessful } from "../../../reducers/plaidAuthReducer";
+import { plaidAuthCreatePymtIntentSuccessful, plaidAuthExchangeTokenSuccessful, plaidAuthFailure, plaidAuthGetInfoSuccessful, plaidAuthRequest, plaidAuthRequestTokenSuccessful, plaidCreateTransferFailed, plaidGetLinkedAccountFailed, plaidGetLinkedAccountInfoSuccess, plaidSetAmountFailure, plaidSetTransferAmount, plaidCreateTransferSuccessful, plaidGetTransferStatusSuccessful, plaidUpdatePymtIntentSuccessful } from "../../../reducers/plaidAuthReducer";
 
 
 export const initiatePlaid = (initiationType) => async (dispatch, getState) => {
@@ -185,8 +185,12 @@ export const exchangePublicTokenForAccessToken = (public_token) => async (dispat
             }));
             if (initiationType === "transfer"){
                 await dispatch(transferIntentGet());
-                dispatch(getTransferStatus());
+                await dispatch(getTransferStatus());
             }
+            if (initiationType === "link"){
+                await dispatch(getLinkedAccounts())
+            }
+            window.location.href = "http://localhost:5173/personal/banking";
 
         
     }catch (error){
@@ -268,7 +272,6 @@ export const getTransferStatus = () => async (dispatch, getState) => {
     try{
         const {
             userAuth: { userInfo },
-            plaid: { plaidInfo: { request_id } }
         } = getState();
 
         const config = {
@@ -278,12 +281,11 @@ export const getTransferStatus = () => async (dispatch, getState) => {
             },
         };
 
-        const response = await API.post(
+        const response = await API.get(
             '/users/banking/transfer_status_get/',
-            {request_id: request_id},
             config,
         )
-        dispatch(plaidUGetTransferStatusSuccessful({
+        dispatch(plaidGetTransferStatusSuccessful({
             plaidInfo: {
                 transferStatus: response.data
             }
@@ -310,5 +312,52 @@ export const setTransferAmount = (data) => async (dispatch) => {
 
     }catch (error){
         dispatch(plaidSetAmountFailure(error.message));
+    }
+}
+
+export const authorizeAndCreateTransfer = () => async (dispatch, getState) => {
+    dispatch(plaidAuthRequest());
+    try{
+        const {
+            userAuth: { userInfo: { token } },
+            plaid: { plaidInfo: { transferAmount, account, type, description } }
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const formdata = {
+            amount: transferAmount,
+            account: account,
+            type: type,
+            description: description,
+        }
+        
+        const response = await API.post(
+            "users/banking/plaid-transfer-auth/",
+            formdata,
+            config,
+        )
+        await dispatch(plaidCreateTransferSuccessful({
+            plaidInfo: {
+                initiationType: "",
+                transferAmount: "",
+                description: "",
+                type: "",
+                transferStatus: response.data,
+            }
+        }))
+        await dispatch(getTransferStatus())
+        window.location.href = "http://localhost:5173/personal/banking";
+    }catch (error){
+        dispatch(plaidCreateTransferFailed({
+            error: error.message,
+            plaidInfo: {
+                linkToken: null,
+            },
+        }));
     }
 }

@@ -1,39 +1,26 @@
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useMemo } from "react";
 import { useTable } from "react-table";
-import "./orderhistory.css";
-import { popupStyles } from "../../lib/utils";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrders } from "../../contexts/redux/actions/fetchDataActions";
 
-function OrderHistory({ orders }) {
-  const data = useMemo(() => orders, [orders]);
+function OrderHistory() {
+  const dispatch = useDispatch();
+  const { history = [] } = useSelector((state) => state.fetchData);
+  const data = useMemo(() => history, [history]);
+
+  useEffect(() => {
+    dispatch(fetchOrders());
+  }, [dispatch]);
 
   const columns = useMemo(
     () => [
       {
         Header: "Name",
-        accessor: "property_name",
-        Column: ({ header }) => (
-          <div className="shares-row-cell">{header.value}</div>
-        ),
+        accessor: "property.property_name",
+        Column: ({ header }) => <div className="">{header.value}</div>,
         Cell: ({ cell }) => (
           <div
-            className="shares-row-cell"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            {cell.value}
-          </div>
-        ),
-      },
-      {
-        Header: "Type",
-        accessor: "transaction_type",
-        Cell: ({ cell }) => (
-          <div
-            className="shares-row-cell"
+            className=""
             onClick={(e) => {
               e.preventDefault();
             }}
@@ -45,42 +32,14 @@ function OrderHistory({ orders }) {
       {
         Header: "Amount",
         accessor: "order_amount",
-        Cell: ({ cell }) => (
+        Cell: ({ cell, row }) => (
           <div
-            className="shares-row-cell"
+            className=""
             onClick={(e) => {
               e.preventDefault();
             }}
           >
-            {cell.value}
-          </div>
-        ),
-      },
-      {
-        Header: "Shares",
-        accessor: "order_shares_total",
-
-        Cell: ({ cell }) => (
-          <div
-            className="shares-row-cell"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            {cell.value}
-          </div>
-        ),
-      },
-      {
-        Header: "Dividends",
-        accessor: "income",
-        Cell: ({ cell }) => (
-          <div
-            className="shares-row-cell"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
+            {row.original.transaction_type === "BUY" ? "+" : "-"}
             {cell.value}
           </div>
         ),
@@ -89,26 +48,31 @@ function OrderHistory({ orders }) {
         Header: "Date",
         accessor: "purchase_date",
         Cell: ({ cell }) => {
-          const dateObj = new Date(cell.value);
-          const options = {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-            hour12: false,
-          };
-          return (
-            <div
-              className="shares-row-cell"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              {new Intl.DateTimeFormat("en-US", options).format(dateObj)}
-            </div>
-          );
+          try {
+            if (!cell.value) return <></>;
+            const dateObj = new Date(cell.value);
+            const options = {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+              hour12: false,
+            };
+            return (
+              <div
+                className=""
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                {new Intl.DateTimeFormat("en-US", options).format(dateObj)}
+              </div>
+            );
+          } catch (error) {
+            return <></>;
+          }
         },
       },
     ],
@@ -121,16 +85,16 @@ function OrderHistory({ orders }) {
     tableInstance;
 
   return (
-    <div className="shares-table">
-      <div className="shares-table-header">
+    <div className="flex flex-col w-full gap-2">
+      <div className="flex w-full">
         {headerGroups.map((headerGroup) => (
           <div
-            className="shares-table-row"
+            className="flex justify-between w-full border-b"
             {...headerGroup.getHeaderGroupProps()}
           >
             {headerGroup.headers.map((column) => (
               <div
-                className="shares-table-cell txt-al-ct shares-row-cell"
+                className="flex justify-start items-center w-1/3 font-bold text-base lg:text-xl xl:text-2xl"
                 {...column.getHeaderProps()}
               >
                 {column.render("Header")}
@@ -139,16 +103,17 @@ function OrderHistory({ orders }) {
           </div>
         ))}
       </div>
-      <div className="shares-table-row-group" {...getTableBodyProps()}>
+      <div className="flex flex-col gap-2 w-full " {...getTableBodyProps()}>
         {rows.map((row) => {
           prepareRow(row);
           return (
-            <div className="shares-table-row" {...row.getRowProps()}>
+            <div className="flex justify-between w-full" {...row.getRowProps()}>
               {row.cells.map((cell) => (
-                <div className="shares-table-cell" {...cell.getCellProps()}>
-                  <span className="shares-table-cell-text">
-                    {cell.render("Cell")}
-                  </span>
+                <div
+                  className="flex items-center justify-start w-1/3 border-b border-gray-300 text-base lg:text-lg"
+                  {...cell.getCellProps()}
+                >
+                  <span className="">{cell.render("Cell")}</span>
                 </div>
               ))}
             </div>

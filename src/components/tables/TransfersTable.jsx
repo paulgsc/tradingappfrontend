@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useTable } from "react-table";
-import "./transfers.css";
 
 function TransfersTable() {
   const { history = [] } = useSelector((state) => state.fetchData);
@@ -51,51 +50,41 @@ function TransfersTable() {
     tableInstance;
 
   return (
-    <div className="">
-      <table {...getTableProps()} className="table ">
-        <thead className="">
-          {headerGroups.map((headerGroup) => (
-            <tr
-              {...headerGroup.getHeaderGroupProps()}
-              className="flex items-center text-center justify-center"
-            >
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps()}
-                  className="flex items-center gap-0 p-0 xl:p-2  border-b-2 border-gray-400 font-light text-base lg:text-2xl xl:text-4xl text-center"
+    <div className="flex flex-col w-full gap-2">
+      <div className="flex w-full">
+        {headerGroups.map((headerGroup) => (
+          <div
+            className="flex justify-between w-full border-b"
+            {...headerGroup.getHeaderGroupProps()}
+          >
+            {headerGroup.headers.map((column) => (
+              <div
+                className="flex justify-start items-center w-1/3 font-bold text-base"
+                {...column.getHeaderProps()}
+              >
+                {column.render("Header")}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-col w-full " {...getTableBodyProps()}>
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            <div className="flex justify-between w-full" {...row.getRowProps()}>
+              {row.cells.map((cell) => (
+                <div
+                  className="flex items-center justify-start lg:h-10 w-1/3 border-b border-gray-300 text-sm"
+                  {...cell.getCellProps()}
                 >
-                  <span>{column.render("Header")}</span>
-                  <span>
-                    {" "}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8  bg-tranparent"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <circle cx="10" cy="4" r="1.5" />
-                      <circle cx="10" cy="10" r="1.5" />
-                      <circle cx="10" cy="16" r="1.5" />
-                    </svg>
-                  </span>
-                </th>
+                  <span className="">{cell.render("Cell")}</span>
+                </div>
               ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()} className="">
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

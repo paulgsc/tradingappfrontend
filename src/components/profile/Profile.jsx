@@ -5,12 +5,12 @@ function Profile({ user, className }) {
   return (
     <div className="prof-focus ">
       <span
-        className={`flex items-center justify-center cursor-pointer uppercase bg-teal-600 rounded-full w-12 h-12 lg:w-16 lg:h-16 text-white ${className}`}
+        className={`flex items-center justify-center cursor-pointer uppercase bg-teal-600 rounded-full w-12 h-12 text-white ${className}`}
         tabIndex="0"
       >
         {user}
       </span>
-      <div className="prof-menu absolute top-20 right-10  rounded p-0 m-0  text-center items-center">
+      <div className="prof-menu absolute top-16 right-10  rounded p-0 m-0  text-center items-center">
         <ProfileMenu />
       </div>
     </div>

@@ -28,10 +28,10 @@ function ProfileMenu() {
                 handleAuthentication(e, item.path, item.containerId)
               }
             >
-              <div className="w-10 h-20 flex items-center justify-center">
+              <div className="w-10 h-16 flex items-center justify-center">
                 <PlaceHolder.Icon name={item.icon} />
               </div>
-              <span className="text-xl lg:text-2xl">{item.title}</span>
+              <span className="text-base">{item.title}</span>
             </button>
           </li>
         ))}

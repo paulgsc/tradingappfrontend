@@ -6,6 +6,8 @@ const plaidAuthentification = createSlice({
     initialState: { loading: false, plaidInfo: {
         initiationType: "",
         transferAmount: "",
+        description: "",
+        type: "",
         linkSuccess: false,
         isItemAccess: true,
         isPaymentInitiation: false,
@@ -42,13 +44,19 @@ const plaidAuthentification = createSlice({
         plaidSetTransferAmount(state, action){
             return { ...state, plaidInfo: { ...state.plaidInfo, ...action.payload.plaidInfo }, loading: false };
         },
-        plaidUGetTransferStatusSuccessful(state, action){
+        plaidGetTransferStatusSuccessful(state, action){
+            return {  ...state, plaidInfo: { ...state.plaidInfo, ...action.payload.plaidInfo }, loading: false };
+        },
+        plaidCreateTransferSuccessful(state, action){
             return {  ...state, plaidInfo: { ...state.plaidInfo, ...action.payload.plaidInfo }, loading: false };
         },
         plaidGetLinkedAccountInfoSuccess(state, action){
             return { ...state, loading: false, linkedAcct: action.payload };
         },
         plaidGetLinkedAccountFailed(state, action){
+            return { ...state, loading: false, error: action.payload };
+        },
+        plaidCreateTransferFailed(state, action){
             return { ...state, loading: false, error: action.payload };
         },
         plaidSetAmountFailure(state, action){
@@ -58,7 +66,23 @@ const plaidAuthentification = createSlice({
             return { ...state, plaidInfo: { ...state.plaidInfo, ...action.payload.plaidInfo }, error: action.payload.error, loading: false };
         },
         userLogoutPlaid(state, action){
-            return { loading: false, plaidInfo: {} };
+            return { loading: false, plaidInfo: { initiationType: "",
+            transferAmount: "",
+            description: "",
+            type: "",
+            linkSuccess: false,
+            isItemAccess: true,
+            isPaymentInitiation: false,
+            linkToken: "", // Don't set to null or error message will show up briefly when site loads
+            isError: false,
+            backend: true,
+            products: ["transactions"],
+            request_id: "",
+            linkTokenError: {
+                error_type: "",
+                error_code: "",
+                error_message: "",
+         }, } };
         },
     },
 });
@@ -72,11 +96,13 @@ export const {
     plaidAuthGetInfoSuccessful,
     plaidUpdatePymtIntentSuccessful,
     plaidSetTransferAmount,
-    plaidUGetTransferStatusSuccessful,
+    plaidGetTransferStatusSuccessful,
+    plaidCreateTransferSuccessful,
     plaidGetLinkedAccountFailed,
     plaidGetLinkedAccountInfoSuccess,
     userLogoutPlaid,
     plaidSetAmountFailure,
+    plaidCreateTransferFailed,
 } = plaidAuthentification.actions;
 
 export default plaidAuthentification.reducer;
