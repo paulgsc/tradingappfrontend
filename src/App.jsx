@@ -15,6 +15,7 @@ import Test from "./Test";
 import Trading from "./screens/tradingportal/Trading";
 import Index from "./screens/banking/Index";
 import LinkAccount from "./screens/plaid/LinkAccount";
+import Transactions from "./screens/profile/Transactions";
 
 function App() {
   return (
@@ -62,7 +63,7 @@ function App() {
         <Route element={<AuthRoute />}>
           <Route exact path="/personal" element={<ProfileScreen />} />
           <Route exact path="/personal/balances" element={<ProfileScreen />} />
-          <Route exact path="/personal/history" element={<ProfileScreen />} />
+          <Route exact path="/personal/history/*" element={<Transactions />} />
           <Route exact path="/personal/banking" element={<Index />} />
           <Route
             exact

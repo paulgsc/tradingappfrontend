@@ -4,9 +4,8 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchTransactions } from "../contexts/redux/actions/fetchDataActions";
 import Disclaimer from "../components/bottom/Disclaimer";
-import "./home.css";
 import Index from "../components/hero/Index";
-import Property from "../components/three/Property";
+import NavbarItems from "../components/navbar/menubar/NavbarItems";
 
 function Home() {
   const dispatch = useDispatch();
@@ -15,12 +14,12 @@ function Home() {
     dispatch(fetchTransactions());
   }, []);
   return (
-    <div className="home__container">
-      <div className="home__navbar">
-        <Navbar showMenu={true} />
+    <div className="flex">
+      <Navbar showMenu={true} Menubar={NavbarItems} />
+      <div className="z-10 w-full">
+        <Index />
+        <Disclaimer />
       </div>
-      <Index />
-      <Disclaimer />
     </div>
   );
 }

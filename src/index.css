@@ -16,3 +16,26 @@
 .orange-gradient {
     background: linear-gradient(180deg,#f3bc51 50%,#f9db74);
 }
+
+.dropdown:focus-within .dropdown-menu {
+    /* @apply block; */
+    display:block;
+  }
+
+  .test{
+    position: relative;
+  }
+
+  .test::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: blue;
+    width: 40px;
+    height: 1px;
+  }
+
+
+
+  
