@@ -21,6 +21,7 @@ import housePic_6 from './roomSix.jpg';
 import housePic_7 from './roomSeven.jpg';
 import housePic_8 from './roomEight.jpg';
 import housePic_9 from './roomNine.jpg';
+import notFound from './404img.jpg';
 
 
 export {
@@ -47,4 +48,5 @@ export {
   housePic_7,
   housePic_8,
   housePic_9,
+  notFound,
 };
