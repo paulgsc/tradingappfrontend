@@ -273,12 +273,12 @@ function TradeSlider() {
 
 TradeSlider.PopupMessage = () => (
   <>
-    <p className="text-base xl:tex-lg leading-relaxed text-gray-500 dark:text-gray-400">
+    <p className="text-sm xl:text-base leading-relaxed text-gray-500 dark:text-gray-400">
       In order to buy shares of property you need to have a balance in your
       account. Transfer money to you account using your linked banks. In you
       haven't set up any linked accounts, set up you bank links first.
     </p>
-    <p className="text-base xl:tex-lg leading-relaxed text-gray-500 dark:text-gray-400">
+    <p className="text-xs xl:text-sm leading-relaxed text-gray-500 dark:text-gray-400">
       Your bank links set up and transfers are handled through plaid.
     </p>
   </>
@@ -290,7 +290,7 @@ TradeSlider.PopupActionFooter = () => (
       <button
         data-modal-hide="defaultModal"
         type="button"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm lg:text-lg px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="text-sm xl:text-base text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Transfer Funds
       </button>

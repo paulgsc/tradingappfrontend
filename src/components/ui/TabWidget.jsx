@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-import ProgressBar from "./ProgressBar";
-import Dropdown from "./Dropdown";
-import FlipCard from "./FlipCard";
-import OrderHistory from "../tables/OrderHistory";
 
 function TabWidget({ active = "Dashboard", tabHeaders = [] }) {
   const [activeTab, setActiveTab] = useState(active);
