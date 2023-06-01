@@ -13,14 +13,14 @@ import money from './money.svg';
 import loader from './loader.svg';
 import thirdweb from './thirdweb.png';
 import housePic_1 from './roomOne.jpg';
-import housePic_2 from './money.svg';
-import housePic_3 from './money.svg';
-import housePic_4 from './money.svg';
-import housePic_5 from './money.svg';
-import housePic_6 from './money.svg';
-import housePic_7 from './money.svg';
-import housePic_8 from './money.svg';
-import housePic_9 from './money.svg';
+import housePic_2 from './roomTwo.jpg';
+import housePic_3 from './roomThree.jpg';
+import housePic_4 from './roomFour.jpg';
+import housePic_5 from './roomFive.jpg';
+import housePic_6 from './roomSix.jpg';
+import housePic_7 from './roomSeven.jpg';
+import housePic_8 from './roomEight.jpg';
+import housePic_9 from './roomNine.jpg';
 
 
 export {
