@@ -26,9 +26,6 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    build: {
-      assetsExclude: ['**/*.jpg', '**/*.jpeg', '**/*.png', '**/*.gif', '**/*.svg'],
-    },
   };
 });
 
