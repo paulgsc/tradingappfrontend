@@ -8,6 +8,7 @@ import SlideshowComponent from "../../components/animation/SlideShowComponent";
 import { fetchPropertyRows } from "../../contexts/redux/actions/fetchPropertyActions";
 import { fetchPropertyQuery } from "../../contexts/redux/actions/fetchDataActions";
 import { storeOrderInfo } from "../../reducers/tradingReducers";
+import TabWidget from "../../components/ui/TabWidget";
 
 function Trading() {
   const dispatch = useDispatch();
@@ -45,14 +46,14 @@ function Trading() {
     <div className="h-screen flex flex-col w-full ">
       <Navbar />
       <div className="flex flex-col items-center justify-center w-full flex-1 p-4">
-        <div className="flex flex-col w-full justify-center items-center flex-1 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 z-60">
+        <div className="flex flex-col w-full justify-center items-center flex-1 p-4 border-gray-200 rounded-lg dark:border-gray-700 mt-14 z-60">
           <Trading.Header property_name={property_name} />
           <Trading.Alert transferAmountRemaining={transferAmountRemaining} />
           <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-4 w-full h-full flex-1">
             <Trading.PropertyCard />
-            <div className="hidden lg:block lg:col-span-1 xl:col-span-2 w-full">
+            <div className="hidden lg:block lg:col-span-1 xl:col-span-2 w-full h-fit sticky top-[80px] xl:top-32 ">
               <div className="flex items-center justify-center rounded bg-gray-50 h-full w-full dark:bg-gray-800">
-                <div className="flex flex-col justify-start m-0 p-4 w-full h-full mb-4 rounded shadow-xl bg-white dark:bg-gray-800">
+                <div className="flex flex-col justify-start m-0 p-4 w-full h-full mb-4 rounded shadow-md bg-transparent dark:bg-gray-800">
                   <Tabs
                     soldShares={total_purchased_shares}
                     totalShares={total_property_shares}
@@ -77,7 +78,7 @@ Trading.Header = ({ property_name }) => (
 );
 
 Trading.Alert = ({ transferAmountRemaining }) => (
-  <div className="grid lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-4 w-full">
+  <div className="sticky top-14 grid lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-4 w-full">
     <div className=" lg:col-span-2 xl:col-span-4 invisible">
       <div className="flex items-center justify-center rounded bg-gray-50 h-4/5 dark:bg-gray-800">
         <p className="text-sm text-gray-400 dark:text-gray-500">+</p>
@@ -126,6 +127,9 @@ Trading.PropertyCard = () => (
           </div>
           <div className="row-span-2">
             <div className="flex items-center justify-center w-full rounded bg-gray-50 dark:bg-gray-800">
+              <Trading.PropertyTabs />
+            </div>
+            <div className="flex items-center justify-center w-full rounded bg-gray-50 dark:bg-gray-800">
               <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
             </div>
           </div>
@@ -144,5 +148,60 @@ Trading.PropertyImage = () => {
     </div>
   );
 };
+
+Trading.PropertyTabs = () => {
+  const headers = [
+    {
+      id: "1_1",
+      title: "Overview",
+      content: <Trading.PropertyOverview />,
+    },
+    {
+      id: "1_2",
+      title: "Facts",
+      content: "",
+    },
+    {
+      id: "1_3",
+      title: "Home value",
+      content: "",
+    },
+  ];
+  return (
+    <div className="flex flex-col w-11/12">
+      <Trading.PropertyHeader
+        street={"1363 Potter St"}
+        city={"Hogwarts"}
+        state={"SC"}
+        zip={"CH61 1DE"}
+        title={"A magical place"}
+      />
+      <TabWidget active="Overview" tabHeaders={headers} />
+    </div>
+  );
+};
+
+Trading.PropertyHeader = ({ street, city, state, zip, title }) => (
+  <div className="flex flex-col">
+    <span className="text-base md:text-lg lg:text-xl xl:text-2xl font-extrabold">
+      {street}
+    </span>
+    <span className="text-sm xl:text-base font-extralight">{`${city}, ${state} ${zip}`}</span>
+    <span className="text-sm xl:text-base font-semibold">{title}</span>
+  </div>
+);
+
+Trading.PropertyOverview = () => (
+  <div className="flex flex-col">
+    <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold">
+      $299,997
+    </span>
+    <span>rental status: 100% filled</span>
+    <span>monthly rent: $1,200</span>
+    <span>rental revenue: $10,000</span>
+    <span>HOE: $2,000</span>
+    <span>Maintanance: $2,000</span>
+  </div>
+);
 
 export default Trading;

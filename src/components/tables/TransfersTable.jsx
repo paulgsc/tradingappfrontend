@@ -68,25 +68,43 @@ function TransfersTable() {
           </div>
         ))}
       </div>
-      <div className="flex flex-col w-full " {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <div className="flex justify-between w-full" {...row.getRowProps()}>
-              {row.cells.map((cell) => (
-                <div
-                  className="flex items-center justify-start lg:h-10 w-1/3 border-b border-gray-300 text-sm"
-                  {...cell.getCellProps()}
-                >
-                  <span className="">{cell.render("Cell")}</span>
-                </div>
-              ))}
-            </div>
-          );
-        })}
-      </div>
+      {history.length ? (
+        <div className="flex flex-col w-full " {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <div
+                className="flex justify-between w-full"
+                {...row.getRowProps()}
+              >
+                {row.cells.map((cell) => (
+                  <div
+                    className="flex items-center justify-start lg:h-10 w-1/3 border-b border-gray-300 text-sm"
+                    {...cell.getCellProps()}
+                  >
+                    <span className="">{cell.render("Cell")}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <TransfersTable.EmptyBody />
+      )}
     </div>
   );
 }
+
+TransfersTable.EmptyBody = () => (
+  <div className="flex flex-col items-center justify-center border shadow-sm w-full h-32 xl:h-40 bg-gray-50">
+    <span className="text-sm xl:text-base leading-4 text-gray-600">
+      You have no transfers
+    </span>
+    <span className="text-sm xl:text-base leading-4 text-gray-600">
+      Link an account and add transfers
+    </span>
+  </div>
+);
 
 export default TransfersTable;

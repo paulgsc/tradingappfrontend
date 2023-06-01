@@ -6,9 +6,9 @@ function NavbarLogins() {
   const redirect = location?.pathname;
 
   return (
-    <div className="right-margin-container-5">
+    <div className="flex items-center justify-center text-white rounded-xl w-20 bg-indigo-400 hover:bg-indigo-500 cursor-pointer hover:shadow-md">
       <Link to={`/login/?redirect=${redirect}`} className="">
-        <span className="round-corner-container-1-cl">Sign In</span>
+        <span className="text-center text-sm md:text-base">Sign In</span>
       </Link>
     </div>
   );

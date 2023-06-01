@@ -16,7 +16,7 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col h-screen w-full">
       <div className="w-full mb-4 border-b border-gray-200 dark:border-gray-700">
         <Tabs.Header
           handleTabClick={handleTabClick}
@@ -133,7 +133,7 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
 
 Tabs.Header = ({ isTabActive, handleTabClick }) => (
   <ul
-    className="w-full flex flex-wrap p-0 m-0 -mb-px text-sm xl:text-xl font-medium text-center"
+    className="sticky top-32 w-full flex flex-wrap p-0 m-0 -mb-px text-sm xl:text-xl font-medium text-center"
     id="myTab"
     role="tablist"
   >
