@@ -12,15 +12,15 @@ import menu from './menu.svg';
 import money from './money.svg';
 import loader from './loader.svg';
 import thirdweb from './thirdweb.png';
-import housePic_1 from './IMG_0355.jpg';
-import housePic_2 from './IMG_0356.jpg';
-import housePic_3 from './IMG_0357.jpg';
-import housePic_4 from './IMG_0358.jpg';
-import housePic_5 from './IMG_0359.jpg';
-import housePic_6 from './IMG_0360.jpg';
-import housePic_7 from './IMG_0361.jpg';
-import housePic_8 from './IMG_0362.jpg';
-import housePic_9 from './IMG_0363.jpg';
+import housePic_1 from './IMG_0355.JPG';
+import housePic_2 from './IMG_0356.JPG';
+import housePic_3 from './IMG_0357.JPG';
+import housePic_4 from './IMG_0358.JPG';
+import housePic_5 from './IMG_0359.JPG';
+import housePic_6 from './IMG_0360.JPG';
+import housePic_7 from './IMG_0361.JPG';
+import housePic_8 from './IMG_0362.JPG';
+import housePic_9 from './IMG_0363.JPG';
 
 
 export {
