@@ -12,7 +12,7 @@ import menu from './menu.svg';
 import money from './money.svg';
 import loader from './loader.svg';
 import thirdweb from './thirdweb.png';
-import housePic_1 from './money.svg';
+import housePic_1 from './roomOne.jpg';
 import housePic_2 from './money.svg';
 import housePic_3 from './money.svg';
 import housePic_4 from './money.svg';
