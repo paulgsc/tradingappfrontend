@@ -20,6 +20,7 @@ import {
   initiatePlaid,
   setTransferAmount,
 } from "../../contexts/redux/actions/plaidActions";
+import { FramerNotifications } from "../../components/animation/Framer";
 
 const Index = () => {
   const [amount, setAmount] = useState("0");
@@ -36,7 +37,7 @@ const Index = () => {
 
   const {
     linkedAccounts = [],
-    summary: { transfer_remaining = "" } = {},
+    summary: { transfer_remaining = "", transfer_pending = "" } = {},
     history = [],
   } = useSelector((state) => state.fetchData);
   const {
@@ -151,7 +152,10 @@ const Index = () => {
               linkedAccounts={linkedAccounts}
             />
 
-            <Index.Balance transferRemaining={transfer_remaining} />
+            <Index.Balance
+              transferRemaining={transfer_remaining}
+              transferPending={transfer_pending}
+            />
             <Index.Transfers />
           </div>
         )}
@@ -279,7 +283,7 @@ Index.LinkedAcct = ({ linkedAccounts, handleNewAccount }) => (
   </div>
 );
 
-Index.Balance = ({ transferRemaining }) => (
+Index.Balance = ({ transferRemaining, transferPending }) => (
   <div className="flex flex-col w-full gap-2 items-center mb-2 mt-2 ">
     <div className="w-11/12 m-1 shadow-sm border-r">
       <div className="flex w-11/12">
@@ -294,7 +298,7 @@ Index.Balance = ({ transferRemaining }) => (
       <div className="flex items-end justify-between w-11/12 h-10 border-b">
         <span className="ml-10 text-base">Pending deposits</span>
         <span className="mr-20 text-base">
-          {currency(transferRemaining).format()}
+          {currency(transferPending).format()}
         </span>
       </div>
     </div>
@@ -348,6 +352,7 @@ Index.Tabs = ({
     {
       id: "tab_2",
       title: "notifications",
+      icon: <FramerNotifications notifications={2} />,
       content: <Index.Notifications />,
     },
   ];

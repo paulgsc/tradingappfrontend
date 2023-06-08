@@ -57,9 +57,13 @@ TabWidget.Header = ({ isTabActive, handleTabClick, tabHeaders }) => (
           aria-selected={isTabActive(item.title)}
           onClick={() => handleTabClick(item.title)}
         >
-          <div className="flex ">
+          <div className="flex relative">
             <span>{item.title}</span>
-            {item?.icon && <span>{item?.icon}</span>}
+            {item?.icon && (
+              <span className="absolute -right-4 xl:-right-6 -top-2">
+                {item?.icon}
+              </span>
+            )}
           </div>
         </button>
       </li>
