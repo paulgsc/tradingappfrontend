@@ -168,7 +168,7 @@ Login.ContentGrid = () => (
 );
 
 Login.Oauth = () => (
-  <div className="flex flex-col w-full">
+  <div className="flex flex-col w-full px-2">
     <div className="flex items-center justify-center w-full">
       <GoogleSignIn />
     </div>
