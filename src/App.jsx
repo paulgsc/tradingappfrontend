@@ -11,7 +11,6 @@ import "./styles/border/styles.css";
 import "./styles/events/styles.css";
 import CreateAccount from "./screens/legal/CreateAccount";
 import AuthRoute from "./components/auth/AuthRoute";
-import Test from "./Test";
 import Trading from "./screens/tradingportal/Trading";
 import Index from "./screens/banking/Index";
 import LinkAccount from "./screens/plaid/LinkAccount";
