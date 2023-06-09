@@ -13,13 +13,14 @@ function ProgressBar({ percent, sold, available, raised }) {
       <div className="w-full orange-gradient">
         <div className="mb-1 text-sm xl:text-lg font-light">
           <p className="px-2">
-            {parseInt(sold)} shares sold of {parseInt(available)} shares
+            {parseInt(sold) || 0} shares sold of {parseInt(available) || 0}{" "}
+            shares
           </p>
         </div>
         <div className="">
           <p className="px-4 text-stat-title text-gray-600 font-normal text-stat text-xs xl:text-base leading-5 mb-0">
             {" "}
-            {currency(raised).format()} funds raised{" "}
+            {currency(raised).format() || 0} funds raised{" "}
           </p>
         </div>
       </div>
