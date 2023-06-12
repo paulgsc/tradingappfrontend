@@ -15,11 +15,8 @@ import Trading from "./screens/tradingportal/Trading";
 import Index from "./screens/banking/Index";
 import LinkAccount from "./screens/plaid/LinkAccount";
 import NotFound404 from "./components/notFound/NotFound404";
-<<<<<<< HEAD
-=======
 import { adminPaths, historyPaths } from "./constants/routes/routes";
 import AdminPage from "./screens/admin/AdminPage";
->>>>>>> dev
 
 function App() {
   return (
