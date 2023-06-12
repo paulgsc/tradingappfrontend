@@ -189,6 +189,7 @@ export const fetchSummary = () => async (dispatch, getState) => {
         sell_amount_total: acc.sell_amount_total || 0 + curr.sell_amount_total,
         amount_purchased: acc.amount_purchased || 0 + curr.amount_purchased,
         transfer_remaining: acc.transfer_remaining || 0 + curr.transfer_remaining,
+        transfer_pending: acc.transfer_pending || 0 + curr.transfer_pending,
        }
 
        ), {})

@@ -46,7 +46,7 @@ function Navbar({ showMenu, Menubar }) {
   }, [isActive]);
 
   return (
-    <div>
+    <div className="">
       <nav className="fixed top-0 z-50 w-full h-14 bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex justify-between items-center w-full h-full px-3 lg:px-5 lg:pl-3">
           <div className="flex h-full w-full items-center justify-between">

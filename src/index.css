@@ -22,20 +22,6 @@
     display:block;
   }
 
-  .test{
-    position: relative;
-  }
 
-  .test::after{
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background-color: blue;
-    width: 40px;
-    height: 1px;
-  }
-
-
-
+  
   

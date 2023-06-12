@@ -36,7 +36,7 @@ function Trading() {
     dispatch(fetchPropertyRows());
     dispatch(
       storeOrderInfo({
-        propertyId: 55,
+        propertyId: 1,
       })
     );
     dispatch(fetchPropertyQuery(""));

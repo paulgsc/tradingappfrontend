@@ -17,7 +17,8 @@ import Index from "./screens/banking/Index";
 import LinkAccount from "./screens/plaid/LinkAccount";
 import Transactions from "./screens/profile/Transactions";
 import NotFound404 from "./components/notFound/NotFound404";
-import { historyPaths } from "./constants/routes/routes";
+import { adminPaths, historyPaths } from "./constants/routes/routes";
+import AdminPage from "./screens/admin/AdminPage";
 
 function App() {
   return (
@@ -71,6 +72,14 @@ function App() {
               exact
               path={`/personal${path}`}
               element={<Transactions />}
+            />
+          ))}
+          {adminPaths.map((path, index) => (
+            <Route
+              key={index}
+              exact
+              path={`/${path}`}
+              element={<AdminPage />}
             />
           ))}
           <Route exact path="/personal/banking" element={<Index />} />

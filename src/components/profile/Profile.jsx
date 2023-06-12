@@ -3,9 +3,9 @@ import ProfileMenu from "./ProfileMenu";
 
 function Profile({ user, className }) {
   return (
-    <div className="prof-focus ">
+    <div className="prof-focus">
       <span
-        className={`flex items-center justify-center cursor-pointer uppercase bg-teal-600 rounded-full w-12 h-12 text-white ${className}`}
+        className={`flex items-center justify-center cursor-pointer uppercase bg-teal-600 rounded-full w-9 h-9 text-white ${className}`}
         tabIndex="0"
       >
         {user}

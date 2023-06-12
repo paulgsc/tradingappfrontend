@@ -8,12 +8,6 @@ import { useSelector } from "react-redux";
 import ProfilePopUp from "../../components/ui/ProfilePopUp";
 import { centerScreenPopUp } from "../../styles/events";
 
-const openMenu = (e) => {
-  e.preventDefault();
-  const Main = document.getElementById("Main");
-  Main.classList.toggle("hidden");
-};
-
 function SideMenu() {
   const { userInfo: { username = "", url = "" } = {} } = useSelector(
     (state) => state.userAuth
