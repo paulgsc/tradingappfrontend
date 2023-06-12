@@ -63,8 +63,7 @@ function App() {
         <Route element={<AuthRoute />}>
           <Route exact path="/personal" element={<ProfileScreen />} />
           <Route exact path="/personal/balances" element={<ProfileScreen />} />
-<<<<<<< HEAD
-=======
+
           {historyPaths.map((path, index) => (
             <Route
               key={index}
@@ -81,7 +80,7 @@ function App() {
               element={<AdminPage />}
             />
           ))}
->>>>>>> dev
+
           <Route exact path="/personal/banking" element={<Index />} />
           <Route
             exact
