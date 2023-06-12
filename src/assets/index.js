@@ -22,6 +22,7 @@ import housePic_7 from './roomSeven.jpg';
 import housePic_8 from './roomEight.jpg';
 import housePic_9 from './roomNine.jpg';
 import notFound from './404img.jpg';
+import siteLogo1 from './siteLogoOne.png';
 
 
 export {
@@ -49,4 +50,5 @@ export {
   housePic_8,
   housePic_9,
   notFound,
+  siteLogo1,
 };

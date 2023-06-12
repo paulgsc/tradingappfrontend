@@ -1,5 +1,6 @@
 import API from "../../../api/django";
-import { plaidAuthCreatePymtIntentSuccessful, plaidAuthExchangeTokenSuccessful, plaidAuthFailure, plaidAuthGetInfoSuccessful, plaidAuthRequest, plaidAuthRequestTokenSuccessful, plaidCreateTransferFailed, plaidGetLinkedAccountFailed, plaidGetLinkedAccountInfoSuccess, plaidSetAmountFailure, plaidSetTransferAmount, plaidCreateTransferSuccessful, plaidGetTransferStatusSuccessful, plaidUpdatePymtIntentSuccessful } from "../../../reducers/plaidAuthReducer";
+import { plaidAuthCreatePymtIntentSuccessful, plaidAuthExchangeTokenSuccessful, plaidAuthFailure, plaidAuthGetInfoSuccessful, plaidAuthRequest, plaidAuthRequestTokenSuccessful, plaidCreateTransferFailed, plaidGetLinkedAccountFailed, plaidGetLinkedAccountInfoSuccess, plaidSetAmountFailure, plaidSetTransferAmount, plaidCreateTransferSuccessful, plaidGetTransferStatusSuccessful, plaidUpdatePymtIntentSuccessful, plaidUnLinkAccountSuccess, plaidUnLinkAccountFailed, plaidSimulateTransferEventSuccess, plaidSimulateTransferEventFailed } from "../../../reducers/plaidAuthReducer";
+import { fetchSummary, fetchTransfers } from "./fetchDataActions";
 
 
 export const initiatePlaid = (initiationType) => async (dispatch, getState) => {
@@ -348,6 +349,7 @@ export const authorizeAndCreateTransfer = () => async (dispatch, getState) => {
                 description: "",
                 type: "",
                 transferStatus: response.data,
+                transferAuthSuccess: true,
             }
         }))
         await dispatch(getTransferStatus())
@@ -358,6 +360,79 @@ export const authorizeAndCreateTransfer = () => async (dispatch, getState) => {
             plaidInfo: {
                 linkToken: null,
             },
+        }));
+    }
+}
+
+export const unlinkBankAccount = (accountIds) => async (dispatch, getState) => {
+
+    dispatch(plaidAuthRequest({
+        fetchingData: true
+    }));
+    try{
+        const {
+            userAuth: { userInfo: { token } },
+            
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const formdata = {
+            account_ids: accountIds,
+        }
+        
+        const response = await API.post(
+            "users/banking/plaid-unlink-bank/",
+            formdata,
+            config,
+        )
+        await dispatch(plaidUnLinkAccountSuccess(response.data))
+
+       
+    }catch (error){
+        dispatch(plaidUnLinkAccountFailed(error.message));
+    }
+}
+
+export const simulateTransferEvent = (eventData) => async (dispatch, getState) => {
+
+    dispatch(plaidAuthRequest({
+        loadingRequest: true
+    }));
+    try{
+        const {
+            userAuth: { userInfo: { token } },
+            
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        
+        const response = await API.post(
+            "users/banking/plaid/sandbox/simulate_event/",
+            eventData,
+            config,
+        )
+        await dispatch(fetchTransfers())
+        await dispatch(fetchSummary())
+        dispatch(plaidSimulateTransferEventSuccess({
+            loadingRequest: false,
+        }))
+        
+
+       
+    }catch (error){
+        dispatch(plaidSimulateTransferEventFailed({
+            error: error.message,
+            loadingRequest: false,
         }));
     }
 }

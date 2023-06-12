@@ -59,7 +59,7 @@ const keyPad = [
   },
 ];
 
-function KeyPad({ amount, setAmount }) {
+function KeyPad({ amount, setAmount, maxAmount }) {
   const dispatch = useDispatch();
 
   const handleClick = (e) => {
@@ -79,7 +79,7 @@ function KeyPad({ amount, setAmount }) {
     } else if (clickedValue === ".") {
       if (amount.includes(".")) return;
       setAmount(amount + e.target.innerText);
-    } else if (parseFloat(amount + clickedValue) > 5000) {
+    } else if (parseFloat(amount + clickedValue) > maxAmount) {
       return;
     } else if (amount.includes(".")) {
       const [intPart, decimalPart] = amount.split(".");

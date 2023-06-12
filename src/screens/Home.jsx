@@ -3,9 +3,9 @@ import Navbar from "../components/navbar/Navbar";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchTransactions } from "../contexts/redux/actions/fetchDataActions";
-import Disclaimer from "../components/bottom/Disclaimer";
 import Index from "../components/hero/Index";
 import NavbarItems from "../components/navbar/menubar/NavbarItems";
+import Footer from "../components/bottom/Footer";
 
 function Home() {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function Home() {
       <Navbar showMenu={true} Menubar={NavbarItems} />
       <div className="z-10 w-full">
         <Index />
-        <Disclaimer />
+        <Footer />
       </div>
     </div>
   );

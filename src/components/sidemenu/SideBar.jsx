@@ -1,104 +1,93 @@
 import React from "react";
-import PlaceHolder from "../loading/PlaceHolder";
+import { siteLogo1 } from "../../assets";
 import CustomSvg from "../ui/CustomSvg";
+import PlaceHolder from "../loading/PlaceHolder";
+import { adminMenuItems } from "../../constants/sidemenu/sideMenu";
 import { Link } from "react-router-dom";
-import "./sidebar.css";
 
-function SideBar({ sideMenuItems, sideMenuNavs }) {
-  const showMenu = (e) => {
+const Sidebar = () => {
+  const activeLink =
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";
+  const normalLink =
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
+
+  const showMenu = () => {};
+
+  const openMenu = (e) => {
     e.preventDefault();
-    if (e.target.id.includes("icon")) {
-      const icon = document.getElementById(e.target.id);
-      const lastChar = icon.id[icon.id.length - 1];
-      const menu = document.getElementById(`menu${lastChar}`);
-      if (icon) icon.classList.toggle("rotate-180");
-      if (menu) menu.classList.toggle("hidden");
-    } else {
-      const menu = document.getElementById(`menu${e.target.id}`);
-      const lastChar = menu.id[menu.id.length - 1];
-      const icon = document.getElementById(`icon${lastChar}`);
-      if (icon) icon.classList.toggle("rotate-180");
-      if (menu) menu.classList.toggle("hidden");
-    }
   };
 
   return (
-    <div
-      id="Main"
-      className=" wd-12vw hidden bg-container-gr-600 full-ht-container start-container-flx-st ht-container-100h"
+    <aside
+      id="admin-sidebar"
+      className="hidden z-50 absolute top-0 w-72 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto bg-white"
     >
-      <div className=" ">
-        <div className="bm-brd-container flx-al-ct-container">
-          <div className="flx-al-ct-container">
-            <div>
-              <img className="rounded-full" src="" alt="avatar" />
-            </div>
+      <Sidebar.Logo openMenu={openMenu} />
+      <Sidebar.MenuItems
+        adminMenuItems={adminMenuItems}
+        chooseMenu={showMenu}
+      />
+    </aside>
+  );
+};
 
-            <div className="">
-              <p className="">name / email</p>
-            </div>
-          </div>
-          <PlaceHolder.Icon className={""} name="brush" />
-        </div>
-      </div>
-      <div className="flex-col-container bm-brd-container margin-rt-lft-container-1">
-        {sideMenuNavs.map((item, index) => (
-          <Link to={item.path} key={`icon-menu${index}`}>
-            <button
-              key={item.id}
-              className="btn-container-zero flx-al-ct-container txt-container-wt "
-            >
-              <PlaceHolder.Icon className={"fill-stroke"} name={item.icon} />
-              <p className="">{item.title}</p>
-            </button>
-          </Link>
-        ))}
-      </div>
-      {sideMenuItems.map((menuItems, menuIndex) => {
-        return (
-          <div
-            key={menuItems.id}
-            className=" bm-brd-container margin-rt-lft-container-1"
+Sidebar.Logo = ({ openMenu }) => (
+  <div className="flex items-center text-center justify-center px-1 py-2 w-full h-20 rounded-sm">
+    <div className="ml-3 w-10">
+      <button
+        onClick={openMenu}
+        aria-label="open"
+        id="admin-hamburger-menu"
+        className="h-full focus:outline-none cursor-pointer"
+      >
+        <CustomSvg.HamburgerMenu />
+      </button>
+    </div>
+    <img src={siteLogo1} className="object-cover h-full w-full" />
+  </div>
+);
+
+Sidebar.MenuItems = ({ adminMenuItems, showMenu }) => (
+  <>
+    {adminMenuItems.map((menuItems, menuIndex) => {
+      return (
+        <div key={menuItems.id} className="flex flex-col w-full">
+          <button
+            chooselick={showMenu}
+            id={menuIndex + 1}
+            className="flex items-center border-b border-black w-full h-12 px-10 hover:bg-gray-300 hover:text-black dark:hover:bg-gray-70"
           >
-            <button
-              onClick={showMenu}
-              id={menuIndex + 1}
-              className=" btn-container-zero flx-al-ct-container txt-container-wt"
+            <div
+              className="flex items-center flex-grow h-full w-full"
+              id={`gap${menuIndex + 1}`}
             >
               <p className="" id={menuIndex + 1}>
                 {menuItems.title}
               </p>
-              <CustomSvg.Arrow
-                id={`icon${menuIndex + 1}`}
-                className="transform rotate-180"
-              />
-            </button>
-            <div
-              id={`menu${menuIndex + 1}`}
-              className="hidden margin-rt-lft-container-1"
-            >
-              {menuItems.content.map((item, itemIndex) => (
-                <div key={`menu-item${itemIndex}`}>
-                  <Link to={item.path} key={`c${itemIndex}`}>
-                    <button
-                      className="btn-container-zero flx-al-ct-container"
-                      key={`c${itemIndex}`}
-                    >
-                      <PlaceHolder.Icon
-                        className={item.className}
-                        name={item.icon}
-                      />
-                      <p className="">{item.title}</p>
-                    </button>
-                  </Link>
-                </div>
-              ))}
             </div>
+          </button>
+          <div
+            id={`menu${menuIndex + 1}`}
+            className=" dark:bg-gray-800 shadow-inner w-full"
+          >
+            {menuItems.content.map((item, itemIndex) => (
+              <div key={`menu-item${itemIndex}`} className="w-full">
+                <Link to={item.path} key={`c${itemIndex}`} className="flex">
+                  <button className="flex w-full items-center  gap-4 pl-12 py-2 text-black hover:bg-indigo-200 hover:text-white dark:hover:bg-gray-70">
+                    <PlaceHolder.Icon
+                      className={item.className}
+                      name={item.icon}
+                    />
+                    <p className="">{item.title}</p>
+                  </button>
+                </Link>
+              </div>
+            ))}
           </div>
-        );
-      })}
-    </div>
-  );
-}
+        </div>
+      );
+    })}
+  </>
+);
 
-export default SideBar;
+export default Sidebar;

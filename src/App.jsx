@@ -15,6 +15,11 @@ import Trading from "./screens/tradingportal/Trading";
 import Index from "./screens/banking/Index";
 import LinkAccount from "./screens/plaid/LinkAccount";
 import NotFound404 from "./components/notFound/NotFound404";
+<<<<<<< HEAD
+=======
+import { adminPaths, historyPaths } from "./constants/routes/routes";
+import AdminPage from "./screens/admin/AdminPage";
+>>>>>>> dev
 
 function App() {
   return (
@@ -61,6 +66,25 @@ function App() {
         <Route element={<AuthRoute />}>
           <Route exact path="/personal" element={<ProfileScreen />} />
           <Route exact path="/personal/balances" element={<ProfileScreen />} />
+<<<<<<< HEAD
+=======
+          {historyPaths.map((path, index) => (
+            <Route
+              key={index}
+              exact
+              path={`/personal${path}`}
+              element={<Transactions />}
+            />
+          ))}
+          {adminPaths.map((path, index) => (
+            <Route
+              key={index}
+              exact
+              path={`/${path}`}
+              element={<AdminPage />}
+            />
+          ))}
+>>>>>>> dev
           <Route exact path="/personal/banking" element={<Index />} />
           <Route
             exact

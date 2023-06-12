@@ -9,6 +9,7 @@ const plaidAuthentification = createSlice({
         description: "",
         type: "",
         linkSuccess: false,
+        transferAuthSuccess: false,
         isItemAccess: true,
         isPaymentInitiation: false,
         linkToken: "", // Don't set to null or error message will show up briefly when site loads
@@ -16,6 +17,7 @@ const plaidAuthentification = createSlice({
         backend: true,
         products: ["transactions"],
         request_id: "",
+        transferStatus: "",
         linkTokenError: {
             error_type: "",
             error_code: "",
@@ -24,7 +26,7 @@ const plaidAuthentification = createSlice({
     } },
     reducers: {
         plaidAuthRequest(state, action){
-            return {...state, loading: true };
+            return {...state, loading: true, ...action.payload };
         },
         plaidAuthGetInfoSuccessful(state, action){
             return {  ...state, plaidInfo: { ...state.plaidInfo, ...action.payload.plaidInfo }, loading: false };
@@ -53,7 +55,19 @@ const plaidAuthentification = createSlice({
         plaidGetLinkedAccountInfoSuccess(state, action){
             return { ...state, loading: false, linkedAcct: action.payload };
         },
+        plaidUnLinkAccountSuccess(state, action){
+            return { ...state, loading: false, unlinkResponse: action.payload, fetchingData: false };
+        },
+        plaidSimulateTransferEventSuccess(state, action){
+            return { ...state, loading: false, ...action.payload };
+        },
+        plaidSimulateTransferEventFailed(state, action){
+            return { ...state, loading: false, ...action.payload };
+        },
         plaidGetLinkedAccountFailed(state, action){
+            return { ...state, loading: false, error: action.payload, fetchingData: false };
+        },
+        plaidUnLinkAccountFailed(state, action){
             return { ...state, loading: false, error: action.payload };
         },
         plaidCreateTransferFailed(state, action){
@@ -98,9 +112,13 @@ export const {
     plaidSetTransferAmount,
     plaidGetTransferStatusSuccessful,
     plaidCreateTransferSuccessful,
+    plaidUnLinkAccountSuccess,
     plaidGetLinkedAccountFailed,
     plaidGetLinkedAccountInfoSuccess,
+    plaidSimulateTransferEventSuccess,
+    plaidSimulateTransferEventFailed,
     userLogoutPlaid,
+    plaidUnLinkAccountFailed,
     plaidSetAmountFailure,
     plaidCreateTransferFailed,
 } = plaidAuthentification.actions;

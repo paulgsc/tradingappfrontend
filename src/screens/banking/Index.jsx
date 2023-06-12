@@ -19,10 +19,16 @@ import {
   getTransferStatus,
   initiatePlaid,
   setTransferAmount,
+  unlinkBankAccount,
 } from "../../contexts/redux/actions/plaidActions";
+import { FramerNotifications } from "../../components/animation/Framer";
+import Dropdown from "../../components/ui/Dropdown";
+import SkeletonLoading from "../../components/loading/SkeletonLoading";
+import { validate } from "uuid";
 
 const Index = () => {
   const [amount, setAmount] = useState("0");
+  const [maxAmount, setMaxAmount] = useState(5000);
   const [transferTo, setTransferTo] = useState("");
   const [transferFrom, setTransferFrom] = useState("");
   const [transferFromId, setTransferFromId] = useState("");
@@ -36,11 +42,13 @@ const Index = () => {
 
   const {
     linkedAccounts = [],
-    summary: { transfer_remaining = "" } = {},
+    summary: { transfer_remaining = "", transfer_pending = "" } = {},
     history = [],
   } = useSelector((state) => state.fetchData);
   const {
     loading,
+    fetchingData = false,
+    unlinkResponse = "",
     plaidInfo: { transferAmount },
   } = useSelector((state) => state.plaid);
 
@@ -98,6 +106,11 @@ const Index = () => {
     toggleLaunchTransfer(false);
   };
 
+  const handleUnlink = (accountId) => {
+    const accountIds = [accountId];
+    dispatch(unlinkBankAccount(accountIds));
+  };
+
   useEffect(() => {
     const validateAmount = () => {
       const amountInt = parseInt(amount);
@@ -110,15 +123,32 @@ const Index = () => {
       }
       ToggleDisabledBtn(false);
     };
+
     validateAmount();
   }, [amount, transferFrom, transferTo]);
+
+  useEffect(() => {
+    const validateMaxAmount = () => {
+      transferFrom === "brokerage"
+        ? setMaxAmount(transfer_remaining)
+        : setMaxAmount(5000);
+
+      if (
+        transferFrom === "brokerage" &&
+        parseFloat(amount) > parseFloat(maxAmount)
+      ) {
+        setAmount("0");
+      }
+    };
+    validateMaxAmount();
+  }, [transferFrom, maxAmount]);
 
   useEffect(() => {
     dispatch(fetchLinkedAccounts());
     dispatch(fetchSummary());
     dispatch(fetchTransfers());
     dispatch(getTransferStatus());
-  }, [dispatch]);
+  }, [dispatch, fetchingData]);
 
   return (
     <div className="flex flex-col h-screen gap-2">
@@ -140,6 +170,7 @@ const Index = () => {
                   handleExitTransfer={handleExitTransfer}
                   amount={amount}
                   setAmount={setAmount}
+                  maxAmount={maxAmount}
                 />
               </>
             )}
@@ -149,9 +180,15 @@ const Index = () => {
             <Index.LinkedAcct
               handleNewAccount={handleNewAccount}
               linkedAccounts={linkedAccounts}
+              handleUnlink={handleUnlink}
+              fetchingData={fetchingData}
+              loading={loading}
             />
 
-            <Index.Balance transferRemaining={transfer_remaining} />
+            <Index.Balance
+              transferRemaining={transfer_remaining}
+              transferPending={transfer_pending}
+            />
             <Index.Transfers />
           </div>
         )}
@@ -228,7 +265,13 @@ C232.322,328.536,236.161,330,240,330s7.678-1.464,10.607-4.394c5.858-5.858,5.858-
   </nav>
 );
 
-Index.LinkedAcct = ({ linkedAccounts, handleNewAccount }) => (
+Index.LinkedAcct = ({
+  linkedAccounts,
+  handleNewAccount,
+  handleUnlink,
+  loading,
+  fetchingData,
+}) => (
   <div className="flex flex-col w-full gap-2 items-center">
     <div className="flex w-11/12">
       <h1 className=" text-base lg:text-xl font-bold">Linked accounts</h1>
@@ -237,18 +280,31 @@ Index.LinkedAcct = ({ linkedAccounts, handleNewAccount }) => (
       {linkedAccounts.map((acct, index) => (
         <li
           key={index}
-          className="flex flex-col justify-end items-start border-b h-16 w-11/12 text-base font-medium text-gray-800"
+          className="flex justify-between items-center border-b h-16 w-11/12 text-base font-medium text-gray-800"
         >
-          <span> {acct?.official_name}</span>
+          {loading && fetchingData ? (
+            <Index.UnlinkSkelton />
+          ) : (
+            <>
+              {" "}
+              <div className="flex flex-col ">
+                <span> {acct?.official_name}</span>
 
-          <span className="text-sm text-gray-400">
-            {acct?.type}
+                <span className="text-sm text-gray-400">
+                  {acct?.type}
 
-            {acct?.mask}
-          </span>
+                  {acct?.mask}
+                </span>
+              </div>
+              <Index.UnlinkWidget
+                unlinkAccountId={acct.id}
+                handleUnlink={handleUnlink}
+              />
+            </>
+          )}
         </li>
       ))}
-      <li className="flex w-11/12 h-16">
+      <li className="flex items-center justify-between w-11/12 h-16">
         <button
           onClick={handleNewAccount}
           className="flex items-center w-full gap-1 text-base lg:text-xl font-semibold text-gray-500"
@@ -279,7 +335,44 @@ Index.LinkedAcct = ({ linkedAccounts, handleNewAccount }) => (
   </div>
 );
 
-Index.Balance = ({ transferRemaining }) => (
+Index.UnlinkWidget = ({ handleUnlink, unlinkAccountId }) => (
+  <div className="relative">
+    <Dropdown
+      icon={
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-8 w-8  bg-tranparent"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <circle cx="10" cy="4" r="1.5" />
+          <circle cx="10" cy="10" r="1.5" />
+          <circle cx="10" cy="16" r="1.5" />
+        </svg>
+      }
+      menu={
+        <ul className="absolute -top-2 right-10 py-1">
+          <li>
+            <button
+              onClick={() => handleUnlink(unlinkAccountId)}
+              className="block px-4 py-2 text-gray-800 rounded-md bg-gray-200 dark:text-white hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700"
+            >
+              Unlink
+            </button>
+          </li>
+        </ul>
+      }
+    />
+  </div>
+);
+
+Index.UnlinkSkelton = () => (
+  <div>
+    <SkeletonLoading size={0} />
+  </div>
+);
+
+Index.Balance = ({ transferRemaining, transferPending }) => (
   <div className="flex flex-col w-full gap-2 items-center mb-2 mt-2 ">
     <div className="w-11/12 m-1 shadow-sm border-r">
       <div className="flex w-11/12">
@@ -294,7 +387,7 @@ Index.Balance = ({ transferRemaining }) => (
       <div className="flex items-end justify-between w-11/12 h-10 border-b">
         <span className="ml-10 text-base">Pending deposits</span>
         <span className="mr-20 text-base">
-          {currency(transferRemaining).format()}
+          {currency(transferPending).format()}
         </span>
       </div>
     </div>
@@ -348,6 +441,7 @@ Index.Tabs = ({
     {
       id: "tab_2",
       title: "notifications",
+      icon: <FramerNotifications notifications={2} />,
       content: <Index.Notifications />,
     },
   ];
@@ -543,7 +637,7 @@ Index.Summary = ({
   </div>
 );
 
-Index.KeyPad = ({ handleExitTransfer, amount, setAmount }) => (
+Index.KeyPad = ({ handleExitTransfer, amount, setAmount, maxAmount }) => (
   <div className="flex flex-col w-full">
     <div className="flex justify-end mr-2">
       <button
@@ -568,8 +662,59 @@ Index.KeyPad = ({ handleExitTransfer, amount, setAmount }) => (
         <span className="sr-only">Close modal</span>
       </button>
     </div>
-    <KeyPad amount={amount} setAmount={setAmount} />
+    <KeyPad amount={amount} setAmount={setAmount} maxAmount={maxAmount} />
   </div>
 );
+
+<Dropdown
+  icon={
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-8 w-8  bg-tranparent"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <circle cx="10" cy="4" r="1.5" />
+      <circle cx="10" cy="10" r="1.5" />
+      <circle cx="10" cy="16" r="1.5" />
+    </svg>
+  }
+  menu={
+    <ul className="py-1">
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+        >
+          Pending Orders
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+        >
+          Recurring
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+        >
+          Completed
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+        >
+          Canceled
+        </a>
+      </li>
+    </ul>
+  }
+/>;
 
 export default Index;

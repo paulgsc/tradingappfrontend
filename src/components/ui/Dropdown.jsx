@@ -32,7 +32,7 @@ function Dropdown({ icon, menu }) {
       </button>
 
       {isOpen && (
-        <div>
+        <div className=" border bg-gray-100 z-50 rounded-md ">
           <Dropdown.Menu menu={menu} />
         </div>
       )}

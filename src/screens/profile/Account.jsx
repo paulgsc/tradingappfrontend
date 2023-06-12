@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PortfolioChart from "./PortfolioChart";
+import { BsChatLeft } from "react-icons/bs";
+import { RiNotification3Line } from "react-icons/ri";
 import SideMenu from "./SideMenu";
 import CustomSvg from "../../components/ui/CustomSvg";
 import NavbarLogo from "../../components/navbar/navlogo/NavbarLogo";
@@ -22,6 +24,7 @@ function Account() {
     summary: {
       amount_purchased = "",
       transfer_remaining = "",
+      transfer_pending = "",
       transfers_total = "",
     } = {},
     sharesData = [],
@@ -64,7 +67,7 @@ function Account() {
         <Account.Subtitle
           amount_purchased={amount_purchased}
           transfer_remaining={transfer_remaining}
-          unsettled_funds={transfer_remaining}
+          unsettled_funds={transfer_pending}
         />
         <div className="hidden items-center justify-center h-[2/5-screen] w-full mb-4 rounded bg-gray-50 dark:bg-gray-800">
           <PortfolioChart />
@@ -78,22 +81,31 @@ function Account() {
 }
 
 Account.Nav = ({ openMenu, profileInitial }) => (
-  <nav className="fixed top-0 z-50 w-full bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+  <nav className="fixed top-0 z-40 w-full bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="px-3 py-3 lg:px-5 lg:pl-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center justify-start">
           <button
-            aria-label="open"
-            id="open"
-            className="account-top-section-menu-btn"
             onClick={openMenu}
+            aria-label="open"
+            id="hamburger-menu"
+            className="h-full focus:outline-none cursor-pointer"
           >
             <CustomSvg.HamburgerMenu />
           </button>
           <NavbarLogo />
         </div>
-        <div className="flex items-center">
-          <div className="flex items-center ml-3">
+        <div className="flex items-center text-center w-40">
+          <div className="flex items-center justify-between w-full ml-3">
+            <div className="relative">
+              <span className=" bg-[red] absolute inline-flex rounded-full h-[6px] lg:h-2 w-[6px] lg:w-2 -right-1 -top-1" />
+              <BsChatLeft className=" w-4 h-4 lg:w-6 lg:h-6  bg-inherit text-[#5AFF7A]" />
+            </div>
+            <div className="relative">
+              <span className=" bg-[red] absolute inline-flex rounded-full h-[6px] lg:h-2 w-[6px] lg:w-2 right-0 -top-1" />
+              <RiNotification3Line className="w-4 h-4 lg:w-6 lg:h-6 text-[#5AFF7A]" />
+            </div>
+
             <div>
               <Profile user={profileInitial} />
             </div>
