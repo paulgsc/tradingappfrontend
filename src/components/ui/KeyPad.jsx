@@ -81,8 +81,6 @@ function KeyPad({ amount, setAmount, maxAmount }) {
       setAmount(amount + e.target.innerText);
     } else if (parseFloat(amount + clickedValue) > maxAmount) {
       return;
-    } else if (parseFloat(amount) > maxAmount) {
-      setAmount(maxAmount);
     } else if (amount.includes(".")) {
       const [intPart, decimalPart] = amount.split(".");
       if (decimalPart.length >= 2) return;
