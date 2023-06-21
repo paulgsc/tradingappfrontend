@@ -10,7 +10,7 @@ function Profile({ user, className }) {
       >
         {user}
       </span>
-      <div className="prof-menu absolute top-16 right-10  rounded p-0 m-0  text-center items-center">
+      <div className="hidden prof-menu focus:block absolute top-16 right-10  rounded p-0 m-0  text-center items-center">
         <ProfileMenu />
       </div>
     </div>

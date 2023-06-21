@@ -1,18 +1,38 @@
 import React, { useState } from "react";
-import HomeIcon from "@mui/icons-material/Home";
+import {
+  getRedirectResult,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  RecaptchaVerifier,
+} from "firebase/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import GoogleSignIn from "../ui/GoogleSignIn";
-import { login } from "../../contexts/redux/actions/userActions";
+import { gmailLogin, login } from "../../contexts/redux/actions/userActions";
+
+import { GoogleIcon } from "../../constants/svgs/Svg";
+import { auth, handleSignInWithGoogle } from "../../../firebase";
+import {
+  useCurrentUser,
+  useRecaptcha,
+  verifyUserMFA,
+} from "../../hooks/firebase-hooks";
+import { CodeSignIn } from "../multifactorOauth/CodeSignIn";
+import { notify } from "../../lib/utils";
+import SkeletonLoading from "../loading/SkeletonLoading";
+import { Toaster } from "react-hot-toast";
 
 const Login = () => {
+  const recaptcha = useRecaptcha("sign-in");
+  const [verificationId, setVerificationId] = useState();
+  const [resolver, setResolver] = useState();
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [firebaseError, setFirebaseError] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [alert, toggleAlert] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { userInfo: { token = "" } = {}, error = null } = useSelector(
     (state) => state.userAuth
@@ -20,11 +40,32 @@ const Login = () => {
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
-  const handleGoBack = (e) => {
-    e.preventDefault();
-    navigate(-1);
-  };
+  async function handleMFA(response) {
+    const recaptchaVerifier = new RecaptchaVerifier(
+      "sign-in",
+      {
+        size: "invisible",
+      },
+      auth
+    );
+    console.log("did this ran?");
+    if (recaptchaVerifier) {
+      try {
+        const data = await verifyUserMFA(response, recaptchaVerifier, 0);
+        const { verificationId, resolver } = data;
+        setVerificationId(verificationId);
+        setResolver(resolver);
+        recaptchaVerifier.clear();
+      } catch (error) {
+        throw error;
+      }
+    }
+  }
 
+  const handleGmail = async () => {
+    const result = await handleSignInWithGoogle();
+    setFirebaseError(result);
+  };
   const handleLogin = (e) => {
     e.preventDefault();
     if (email && password) {
@@ -42,177 +83,139 @@ const Login = () => {
     }
   }, [token, redirect]);
 
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <Login.Nav handleGoBack={handleGoBack} />
-      <div className="flex items-center justify-center h-full w-full ">
-        <div className="grid grid-cols-9 w-full h-full items-stretch justify-center">
-          <div className="invisible col-span-3 flex flex-col items-center justify-center ">
-            +
-          </div>
-          <div className="col-span-3 flex flex-col items-center justify-center w-full bg-transparent ">
-            <div className="flex flex-col items-center justify-center shadow-lg rounded-md lg:w-3/5 xl:w-[45%]">
-              <div className="invisible grid grid-rows-1 items-center justify-center">
-                Logo
-              </div>
-              <div className="flex w-4/5 xl:w-3/5">
-                <Login.Oauth />
-              </div>
-              <div className="invisible grid grid-rows-1 items-center justify-center">
-                +
-              </div>
-              <div className="flex w-4/5 xk:w-3/5">
-                <Login.Input setEmail={setEmail} setPassword={setPassword} />
-              </div>
-              <div className="invisible grid grid-rows-1 h-6 xl:h-10 items-center justify-center">
-                +
-              </div>
-              <div className="flex w-4/5 xk:w-3/5">
-                <Login.Submit handleLogin={handleLogin} />
-              </div>
-              <div className="invisible grid h-4 items-center justify-center">
-                +
-              </div>
-              <div className=" grid grid-rows-1 items-center justify-center">
-                <Link to={`/register/?redirect=${redirect}`} className="">
-                  <p className="text-xs xl:text-sm font-medium text-blue-800">
-                    Don't have an account yet?
-                  </p>
-                </Link>
-              </div>
-              <div className="invisible grid grid-rows-1 items-center justify-center">
-                +
-              </div>
-            </div>
-          </div>
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        dispatch(gmailLogin(user));
+      }
+      if (firebaseError) {
+        if (firebaseError.code === "auth/web-storage-unsupported") {
+          notify("Something went wrong!");
+          return;
+        }
+        if (firebaseError.code === "auth/multi-factor-auth-required") {
+          handleMFA(firebaseError);
+          return;
+        }
+        console.log(firebaseError.code);
+      }
+    });
 
-          <div className="invisible flex flex-col items-center justify-center">
-            +
-          </div>
+    return () => unsubscribe();
+  }, [firebaseError]);
+
+  if (resolver && verificationId) {
+    return (
+      <CodeSignIn
+        verificationId={verificationId}
+        resolver={resolver}
+        redirect={redirect}
+      />
+    );
+  }
+
+  return (
+    <>
+      {loading ? (
+        <div className="min-h-sceen flex items-center justify-center">
+          <SkeletonLoading.Basic />
         </div>
-      </div>
-    </div>
-  );
-};
-
-Login.Nav = ({ handleGoBack }) => {
-  return (
-    <div>
-      <nav className="fixed flex items-center justify-start top-0 w-full bg-transparent">
-        <div className="flex items-center justify-center gap-16 p-6">
-          <div className="flex items-center justify-center text-center border rounded-full h-full w-full px-[14px] py-[12px] xl:px-[14px] xl:py-[14px] border-gray-400 border-opacity-10 hover:bg-gray-100 hover:border-opacity-100">
-            <Link to={"/"}>
-              <HomeIcon
-                sx={{
-                  color: "white",
-                  fill: "black",
-                  width: {
-                    xs: 12,
-                    sm: 16,
-                    md: 16,
-                    lg: 20,
-                  },
-                  height: {
-                    xs: 12,
-                    sm: 16,
-                    md: 16,
-                    lg: 20,
-                  },
+      ) : (
+        <div className="flex flex-col min-h-screen items-center justify-center">
+          <div className="bg-white max-w-xl rounded-xl p-8">
+            <hr className="mt-1" />
+            <Login.Title />
+            <div className="shadow-md rounded-md px-4">
+              <Login.Oauth
+                handleSignInWithGoogle={() => {
+                  setFirebaseError(handleGmail);
                 }}
               />
-            </Link>
-          </div>
+              <hr className="mt-4" />
+              <Login.Input setEmail={setEmail} setPassword={setPassword} />
+              <hr className="mt-8" />
+              <Login.Submit handleLogin={handleLogin} />
 
-          <button
-            className="flex items-center justify-center text-center border rounded-full h-full w-full px-[8px] py-[12px] border-gray-400 border-opacity-10 hover:bg-gray-100 hover:border-opacity-100"
-            onClick={handleGoBack}
-          >
-            <svg
-              fill="inherit"
-              className="h-4 w-6  "
-              version="1.1"
-              id="Layer_1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              viewBox="0 0 330 330"
-              xmlSpace="preserve"
-            >
-              <path
-                id="XMLID_92_"
-                d="M111.213,165.004L250.607,25.607c5.858-5.858,5.858-15.355,0-21.213c-5.858-5.858-15.355-5.858-21.213,0.001
-	l-150,150.004C76.58,157.211,75,161.026,75,165.004c0,3.979,1.581,7.794,4.394,10.607l150,149.996
-	C232.322,328.536,236.161,330,240,330s7.678-1.464,10.607-4.394c5.858-5.858,5.858-15.355,0-21.213L111.213,165.004z"
-              />
-            </svg>
-          </button>
+              <Link to={`/register/?redirect=${redirect}`} className="">
+                <p className="mt-2 h-8 text-xs xl:text-sm font-medium text-blue-800">
+                  Don't have an account yet?
+                </p>
+              </Link>
+            </div>
+          </div>
+          <div id="sign-in"></div>
+          <Toaster />
         </div>
-      </nav>
-    </div>
+      )}
+    </>
   );
 };
 
-Login.ContentGrid = () => (
-  <div className="flex flex-col items-center justify-center h-full w-full flex-1 p-2 bg-gray-600">
-    <div className="grid grid-cols-9 w-full h-full items-stretch justify-center">
-      <div className="invisible col-span-3 flex flex-col items-center justify-center ">
-        +
-      </div>
-      <div className="col-span-3 flex flex-col items-center justify-center bg-transparent">
-        +
-      </div>
-      <div className="invisible flex flex-col items-center justify-center">
-        +
-      </div>
-    </div>
-  </div>
+Login.Title = () => (
+  <h2 className="py-6 text-3xl font-bold text-center text-gray-800">
+    Welcome back
+  </h2>
 );
 
-Login.Oauth = () => (
-  <div className="flex flex-col w-full px-2">
-    <div className="flex items-center justify-center w-full">
-      <GoogleSignIn />
-    </div>
+Login.Oauth = ({ handleSignInWithGoogle }) => (
+  <>
+    <button
+      onClick={handleSignInWithGoogle}
+      className="rounded-md flex gap-x-4 mb-2 text-black h-11 w-full items-center justify-center px-6 border-indigo-200 border"
+    >
+      <span className="relative text-sm font-semibold">Sign in with</span>
+      <GoogleIcon className="w-6 h-6" />
+    </button>
     <div className="flex items-center w-full">
-      <div className="flex-1 w-full h-0.5 bg-gray-400 mr-2"></div>
+      <div className="flex-1 w-full h-0.5 bg-gray-300 mr-2"></div>
       <p className="text-sm xl:text-base text-gray-400 dark:text-gray-500">
         or
       </p>
-      <div className="flex-1 w-full h-0.5 bg-gray-400 ml-2"></div>
+      <div className="flex-1 w-full h-0.5 bg-gray-300 ml-2"></div>
     </div>
-  </div>
+  </>
 );
 
 Login.Input = ({ setEmail, setPassword }) => (
-  <div className="flex flex-col gap-4 items-center justify-center w-full">
-    <div className="flex flex-col items-end text-end w-full h-8">
+  <div className="space-y-4">
+    <div className="relative flex items-center">
+      <div className="w-6 h-6 absolute left-4 inset-y-0 my-auto" />
       <input
         type="email"
         name="email"
         id="email"
         onChange={(e) => setEmail(e.target.value)}
         onInput={(e) => setEmail(e.target.value)}
-        className=" items-end h-full bg-gray-50 border border-gray-300 text-gray-900 text-sm xl:text-base rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        className="focus:outline-none
+        block w-full rounded-md placeholder-gray-500
+        bg-gray-100 pl-12 pr-4 h-12 text-gray-600 transition
+        duration-300 invalid:ring-2 invalid:ring-red-400
+        focus:ring-2 focus:ring-black"
         placeholder="Enter Email"
         required=""
       />
     </div>
-    <div className="flex flex-col items-end text-end w-full h-8">
-      <input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="••••••••"
-        onChange={(e) => setPassword(e.target.value)}
-        onInput={(e) => setPassword(e.target.value)}
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm xl:text-base rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full h-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        required={true}
-      />
+    <hr className="mt-6" />
+    <div className="space-y-4 my-6">
+      <div className="relative flex items-center">
+        <div className="w-6 h-6 absolute left-4 inset-y-0 my-auto" />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="••••••••"
+          onChange={(e) => setPassword(e.target.value)}
+          onInput={(e) => setPassword(e.target.value)}
+          className="focus:outline-none block w-full rounded-md placeholder-gray-500 bg-gray-100 pl-12 pr-4 h-12 text-gray-600 transition duration-300 invalid:ring-2 invalid:ring-red-400 focus:ring-2 focus:ring-black"
+          required={true}
+        />
+      </div>
     </div>
   </div>
 );
 
 Login.Submit = ({ handleLogin }) => (
-  <div className=" w-full">
+  <div className="w-full">
     <button
       type="button"
       onClick={handleLogin}

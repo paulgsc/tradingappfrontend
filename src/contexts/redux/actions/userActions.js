@@ -4,6 +4,7 @@ import API from '../../../api/django';
 import { userLogoutPlaid } from "../../../reducers/plaidAuthReducer";
 import { userLogOutClearData } from "../../../reducers/fetchDataReducers";
 import { clearTradeInfoOnLogout } from "../../../reducers/tradingReducers";
+import { firebaseLogout } from "../../../hooks/firebase-hooks";
 
 
 function generatePassword(length) {
@@ -65,20 +66,30 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
     dispatch(userLoginWithGmailRequest());
 
     try{
-        dispatch(userLoginWithGmailSuccessful({
-            userInfo: {
-                gmailInfo,
-            }
-        }))
+
         const {
             email = "",
-            password = "blank",
+            uid = "blank",
+            displayName = "", metadata = {}, photoURL = "", providerId = "" 
           } = gmailInfo
+
+          dispatch(userLoginWithGmailSuccessful(
+      {gmailInfo : {
+        email: email,
+        uid: uid,
+        displayName: displayName,
+       
+        photoURL: photoURL,
+        providerId: providerId,
+        ...metadata,
+      }}
+             ))
+
           const formdata = {
             username: email,
-            password: password,
+            password: uid,
           }
-     
+  
         
         const config = {
             headers: {
@@ -133,22 +144,20 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
             }
         }))
 
-        const password = generatePassword(10);
 
         const {
             email = "",
-            family_name = "",
-            given_name = "",
-            name = "",
-            picture = "",
+            displayName = "",
+            uid = "",
+            photoURL = "",
           } = gmailInfo
           const formdata = {
             email: email,
             username: email,
-            first_name: given_name,
-            last_name: family_name,
-            photoUrl: picture,
-            password: password,
+            first_name: displayName,
+            last_name: displayName,
+            photoUrl: photoURL,
+            password: uid,
           }
      
           dispatch(register(formdata));
@@ -178,7 +187,9 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
  
 }}
 
-export const logout = ()  => (dispatch) => {
+export const logout = ()  => async (dispatch, getState)  => {
+    const { userAuth: { userInfo: { gmailInfo = "" } = {}  } = {} } = getState()
+    firebaseLogout()
     localStorage.removeItem('userInfo');
     localStorage.removeItem('link_token');
     dispatch(userLogoutPlaid());

@@ -1,4 +1,6 @@
 
+import toast from "react-hot-toast";
+
 export function cn(...inputs) {
     const classes = inputs.filter((input) => input != null && input !== false);
     return classes.join(" ");
@@ -27,3 +29,12 @@ export const popupStyles = (element) => {
   element.style.zIndex = "1000";
 }
 
+
+
+export function notify(message) {
+  toast(message, {
+    className: 'bg-orange-600 text-white mb-12 w-72',
+    duration: 5000,
+    position: 'bottom-right',
+  });
+}

@@ -86,42 +86,10 @@ export const adminMenuItems = [
     {
         id: 'side_1',
         title: 'Dashboard',
-        content: [
-            {
-                id: 'side_1-1',
-                icon: "notification",
-                className: "fill-stroke",
-                title: "Messages",
-                subtitle: "",
-                path: "/personal",
-            },
-            {
-                id: 'side_1-2',
-                icon: "history",
-                className: "",
-                title: "Settings",
-                subtitle: "Account Activities",
-                path: "/personal/history",
-            },
-
-        ]
+        path: '/admin',
+        content: [],
     },
-    {
-
-        id: 'side_2',
-        title: 'Accounts',
-        content: [
-            {
-                id: 'side_2-1',
-                icon: "securityKey",
-                className: "",
-                title: "Transfers",
-                subtitle: "",
-                path: '/personal/balances'
-            },
-
-        ]
-    },
+   
     {
 
         id: 'side_3',
@@ -146,23 +114,7 @@ export const adminMenuItems = [
 
         ]
     },
-    {
-
-        id: 'side_4',
-        title: 'Metrics',
-        content: [
-            {
-                id: 'side_4-1',
-                icon: "securityKey",
-                className: "",
-                title: "Security and password",
-                subtitle: "",
-                path: "/personal/register",
-
-            }
-
-        ]
-    },
+   
 ]
 
 export const sideMenuNavs = [

@@ -21,11 +21,14 @@ function GoogleSignIn() {
 
     google.accounts.id.renderButton(
       document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" } // customization attributes
+      {
+        theme: "outline",
+        width: 100,
+      } // customization attributes
     );
   }, []);
 
-  return <div id="buttonDiv"></div>;
+  return <div className="" id="buttonDiv"></div>;
 }
 
 export default GoogleSignIn;
