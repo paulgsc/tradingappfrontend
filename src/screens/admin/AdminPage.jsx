@@ -4,14 +4,18 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
 import Sidebar from "../../components/sidemenu/SideBar";
-import Timeline from "../../components/ui/Timeline";
-import { useLocation } from "react-router";
+import Timeline from "./Timeline";
+import { useLocation, useParams } from "react-router";
 import Forms from "../../components/ui/Forms";
 import TableModels from "./TableModels";
+import Dashbaord from "./Dashbaord";
+import Tasks from "./Tasks";
+import TaskStatusPage from "../../components/tasks/Status";
 
 function AdminPage() {
   const [isActive, setIsActive] = useState(false);
   const location = useLocation();
+  const { id: taskId, lineId } = useParams();
   const {
     summary: {
       amount_purchased = "",
@@ -70,10 +74,22 @@ function AdminPage() {
     <div className="h-screen flex flex-col">
       <Sidebar />
       <Account.Nav openMenu={openAdminMenu} profileInitial={profileInitial} />
+      {location.pathname === "/admin" && <Dashbaord />}
       {location.pathname === "/admin/timeline" && <Timeline />}
-      <div className="mt-14">
-        <TableModels />
-      </div>
+      {location.pathname.includes("admin/site/models") && (
+        <div className="mt-14">
+          <TableModels />
+        </div>
+      )}
+      {location.pathname === `/admin/timeline/task/${taskId}` && (
+        <TaskStatusPage />
+      )}
+      {location.pathname ===
+        `/admin/timeline/task/${taskId}/taskline/${lineId}` && (
+        <div className="mt-14">
+          <Tasks />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,14 @@
 import React, { useMemo } from "react";
 import { useTable, useSortBy, useFilters } from "react-table";
+import { cn } from "../../lib/utils";
 
-function Table({ columnData, history, ColumnFilter }) {
+function Table({
+  columnData,
+  history,
+  ColumnFilter,
+  getClassName,
+  handleScroll = () => {},
+}) {
   const data = useMemo(() => history, [history]);
 
   const columns = useMemo(() => columnData, []);
@@ -23,16 +30,16 @@ function Table({ columnData, history, ColumnFilter }) {
     tableInstance;
 
   return (
-    <div className="flex flex-col w-full gap-2">
-      <div className="flex w-full">
+    <div className={getClassName("table")}>
+      <div className="flex w-full  justify-center items-center">
         {headerGroups.map((headerGroup) => (
           <div
-            className="flex justify-between w-full border-b"
+            className={`${getClassName("header-row")}`}
             {...headerGroup.getHeaderGroupProps()}
           >
             {headerGroup.headers.map((column) => (
               <div
-                className="flex justify-start items-center w-1/3 font-bold text-base"
+                className={`${getClassName("header")}`}
                 {...column.getHeaderProps(column.getSortByToggleProps())}
               >
                 {column.render("Header")}
@@ -47,27 +54,28 @@ function Table({ columnData, history, ColumnFilter }) {
                     ""
                   )}
                 </span>
-                <div>{column.canFilter ? column.render("Filter") : null}</div>
+                <div>{column.hasFilter ? column.render("Filter") : null}</div>
               </div>
             ))}
           </div>
         ))}
       </div>
       {history.length ? (
-        <div className="flex flex-col w-full " {...getTableBodyProps()}>
+        <div
+          className={getClassName("tbody")}
+          {...getTableBodyProps()}
+          onScroll={handleScroll}
+        >
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <div
-                className="flex justify-between w-full"
-                {...row.getRowProps()}
-              >
+              <div className={`${getClassName("row")}`} {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <div
-                    className="flex items-center justify-start lg:h-10 w-full border-b border-gray-300 text-sm"
+                    className={`${getClassName("cell")}`}
                     {...cell.getCellProps()}
                   >
-                    <span className="w-full">{cell.render("Cell")}</span>
+                    <span className="m-2 w-full">{cell.render("Cell")}</span>
                   </div>
                 ))}
               </div>
@@ -80,6 +88,10 @@ function Table({ columnData, history, ColumnFilter }) {
     </div>
   );
 }
+
+Table.Headers = ({ className, ...props }) => (
+  <div className={cn(className)} {...props} />
+);
 
 Table.EmptyBody = () => (
   <div className="flex flex-col items-center justify-center border shadow-sm w-full h-32 xl:h-40 bg-gray-50">

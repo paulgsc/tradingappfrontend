@@ -37,6 +37,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PeopleIcon from '@mui/icons-material/People';
 
 import { createCampaign, dashboard, logout, payment, profile, withdraw } from '../../assets';
 
@@ -75,6 +76,7 @@ export const Icons = {
     brush: BrushIcon,
     history: HistoryIcon,
     faceIcon: AddReactionIcon,
+    people: PeopleIcon,
 }
 
 

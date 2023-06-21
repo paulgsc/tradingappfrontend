@@ -8,6 +8,7 @@ import { adminfetchPropertyData } from "../../contexts/redux/actions/adminFetchD
 import { adminGetSelectedPropertyById } from "../../contexts/redux/selectors/propertySelectors";
 import { useLocation, useNavigate } from "react-router";
 import { adminSelectedRecordId } from "../../reducers/adminFetchDataReducers";
+import { Link } from "react-router-dom";
 
 function TableModels() {
   const dispatch = useDispatch();
@@ -36,6 +37,8 @@ function TableModels() {
     (state) => adminGetSelectedPropertyById(state, parseInt(recordId) || ""),
     shallowEqual
   );
+
+  const handleRecordChange = () => {};
 
   const handleRecordClick = (e, propertyId) => {
     e.preventDefault();
@@ -69,7 +72,7 @@ function TableModels() {
         </div>
       )}
       {location.pathname === "/admin/site/models/record/form-view" && (
-        <div>
+        <div className="w-full">
           <Forms.Icons />
           <Forms.OpenView
             property_address={property_address}
@@ -83,6 +86,7 @@ function TableModels() {
             initial_profits={initial_profits}
             final_profits={final_profits}
             users={users}
+            handleRecordChange={handleRecordChange}
           />
         </div>
       )}
@@ -134,16 +138,34 @@ TableModels.Models = () => {
   const columns = [
     {
       Header: "App Models",
-      accessor: (row) => row.title,
+      Cell: ({ row }) => (
+        <Link to={"/admin/site/models"}>{row.original.title}</Link>
+      ),
       Filter: ColumnFilter,
     },
   ];
+  const getClassName = (componentType) => {
+    switch (componentType) {
+      case "header-row":
+        return "flex justify-center w-full bg-[#79aec8] shadow-md";
+      case "header":
+        return "flex flex-col flex-col-reverse justify-center text-start w-11/12 text-base xl:text-lg text-white ";
+      case "row":
+        return "flex justify-center w-full";
+      case "cell":
+        return "flex items-center w-11/12 h-8 text-sm text-base font-bold text-[#447e9b] hover:underline";
+      default:
+        return "";
+    }
+  };
+
   return (
-    <aside className="hidden md:block sticky left-0 h-screen w-72 border-r shadow-md">
+    <aside className="md:block sticky left-0 h-screen w-72 border-r shadow-md">
       <Table
         history={models}
         columnData={columns}
         ColumnFilter={ColumnFilter}
+        getClassName={getClassName}
       />
     </aside>
   );
@@ -201,12 +223,28 @@ TableModels.Records = ({ propertyData, handleRecordClick }) => {
       </div>
     ),
   }));
+
+  const getClassName = (componentType) => {
+    switch (componentType) {
+      case "header-row":
+        return "flex justify-center w-full bg-[#79aec8] shadow-md";
+      case "header":
+        return "flex flex-col flex-col-reverse justify-center text-start w-11/12 text-base xl:text-lg text-white ";
+      case "row":
+        return "flex justify-center w-full";
+      case "cell":
+        return "flex items-center w-11/12 h-8 text-sm text-base font-bold text-[#447e9b] hover:underline";
+      default:
+        return "";
+    }
+  };
   return (
     <div className="w-full mx-4">
       <Table
         history={propertyData}
         columnData={updatedColumns}
         ColumnFilter={ColumnFilter}
+        getClassName={getClassName}
       />
     </div>
   );

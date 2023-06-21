@@ -20,7 +20,7 @@ const Sidebar = () => {
   return (
     <aside
       id="admin-sidebar"
-      className="hidden z-50 absolute top-0 w-72 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto bg-white"
+      className="hidden z-50 fixed flex-1  w-72 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto bg-white"
     >
       <Sidebar.Logo openMenu={openMenu} />
       <Sidebar.MenuItems
@@ -61,9 +61,7 @@ Sidebar.MenuItems = ({ adminMenuItems, showMenu }) => (
               className="flex items-center flex-grow h-full w-full"
               id={`gap${menuIndex + 1}`}
             >
-              <p className="" id={menuIndex + 1}>
-                {menuItems.title}
-              </p>
+              <Link to={menuItems?.path}>{menuItems.title}</Link>
             </div>
           </button>
           <div

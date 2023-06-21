@@ -15,5 +15,7 @@ export const adminPaths = [
     '/admin',
     '/admin/site/models',
     'admin/timeline',
+    'admin/timeline/task/:id',
+    'admin/timeline/task/:id/taskline/:lineId',
     '/admin/site/models/record/form-view',
 ]

@@ -11,7 +11,12 @@ const renderLists = (data) => {
   while (index < data.length) {
     const listItems = data
       .slice(index, index + 3)
-      .map((item, i) => <li key={i}>{item}</li>);
+
+      .map((item, i) => (
+        <div className="flex flex-wrap" key={i}>
+          {item}
+        </div>
+      ));
 
     lists.push(
       <div key={index} className="flex-1 py-5 pl-5 overflow-hidden">

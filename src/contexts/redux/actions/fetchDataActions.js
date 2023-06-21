@@ -1,5 +1,5 @@
 import API from "../../../api/django";
-import { fetchOrdersByProperty, fetchOrdersByPropertyFailed, fetchSharesDataFailed, fetchSharesDataSuccessful, fetchSummaryDataSuccessful, fetchUserLinkedAccountsFailed, fetchUserLinkedAccountsSusccess, propertyTradeDataRequestFailed, propertyTradeDataRequestSuccess, userOrdersDataRequestFailure, userOrdersDataRequestSuccessful, userRequestData, userSummaryDataRequestFailure, userTransactionsDataRequestFailure, userTransactionsDataRequestSuccessful, userTransferDataRequestSuccessful, userTransfersDataRequestFailure } from "../../../reducers/fetchDataReducers"
+import { fetchOrdersByProperty, fetchOrdersByPropertyFailed, fetchSharesDataFailed, fetchSharesDataSuccessful, fetchSummaryDataSuccessful, fetchUserLinkedAccountsFailed, fetchUserLinkedAccountsSusccess, fetchUserNotificationsFailed, fetchUserNotificationsSuccess, propertyTradeDataRequestFailed, propertyTradeDataRequestSuccess, userOrdersDataRequestFailure, userOrdersDataRequestSuccessful, userRequestData, userSummaryDataRequestFailure, userTransactionsDataRequestFailure, userTransactionsDataRequestSuccessful, userTransferDataRequestSuccessful, userTransfersDataRequestFailure } from "../../../reducers/fetchDataReducers"
 
 export const fetchTransactions = () => async (dispatch, getState) => {
     dispatch(userRequestData());
@@ -218,3 +218,41 @@ export const fetchPropertyQuery = (searchQuery) => async (dispatch) => {
       dispatch(propertyTradeDataRequestFailed(error.message));
     }
   };
+
+  export const fetchNotificationsForUser = (  page = 1,
+    pageSize = 4,
+    maxPageSize = 5) => async (dispatch, getState) => {
+    dispatch(userRequestData({
+        loadingNotifications: true,
+    }));
+    try{
+        const {
+            userAuth: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            },
+            params: {
+               page,
+               page_size: pageSize,
+               max_page_size: maxPageSize, 
+            },
+        }
+        const response = await API.get(
+            'users/notifications/',
+            config,
+        )
+       
+        dispatch(fetchUserNotificationsSuccess({
+            notifications: response.data.notifications,
+            count: response.data.notifications_count,
+        }));
+
+
+    }catch (error){
+        dispatch(fetchUserNotificationsFailed(error.message));
+    }
+}
