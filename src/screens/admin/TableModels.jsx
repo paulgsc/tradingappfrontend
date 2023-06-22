@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { adminfetchPropertyData } from "../../contexts/redux/actions/adminFetchDataAction";
 import { adminGetSelectedPropertyById } from "../../contexts/redux/selectors/propertySelectors";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { adminSelectedRecordId } from "../../reducers/adminFetchDataReducers";
 import { Link } from "react-router-dom";
 
@@ -14,6 +14,7 @@ function TableModels() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const { adminHash } = useParams();
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
 
   const { propertyData = [], recordId = "" } = useSelector(
@@ -45,7 +46,7 @@ function TableModels() {
     setSelectedPropertyId(propertyId);
     dispatch(adminSelectedRecordId(propertyId));
     localStorage.setItem("selectedPropertyId", propertyId);
-    navigate("/admin/site/models/record/form-view");
+    navigate(`/admin/site/models/record/form-view`);
   };
 
   useEffect(() => {
@@ -53,7 +54,7 @@ function TableModels() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (location.pathname !== "/admin/site/models/record/form-view") {
+    if (location.pathname !== `/admin/site/models/record/form-view`) {
       // Clear the stored selectedPropertyId when navigating away from the form-view page
       localStorage.removeItem("selectedPropertyId");
     }
@@ -62,7 +63,7 @@ function TableModels() {
   return (
     <div className="flex mt-2">
       <TableModels.Models />
-      {location.pathname === "/admin/site/models" && (
+      {location.pathname === `/admin/site/models` && (
         <div>
           <TableModels.Header />
           <TableModels.Records
@@ -71,7 +72,7 @@ function TableModels() {
           />
         </div>
       )}
-      {location.pathname === "/admin/site/models/record/form-view" && (
+      {location.pathname === `/admin/site/models/record/form-view` && (
         <div className="w-full">
           <Forms.Icons />
           <Forms.OpenView

@@ -6,7 +6,7 @@ const userInfoFromStorage = localStorage.getItem('userInfo') ?
 
 const userAuthentification = createSlice({
   name: "userAuth",
-  initialState: { access: false, loading: false, userInfo: { ...userInfoFromStorage } },
+  initialState: { adminHash: null, access: false, loading: false, userInfo: { ...userInfoFromStorage } },
   reducers: {
     userRegistration(state, action) {
       return { ...state, loading: true };
@@ -43,6 +43,9 @@ const userAuthentification = createSlice({
     userProtectedView(state, action) {
       return { ...state, loading: false, access: true };
     },
+    adminProtectedView(state, action){
+      return { ...state, loading: false, adminHash: action.payload }
+    },
   },
 });
 
@@ -54,6 +57,7 @@ export const {
   userLoginWithGmailRequest,
   userLoginSuccess,
   userProtectedView,
+  adminProtectedView,
   userLoginWithGmailSuccessful,
   userRegisterWithGmailSuccessful,
   userLoginFailure,
