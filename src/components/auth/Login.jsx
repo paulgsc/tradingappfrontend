@@ -97,7 +97,6 @@ const Login = () => {
           handleMFA(firebaseError);
           return;
         }
-        console.log(firebaseError.code);
       }
     });
 
