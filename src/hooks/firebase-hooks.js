@@ -16,17 +16,21 @@ export function useRecaptcha(componentId) {
     const [recaptcha, setRecaptcha] = useState();
 
     useEffect(() => {
+      try {
         const recaptchaVerifier = new RecaptchaVerifier(componentId, {
-            size: "invisible"
-          }, auth);
-          
-
+          size: "invisible"
+        }, auth);
+    
         setRecaptcha(recaptchaVerifier);
-
+    
         return () => {
-            recaptchaVerifier.clear();
-        }
+          recaptchaVerifier.clear();
+        };
+      } catch (error) {
+        
+      }
     }, [componentId]);
+    
 
     return recaptcha;
 }
@@ -57,11 +61,15 @@ export function useCurrentUser() {
   );
 
   useEffect(() => {
+   try {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
     });
 
     return () => unsubscribe();
+   } catch (error) {
+    
+   }
   }, []);
 
   return currentUser;

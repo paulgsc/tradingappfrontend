@@ -41,25 +41,27 @@ const Login = () => {
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   async function handleMFA(response) {
-    const recaptchaVerifier = new RecaptchaVerifier(
-      "sign-in",
-      {
-        size: "invisible",
-      },
-      auth
-    );
-    console.log("did this ran?");
-    if (recaptchaVerifier) {
-      try {
-        const data = await verifyUserMFA(response, recaptchaVerifier, 0);
-        const { verificationId, resolver } = data;
-        setVerificationId(verificationId);
-        setResolver(resolver);
-        recaptchaVerifier.clear();
-      } catch (error) {
-        throw error;
+    try {
+      const recaptchaVerifier = new RecaptchaVerifier(
+        "sign-in",
+        {
+          size: "invisible",
+        },
+        auth
+      );
+      console.log("did this ran?");
+      if (recaptchaVerifier) {
+        try {
+          const data = await verifyUserMFA(response, recaptchaVerifier, 0);
+          const { verificationId, resolver } = data;
+          setVerificationId(verificationId);
+          setResolver(resolver);
+          recaptchaVerifier.clear();
+        } catch (error) {
+          throw error;
+        }
       }
-    }
+    } catch (error) {}
   }
 
   const handleGmail = async () => {
@@ -84,23 +86,25 @@ const Login = () => {
   }, [token, redirect]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        dispatch(gmailLogin(user));
-      }
-      if (firebaseError) {
-        if (firebaseError.code === "auth/web-storage-unsupported") {
-          notify("Something went wrong!");
-          return;
+    try {
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          dispatch(gmailLogin(user));
         }
-        if (firebaseError.code === "auth/multi-factor-auth-required") {
-          handleMFA(firebaseError);
-          return;
+        if (firebaseError) {
+          if (firebaseError.code === "auth/web-storage-unsupported") {
+            notify("Something went wrong!");
+            return;
+          }
+          if (firebaseError.code === "auth/multi-factor-auth-required") {
+            handleMFA(firebaseError);
+            return;
+          }
         }
-      }
-    });
+      });
 
-    return () => unsubscribe();
+      return () => unsubscribe();
+    } catch (error) {}
   }, [firebaseError]);
 
   if (resolver && verificationId) {
