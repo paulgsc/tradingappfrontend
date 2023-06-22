@@ -1,5 +1,4 @@
-
-import {  initializeApp } from 'firebase/app'
+import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
 import 'firebase/auth';
 import { GoogleAuthProvider, browserSessionPersistence, getAuth, setPersistence, signInWithPopup, signInWithRedirect } from 'firebase/auth';
@@ -16,28 +15,42 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase app
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const storage = getStorage(app);
-const provider = new GoogleAuthProvider();
-setPersistence(auth, browserSessionPersistence);
+let app;
+try {
+  app = initializeApp(firebaseConfig);
+} catch (error) {
+  console.error('Error initializing Firebase app:', error);
+  // Handle the error gracefully (e.g., display a message to the user)
+}
+
+let auth;
+let storage;
+let provider;
+
+if (app) {
+  auth = getAuth(app);
+  storage = getStorage(app);
+  provider = new GoogleAuthProvider();
+  setPersistence(auth, browserSessionPersistence);
+}
 
 const handleSignInWithGoogle = async () => {
-          // Handle the sign-in with popup
-          try {
-            await signInWithPopup(auth, new GoogleAuthProvider());
-            return true;
-        }catch (error) {
-            return error;
-        }
-  
+  try {
+    if (!auth) {
+      throw new Error('Firebase app not initialized');
+    }
+
+    // Handle the sign-in with popup
+    await signInWithPopup(auth, new GoogleAuthProvider());
+    return true;
+  } catch (error) {
+    console.error('Error signing in with Google:', error);
+    return error;
+  }
 };
-
-
 
 const verifyRecaptcha = () => {
   // Recaptcha verification logic goes here
 };
-
 
 export { auth, storage, handleSignInWithGoogle, verifyRecaptcha };
