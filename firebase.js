@@ -16,23 +16,25 @@ const firebaseConfig = {
 
 // Initialize Firebase app
 let app;
+
+
+let auth;
+let storage;
+let provider;
 try {
   app = initializeApp(firebaseConfig);
 } catch (error) {
   console.error('Error initializing Firebase app:', error);
   // Handle the error gracefully (e.g., display a message to the user)
+  if (app) {
+    auth = getAuth(app);
+    storage = getStorage(app);
+    provider = new GoogleAuthProvider();
+    setPersistence(auth, browserSessionPersistence);
+  }
+  
 }
 
-let auth;
-let storage;
-let provider;
-
-if (app) {
-  auth = getAuth(app);
-  storage = getStorage(app);
-  provider = new GoogleAuthProvider();
-  setPersistence(auth, browserSessionPersistence);
-}
 
 const handleSignInWithGoogle = async () => {
   try {
