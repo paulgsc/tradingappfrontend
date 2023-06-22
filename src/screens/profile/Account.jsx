@@ -5,7 +5,7 @@ import { RiNotification3Line } from "react-icons/ri";
 import SideMenu from "./SideMenu";
 import CustomSvg from "../../components/ui/CustomSvg";
 import NavbarLogo from "../../components/navbar/navlogo/NavbarLogo";
-import { useLocation } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchSummary,
@@ -15,10 +15,12 @@ import PropertyShares from "../../components/tables/PropertyShares";
 import Profile from "../../components/profile/Profile";
 import currency from "currency.js";
 import OrderHistory from "../../components/tables/OrderHistory";
+import { accessAdminView } from "../../contexts/redux/actions/userActions";
 
 function Account() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     summary: {
@@ -32,7 +34,7 @@ function Account() {
     loading,
   } = useSelector((state) => state.fetchData);
 
-  const { userInfo: { token = "" } = {} } = useSelector(
+  const { adminHash = null, userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
 
@@ -55,11 +57,17 @@ function Account() {
   useEffect(() => {
     dispatch(fetchSummary());
     dispatch(fetchShares());
+    dispatch(accessAdminView());
   }, []);
 
   return (
     <div className="bg-gray-50 h-screen w-full flex flex-col flex-1">
-      <Account.Nav openMenu={openMenu} profileInitial={profileInitial} />
+      <Account.Nav
+        openMenu={openMenu}
+        profileInitial={profileInitial}
+        adminHash={adminHash}
+        navigate={navigate}
+      />
       <Account.SideMenu />
 
       <div className="flex flex-col w-full h-full py-4 rounded-lg dark:border-gray-700 mt-14 z-60">
@@ -80,7 +88,7 @@ function Account() {
   );
 }
 
-Account.Nav = ({ openMenu, profileInitial }) => (
+Account.Nav = ({ openMenu, profileInitial, adminHash, navigate }) => (
   <nav className="fixed top-0 z-40 w-full bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="px-3 py-3 lg:px-5 lg:pl-3">
       <div className="flex items-center justify-between">
@@ -95,8 +103,18 @@ Account.Nav = ({ openMenu, profileInitial }) => (
           </button>
           <NavbarLogo />
         </div>
-        <div className="flex items-center text-center w-40">
+        <div className="flex items-center text-center w-72">
           <div className="flex items-center justify-between w-full ml-3">
+            <div className="flex items-center w-20">
+              <button
+                className="font-bold text-sm underline"
+                onClick={() => {
+                  adminHash && navigate(`/admin/${adminHash}`);
+                }}
+              >
+                admin
+              </button>
+            </div>
             <div className="relative">
               <span className=" bg-[red] absolute inline-flex rounded-full h-[6px] lg:h-2 w-[6px] lg:w-2 -right-1 -top-1" />
               <BsChatLeft className=" w-4 h-4 lg:w-6 lg:h-6  bg-inherit text-[#5AFF7A]" />

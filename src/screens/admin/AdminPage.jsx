@@ -5,8 +5,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Sidebar from "../../components/sidemenu/SideBar";
 import Timeline from "./Timeline";
-import { useLocation, useParams } from "react-router";
-import Forms from "../../components/ui/Forms";
+import { useLocation, useNavigate, useParams } from "react-router";
 import TableModels from "./TableModels";
 import Dashbaord from "./Dashbaord";
 import Tasks from "./Tasks";
@@ -16,6 +15,7 @@ function AdminPage() {
   const [isActive, setIsActive] = useState(false);
   const location = useLocation();
   const { id: taskId, lineId } = useParams();
+  const navigate = useNavigate();
   const {
     summary: {
       amount_purchased = "",
@@ -27,7 +27,7 @@ function AdminPage() {
     loading,
   } = useSelector((state) => state.fetchData);
 
-  const { userInfo: { token = "" } = {} } = useSelector(
+  const { adminHash = null, userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
 
@@ -70,13 +70,14 @@ function AdminPage() {
       setProfileInitial(initLetter());
     }
   }, [token]);
+
   return (
     <div className="h-screen flex flex-col">
       <Sidebar />
       <Account.Nav openMenu={openAdminMenu} profileInitial={profileInitial} />
-      {location.pathname === "/admin" && <Dashbaord />}
-      {location.pathname === "/admin/timeline" && <Timeline />}
-      {location.pathname.includes("admin/site/models") && (
+      {location.pathname === `/admin` && <Dashbaord />}
+      {location.pathname === `/admin/timeline` && <Timeline />}
+      {location.pathname.includes(`/admin/site/models`) && (
         <div className="mt-14">
           <TableModels />
         </div>

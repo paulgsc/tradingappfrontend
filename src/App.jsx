@@ -16,6 +16,7 @@ import Transactions from "./screens/profile/Transactions";
 import NotFound404 from "./components/notFound/NotFound404";
 import { adminPaths, historyPaths } from "./constants/routes/routes";
 import AdminPage from "./screens/admin/AdminPage";
+import AdminRoute from "./components/auth/AdminRoute";
 
 function App() {
   return (
@@ -71,14 +72,6 @@ function App() {
               element={<Transactions />}
             />
           ))}
-          {adminPaths.map((path, index) => (
-            <Route
-              key={index}
-              exact
-              path={`/${path}`}
-              element={<AdminPage />}
-            />
-          ))}
           <Route exact path="/personal/banking" element={<Index />} />
           <Route
             exact
@@ -91,6 +84,16 @@ function App() {
             path="/personal/banking/link/:redirect?"
             element={<LinkAccount />}
           />
+        </Route>
+        <Route element={<AdminRoute />}>
+          {adminPaths.map((path, index) => (
+            <Route
+              key={index}
+              exact
+              path={`/${path}`}
+              element={<AdminPage />}
+            />
+          ))}
         </Route>
         <Route exact path="/*" element={<NotFound404 />} />
       </Routes>
