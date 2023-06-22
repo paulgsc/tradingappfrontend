@@ -13,7 +13,6 @@ const firebaseConfig = {
   appId: "1:515463498483:web:e7b26f52e5c13912dd4586",
   measurementId: "G-ZTLQR5GJ57"
 };
-
 // Initialize Firebase app
 let app;
 
@@ -23,15 +22,15 @@ let storage;
 let provider;
 try {
   app = initializeApp(firebaseConfig);
-} catch (error) {
-  console.error('Error initializing Firebase app:', error);
-  // Handle the error gracefully (e.g., display a message to the user)
   if (app) {
     auth = getAuth(app);
     storage = getStorage(app);
     provider = new GoogleAuthProvider();
     setPersistence(auth, browserSessionPersistence);
   }
+} catch (error) {
+  console.error('Error initializing Firebase app:', error);
+  // Handle the error gracefully (e.g., display a message to the user)
   
 }
 
