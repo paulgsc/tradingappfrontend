@@ -57,13 +57,15 @@ function Register() {
   }, [newUser]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (firebaseError?.code) {
-        notify("Something went wrong!");
-      }
-    });
+    try {
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        if (firebaseError?.code) {
+          notify("Something went wrong!");
+        }
+      });
 
-    return () => unsubscribe();
+      return () => unsubscribe();
+    } catch (error) {}
   }, [firebaseError]);
   if (loading) {
     return (
