@@ -5,13 +5,13 @@ import { GoogleAuthProvider, browserSessionPersistence, getAuth, setPersistence,
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_APP_FIRE_BASE_API_KEY, 
-  authDomain: import.meta.env.VITE_APP_FIRE_BASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_APP_FIRE_BASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_APP_FIRE_BASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_APP_FIRE_BASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_FIRE_BASE_APP_ID,
-  measurementId: import.meta.env.VITE_APP_MEASUREMENT_ID
+  apiKey: "AIzaSyCZGKZzyhWnEjRoscmErhkpN71cD8mVO_o",
+  authDomain: "user-database-44e3b.firebaseapp.com",
+  projectId: "user-database-44e3b",
+  storageBucket: "user-database-44e3b.appspot.com",
+  messagingSenderId: "515463498483",
+  appId: "1:515463498483:web:e7b26f52e5c13912dd4586",
+  measurementId: "G-ZTLQR5GJ57"
 };
 
 // Initialize Firebase app
