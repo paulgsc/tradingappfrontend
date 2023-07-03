@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useTable, useSortBy, useFilters } from "react-table";
+import { useTable, useSortBy, useFilters, useRowSelect } from "react-table";
 import { cn } from "../../lib/utils";
 
 function Table({
@@ -8,10 +8,44 @@ function Table({
   ColumnFilter,
   getClassName,
   handleScroll = () => {},
+  showCheckboxColumn = false,
 }) {
   const data = useMemo(() => history, [history]);
 
-  const columns = useMemo(() => columnData, []);
+  const columns = useMemo(() => {
+    if (!showCheckboxColumn) {
+      return [...columnData];
+    }
+
+    // Add the checkbox column at the beginning if showCheckboxColumn is true
+    const checkboxColumn = {
+      id: "selection",
+      Header: ({ getToggleAllRowsSelectedProps }) => (
+        <>
+          <input
+            type="checkbox"
+            {...getToggleAllRowsSelectedProps({ indeterminate: "false" })}
+          />
+        </>
+      ),
+      Cell: ({ row }) => (
+        <div>
+          <input
+            type="checkbox"
+            {...row.getToggleRowSelectedProps()}
+            indeterminate={
+              row.isSelected && !row.isSomeSelected ? "true" : undefined
+            }
+          />
+        </div>
+      ),
+      disableSortBy: true,
+    };
+
+    const columns = [checkboxColumn, ...columnData];
+
+    return [checkboxColumn, ...columnData];
+  }, [columnData, showCheckboxColumn]);
 
   const defaultColumn = useMemo(
     () => ({
@@ -23,7 +57,8 @@ function Table({
   const tableInstance = useTable(
     { columns, data, defaultColumn },
     useFilters,
-    useSortBy
+    useSortBy,
+    useRowSelect // Add the useRowSelect hook for row selection
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =

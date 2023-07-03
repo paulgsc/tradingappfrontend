@@ -18,7 +18,7 @@ const getClassname = (name) => {
 };
 function Notification({ data, handleRecordClick, handleScroll }) {
   return (
-    <div className="">
+    <>
       <Dropdown
         getClassname={getClassname}
         icon={<Notification.Icon />}
@@ -30,7 +30,7 @@ function Notification({ data, handleRecordClick, handleScroll }) {
           />
         }
       />
-    </div>
+    </>
   );
 }
 
@@ -43,7 +43,7 @@ Notification.Icon = () => (
 
 Notification.Table = ({ notifications, handleScroll, handleRecordClick }) => {
   return (
-    <div className="relative flex flex-col items-center w-96 ">
+    <div className="z-50 bg-zinc-50 relative flex flex-col items-center w-96 ">
       <div className="z-30 bg-white sticky top-0 flex items-center px-4 h-14 w-full ring-2 ring-slate-300 mb-2">
         <span className="flex gap-1">
           {notifications && notifications?.length}{" "}
