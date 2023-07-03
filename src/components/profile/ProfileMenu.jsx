@@ -43,7 +43,10 @@ function ProfileMenu({ user }) {
 
       <ul className="flex flex-col items-start p-0 py-2 m-0">
         {quickActionMenu.map((item) => (
-          <li className="flex items-center py-4 px-0 m-0 w-full" key={item.id}>
+          <li
+            className="flex items-center xl:py-4 py-0 px-0 m-0 w-full"
+            key={item.id}
+          >
             <button
               className="flex items-center text-center gap-4 px-4  space-x-2 hover:bg-gray-200 w-full md:gap-6 md:px-6 lg:gap-8 lg:px-8 xl:gap-10 xl:px-8"
               onClick={(e) =>
