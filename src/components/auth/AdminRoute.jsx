@@ -16,7 +16,7 @@ function AdminRoute() {
       checkLoading(false);
     };
     dispatch(grantAcces());
-  }, [navigate, adminHash]);
+  }, []);
   if (isloading) {
     return <Spinner />;
   } else {

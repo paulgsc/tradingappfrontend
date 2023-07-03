@@ -1,10 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { cn } from "../../lib/utils";
 
-function TabWidget({ active = "Dashboard", tabHeaders = [] }) {
+function TabWidget({
+  active = "Dashboard",
+  tabHeaders = [],
+  getclassName = () => {},
+}) {
+  const navigate = useNavigate;
   const [activeTab, setActiveTab] = useState(active);
 
-  const handleTabClick = (tabId) => {
+  const handleTabClick = (tabId, path = "") => {
     setActiveTab(tabId);
+    path && navigate(path);
   };
 
   const isTabActive = (tabId) => {
@@ -12,28 +20,35 @@ function TabWidget({ active = "Dashboard", tabHeaders = [] }) {
   };
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="w-full mb-4 border-b border-gray-200 dark:border-gray-700">
+    <div
+      className={cn(
+        `${getclassName("main-container")} flex items-end w-full h-full`
+      )}
+    >
+      <div className="w-full h-full ">
         <TabWidget.Header
           handleTabClick={handleTabClick}
           isTabActive={isTabActive}
           tabHeaders={tabHeaders}
         />
-      </div>
-      <div id="myTabContent">
-        {tabHeaders.map((item) => (
-          <div
-            key={item.id}
-            className={`${
-              isTabActive(item.title) ? "" : "hidden"
-            } p-0 py-4 rounded-lg dark:bg-gray-800`}
-            id={item.title}
-            role="tabpanel"
-            aria-labelledby={`${item.title}-tab`}
-          >
-            {item.content}
-          </div>
-        ))}
+        <div
+          id="myTabContent"
+          className="absolute top-14 min-h-screen right-0 inset-0"
+        >
+          {tabHeaders.map((item) => (
+            <div
+              key={item.id}
+              className={`${
+                isTabActive(item.title) ? "" : "hidden"
+              } p-0 py-4 rounded-lg dark:bg-gray-800`}
+              id={item.title}
+              role="tabpanel"
+              aria-labelledby={`${item.title}-tab`}
+            >
+              {item.content}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -41,13 +56,13 @@ function TabWidget({ active = "Dashboard", tabHeaders = [] }) {
 
 TabWidget.Header = ({ isTabActive, handleTabClick, tabHeaders }) => (
   <ul
-    className="w-full flex flex-wrap p-0 m-0 -mb-px text-base font-medium text-center"
+    className="w-full h-full flex flex-wrap p-0 m-0  text-base font-medium text-center"
     role="tablist"
   >
     {tabHeaders.map((item) => (
-      <li className="mr-1 xl:mr-2" role="presentation" key={item.id}>
+      <li className=" mr-1 xl:mr-2" role="presentation" key={item.id}>
         <button
-          className={`inline-block p-2 border-b-2 rounded-t-lg hover:text-blue-600 hover:border-gray-300 dark:hover:text ${
+          className={`h-full inline-block p-2 border-b-2 rounded-t-lg hover:text-blue-600 hover:border-gray-300 dark:hover:text ${
             isTabActive(item.title) ? "border-blue-600" : "border-transparent"
           }`}
           id={`tabs-${item.title}`}
@@ -55,7 +70,11 @@ TabWidget.Header = ({ isTabActive, handleTabClick, tabHeaders }) => (
           role="tab"
           aria-controls={item.title}
           aria-selected={isTabActive(item.title)}
-          onClick={() => handleTabClick(item.title)}
+          onClick={() =>
+            item?.path
+              ? handleTabClick(item.title, item?.path)
+              : handleTabClick(item.title)
+          }
         >
           <div className="flex relative">
             <span>{item.title}</span>

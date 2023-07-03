@@ -1,11 +1,14 @@
 import React from "react";
 import { quickActionMenu } from "../../constants/navbar/profileMenu";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../contexts/redux/actions/userActions";
 import PlaceHolder from "../loading/PlaceHolder";
 
-function ProfileMenu() {
+function ProfileMenu({ user }) {
+  const { userInfo: { email, username } = {}, error = null } = useSelector(
+    (state) => state.userAuth
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleAuthentication = (e, path, id) => {
@@ -18,7 +21,26 @@ function ProfileMenu() {
   };
 
   return (
-    <div className="block text-center items-center justify-center rounded-lg bg-white ">
+    <div className="block w-full text-center items-center justify-center rounded-lg bg-white ">
+      <hr className="w-full border-t h-4 " />
+      <div className="flex justify-center mx-auto w-full h-16 border-b border-gray-400">
+        <div className="flex items-start mx-auto gap-6 w-11/12">
+          <span
+            className={`flex items-center justify-center cursor-pointer uppercase bg-teal-600 rounded-full w-9 h-9 text-white`}
+            tabIndex="0"
+          >
+            {user}
+          </span>
+          <div className="flex flex-col mb-4">
+            <span className="text-xs text-left text-slate-400">{username}</span>
+            <span className="text-base text-left">{email}</span>
+            <span className="text-base text-blue-600 hover:text-blue-800">
+              <Link to={"/personal/settings"}>account settings</Link>
+            </span>
+          </div>
+        </div>
+      </div>
+
       <ul className="flex flex-col items-start p-0 py-2 m-0">
         {quickActionMenu.map((item) => (
           <li className="flex items-center py-4 px-0 m-0 w-full" key={item.id}>

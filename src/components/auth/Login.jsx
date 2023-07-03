@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  getRedirectResult,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  RecaptchaVerifier,
-} from "firebase/auth";
+import { onAuthStateChanged, RecaptchaVerifier } from "firebase/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -12,11 +7,7 @@ import { gmailLogin, login } from "../../contexts/redux/actions/userActions";
 
 import { GoogleIcon } from "../../constants/svgs/Svg";
 import { auth, handleSignInWithGoogle } from "../../../firebase";
-import {
-  useCurrentUser,
-  useRecaptcha,
-  verifyUserMFA,
-} from "../../hooks/firebase-hooks";
+import { useRecaptcha, verifyUserMFA } from "../../hooks/firebase-hooks";
 import { CodeSignIn } from "../multifactorOauth/CodeSignIn";
 import { notify } from "../../lib/utils";
 import SkeletonLoading from "../loading/SkeletonLoading";
@@ -34,11 +25,16 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { userInfo: { token = "" } = {}, error = null } = useSelector(
-    (state) => state.userAuth
-  );
+  const { userInfo: { token = "", is_admin = false } = {}, error = null } =
+    useSelector((state) => state.userAuth);
 
-  const redirect = location.search ? location.search.split("=")[1] : "/";
+  const redirect = location.search
+    ? location.search.split("=")[1] === "/" && is_admin
+      ? "/admin"
+      : location.search.split("=")[1]
+    : is_admin
+    ? "/admin"
+    : "/";
 
   async function handleMFA(response) {
     try {
@@ -49,7 +45,7 @@ const Login = () => {
         },
         auth
       );
-      console.log("did this ran?");
+
       if (recaptchaVerifier) {
         try {
           const data = await verifyUserMFA(response, recaptchaVerifier, 0);

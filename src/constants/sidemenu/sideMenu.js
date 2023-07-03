@@ -125,9 +125,9 @@ export const sideMenuNavs = [
         path: '/trade',
     },
     {
-        title: "Membership",
+        title: "Settings",
         icon: "accountIcon",
         id: 'side-navs_2',
-        path: '/personal',
+        path: '/personal/settings',
     }
 ]

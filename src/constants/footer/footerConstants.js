@@ -31,7 +31,7 @@ export const footerLinks = [
             {
                 id: 'faq_1',
                 title: 'FAQ',
-                path: '/',
+                path: '/faq',
                 link: "",
             },
             {
@@ -43,7 +43,7 @@ export const footerLinks = [
             {
                 id: 'faq_3',
                 title: 'Feedback',
-                path: '/',
+                path: '/contact',
                 link: "",
             },
         ]

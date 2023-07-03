@@ -48,7 +48,7 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
               </p>
               <div className="flex-1 h-0.5 bg-black ml-2"></div>
             </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
+            <div className="flex w-full  items-center justify-center rounded bg-gray-50 dark:bg-gray-800">
               <FlipCard />
             </div>
             <div className="row-span-2"></div>
@@ -65,6 +65,7 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
           <div className="flex fle-col items-center">
             <OrderHistory />
             <Dropdown
+              getClassname={() => {}}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

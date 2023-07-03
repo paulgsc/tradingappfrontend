@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { cn } from "../../lib/utils";
 
-function Dropdown({ icon, menu }) {
+function Dropdown({ icon, menu, getClassname }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -23,7 +24,11 @@ function Dropdown({ icon, menu }) {
   }, []);
 
   return (
-    <div className="dropdown-selector relative inline-block">
+    <div
+      className={cn(
+        `${getClassname("main-container")} dropdown-selector inline-block`
+      )}
+    >
       <button
         className="flex items-center justify-center rounded-md bg-transparent dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 focus:outline-none"
         onClick={toggleDropdown}
@@ -32,7 +37,9 @@ function Dropdown({ icon, menu }) {
       </button>
 
       {isOpen && (
-        <div className=" border  z-50 rounded-md ">
+        <div
+          className={cn(`${getClassname("menu-container")}  z-50 rounded-md `)}
+        >
           <Dropdown.Menu menu={menu} />
         </div>
       )}

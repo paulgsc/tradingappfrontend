@@ -5,7 +5,7 @@ import { menubar } from "../../../constants/navbar/menubar";
 
 function NavbarItems() {
   return (
-    <div className="navbaritems__container">
+    <div className="absolute left-48 ">
       {menubar.map((menu) => (
         <ul key={menu.id} className="navbaritems__menu">
           <li key={menu.id} className="">
