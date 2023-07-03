@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedPropertyById } from "../../contexts/redux/selectors/propertySelectors";
-import { fetchPropertyRows } from "../../contexts/redux/actions/fetchPropertyActions";
 import { useMemo } from "react";
 import { useEffect } from "react";
 import { clearOrderInfo, storeOrderInfo } from "../../reducers/tradingReducers";
@@ -12,8 +11,10 @@ import "./tradeslider.css";
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import Dropdown from "./Dropdown";
+import { notify } from "../../lib/utils";
+import { Toaster } from "react-hot-toast";
 
-function TradeSlider() {
+function TradeSlider({ handleReview }) {
   const {
     orderInfo: {
       amount = "",
@@ -49,6 +50,7 @@ function TradeSlider() {
         isValid: false,
       };
     } else if (buyInShares && inputAmount > available_shares) {
+      notify("Cannot buy more shares than are available");
       return {
         shares: shares,
         amount: amount,
@@ -61,8 +63,10 @@ function TradeSlider() {
       const purchaseAmount =
         parseFloat(inputAmount) * parseFloat(price_per_share);
       if (isNaN(purchaseAmount)) {
+        notify("something went wrong");
         return null;
       } else if (purchaseAmount > transferAmountRemaining) {
+        notify("Not enough funds available!", "bottom-right");
         return {
           shares: shares,
           amount: amount,
@@ -82,6 +86,7 @@ function TradeSlider() {
         };
       }
     } else if (!buyInShares && inputAmount > transferAmountRemaining) {
+      notify("Not enough funds available!", "bottom-right");
       return {
         shares: shares,
         amount: amount,
@@ -95,6 +100,7 @@ function TradeSlider() {
       if (isNaN(sharesAmount)) {
         return null;
       } else if (sharesAmount > available_shares) {
+        notify("Cannot buy more shares than are available", "bottom-right");
         return {
           shares: shares,
           amount: amount,
@@ -210,7 +216,6 @@ function TradeSlider() {
           />
         </div>
       )}
-
       <div className="grid grid-rows-3 items-center w-full gap-2 mb-4">
         <TradeSlider.ManualInput
           amount={buyInShares ? parseInt(shares) || 0 : parseFloat(amount) || 0}
@@ -220,7 +225,6 @@ function TradeSlider() {
           buyInShares={buyInShares}
           pricePerShare={price_per_share}
         />
-
         <div
           id="inputSlider"
           className="flex items-center justify-center rounded h-4/5 dark:bg-gray-800"
@@ -229,6 +233,7 @@ function TradeSlider() {
             className="trade-slider__slider w-3/5"
             type="range"
             min="0"
+            step="1"
             max={maxInput}
             value={
               buyInShares ? parseInt(shares) || 0 : parseFloat(amount) || 0
@@ -237,7 +242,6 @@ function TradeSlider() {
             onMouseDown={handleSliderClick}
           />
         </div>
-
         <div className="flex items-center justify-center rounded h-4/5 dark:bg-gray-800">
           <div className={parseInt(shares) ? "bg-black h-5 w-3/5" : ""}>
             <div
@@ -266,7 +270,18 @@ function TradeSlider() {
             {!!inputAmount && showInputAlert && <TradeSlider.InputAlert />}
           </div>
         </div>
+        <div className="flex items-center justify-center w-full mx-auto my-auto py-6">
+          <button
+            disabled={!amount}
+            onClick={handleReview}
+            className=" h-12 w-24 shadow-sm rounded-md text-white bg-black enabled:hover:bg-blue-600 disabled:opacity-40 enabled:cursor-pointer disabled:cursor-not-allowed"
+          >
+            Review
+          </button>
+        </div>
       </div>
+
+      <Toaster />
     </div>
   );
 }
@@ -305,54 +320,67 @@ TradeSlider.ManualInput = ({
   amount,
   buyInShares,
   pricePerShare,
-}) => (
-  <div
-    id="inputAmount"
-    className="flex items-center justify-between w-full p-2 border-2 rounded-lg border-gray-300"
-  >
-    <div className="flex items-center gap-2">
-      <Dropdown
-        icon={
-          <div>
-            <span className=" flex items-center justify-center bg-gray-400 rounded-md p-2 text-xs xl:text-base text-white">
-              {buyInShares ? "Shares" : "Dollars"}{" "}
-              <i className="fas fa-caret-down ml-2 text-xs"></i>
-            </span>
+}) => {
+  const getClassname = (name) => {
+    switch (name) {
+      case "main-container":
+        return "fixed";
+      case "menu-container":
+        return "absolute -right-6 h-96 overflow-y-auto border";
+      default:
+        return "";
+    }
+  };
+  return (
+    <div
+      id="inputAmount"
+      className="flex items-center justify-between w-full p-2 border-2 rounded-lg border-gray-300"
+    >
+      <div className="flex items-center gap-2">
+        <Dropdown
+          getClassname={() => {}}
+          icon={
+            <div>
+              <span className=" flex items-center justify-center bg-gray-400 rounded-md p-2 text-xs xl:text-base text-white">
+                {buyInShares ? "Shares" : "Dollars"}{" "}
+                <i className="fas fa-caret-down ml-2 text-xs"></i>
+              </span>
+            </div>
+          }
+          menu={
+            <div className=" cursor-pointer absolute justify-center items-center mt-2 w-24 h-10 bg-white rounded-md shadow-lg z-10 hover:bg-stone-200">
+              <ul className="py-1">
+                <li
+                  className="block px-1 text-xs xl:text-base text-center text-gray-800 font-semibold hover:text-blue-600"
+                  onClick={handleMenu}
+                >
+                  {buyInShares ? "Dollars" : "Shares"}
+                </li>
+              </ul>
+            </div>
+          }
+        />
+        {!buyInShares && (
+          <div className="flex items-center gap-1 capitalize text-xs xl:text-base">
+            <span>price</span>
+            <span>{currency(pricePerShare).format()}</span>
           </div>
-        }
-        menu={
-          <div className=" absolute justify-center items-center mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg z-10">
-            <ul className="py-1">
-              <li
-                className="block px-1 text-xs xl:text-bases text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-                onClick={handleMenu}
-              >
-                {buyInShares ? "Dollars" : "Shares"}
-              </li>
-            </ul>
-          </div>
-        }
+        )}
+      </div>
+      <input
+        type="text"
+        name="sharesAmount"
+        autoComplete="off"
+        inputMode="numeric"
+        validation="default"
+        value={!!amount ? amount : ""}
+        onChange={handleInputChange}
+        onClick={handleSliderClick}
+        className=" w-2/3 text-right outline-0 text-black bg-transparent"
       />
-      {!buyInShares && (
-        <div className="flex items-center gap-1 capitalize text-xs xl:text-base">
-          <span>price</span>
-          <span>{currency(pricePerShare).format()}</span>
-        </div>
-      )}
     </div>
-    <input
-      type="text"
-      name="sharesAmount"
-      autoComplete="off"
-      inputMode="numeric"
-      validation="default"
-      value={!!amount ? amount : ""}
-      onChange={handleInputChange}
-      onClick={handleSliderClick}
-      className=" w-2/3 text-right outline-0 text-black bg-transparent"
-    />
-  </div>
-);
+  );
+};
 
 TradeSlider.InputAlert = () => (
   <div className="items-center justify-center">

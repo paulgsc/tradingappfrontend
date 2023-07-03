@@ -25,7 +25,7 @@ function AuthLink() {
     }
   };
 
-  const redirectUri = "http://localhost:5173/personal/banking";
+  const redirectUri = "https://leafiproperties.com/personal/banking";
   const oauthStateId = Math.random().toString(36).substring(2); // Generate a random alphanumeric string
   const config = {
     token: linkToken,

@@ -14,23 +14,24 @@ import Index from "./screens/banking/Index";
 import LinkAccount from "./screens/plaid/LinkAccount";
 import Transactions from "./screens/profile/Transactions";
 import NotFound404 from "./components/notFound/NotFound404";
-import { adminPaths, historyPaths } from "./constants/routes/routes";
+import {
+  adminPaths,
+  historyPaths,
+  homePaths,
+  settingsPaths,
+} from "./constants/routes/routes";
 import AdminPage from "./screens/admin/AdminPage";
 import AdminRoute from "./components/auth/AdminRoute";
+import ProfileSettings from "./screens/profile/ProfileSettings";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <>
-              <Home />
-            </>
-          }
-        />
+        {homePaths.map((path, index) => (
+          <Route key={index} exact path={`/${path}`} element={<Home />} />
+        ))}
+
         <Route
           exact
           path="/listings"
@@ -64,6 +65,15 @@ function App() {
         <Route element={<AuthRoute />}>
           <Route exact path="/personal" element={<ProfileScreen />} />
           <Route exact path="/personal/balances" element={<ProfileScreen />} />
+
+          {settingsPaths.map((path, index) => (
+            <Route
+              key={index}
+              exact
+              path={path}
+              element={<ProfileSettings />}
+            />
+          ))}
           {historyPaths.map((path, index) => (
             <Route
               key={index}

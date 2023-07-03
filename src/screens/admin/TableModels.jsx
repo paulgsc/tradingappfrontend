@@ -1,94 +1,54 @@
 import React, { useState } from "react";
 import Table from "../../components/tables/Table";
-import Forms from "../../components/ui/Forms";
+import Forms from "./Forms";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { adminfetchPropertyData } from "../../contexts/redux/actions/adminFetchDataAction";
-import { adminGetSelectedPropertyById } from "../../contexts/redux/selectors/propertySelectors";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useLocation, useNavigate } from "react-router";
 import { adminSelectedRecordId } from "../../reducers/adminFetchDataReducers";
 import { Link } from "react-router-dom";
+import { fetchPropertiesQuery } from "../../hooks/react-query";
 
 function TableModels() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { adminHash } = useParams();
   const [selectedPropertyId, setSelectedPropertyId] = useState(null);
-
-  const { propertyData = [], recordId = "" } = useSelector(
-    (state) => state.adminFetchData
-  );
-  const {
-    id = "",
-    price_per_share = "",
-    available_shares = "",
-    total_property_shares = "",
-    income = "",
-    expenses = "",
-    initial_profits = "",
-    final_profits = "",
-    current_property_value = "",
-    url = "",
-    property_name = "",
-    property_address = "",
-    users = [],
-  } = useSelector(
-    (state) => adminGetSelectedPropertyById(state, parseInt(recordId) || ""),
-    shallowEqual
-  );
-
-  const handleRecordChange = () => {};
+  const { userInfo: { token = "", is_admin = false } = {}, error = null } =
+    useSelector((state) => state.userAuth);
+  const { recordId = null } = useSelector((state) => state.adminFetchData);
+  const { properties, isLoading, isError } = fetchPropertiesQuery(token);
 
   const handleRecordClick = (e, propertyId) => {
     e.preventDefault();
     setSelectedPropertyId(propertyId);
     dispatch(adminSelectedRecordId(propertyId));
     localStorage.setItem("selectedPropertyId", propertyId);
-    navigate(`/admin/site/models/record/form-view`);
+    navigate(`/admin/site/models/${propertyId}/record/form-view`);
   };
 
-  useEffect(() => {
-    dispatch(adminfetchPropertyData());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (location.pathname !== `/admin/site/models/record/form-view`) {
-      // Clear the stored selectedPropertyId when navigating away from the form-view page
-      localStorage.removeItem("selectedPropertyId");
-    }
-  }, [location.pathname, selectedPropertyId]);
-
   return (
-    <div className="flex mt-2">
+    <div className="w-full flex mt-2">
       <TableModels.Models />
       {location.pathname === `/admin/site/models` && (
-        <div>
+        <div className="flex flex-col mx-auto px-2 w-9/12">
           <TableModels.Header />
           <TableModels.Records
-            propertyData={propertyData}
+            propertyData={properties || []}
             handleRecordClick={handleRecordClick}
           />
         </div>
       )}
-      {location.pathname === `/admin/site/models/record/form-view` && (
+      {location.pathname ===
+        `/admin/site/models/${recordId}/record/form-view` &&
+        recordId && (
+          <div className="w-full">
+            <Forms recordId={recordId} />
+          </div>
+        )}
+      {location.pathname === `/admin/site/models/${-1}/record/form-view` && (
         <div className="w-full">
-          <Forms.Icons />
-          <Forms.OpenView
-            property_address={property_address}
-            property_name={property_name}
-            id={id}
-            total_property_shares={total_property_shares}
-            url={url}
-            current_property_value={current_property_value}
-            expenses={expenses}
-            income={income}
-            initial_profits={initial_profits}
-            final_profits={final_profits}
-            users={users}
-            handleRecordChange={handleRecordChange}
-          />
+          <Forms create={true} />
         </div>
       )}
     </div>
@@ -107,23 +67,25 @@ TableModels.Header = () => (
       </button>
 
       <button className="flex items-center text-center text-xs text-white gap-1 p-2 bg-blue-400 rounded-lg shadow-md">
-        <p>Add Property</p>
-        <AddCircleOutlineIcon
-          sx={{
-            width: {
-              xs: 16,
-              sm: 20,
-              md: 16,
-              lg: 16,
-            },
-            height: {
-              xs: 16,
-              sm: 20,
-              md: 16,
-              lg: 16,
-            },
-          }}
-        />
+        <Link to={`/admin/site/models/${-1}/record/form-view`}>
+          <p>Add Property</p>
+          <AddCircleOutlineIcon
+            sx={{
+              width: {
+                xs: 16,
+                sm: 20,
+                md: 16,
+                lg: 16,
+              },
+              height: {
+                xs: 16,
+                sm: 20,
+                md: 16,
+                lg: 16,
+              },
+            }}
+          />
+        </Link>
       </button>
     </div>
   </div>
@@ -134,6 +96,10 @@ TableModels.Models = () => {
     {
       id: 1,
       title: "Properties",
+    },
+    {
+      id: 1,
+      title: "Trade",
     },
   ];
   const columns = [
@@ -161,7 +127,7 @@ TableModels.Models = () => {
   };
 
   return (
-    <aside className="md:block sticky left-0 h-screen w-72 border-r shadow-md">
+    <aside className="md:block sticky left-0 h-screen w-56 xl:w-72 border-r shadow-md">
       <Table
         history={models}
         columnData={columns}

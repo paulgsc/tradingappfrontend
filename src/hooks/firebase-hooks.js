@@ -11,6 +11,7 @@ import {
   import { auth } from "../../firebase";
 import { useEffect } from "react";
 import { useState } from "react";
+import { notify } from "../lib/utils";
   
 export function useRecaptcha(componentId) {
     const [recaptcha, setRecaptcha] = useState();
@@ -52,7 +53,15 @@ export async function enrollUser(
       
 }
 
-
+export const unEnrollMultiFactor = async (user) => {
+  // Check if the user is enroll in MFA.
+  const checkMfaEnrollment = multiFactor(user).enrolledFactors;
+  
+  // Unenroll all the MFA entries in the current user by uid.
+  for (let i = 0; i < checkMfaEnrollment.length; i++) {
+    await multiFactor(user).unenroll(checkMfaEnrollment[i].uid)
+  }
+}
 
 
 export function useCurrentUser() {

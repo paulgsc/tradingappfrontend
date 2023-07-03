@@ -40,7 +40,7 @@ export function PhoneRegistration({ getPhoneNumber }) {
         </div>
         <div className="flex justify-between mt-4 gap-x-4">
           <button
-            onClick={() => navigate("/user")}
+            onClick={() => navigate("/personal")}
             className="rounded-xl flex gap-x-4 mb-8 text-black h-11 w-1/2 items-center justify-center px-6 border border-gray-500"
           >
             Cancel

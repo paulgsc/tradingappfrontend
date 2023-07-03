@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const tradingReducers = createSlice({
     name: "trade",
-    initialState: { loading: false, orderInfo: { shares: "", amount: "", 
+    initialState: { loading: false, showSummaryPortal: false, orderInfo: { shares: "", amount: "", 
     propertyId: "", transactionType: "", }, balanceInfo: { transferAmountRemaining: "",
     amountPurchased: "" } },
     reducers: {
@@ -18,6 +18,9 @@ const tradingReducers = createSlice({
         },
         storeOrderInfo(state, action){
             return { ...state, orderInfo: { ...state.orderInfo, ...action.payload } };
+        },
+        showSummaryPortal(state, action){
+            return { ...state, ...action.payload  };
         },
         tradeRequestSuccessful(state, action){
             return { loading: false, orderInfo: { ...state.orderInfo, ...action.payload } };
@@ -45,6 +48,7 @@ export const {
     requestBalanceInfo,
     fetchBalanceInfoSuccessful,
     tradeRequestSuccessful,
+    showSummaryPortal,
     tradeRequestFailure,
     fetchBalanceInfoFailure,
     storeOrderInfo,

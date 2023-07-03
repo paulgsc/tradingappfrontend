@@ -3,6 +3,7 @@ import { useRecaptcha, verifyPhoneNumber } from "../../hooks/firebase-hooks";
 import { PhoneRegistration } from "./PhoneRegistration";
 import { CodeSignup } from "./CodeSignUp";
 import { notify } from "../../lib/utils";
+import { Toaster } from "react-hot-toast";
 
 function CreateTwoFA({ currentUser }) {
   const recaptcha = useRecaptcha("sign-up");
@@ -27,7 +28,7 @@ function CreateTwoFA({ currentUser }) {
   }
 
   return (
-    <>
+    <div className="min-h-screen flex justify-center mx-auto">
       {!verificationCodeId && (
         <PhoneRegistration getPhoneNumber={getPhoneNumber} />
       )}
@@ -38,7 +39,8 @@ function CreateTwoFA({ currentUser }) {
         />
       )}
       <div id="sign-up"></div>
-    </>
+      <Toaster />
+    </div>
   );
 }
 

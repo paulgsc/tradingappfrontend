@@ -17,5 +17,16 @@ export const adminPaths = [
     'admin/timeline',
     'admin/timeline/task/:id',
     'admin/timeline/task/:id/taskline/:lineId',
-    '/admin/site/models/record/form-view',
+    '/admin/site/models/:id/record/form-view',
+]
+
+export const homePaths = [
+    '/',
+    '/faq',
+    '/contact',
+]
+
+export const settingsPaths = [
+    '/personal/settings',
+    'personal/settings/notifications',
 ]

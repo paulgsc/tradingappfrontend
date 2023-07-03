@@ -85,4 +85,10 @@ export const sideMenuNavs = [
         id: 'side-navs_1',
         path: '/trade',
     },
+    {
+        title: "Settings",
+        icon: "accountIcon",
+        id: 'side-navs_2',
+        path: '/personal/settings',
+    }
 ]

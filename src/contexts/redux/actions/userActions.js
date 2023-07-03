@@ -254,3 +254,31 @@ export const accessAdminView = () => async (dispatch, getState) => {
         return false;
     }
 }
+
+export const SendSMS = () => async (dispatch, getState) => {
+    dispatch(userLoginRequest());
+    try{
+        const {
+            userAuth: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        const response = await API.post(
+            'admin/access/',
+            config,
+        )
+        dispatch(adminProtectedView(response.data))
+      
+
+    }catch (error){
+        localStorage.removeItem('userInfo');
+        localStorage.removeItem('link_token');
+        dispatch(userLoginFailure(error.message));
+        return false;
+    }
+}

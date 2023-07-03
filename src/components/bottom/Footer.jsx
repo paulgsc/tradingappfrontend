@@ -1,12 +1,13 @@
 import React from "react";
 import { svgList } from "../../constants/svgs/Svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { footerLinks } from "../../constants/footer/footerConstants";
 
 function Footer() {
+  const navigate = useNavigate();
   return (
     <footer className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 lg:text-left">
-      <Footer.Links />
+      <Footer.Links navigate={navigate} />
       <Footer.Copyright />
     </footer>
   );
@@ -96,7 +97,7 @@ Footer.Contact = () => (
   </div>
 );
 
-Footer.Links = () => (
+Footer.Links = ({ navigate }) => (
   <div className="h-full border-b">
     <div className="flex justify-center w-full h-full">
       {footerLinks.map((item) => (

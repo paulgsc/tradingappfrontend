@@ -1,7 +1,15 @@
+import { cn } from "../../lib/utils";
 import { Skeleton } from "./Skeleton";
 
-export function Card({ ...props }) {
-  return <div {...props} />;
+export function Card({ className, ...props }) {
+  return (
+    <div
+      className={cn(
+        `max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ${className}`
+      )}
+      {...props}
+    />
+  );
 }
 
 Card.Header = function CardHeader(props) {

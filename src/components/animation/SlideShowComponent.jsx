@@ -28,7 +28,7 @@ const Slideshow = styled.ul`
     height: 100%;
     opacity: 0;
     z-index: 1;
-    animation: slide 30s ease-in-out infinite;
+    animation: slide1 30s ease-in-out infinite;
 
     &.active {
       opacity: 1;

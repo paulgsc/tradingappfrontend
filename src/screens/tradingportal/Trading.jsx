@@ -9,10 +9,13 @@ import { fetchPropertyRows } from "../../contexts/redux/actions/fetchPropertyAct
 import { fetchPropertyQuery } from "../../contexts/redux/actions/fetchDataActions";
 import { storeOrderInfo } from "../../reducers/tradingReducers";
 import TabWidget from "../../components/ui/TabWidget";
+import Caraousel from "../../components/animation/Caraousel";
+import OrderSummary from "../../components/ui/OrderSummary";
 
 function Trading() {
   const dispatch = useDispatch();
   const {
+    showSummaryPortal = false,
     orderInfo: {
       amount = "",
       shares = "",
@@ -50,7 +53,8 @@ function Trading() {
           <Trading.Header property_name={property_name} />
           <Trading.Alert transferAmountRemaining={transferAmountRemaining} />
           <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-4 w-full h-full flex-1">
-            <Trading.PropertyCard />
+            <Trading.PropertyCard showSummaryPortal={showSummaryPortal} />
+
             <div className="hidden lg:block lg:col-span-1 xl:col-span-2 w-full h-fit sticky top-[80px] xl:top-32 ">
               <div className="flex items-center justify-center rounded bg-gray-50 h-full w-full dark:bg-gray-800">
                 <div className="flex flex-col justify-start m-0 p-4 w-full h-full mb-4 rounded shadow-md bg-transparent dark:bg-gray-800">
@@ -116,16 +120,24 @@ Trading.Alert = ({ transferAmountRemaining }) => (
   </div>
 );
 
-Trading.PropertyCard = () => (
+Trading.PropertyCard = ({ showSummaryPortal }) => (
   <>
     <div className="sm:hidden xl:block xl:col-span-1"></div>
     <div className="col-span-1 lg:col-span-2 xl:col-span-3">
       <div className="flex items-center justify-center rounded bg-gray-50 h-full dark:bg-gray-800">
-        <div className="grid grid-rows-3 gap-0 w-full h-full">
+        <div
+          className={`grid ${
+            !showSummaryPortal && "grid-rows-3"
+          } gap-0 w-full h-full items-start`}
+        >
           <div className=" row-span-1">
-            <Trading.PropertyImage />
+            <Trading.PropertyImage flipped={!showSummaryPortal} />
           </div>
-          <div className="row-span-2">
+          <div
+            className={`${
+              showSummaryPortal ? "hidden" : "block"
+            } transition-all duration-1000 ease-in-out row-span-2`}
+          >
             <div className="flex items-center justify-center w-full rounded bg-gray-50 dark:bg-gray-800">
               <Trading.PropertyTabs />
             </div>
@@ -139,11 +151,25 @@ Trading.PropertyCard = () => (
   </>
 );
 
-Trading.PropertyImage = () => {
+Trading.PropertyImage = ({ flipped = true }) => {
   return (
     <div className="flex items-center justify-center w-full h-full rounded bg-gray-50 dark:bg-gray-800">
-      <div className="flex justify-center items-start w-full h-[440px] md:h-[524px] lg:h-[440px] xl:h-[524px] p-0 m-0 bg-center bg-no-repeat bg-cover">
-        <SlideshowComponent />
+      <div className="relative flex justify-center items-start w-full h-[440px] md:h-[524px] lg:h-[440px] xl:h-[524px] p-0 m-0 bg-center bg-no-repeat bg-cover">
+        <div
+          className={`${
+            flipped ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full"
+          } transition-all duration-1000 ease-in-out absolute top-0 left-0 w-full`}
+        >
+          <Caraousel />
+        </div>
+
+        <div
+          className={`${
+            flipped ? "opacity-0 translate-y-full" : "opacity-100 translate-y-0"
+          } transition-all duration-1000 ease-in-out absolute top-0 left-0 w-full h-full`}
+        >
+          <Trading.Summary />
+        </div>
       </div>
     </div>
   );
@@ -167,6 +193,14 @@ Trading.PropertyTabs = () => {
       content: "",
     },
   ];
+  const getClassname = (name) => {
+    switch (name) {
+      case "main-container":
+        return "relative";
+      default:
+        return "";
+    }
+  };
   return (
     <div className="flex flex-col w-11/12">
       <Trading.PropertyHeader
@@ -176,7 +210,11 @@ Trading.PropertyTabs = () => {
         zip={"CH61 1DE"}
         title={"A magical place"}
       />
-      <TabWidget active="Overview" tabHeaders={headers} />
+      <TabWidget
+        getclassName={getClassname}
+        active="Overview"
+        tabHeaders={headers}
+      />
     </div>
   );
 };
@@ -202,6 +240,26 @@ Trading.PropertyOverview = () => (
     <span>HOE: $2,000</span>
     <span>Maintanance: $2,000</span>
   </div>
+);
+
+Trading.Summary = () => (
+  <OrderSummary className={"shadow-md border-l border-t"}>
+    <OrderSummary.Card
+      className={"flex items-center justify-center w-full p-4"}
+    >
+      <OrderSummary.TotalCard
+        className={
+          "flex items-center justify-center md:w-28 md:h-28 xl:w-40 xl:h-40 border rounded-full ring-2 ring-blue-100 shadow-sm ring-opacity-40 bg-stone-50 font-bold md:text-lg xl:text-xl"
+        }
+      >
+        $0.00
+      </OrderSummary.TotalCard>
+    </OrderSummary.Card>
+    <OrderSummary.Title>Order Summary</OrderSummary.Title>
+    <OrderSummary.Card className={"border-t-2 border-slate-400"}>
+      foo
+    </OrderSummary.Card>
+  </OrderSummary>
 );
 
 export default Trading;

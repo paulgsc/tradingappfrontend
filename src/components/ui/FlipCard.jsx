@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { Card } from "../cards/Card";
 import TradeSlider from "./TradeSlider";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrders } from "../../contexts/redux/actions/fetchDataActions";
-import { clearOrderInfo } from "../../reducers/tradingReducers";
-import currency from "currency.js";
+import {
+  clearOrderInfo,
+  showSummaryPortal,
+} from "../../reducers/tradingReducers";
 import { excersiseTrade } from "../../contexts/redux/actions/tradingActions";
+import OrderSummary from "./OrderSummary";
+import ProfileInfo from "./ProfileInfo";
+import { ProfileSvg } from "../../constants/svgs/Svg";
 
 function FlipCard() {
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setFlipped] = useState(true);
   const dispatch = useDispatch();
   const {
     orderInfo: {
@@ -26,6 +30,11 @@ function FlipCard() {
 
   const handleClick = () => {
     setFlipped(!flipped);
+    dispatch(
+      showSummaryPortal({
+        showSummaryPortal: !!flipped,
+      })
+    );
   };
 
   const handleSubmit = (e) => {
@@ -42,98 +51,65 @@ function FlipCard() {
   };
 
   return (
-    <div className={flipped ? "flex-1 hoverme" : "flex-1 "}>
-      <Card
-        className={
-          flipped
-            ? "flex-1 rounded-md  flip-card-inner"
-            : "flex-1 rounded-md  flip-card-inner"
-        }
+    <div className="relative w-full">
+      <div
+        className={`${
+          flipped ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full"
+        } transition-all duration-1000 ease-in-out absolute top-0 left-0 w-full`}
       >
-        <div className="flex flex-col gap-2 backface-hidden">
-          <div className="  w-full">
-            <TradeSlider propertyId={propertyId} />
-          </div>
+        <TradeSlider handleReview={handleClick} propertyId={propertyId} />
+      </div>
 
-          <Card.Footer className="">
-            <div className="flex items-center justify-center">
-              <button
-                className="bg-black border-none text-white font-medium text-sm xl:text-base rounded-md p-2 disabled:opacity-40 disabled:pointer-events-none"
-                disabled={!parseInt(shares) || !isValid}
-                onClick={handleClick}
-              >
-                <span className="">Review </span>
-              </button>
-            </div>
-          </Card.Footer>
-        </div>
-
-        <div className="rotatey flex items-center flex-col absolute w-full h-full backface-hidden">
-          <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-            <FlipCard.Header handleClick={handleClick} />
-            <FlipCard.LineItems pricePerShare={pricePerShare} />
-          </div>
-          <h1 className="text-base lg:text-2xl xl:text-4xl dark:text-white font-semibold leading-6 text-gray-800">
-            {currency(amount).format()}
-          </h1>
-          <h4 className="py-2 text-base lg:text-2xl xl:text-4xl dark:text-white font-semibold leading-7 lg:leading-9 text-gray-500">
-            {shares} shares
-          </h4>
-          <p></p>
-          <Card.Footer className="">
-            <button
-              className="bg-black border-none text-white font-medium text-base xl:text-lg rounded-md p-2"
-              onClick={handleSubmit}
-            >
-              <span className="">Submit</span>
-            </button>
-          </Card.Footer>
-        </div>
-      </Card>
+      <div
+        className={`${
+          flipped ? "opacity-0 translate-y-full" : "opacity-100 translate-y-0"
+        } transition-all duration-1000 ease-in-out absolute top-0 left-0 w-full`}
+      >
+        <FlippedSide handleClick={handleClick} />
+      </div>
     </div>
   );
 }
 
-FlipCard.Header = ({ handleClick }) => (
-  <div className="flex justify-between">
-    <h4 className="text-sm lg:text-xl xl:text-2xl dark:text-white font-semibold leading-7 lg:leading-9 text-gray-800">
-      Trade Summary
-    </h4>
-    <button
-      type="button"
-      className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-      data-modal-hide="defaultModal"
-      onClick={handleClick}
-    >
-      <svg
-        aria-hidden="true"
-        className="w-4 h-4"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fillRule="evenodd"
-          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-          clipRule="evenodd"
-        ></path>
-      </svg>
-      <span className="sr-only">Close modal</span>
-    </button>
-  </div>
-);
-
-FlipCard.LineItems = ({ pricePerShare }) => (
-  <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
-    <div className="flex justify-between w-full">
-      <p className="text-sm xl:text-base dark:text-white leading-4 text-gray-800">
-        price per share
-      </p>
-      <p className="text-sm xl:text-base dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">
-        {currency(pricePerShare).format()}
-      </p>
-    </div>
-  </div>
-);
+const FlippedSide = ({ handleClick }) => {
+  return (
+    <OrderSummary className={""}>
+      <OrderSummary.Title className={""}>User Snapshot</OrderSummary.Title>
+      <div className="flex gap-4 border-t p-2 ">
+        <ProfileInfo.ProfileImageCard
+          className={" border-slate-600 w-12 h-12 "}
+        >
+          <ProfileSvg />
+        </ProfileInfo.ProfileImageCard>
+        <div className="flex flex-col">
+          <span className="font-bold text-neutral-600 text-base xl:text-lg">
+            John Doe
+          </span>
+          <span className="font-normal text-sm xl:text-base text-neutral-400">
+            0 Property Shares Owned
+          </span>
+        </div>
+      </div>
+      <div className="mt-2">
+        <OrderSummary.Title>Order Amount</OrderSummary.Title>
+        <div className="border-t">
+          <div>
+            <span>Cash: </span>
+            <span>$ 0.00</span>
+          </div>
+          <div>
+            <span>Shares: </span>
+            <span>0.00</span>
+          </div>
+        </div>
+        <div className="mt-6 w-full flex justify-center items-center">
+          <OrderSummary.Button handleClick={handleClick}>
+            Submit Order
+          </OrderSummary.Button>
+        </div>
+      </div>
+    </OrderSummary>
+  );
+};
 
 export default FlipCard;

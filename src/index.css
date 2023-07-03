@@ -3,31 +3,41 @@
 @tailwind utilities;
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 .rotatey {
-    transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 .orange-gradient {
-    background: linear-gradient(180deg,#f3bc51 50%,#f9db74);
+  background: linear-gradient(180deg, #f3bc51 50%, #f9db74);
 }
 
 .dropdown:focus-within .dropdown-menu {
-    /* @apply block; */
-    display:block;
-  }
+  /* @apply block; */
+  display: block;
+}
 
 .prof-focus:focus-within .prof-menu {
-    /* @apply block; */
-    display:block;
+  /* @apply block; */
+  display: block;
+}
+
+.carousel-slide {
+  animation-name: slide;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
   }
-
-  
-
-  
-  
+  100% {
+    transform: translateX(0);
+  }
+}

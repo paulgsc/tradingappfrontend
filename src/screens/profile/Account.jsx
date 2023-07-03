@@ -57,7 +57,6 @@ function Account() {
   useEffect(() => {
     dispatch(fetchSummary());
     dispatch(fetchShares());
-    dispatch(accessAdminView());
   }, []);
 
   return (

@@ -8,7 +8,7 @@ import Sidebar2 from "../sidemenu/Sidebar2";
 
 function Navbar({ showMenu, Menubar }) {
   const [isActive, setIsActive] = useState(false);
-  const { userInfo: { token = "" } = {} } = useSelector(
+  const { userInfo: { token = "", is_admin = false } = {} } = useSelector(
     (state) => state.userAuth
   );
 
@@ -49,8 +49,8 @@ function Navbar({ showMenu, Menubar }) {
     <div className="">
       <nav className="fixed top-0 z-50 w-full h-14 bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex justify-between items-center w-full h-full px-3 lg:px-5 lg:pl-3">
-          <div className="flex h-full w-full items-center justify-between">
-            <div className="flex justify-start items-center w-full h-full ">
+          <div className="relative flex h-full w-full items-center justify-between">
+            <div className="flex justify-start items-center w-3/5 h-full">
               <div className="flex h-full ">
                 <button
                   aria-label="open"
@@ -63,14 +63,17 @@ function Navbar({ showMenu, Menubar }) {
 
                 <NavbarLogo />
               </div>
-
-              {showMenu && <Menubar />}
             </div>
+            {showMenu && <Menubar />}
             <div className="flex items-center">
               <div className="flex items-center ml-3">
                 <div>
                   {token ? (
-                    <Profile user={profileInitial} className="" />
+                    <Profile
+                      user={profileInitial}
+                      is_admin={is_admin}
+                      className=""
+                    />
                   ) : (
                     <NavbarLogins />
                   )}
