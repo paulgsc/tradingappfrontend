@@ -117,10 +117,6 @@ Account.Nav = ({ openMenu, profileInitial, adminHash, navigate }) => (
               <span className=" bg-[red] absolute inline-flex rounded-full h-[6px] lg:h-2 w-[6px] lg:w-2 -right-1 -top-1" />
               <BsChatLeft className=" w-4 h-4 lg:w-6 lg:h-6  bg-inherit text-[#5AFF7A]" />
             </div> */}
-            <div className="flex items-center justify-center">
-              <LiveNotifications />
-            </div>
-
             <div>
               <Profile user={profileInitial} />
             </div>
