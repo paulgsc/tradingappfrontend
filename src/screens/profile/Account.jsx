@@ -16,6 +16,7 @@ import Profile from "../../components/profile/Profile";
 import currency from "currency.js";
 import OrderHistory from "../../components/tables/OrderHistory";
 import { accessAdminView } from "../../contexts/redux/actions/userActions";
+import LiveNotifications from "../../components/alerts/LiveNotifications";
 
 function Account() {
   const location = useLocation();
@@ -104,23 +105,20 @@ Account.Nav = ({ openMenu, profileInitial, adminHash, navigate }) => (
         </div>
         <div className="flex items-center text-center w-72">
           <div className="flex items-center justify-between w-full ml-3">
-            <div className="flex items-center w-20">
-              <button
-                className="font-bold text-sm underline"
-                onClick={() => {
-                  adminHash && navigate(`/admin/${adminHash}`);
-                }}
-              >
-                admin
-              </button>
-            </div>
-            <div className="relative">
+            <button
+              className="font-bold text-sm underline"
+              onClick={() => {
+                navigate(`/admin/${adminHash}`);
+              }}
+            >
+              admin
+            </button>
+            {/* <div className="relative">
               <span className=" bg-[red] absolute inline-flex rounded-full h-[6px] lg:h-2 w-[6px] lg:w-2 -right-1 -top-1" />
               <BsChatLeft className=" w-4 h-4 lg:w-6 lg:h-6  bg-inherit text-[#5AFF7A]" />
-            </div>
-            <div className="relative">
-              <span className=" bg-[red] absolute inline-flex rounded-full h-[6px] lg:h-2 w-[6px] lg:w-2 right-0 -top-1" />
-              <RiNotification3Line className="w-4 h-4 lg:w-6 lg:h-6 text-[#5AFF7A]" />
+            </div> */}
+            <div className="flex items-center justify-center">
+              <LiveNotifications />
             </div>
 
             <div>

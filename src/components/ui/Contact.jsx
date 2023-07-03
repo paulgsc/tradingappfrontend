@@ -23,7 +23,7 @@ function Contact() {
             focus:ring-indigo-200
             focus:ring-opacity-50
           "
-                placeholder="Joe Bloggs"
+                placeholder="Full name"
               />
             </label>
             <label className="block mb-6">
@@ -43,7 +43,7 @@ function Contact() {
             focus:ring-indigo-200
             focus:ring-opacity-50
           "
-                placeholder="joe.bloggs@example.com"
+                placeholder="user@email.com"
                 required
               />
             </label>
@@ -64,7 +64,7 @@ function Contact() {
             focus:ring-opacity-50
           "
                 rows="3"
-                placeholder="Tell us what you're thinking about..."
+                placeholder=""
               ></textarea>
             </label>
             <div className="mb-6">
@@ -85,18 +85,7 @@ function Contact() {
                 Contact Us
               </button>
             </div>
-            <div>
-              <div className="mt-2 text-gray-700 text-right text-xs">
-                by
-                <a
-                  href="https://herotofu.com"
-                  className="hover:underline"
-                  target="_blank"
-                >
-                  HeroTofu
-                </a>
-              </div>
-            </div>
+            <div></div>
           </form>
         </div>
       </div>

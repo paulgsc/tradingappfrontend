@@ -57,17 +57,28 @@ function TableModels() {
 
 TableModels.Header = () => (
   <div className="flex items-center justify-between w-full h-12 mx-4 border-b">
-    <span className="p-2">Select property to change</span>
-    <div className="flex gap-2">
-      <button className="flex items-center text-center text-xs text-white gap-1 p-2 bg-blue-400 rounded-lg shadow-md">
+    <span className="text-neutral-600 font-medium text-base p-2">
+      Select property to change
+    </span>
+    <div className="flex items-end gap-2">
+      <button
+        disabled
+        className="w-20 h-8 flex justify-center items-center text-center text-xs text-white font-bold gap-1 p-2 my-1 enabled:bg-blue-600 disabled:bg-sky-300 hover:enabled:bg-stone-800 enabled:cursor-pointer rounded-lg shadow-md"
+      >
         import
       </button>
-      <button className="flex items-center text-center text-xs text-white gap-1 p-2 bg-blue-400 rounded-lg shadow-md">
+      <button
+        disabled
+        className="w-20 h-8 flex justify-center items-center text-center text-xs text-white font-bold gap-1 my-1 p-2 enabled:bg-blue-600 disabled:bg-sky-300 hover:enabled:bg-stone-800 enabled:cursor-pointer rounded-lg shadow-md"
+      >
         export
       </button>
 
-      <button className="flex items-center text-center text-xs text-white gap-1 p-2 bg-blue-400 rounded-lg shadow-md">
-        <Link to={`/admin/site/models/${-1}/record/form-view`}>
+      <button className="w-32 h-8 justify-center flex items-center text-center text-xs text-white font-semibold gap-1 p-2 my-1 enabled:bg-stone-800 enabled:hover:bg-blue-600 rounded-lg shadow-md">
+        <Link
+          className="flex items-center gap-2"
+          to={`/admin/site/models/${-1}/record/form-view`}
+        >
           <p>Add Property</p>
           <AddCircleOutlineIcon
             sx={{
@@ -179,17 +190,54 @@ TableModels.Records = ({ propertyData, handleRecordClick }) => {
       Filter: ColumnFilter,
     },
   ];
-  const updatedColumns = columns.map((column) => ({
-    ...column,
-    Cell: ({ row }) => (
-      <div
-        className=" cursor-pointer hover:text-emerald-500"
-        onClick={(e) => handleRecordClick(e, row.original.id)}
-      >
-        {row.original[column.accessor] || ""}
-      </div>
-    ),
-  }));
+
+  const updatedColumns = columns.map((column) => {
+    if (column.accessor === "created_at") {
+      return {
+        ...column,
+        Cell: ({ row }) => {
+          const dateStr = row.original.id;
+          if (!dateStr) {
+            return "";
+          }
+          const dateObj = new Date(dateStr);
+          const options = {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            hour12: false,
+          };
+          const formattedDate = new Intl.DateTimeFormat(
+            "en-US",
+            options
+          )?.format(dateObj);
+          return (
+            <div
+              className="cursor-pointer hover:text-emerald-500"
+              onClick={(e) => handleRecordClick(e, row.original.id)}
+            >
+              {formattedDate}
+            </div>
+          );
+        },
+      };
+    }
+
+    return {
+      ...column,
+      Cell: ({ row }) => (
+        <div
+          className="cursor-pointer hover:text-emerald-500"
+          onClick={(e) => handleRecordClick(e, row.original.id)}
+        >
+          {row.original[column.accessor] || ""}
+        </div>
+      ),
+    };
+  });
 
   const getClassName = (componentType) => {
     switch (componentType) {
@@ -212,6 +260,7 @@ TableModels.Records = ({ propertyData, handleRecordClick }) => {
         columnData={updatedColumns}
         ColumnFilter={ColumnFilter}
         getClassName={getClassName}
+        showCheckboxColumn={true}
       />
     </div>
   );
