@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { fetchPropertiesQuery } from "../../hooks/react-query";
 import PropertiesModel from "./PropertiesModel";
 import ModelSideBar from "./ModelSideBar";
+import SiteSettings from "./SiteSettings";
 
 function TableModels() {
   const dispatch = useDispatch();
@@ -33,6 +34,9 @@ function TableModels() {
           propertyData={properties || []}
           handleRecordClick={handleRecordClick}
         />
+      )}
+      {location.pathname.includes(`/admin/site/models/site-settings`) && (
+        <SiteSettings />
       )}
     </div>
   );

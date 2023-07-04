@@ -17,6 +17,8 @@ export const adminPaths = [
     '/admin/site/models/properties',
     '/admin/site/models/propertyimages',
     '/admin/site/models/trade',
+    '/admin/site/models/site-settings',
+    "/admin/site/models/site-settings/network-security",
     'admin/timeline',
     'admin/timeline/task/:id',
     'admin/timeline/task/:id/taskline/:lineId',

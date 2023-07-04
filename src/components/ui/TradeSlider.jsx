@@ -334,7 +334,7 @@ TradeSlider.ManualInput = ({
   return (
     <div
       id="inputAmount"
-      className="flex items-center justify-between w-full p-2 border-2 rounded-lg border-gray-300"
+      className="flex items-center justify-between h-full w-full p-2 border-2 rounded-lg border-gray-300"
     >
       <div className="flex items-center gap-2">
         <Dropdown
@@ -376,7 +376,7 @@ TradeSlider.ManualInput = ({
         value={!!amount ? amount : ""}
         onChange={handleInputChange}
         onClick={handleSliderClick}
-        className=" w-2/3 text-right outline-0 text-black bg-transparent"
+        className="w-9/12 h-full text-right outline-0 bg-slate-100 rounded-lg shadow-sm text-black "
       />
     </div>
   );
