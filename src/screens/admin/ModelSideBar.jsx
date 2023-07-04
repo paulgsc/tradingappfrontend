@@ -8,6 +8,7 @@ function ModelSideBar() {
     {
       id: 1,
       title: "Properties",
+      path: "properties",
     },
     {
       id: 2,
@@ -54,7 +55,7 @@ function ModelSideBar() {
   };
 
   return (
-    <aside className="z-50 bg-white md:block sticky left-0 h-screen w-56 xl:w-72 border-r shadow-md">
+    <aside className=" z-10 bg-white md:block sticky left-0 min-h-screen w-56 xl:w-72 border-r shadow-md">
       <Table
         history={models}
         columnData={columns}

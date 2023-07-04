@@ -68,7 +68,6 @@ function Account() {
         adminHash={adminHash}
         navigate={navigate}
       />
-      <Account.SideMenu />
 
       <div className="flex flex-col w-full h-full py-4 rounded-lg dark:border-gray-700 mt-14 z-60">
         <Account.Header transfers_total={transfers_total} />
@@ -89,7 +88,7 @@ function Account() {
 }
 
 Account.Nav = ({ openMenu, profileInitial, adminHash, navigate }) => (
-  <nav className="fixed top-0 z-40 w-full bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+  <nav className="fixed top-0 z-0 w-full bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="px-3 py-3 lg:px-5 lg:pl-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center justify-start">

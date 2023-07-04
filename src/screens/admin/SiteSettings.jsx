@@ -1,6 +1,7 @@
 import React from "react";
 import SideTabs from "../../components/sidemenu/SideTabs";
 import { Link } from "react-router-dom";
+import IpAdresses from "./IpAdresses";
 
 function SiteSettings() {
   return <General />;
@@ -27,9 +28,19 @@ const General = () => {
           </SideTabs>
         </aside>
         {location.pathname === "/personal/settings" && "+"}
-        {location.pathname === "/personal/settings/notifications" && (
-          <div className="border col-span-5 justify-center shadow-md bg-white h-fit">
-            +
+        {location.pathname ===
+          "/admin/site/models/site-settings/network-security" && (
+          <div className=" border col-span-5 justify-center items-center shadow-md h-full">
+            <div className="w-full xl:hidden">
+              <IpAdresses />
+            </div>
+            <div className="hidden xl:grid grid-cols-7">
+              <div className="col-span-1 border-red-600 border">+</div>
+              <div className=" col-span-5">
+                <IpAdresses />
+              </div>
+              <div className="col-span-1 border-red-600 border">+</div>
+            </div>
           </div>
         )}
       </div>

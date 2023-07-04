@@ -28,15 +28,25 @@ function TableModels() {
 
   return (
     <div className="w-full flex mt-2">
-      <ModelSideBar />
+      {location.pathname === `/admin/site/models` && <ModelSideBar />}
       {location.pathname.includes(`/admin/site/models/properties`) && (
-        <PropertiesModel
-          propertyData={properties || []}
-          handleRecordClick={handleRecordClick}
-        />
+        <>
+          <aside className="hidden lg:block">
+            <ModelSideBar />
+          </aside>
+          <PropertiesModel
+            propertyData={properties || []}
+            handleRecordClick={handleRecordClick}
+          />
+        </>
       )}
       {location.pathname.includes(`/admin/site/models/site-settings`) && (
-        <SiteSettings />
+        <>
+          <aside className="hidden xl:block">
+            <ModelSideBar />
+          </aside>
+          <SiteSettings />
+        </>
       )}
     </div>
   );
