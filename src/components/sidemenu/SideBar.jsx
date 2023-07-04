@@ -5,12 +5,7 @@ import PlaceHolder from "../loading/PlaceHolder";
 import { adminMenuItems } from "../../constants/sidemenu/sideMenu";
 import { Link } from "react-router-dom";
 
-const Sidebar = () => {
-  const activeLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";
-  const normalLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
-
+const Sidebar = ({ closeAdminMenu }) => {
   const showMenu = () => {};
 
   const openMenu = (e) => {
@@ -26,6 +21,7 @@ const Sidebar = () => {
       <Sidebar.MenuItems
         adminMenuItems={adminMenuItems}
         chooseMenu={showMenu}
+        closeAdminMenu={closeAdminMenu}
       />
     </aside>
   );
@@ -47,7 +43,7 @@ Sidebar.Logo = ({ openMenu }) => (
   </div>
 );
 
-Sidebar.MenuItems = ({ adminMenuItems, showMenu }) => (
+Sidebar.MenuItems = ({ closeAdminMenu, adminMenuItems, showMenu }) => (
   <>
     {adminMenuItems.map((menuItems, menuIndex) => {
       return (
@@ -60,8 +56,11 @@ Sidebar.MenuItems = ({ adminMenuItems, showMenu }) => (
             <div
               className="flex items-center flex-grow h-full w-full"
               id={`gap${menuIndex + 1}`}
+              onClick={(e) => {
+                closeAdminMenu(e, menuItems?.path);
+              }}
             >
-              <Link to={menuItems?.path}>{menuItems.title}</Link>
+              {menuItems.title}
             </div>
           </button>
           <div
@@ -70,15 +69,19 @@ Sidebar.MenuItems = ({ adminMenuItems, showMenu }) => (
           >
             {menuItems.content.map((item, itemIndex) => (
               <div key={`menu-item${itemIndex}`} className="w-full">
-                <Link to={item.path} key={`c${itemIndex}`} className="flex">
-                  <button className="flex w-full items-center  gap-4 pl-12 py-2 text-black hover:bg-indigo-200 hover:text-white dark:hover:bg-gray-70">
-                    <PlaceHolder.Icon
-                      className={item.className}
-                      name={item.icon}
-                    />
-                    <p className="">{item.title}</p>
-                  </button>
-                </Link>
+                <button
+                  key={`c${itemIndex}`}
+                  onClick={(e) => {
+                    closeAdminMenu(e, item.path);
+                  }}
+                  className="flex w-full items-center  gap-4 pl-12 py-2 text-black hover:bg-indigo-200 hover:text-white dark:hover:bg-gray-70"
+                >
+                  <PlaceHolder.Icon
+                    className={item.className}
+                    name={item.icon}
+                  />
+                  <p className="">{item.title}</p>
+                </button>
               </div>
             ))}
           </div>

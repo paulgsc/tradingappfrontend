@@ -1,32 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Table from "../../components/tables/Table";
-import TableModels, { ColumnFilter } from "./TableModels";
-import Forms from "./Forms";
-import { useLocation } from "react-router";
-import { useSelector } from "react-redux";
+import { ColumnFilter } from "./TableModels";
 
-function PropertiesModel({ propertyData, handleRecordClick }) {
-  const location = useLocation();
-  const { recordId = null } = useSelector((state) => state.adminFetchData);
+function IpAdresses() {
   const columns = [
     {
-      Header: "Name",
-      accessor: "property_name",
+      Header: "Device",
+      accessor: "device_name",
       Filter: ColumnFilter,
     },
     {
       Header: "Address",
-      accessor: "property_address",
-      Filter: ColumnFilter,
-    },
-    {
-      Header: "Price per share",
-      accessor: "price_per_share",
-      Filter: ColumnFilter,
-    },
-    {
-      Header: "Shares",
-      accessor: "total_property_shares",
+      accessor: "ip_address",
       Filter: ColumnFilter,
     },
     {
@@ -85,50 +71,59 @@ function PropertiesModel({ propertyData, handleRecordClick }) {
       ),
     };
   });
-
   const getClassName = (componentType) => {
     switch (componentType) {
       case "header-row":
-        return "flex justify-center w-full bg-[#79aec8] shadow-md";
+        return " flex justify-center w-full bg-[#79aec8] shadow-md pointer-events-none";
       case "header":
-        return "flex flex-col flex-col-reverse justify-center text-start w-11/12 text-base xl:text-lg text-white ";
+        return "flex flex-col flex-col-reverse justify-center text-start w-11/12 text-base xl:text-lg text-white pointer-events-none";
       case "row":
-        return "flex justify-center w-full";
+        return "flex justify-center w-full border-b shadow-sm";
       case "cell":
         return "flex items-center w-11/12 h-8 text-sm text-base font-bold text-[#447e9b] hover:underline";
       default:
         return "";
     }
   };
-  console.log(location.pathname);
+
   return (
-    <>
-      {location.pathname ===
-      `/admin/site/models/properties/${recordId}/record/form-view` ? (
-        <div className="w-full">
-          <Forms recordId={recordId} />
-        </div>
-      ) : location.pathname ===
-        `/admin/site/models/properties/${-1}/record/form-view` ? (
-        <div className="w-full">
-          <Forms create={true} />
-        </div>
-      ) : (
-        <div className="flex flex-col mx-auto px-2 w-9/12">
-          <TableModels.Header />
-          <div className="w-full mx-4">
-            <Table
-              history={propertyData}
-              columnData={updatedColumns}
-              ColumnFilter={ColumnFilter}
-              getClassName={getClassName}
-              showCheckboxColumn={true}
-            />
-          </div>
-        </div>
-      )}
-    </>
+    <div className="w-full bg-white md:block  border-r shadow-md">
+      <Table
+        history={propertyData}
+        columnData={updatedColumns}
+        ColumnFilter={ColumnFilter}
+        getClassName={getClassName}
+        showCheckboxColumn={true}
+      />
+    </div>
   );
 }
 
-export default PropertiesModel;
+const propertyData = [
+  {
+    id: 1,
+    created_at: "01/01/23",
+    device_name: "Windows desktop",
+    ip_address: "12212121",
+  },
+  {
+    id: 2,
+    created_at: "01/01/23",
+    device_name: "Windows desktop",
+    ip_address: "12212121",
+  },
+  {
+    id: 3,
+    created_at: "01/01/23",
+    device_name: "Windows desktop",
+    ip_address: "12212121",
+  },
+  {
+    id: 4,
+    created_at: "01/01/23",
+    device_name: "Mac desktop",
+    ip_address: "12212121",
+  },
+];
+
+export default IpAdresses;

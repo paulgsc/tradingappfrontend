@@ -4,7 +4,7 @@ import { siteLogo1 } from "../../../assets";
 
 function NavbarLogo() {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center z-0">
       <Link to={"/"} className="">
         <div className=" flex items-center text-start justify-start rounded-lg shadow-sm h-0 w-36">
           <img

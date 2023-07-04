@@ -38,7 +38,15 @@ function AdminPage() {
   const openAdminMenu = (e) => {
     e.preventDefault();
     const sideBar = document.getElementById("admin-sidebar");
-    sideBar.classList.toggle("hidden");
+    sideBar.style.display = "block";
+  };
+
+  const closeAdminMenu = (e, path) => {
+    e.preventDefault();
+    const sideBar = document.getElementById("admin-sidebar");
+    sideBar.style.display = "none";
+    setIsActive(false);
+    navigate(path);
   };
 
   useEffect(() => {
@@ -48,6 +56,7 @@ function AdminPage() {
       const adminButton = document.getElementById("admin-hamburger-menu");
       if (adminButton && adminButton.contains(event.target)) {
         container.style.display = "none";
+
         setIsActive(false);
         return;
       } else if (container && !container.contains(event.target) && isActive) {
@@ -73,7 +82,7 @@ function AdminPage() {
 
   return (
     <div className="h-screen flex flex-col">
-      <Sidebar />
+      <Sidebar closeAdminMenu={closeAdminMenu} />
       <Account.Nav openMenu={openAdminMenu} profileInitial={profileInitial} />
       {location.pathname === `/admin` && <Dashbaord />}
       {location.pathname === `/admin/timeline` && <Timeline />}

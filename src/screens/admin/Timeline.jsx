@@ -122,7 +122,7 @@ Timeline.Dynamic = ({ data, size, classname }) => {
 
   while (index < data.length) {
     const listItems = data.slice(index, index + size).map((item, i) => (
-      <div key={item.id} className={classname}>
+      <div key={i} className={classname}>
         {item}
       </div>
     ));
