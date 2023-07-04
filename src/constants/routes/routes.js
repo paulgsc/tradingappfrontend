@@ -14,10 +14,16 @@ export const historyPaths = [
 export const adminPaths = [
     '/admin',
     '/admin/site/models',
+    '/admin/site/models/properties',
+    '/admin/site/models/propertyimages',
+    '/admin/site/models/trade',
     'admin/timeline',
     'admin/timeline/task/:id',
     'admin/timeline/task/:id/taskline/:lineId',
-    '/admin/site/models/:id/record/form-view',
+    '/admin/site/models/properties/:id/record/form-view',
+    '/admin/site/models/propertyimages/:id/record/form-view',
+    '/admin/site/models/trade/:id/record/form-view',
+
 ]
 
 export const homePaths = [

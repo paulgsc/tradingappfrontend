@@ -68,7 +68,6 @@ function LiveNotifications() {
       socket.close();
     };
   }, [fetchNextPage]);
-  console.log(data?.pages[0]);
 
   return <Notification data={data?.pages} />;
 }
