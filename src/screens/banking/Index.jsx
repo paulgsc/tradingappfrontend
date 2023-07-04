@@ -148,6 +148,7 @@ const Index = () => {
 
   return (
     <div className="flex flex-col h-screen gap-2">
+      <hr className="mb-12" />
       <div className="flex items-center justify-center h-screen w-full  ">
         {launchTransfer ? (
           <div className="flex flex-col mx-2 items-start justify-start w-6/12 h-screen ">
