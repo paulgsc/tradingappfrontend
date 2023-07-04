@@ -12,10 +12,17 @@ function ModelSideBar() {
     {
       id: 2,
       title: "PropertyImages",
+      path: "propertyimages",
     },
     {
       id: 3,
       title: "Trade",
+      path: "trade",
+    },
+    {
+      id: 4,
+      title: "Site Settings",
+      path: "site-settings",
     },
   ];
 
@@ -24,7 +31,7 @@ function ModelSideBar() {
       Header: "App Models",
       accessor: "title",
       Cell: ({ cell }) => (
-        <Link to={`/admin/site/models/${cell.value.toLowerCase()}`}>
+        <Link to={`/admin/site/models/${cell.row.original.path}`}>
           {cell.value}
         </Link>
       ),

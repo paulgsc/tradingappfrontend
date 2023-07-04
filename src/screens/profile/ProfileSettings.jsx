@@ -48,7 +48,7 @@ function ProfileSettings() {
   );
 }
 
-const General = () => {
+export const General = () => {
   const links = [
     {
       id: 1,
