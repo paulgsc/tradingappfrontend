@@ -5,12 +5,25 @@ import { cn } from "../../lib/utils";
 function Table({
   columnData,
   history,
-  ColumnFilter,
+
   getClassName,
   handleScroll = () => {},
   showCheckboxColumn = false,
 }) {
   const data = useMemo(() => history, [history]);
+
+  const ColumnFilter = ({ column }) => {
+    const { filterValue, setFilter } = column;
+    return (
+      <input
+        type="text"
+        value={filterValue || ""}
+        onChange={(e) => setFilter(e.target.value)}
+        className="w-full px-2 py-1 text-sm rounded-md bg-gray-100 border-gray-300"
+        placeholder={`Filter ${column.Header}`}
+      />
+    );
+  };
 
   const columns = useMemo(() => {
     if (!showCheckboxColumn) {

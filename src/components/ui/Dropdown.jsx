@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { cn } from "../../lib/utils";
 
-function Dropdown({ icon, menu, getClassname }) {
+function Dropdown({ icon, menu, getClassname = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
