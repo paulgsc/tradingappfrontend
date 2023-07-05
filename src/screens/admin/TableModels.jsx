@@ -8,6 +8,7 @@ import { fetchPropertiesQuery } from "../../hooks/react-query";
 import PropertiesModel from "./PropertiesModel";
 import ModelSideBar from "./ModelSideBar";
 import SiteSettings from "./SiteSettings";
+import ImagesPortal from "./ImagesPortal";
 
 function TableModels() {
   const dispatch = useDispatch();
@@ -46,6 +47,11 @@ function TableModels() {
             <ModelSideBar />
           </aside>
           <SiteSettings />
+        </>
+      )}
+      {location.pathname.includes(`/admin/site/models/propertyimages`) && (
+        <>
+          <ImagesPortal />
         </>
       )}
     </div>

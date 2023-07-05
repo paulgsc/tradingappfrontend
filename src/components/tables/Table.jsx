@@ -33,13 +33,14 @@ function Table({
     // Add the checkbox column at the beginning if showCheckboxColumn is true
     const checkboxColumn = {
       id: "selection",
+      width: "12%",
       Header: ({ getToggleAllRowsSelectedProps }) => (
-        <>
+        <div className={`${getClassName("check-box-header")}`}>
           <input
             type="checkbox"
             {...getToggleAllRowsSelectedProps({ indeterminate: "false" })}
           />
-        </>
+        </div>
       ),
       Cell: ({ row }) => (
         <div>
@@ -88,15 +89,16 @@ function Table({
             {headerGroup.headers.map((column) => (
               <div
                 className={`${getClassName("header")}`}
-                {...column.getHeaderProps(column.getSortByToggleProps())}
+                style={{ width: column.width }}
+                {...column.getHeaderProps()}
               >
                 {column.render("Header")}
                 <span>
                   {column.isSorted ? (
                     column.isSortedDesc ? (
-                      <i className="ml-1 fas fa-sort-down"></i>
+                      <i className=" fas fa-sort-down"></i>
                     ) : (
-                      <i className="ml-1 fas fa-sort-up"></i>
+                      <i className="fas fa-sort-up"></i>
                     )
                   ) : (
                     ""
@@ -121,9 +123,13 @@ function Table({
                 {row.cells.map((cell) => (
                   <div
                     className={`${getClassName("cell")}`}
-                    {...cell.getCellProps()}
+                    {...cell.getCellProps({
+                      style: {
+                        width: cell.column.width,
+                      },
+                    })}
                   >
-                    <span className="m-2 w-full">{cell.render("Cell")}</span>
+                    <span className="w-full">{cell.render("Cell")}</span>
                   </div>
                 ))}
               </div>
