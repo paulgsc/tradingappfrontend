@@ -21,7 +21,7 @@ function ProfileMenu({ user }) {
   };
 
   return (
-    <div className="block w-full text-center items-center justify-center rounded-lg bg-white ">
+    <div className="z-50 block w-full text-center items-center justify-center rounded-lg bg-white shadow-lg">
       <hr className="w-full border-t h-4 " />
       <div className="flex justify-center mx-auto w-full h-16 border-b border-gray-400">
         <div className="flex items-start mx-auto gap-6 w-11/12">
