@@ -4,7 +4,7 @@ import ImagesAction from "./ImagesAction";
 function ImagesPortal({ headerContent, imageContent }) {
   return (
     <div
-      className={`flex flex-col items-start min-h-screen z-40 w-full bg-white border border-red-600`}
+      className={`flex flex-col items-start min-h-screen  w-full bg-white border border-red-600`}
     >
       <div className="flex h-16 xl:h-24 w-full grid-rows-1 items-center justify-center border-red-600 border">
         <div> {headerContent || "+"} </div>
