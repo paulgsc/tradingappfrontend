@@ -1,6 +1,5 @@
 import React from "react";
 import SideTabs from "../../components/sidemenu/SideTabs";
-import { Link } from "react-router-dom";
 import IpAdresses from "./IpAdresses";
 
 function SiteSettings() {
@@ -35,11 +34,11 @@ const General = () => {
               <IpAdresses />
             </div>
             <div className="hidden xl:grid grid-cols-7">
-              <div className="col-span-1 border-red-600 border">+</div>
+              <div className="col-span-1 ">+</div>
               <div className=" col-span-5">
                 <IpAdresses />
               </div>
-              <div className="col-span-1 border-red-600 border">+</div>
+              <div className="col-span-1 ">+</div>
             </div>
           </div>
         )}

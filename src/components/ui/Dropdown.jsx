@@ -26,7 +26,9 @@ function Dropdown({ icon, menu, getClassname = () => {} }) {
   return (
     <div
       className={cn(
-        `${getClassname("main-container")} dropdown-selector inline-block`
+        `${getClassname(
+          "main-container"
+        )} relative dropdown-selector inline-block`
       )}
     >
       <button

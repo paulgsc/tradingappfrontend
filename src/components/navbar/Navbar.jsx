@@ -47,11 +47,11 @@ function Navbar({ showMenu, Menubar }) {
 
   return (
     <div className="">
-      <nav className="fixed top-0 z-50 w-full h-14 bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="fixed z-50 top-0 w-full h-14 bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex justify-between items-center w-full h-full px-3 lg:px-5 lg:pl-3">
           <div className="relative flex h-full w-full items-center justify-between">
             <div className="flex justify-start items-center w-3/5 h-full">
-              <div className="flex h-full ">
+              <div className="flex h-full z-0 ">
                 <button
                   aria-label="open"
                   id="hamburger-menu"

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPropertyById } from "../../contexts/redux/selectors/propertySelectors";
 import Tabs from "../../components/ui/Tabs";
 import { Link } from "react-router-dom";
-import SlideshowComponent from "../../components/animation/SlideShowComponent";
 import { fetchPropertyRows } from "../../contexts/redux/actions/fetchPropertyActions";
 import { fetchPropertyQuery } from "../../contexts/redux/actions/fetchDataActions";
 import { storeOrderInfo } from "../../reducers/tradingReducers";
@@ -47,12 +46,16 @@ function Trading() {
   }, [dispatch, total_property_shares]);
 
   return (
-    <div className="h-screen flex flex-col w-full ">
-      <div className="flex flex-col items-center justify-center w-full flex-1 p-4">
-        <div className="flex flex-col w-full justify-center items-center flex-1 p-4 border-gray-200 rounded-lg dark:border-gray-700 mt-14 z-60">
+    <div className="min-h-screen flex flex-col w-full ">
+      <hr className="mt-12" />
+      <div className="flex flex-col items-center justify-center w-full flex-1 ">
+        <div className="relative flex flex-col w-full justify-center items-center flex-1 px-4 border-gray-200 rounded-lg dark:border-gray-700 ">
           <Trading.Header property_name={property_name} />
-          <Trading.Alert transferAmountRemaining={transferAmountRemaining} />
-          <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-4 w-full h-full flex-1">
+          <hr className="  w-full mb-2" />
+          {!transferAmountRemaining && (
+            <Trading.Alert transferAmountRemaining={transferAmountRemaining} />
+          )}
+          <div className="grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-7 gap-4  w-full h-full flex-1">
             <Trading.PropertyCard showSummaryPortal={showSummaryPortal} />
 
             <div className="hidden lg:block lg:col-span-1 xl:col-span-2 w-full h-fit sticky top-[80px] xl:top-32 ">
@@ -74,7 +77,7 @@ function Trading() {
 }
 
 Trading.Header = ({ property_name }) => (
-  <div className="flex items-center justify-center h-24 w-full mb-4 rounded bg-gray-50 dark:bg-gray-800">
+  <div className="flex items-center justify-center h-24 w-full rounded bg-gray-50 dark:bg-gray-800">
     <h1 className="text-base lg:text-2xl xl:text-3xl leading-relaxed text-gray-600 dark:text-gray-500">
       Own a Piece of {property_name}: Invest Now, Reap the Benefits Forever
     </h1>
