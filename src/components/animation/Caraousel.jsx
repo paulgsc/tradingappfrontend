@@ -98,7 +98,6 @@ function Caraousel() {
     };
 
     if (carouselRef.current) {
-      console.log("foo foo");
       carouselRef.current.addEventListener("mouseenter", stopAutoSlide);
       carouselRef.current.addEventListener("mouseleave", startAutoSlide);
       startAutoSlide();
@@ -207,6 +206,7 @@ const Images = ({ images }) => {
             src={image}
             className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
             alt="..."
+            title="hover to pause"
           />
         </div>
       ))}
