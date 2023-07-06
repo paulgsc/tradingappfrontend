@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Navbar from "../../components/navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getPropertyById } from "../../contexts/redux/selectors/propertySelectors";
 import Tabs from "../../components/ui/Tabs";
@@ -9,8 +8,7 @@ import { fetchPropertyQuery } from "../../contexts/redux/actions/fetchDataAction
 import { storeOrderInfo } from "../../reducers/tradingReducers";
 import TabWidget from "../../components/ui/TabWidget";
 import Caraousel from "../../components/animation/Caraousel";
-import OrderSummary from "../../components/ui/OrderSummary";
-import { housePic_1 } from "../../assets";
+import TradingSummary from "./TradingSummary";
 
 function Trading() {
   const dispatch = useDispatch();
@@ -171,7 +169,7 @@ Trading.PropertyImage = ({ flipped = true }) => {
             flipped ? "opacity-0 translate-y-full" : "opacity-100 translate-y-0"
           } transition-all duration-1000 ease-in-out absolute top-0 left-0 w-full h-full`}
         >
-          <Trading.Summary />
+          <TradingSummary />
         </div>
       </div>
     </div>
@@ -243,62 +241,6 @@ Trading.PropertyOverview = () => (
     <span>HOE: $2,000</span>
     <span>Maintanance: $2,000</span>
   </div>
-);
-
-Trading.Summary = () => (
-  <OrderSummary className={"shadow-md border-l border-t"}>
-    <OrderSummary.Card
-      className={"flex items-center justify-center w-full p-4"}
-    >
-      <OrderSummary.TotalCard className={""}>$0.00</OrderSummary.TotalCard>
-    </OrderSummary.Card>
-    <OrderSummary.Title>Order Summary</OrderSummary.Title>
-    <OrderSummary.Card className={"border-t-2 border-slate-400"}>
-      <div className="grid grid-cols-4 text-center items-center">
-        <OrderSummary.Img className={""} src={housePic_1} />
-
-        <span className="flex flex-col justify-center text-center">
-          <span className="font-semibold text-2xl">$0.00000</span>
-          <span className="text-xs text-slate-400 font-light">
-            Price per share
-          </span>
-        </span>
-        <span className="flex flex-col justify-center text-center">
-          <span className="font-semibold text-2xl">00000000</span>
-          <span className="text-xs text-slate-400 font-light">Shares</span>
-        </span>
-        <span className="flex flex-col justify-center text-center">
-          <span className="font-semibold text-2xl">$0.0000000</span>
-          <span className="text-xs text-slate-400 font-light">Total</span>
-        </span>
-      </div>
-      <hr className="mb-12" />
-      <OrderSummary.Detail className={"grid border shadow-sm p-2"}>
-        <div className="grid grid-cols-3 font-semibold text-slate-600 text-base xl:text-lg py-2 underline">
-          <span>Description</span>
-          <span>Order detail</span>
-          <span>Property metrics</span>
-        </div>
-        <div className="grid grid-cols-3">
-          <div className="grid text-sm xl:text-base gap-2 ">
-            <span>Property name: name</span>
-            <span>Property address: address</span>
-            <span>Property rental status: status</span>
-          </div>
-          <div className="grid text-sm xl:text-base gap-2 ">
-            <span>Price Per Share: $0.00</span>
-            <span>Shares: 0.00</span>
-            <span>Purchase Amount: $0.00</span>
-          </div>
-          <div className="grid text-sm xl:text-base gap-2 ">
-            <span>Current dividend: $0.00</span>
-            <span>Outstanding shares: 0.00</span>
-            <span>Percent shares sold: 0%</span>
-          </div>
-        </div>
-      </OrderSummary.Detail>
-    </OrderSummary.Card>
-  </OrderSummary>
 );
 
 export default Trading;
