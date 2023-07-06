@@ -14,9 +14,6 @@ import {
 import PropertyShares from "../../components/tables/PropertyShares";
 import Profile from "../../components/profile/Profile";
 import currency from "currency.js";
-import OrderHistory from "../../components/tables/OrderHistory";
-import { accessAdminView } from "../../contexts/redux/actions/userActions";
-import LiveNotifications from "../../components/alerts/LiveNotifications";
 
 function Account() {
   const location = useLocation();
@@ -68,8 +65,9 @@ function Account() {
         adminHash={adminHash}
         navigate={navigate}
       />
+      <Account.SideMenu openMenu={openMenu} />
 
-      <div className="flex flex-col w-full h-full py-4 rounded-lg dark:border-gray-700 mt-14 z-60">
+      <div className="flex flex-col w-full h-full py-4 rounded-lg dark:border-gray-700 mt-14 ">
         <Account.Header transfers_total={transfers_total} />
         <Account.Subtitle
           amount_purchased={amount_purchased}
@@ -88,7 +86,7 @@ function Account() {
 }
 
 Account.Nav = ({ openMenu, profileInitial, adminHash, navigate }) => (
-  <nav className="fixed top-0 z-0 w-full bg-gray-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+  <nav className="fixed top-0 w-full bg-green-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="px-3 py-3 lg:px-5 lg:pl-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center justify-start">
@@ -126,13 +124,24 @@ Account.Nav = ({ openMenu, profileInitial, adminHash, navigate }) => (
   </nav>
 );
 
-Account.SideMenu = () => (
+Account.SideMenu = ({ openMenu }) => (
   <aside
     id="sidebar"
     className="hidden fixed top-0 left-0 lg:w-[25%] xl:w-1/6 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
     aria-label="Sidebar"
   >
-    <div className="z-0 h-full overflow-y-auto bg-[#FFF] dark:bg-gray-800">
+    <div className="absolute top-6 left-6 flex items-center justify-start">
+      <button
+        onClick={openMenu}
+        aria-label="open"
+        id="hamburger-menu"
+        className="h-full focus:outline-none cursor-pointer"
+      >
+        <CustomSvg.HamburgerMenu />
+      </button>
+      <NavbarLogo />
+    </div>
+    <div className="z-50 h-full overflow-y-auto bg-[#FFF] dark:bg-gray-800">
       <SideMenu />
     </div>
   </aside>

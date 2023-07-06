@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const adminFetchDataReducers = createSlice({
     name: "adminFetchData",
-    initialState: { loading: false,  recordId: localStorage.getItem("selectedPropertyId"), history: [], summary: {}, propertyData: [], sharesData: [], propertyOrders: [], linkedAccounts: [], siteTasks: [], },
+    initialState: { loading: false,  recordId: localStorage.getItem("selectedPropertyId"), history: [], summary: {}, propertyData: [], sharesData: [], propertyOrders: [], linkedAccounts: [], siteTasks: [], imageUpload: [], },
     reducers: {
         adminRequestData(state, action){
             return { ...state, loading: true, updateSuccess: false, itFailed: false };
@@ -26,6 +26,15 @@ const adminFetchDataReducers = createSlice({
         adminUpdatePropertySuccess(state, action){
             return { ...state, loading: false, ...action.payload, updateSuccess: true }
         },
+        addSelectedImagesSuccess(state, action){
+            return { ...state, imageUpload: [ ...action.payload  ] }
+        },
+        removeSelectedImagesSuccess(state, action){
+            return { ...state, imageUpload: [ ...action.payload  ] }
+        },
+        imageUploadActionFailed(state, action){
+            return { ...state, loading: false, error: action.payload}
+        },
         adminCreatePropertyFailed(state, action){
             return { ...state, loading: false, error: action.payload, itFailed: true }
         },
@@ -44,6 +53,9 @@ export const {
     adminCreatePropertySuccess,
     adminUpdatePropertySuccess,
     adminFetchSiteTasksSuccess,
+    addSelectedImagesSuccess,
+    removeSelectedImagesSuccess,
+    imageUploadActionFailed,
     adminFetchPropertyDataFailed,
     adminCreatePropertyFailed,
     adminUpdatePropertyFailed,
