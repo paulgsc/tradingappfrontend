@@ -11,6 +11,7 @@ import OrderSummary from "./OrderSummary";
 import ProfileInfo from "./ProfileInfo";
 import { ProfileSvg } from "../../constants/svgs/Svg";
 import currency from "currency.js";
+import { useEffect } from "react";
 
 function FlipCard() {
   const [flipped, setFlipped] = useState(true);
@@ -50,7 +51,14 @@ function FlipCard() {
       dispatch(syncActions());
     }
   };
-
+  useEffect(() => {
+    dispatch(clearOrderInfo());
+    dispatch(
+      showSummaryPortal({
+        showSummaryPortal: false,
+      })
+    );
+  }, []);
   return (
     <div className="relative w-full">
       <div
