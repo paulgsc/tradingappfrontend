@@ -10,6 +10,7 @@ import { excersiseTrade } from "../../contexts/redux/actions/tradingActions";
 import OrderSummary from "./OrderSummary";
 import ProfileInfo from "./ProfileInfo";
 import { ProfileSvg } from "../../constants/svgs/Svg";
+import currency from "currency.js";
 
 function FlipCard() {
   const [flipped, setFlipped] = useState(true);
@@ -65,13 +66,17 @@ function FlipCard() {
           flipped ? "opacity-0 translate-y-full" : "opacity-100 translate-y-0"
         } transition-all duration-1000 ease-in-out absolute top-0 left-0 w-full`}
       >
-        <FlippedSide handleClick={handleClick} />
+        <FlippedSide
+          amount={amount}
+          shares={shares}
+          handleClick={handleClick}
+        />
       </div>
     </div>
   );
 }
 
-const FlippedSide = ({ handleClick }) => {
+const FlippedSide = ({ handleClick, shares = 0, amount = 0 }) => {
   return (
     <OrderSummary className={""}>
       <OrderSummary.Title className={""}>User Snapshot</OrderSummary.Title>
@@ -94,12 +99,12 @@ const FlippedSide = ({ handleClick }) => {
         <OrderSummary.Title>Order Amount</OrderSummary.Title>
         <div className="border-t">
           <div>
-            <span>Cash: </span>
-            <span>$ 0.00</span>
+            <span>You're paying: </span>
+            <span>{currency(amount).format()}</span>
           </div>
           <div>
-            <span>Shares: </span>
-            <span>0.00</span>
+            <span>You're receiving: </span>
+            <span>{shares} shares</span>
           </div>
         </div>
         <div className="mt-6 w-full flex justify-center items-center">
