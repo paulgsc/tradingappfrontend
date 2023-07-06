@@ -58,10 +58,10 @@ TabMenu.ContentCard = ({ className, ...props }) => {
   return <div id="myTabContent" className={cn(`${className} `)} {...props} />;
 };
 
-TabMenu.Content = ({ className, isTabActive, item }) => {
+TabMenu.Content = ({ className, isTabActive, item, itemKey = "" }) => {
   return (
     <div
-      key={item.id}
+      key={`${item.id}_${itemKey}`}
       className={cn(
         `${className} ${
           isTabActive(item.title) ? "" : "hidden"

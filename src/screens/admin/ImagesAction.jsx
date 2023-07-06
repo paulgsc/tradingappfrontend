@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TabMenu from "../../components/ui/TabMenu";
+import UploadForm from "../../components/ui/UploadForm";
 
 function ImagesAction() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -20,11 +21,11 @@ function ImagesAction() {
     {
       id: "tab_2",
       title: "Upload",
-      content: "",
+      content: <UploadForm />,
     },
   ];
   return (
-    <TabMenu>
+    <TabMenu className={"w-full h-full"}>
       <TabMenu.List>
         {headers.map((item) => (
           <TabMenu.ListItems key={item.id}>
@@ -45,9 +46,14 @@ function ImagesAction() {
           </TabMenu.ListItems>
         ))}
       </TabMenu.List>
-      <TabMenu.ContentCard>
+      <TabMenu.ContentCard className={"w-full h-full"}>
         {headers.map((item) => (
-          <TabMenu.Content item={item} isTabActive={isTabActive} />
+          <TabMenu.Content
+            className={"w-full h-full"}
+            item={item}
+            isTabActive={isTabActive}
+            key={item.id}
+          />
         ))}
       </TabMenu.ContentCard>
     </TabMenu>

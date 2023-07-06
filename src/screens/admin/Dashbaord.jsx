@@ -57,13 +57,16 @@ Dashbaord.MetricCard = ({ title, metric }) => {
 };
 
 Dashbaord.OverviewMetrics = ({ metrics = [] }) => {
-  const cards = metrics.map((item, i) => (
-    <Dashbaord.MetricCard
-      key={i}
-      metric={item.metrics.default}
-      title={item.title}
-    />
-  ));
+  const cards =
+    (metrics &&
+      metrics.map((item, i) => (
+        <Dashbaord.MetricCard
+          key={i}
+          metric={item?.metrics?.default}
+          title={item?.title}
+        />
+      ))) ||
+    [];
 
   const getSizeBasedOnScreenWidth = () => {
     const screenWidth = window.innerWidth;

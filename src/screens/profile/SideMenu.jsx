@@ -22,7 +22,6 @@ function SideMenu() {
       if (icon) icon.classList.toggle("rotate-180");
       if (menu) menu.classList.toggle("hidden");
     } else if (e.target.id.includes("gap")) {
-      console.log("foo");
       const gap = document.getElementById(e.target.id);
       const lastChar = gap.id[gap.id.length - 1];
       const menu = document.getElementById(`menu${lastChar}`);
