@@ -5,7 +5,7 @@ import API from '../api/django';
 
 
 
-const websocketBaseUrl = "ws://127.0.0.1:8000";
+const websocketBaseUrl = import.meta.env.DEV ? "ws://127.0.0.1:8000" :  "ws://tradingapp.up.railway.app" ;
 
 export function createWebSocket(endpoint) {
   return new WebSocket(`${websocketBaseUrl}/${endpoint}`);
