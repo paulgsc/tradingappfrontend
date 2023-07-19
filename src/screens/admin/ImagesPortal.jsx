@@ -63,6 +63,12 @@ function ImagesPortal() {
     }
   };
   useEffect(() => {
+    console.log(
+      "dev env: ",
+      import.meta.env.DEV,
+      "backend url:",
+      import.meta.env.VITE_APP_BACKEND_URL
+    );
     refetch();
   }, [query]);
 
