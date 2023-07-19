@@ -39,9 +39,7 @@ function Dropdown({ icon, menu, getClassname = () => {} }) {
       </button>
 
       {isOpen && (
-        <div
-          className={cn(`${getClassname("menu-container")}  z-50 rounded-md `)}
-        >
+        <div className={cn(`${getClassname("menu-container")} rounded-md `)}>
           <Dropdown.Menu menu={menu} />
         </div>
       )}

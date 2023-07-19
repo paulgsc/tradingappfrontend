@@ -59,6 +59,7 @@ export const login = (formData) => async (dispatch) => {
                 ? error.response.data.detail
                 : error.message,
         ));
+        
     };
 };
 
@@ -107,6 +108,7 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
  
         
     }catch(error)  {
+        
         let payload
         switch (error.code) {
             case 'auth/invalid-email':
@@ -122,13 +124,13 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
                 payload = 'Invalid password';
               break;
             default:
-                payload =  error.message;
+                payload =   error.response && error.response.data.detail
+                ? error.response.data.detail
+                : "something went wrong!"
               break;
           }
-          dispatch(userLogOut());
-          dispatch(userLoginFailure({
-            error: payload,
-          }));
+          dispatch(logout());
+          dispatch(userLoginFailure(payload));
  
 }}
 
@@ -180,7 +182,7 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
                 payload =  error.message;
               break;
           }
-          dispatch(userLogOut());
+          dispatch(logout());
           dispatch(userRegistrationFailure({
             error: payload,
           }));
@@ -189,9 +191,10 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
 
 export const logout = ()  => async (dispatch, getState)  => {
     const { userAuth: { userInfo: { gmailInfo = "" } = {}  } = {} } = getState()
-    firebaseLogout()
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('link_token');
+   
+    firebaseLogout();
+    localStorage.clear();
+    sessionStorage.clear();
     dispatch(userLogoutPlaid());
     dispatch(userLogOutClearData());
     dispatch(clearTradeInfoOnLogout());
@@ -248,8 +251,7 @@ export const accessAdminView = () => async (dispatch, getState) => {
       
 
     }catch (error){
-        localStorage.removeItem('userInfo');
-        localStorage.removeItem('link_token');
+
         dispatch(userLoginFailure(error.message));
         return false;
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   housePic_1,
   housePic_2,
@@ -10,6 +10,7 @@ import {
   housePic_8,
   housePic_9,
 } from "../../assets";
+import { FileImage } from "../../constants/svgs/Svg";
 
 const urls = [
   housePic_1,
@@ -23,10 +24,22 @@ const urls = [
   housePic_9,
 ];
 
-function Caraousel() {
+function Caraousel({ getClassname = () => {}, imageUrls = urls }) {
   const carouselRef = useRef(null);
   const currentIndexRef = useRef(0);
   const intervalRef = useRef(null);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  const toggleFullScreen = () => {
+    setIsFullScreen((prevState) => !prevState);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.keyCode === 27) {
+      // Escape key code
+      setIsFullScreen(false);
+    }
+  };
 
   useEffect(() => {
     const carouselItems = document.querySelectorAll("[data-carousel-item]");
@@ -122,27 +135,49 @@ function Caraousel() {
         stopAutoSlide();
       }
     };
+  }, [imageUrls]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
   }, []);
 
   return (
     <div className="w-full h-full">
       <div
         id="default-carousel"
-        className="relative w-full"
+        className="relative w-full group"
         data-carousel="slide"
         ref={carouselRef}
       >
-        <div className="relative overflow-hidden rounded-lg  h-[440px] md:h-[524px] lg:h-[440px] xl:h-[524px]">
-          <Images images={urls} />
+        <div
+          className={`${getClassname(
+            isFullScreen ? "full-screen" : "image-container"
+          )} `}
+        >
+          <Images images={imageUrls} />
         </div>
-
-        <div className="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
-          <Indicators indicators={urls} />
+        <button
+          className={`${
+            isFullScreen ? "fixed bottom-2" : "absolute bottom-4"
+          }  right-6 z-40 hidden group-hover:flex  items-center justify-center text-white`}
+          onClick={toggleFullScreen}
+        >
+          <i className="fas fa-expand cursor-pointer"></i>
+        </button>
+        <div
+          className={`${
+            isFullScreen ? "hidden" : ""
+          } " absolute bottom-5 left-1/2 z-50 flex space-x-3 -translate-x-1/2 `}
+        >
+          <Indicators indicators={imageUrls} />
         </div>
 
         <button
           type="button"
-          className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+          className="h-fit absolute top-[45%] left-0 z-30 flex items-center justify-center px-4 cursor-pointer group focus:outline-none"
           data-carousel-prev
         >
           <span className="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
@@ -166,7 +201,7 @@ function Caraousel() {
         </button>
         <button
           type="button"
-          className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+          className="h-fit absolute top-[45%] right-0 z-30 flex items-center justify-center px-4 cursor-pointer group focus:outline-none"
           data-carousel-next
         >
           <span className="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
@@ -196,20 +231,28 @@ function Caraousel() {
 const Images = ({ images }) => {
   return (
     <>
-      {images.map((image, i) => (
-        <div
-          key={i}
-          className="  opacity-0 transition-opacity duration-700 ease-in-out"
-          data-carousel-item
-        >
-          <img
-            src={image}
-            className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-            alt="..."
-            title="hover to pause"
-          />
+      {images.length > 0 ? (
+        images.map((image, i) => {
+          return (
+            <div
+              key={i}
+              className="h-full w-full  opacity-0 transition-opacity duration-700 ease-in-out"
+              data-carousel-item
+            >
+              <img
+                src={image}
+                className="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                alt="..."
+                title="hover to pause"
+              />
+            </div>
+          );
+        })
+      ) : (
+        <div className="flex items-center justify-center h-full w-full ">
+          <FileImage />
         </div>
-      ))}
+      )}
     </>
   );
 };

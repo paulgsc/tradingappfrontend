@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTable, useSortBy, useFilters, useRowSelect } from "react-table";
 import { cn } from "../../lib/utils";
 
@@ -9,7 +9,9 @@ function Table({
   getClassName,
   handleScroll = () => {},
   showCheckboxColumn = false,
+  getSelectedIds = () => {},
 }) {
+  const [selected, setSelected] = useState(false);
   const data = useMemo(() => history, [history]);
 
   const ColumnFilter = ({ column }) => {
@@ -38,6 +40,9 @@ function Table({
         <div className={`${getClassName("check-box-header")}`}>
           <input
             type="checkbox"
+            onClick={() => {
+              setSelected(true);
+            }}
             {...getToggleAllRowsSelectedProps({ indeterminate: "false" })}
           />
         </div>
@@ -46,6 +51,9 @@ function Table({
         <div>
           <input
             type="checkbox"
+            onClick={() => {
+              setSelected(true);
+            }}
             {...row.getToggleRowSelectedProps()}
             indeterminate={
               row.isSelected && !row.isSomeSelected ? "true" : undefined
@@ -75,9 +83,24 @@ function Table({
     useRowSelect // Add the useRowSelect hook for row selection
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    selectedFlatRows,
+  } = tableInstance;
 
+  useEffect(() => {
+    if (selected) {
+      setSelected(false);
+      const selectedIds = selectedFlatRows.map((row) => row.original.id);
+      getSelectedIds(selectedIds);
+    }
+
+    // Dispatch the selected row IDs to Redux using the action creator
+  }, [selectedFlatRows]);
   return (
     <div className={getClassName("table")}>
       <div className="flex w-full  justify-center items-center">

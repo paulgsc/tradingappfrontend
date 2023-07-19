@@ -7,6 +7,7 @@ import fetchPropertyReducers from '../reducers/fetchPropertyReducers';
 import tradingReducers from '../reducers/tradingReducers';
 import firebaseReducer from '../reducers/firebaseReducer';
 import adminFetchDataReducers from '../reducers/adminFetchDataReducers';
+import adminActionsReducers from '../reducers/adminActionsReducers';
 
 export const store = configureStore({
     reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
         trade: tradingReducers,
         firebase: firebaseReducer,
         adminFetchData: adminFetchDataReducers,
+        adminActions: adminActionsReducers,
 
     },
     devTools: process.env.NODE_ENV !== 'production',    

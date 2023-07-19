@@ -170,7 +170,80 @@ export const fetchPropertiesQuery = (token) => {
       isError,
     };
   };
+
   
+  export const fetchSiteSettings = (token) => {
+    // Define your query key or URL
+    const queryKey = ['site-settings'];
+  
+    // Define your fetch function
+    const fetchSettings = async () => {
+      try {
+        const config = {
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${token}`
+          }
+        };
+  
+        const response = await API.get('admin/site-settings/', config);
+        return response.data;
+      } catch (error) {
+        throw new Error('Error fetching data');
+      }
+    };
+  
+    // Use the useQuery hook to fetch the property data
+    const { data, isLoading, isError } = useQuery(queryKey, fetchSettings);
+  
+    return {
+      settings: data,
+      isLoading,
+      isError,
+    };
+  };
+  
+
+
+
+export const useFetchPropertyWithImages = (searchQuery) => {
+  const queryKey = ['property-query'];
+
+  // Use the useQuery hook to fetch the property data
+  const { data, isLoading, isError, refetch } = useQuery(
+    queryKey,
+    async () => {
+      try {
+        const config = {
+          headers: {
+            'Content-type': 'application/json',
+          }
+        };
+
+        const response = await API.get(
+          `data/property_images/search?query=${searchQuery}`,
+          config
+        );
+
+        return response.data;
+      } catch (error) {
+        throw new Error('Error fetching data');
+      }
+    },
+    {
+      enabled: true,
+    }
+  );
+
+  return {
+    propertyWithImages: data,
+    isLoading,
+    isError,
+    refetch
+  };
+};
+
+
   
 
 

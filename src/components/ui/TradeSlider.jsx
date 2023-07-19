@@ -345,7 +345,7 @@ TradeSlider.ManualInput = ({
             </div>
           }
           menu={
-            <div className=" cursor-pointer absolute justify-center items-center mt-2 w-24 h-10 bg-white rounded-md shadow-lg z-10 hover:bg-stone-200">
+            <div className=" cursor-pointer absolute justify-center items-center mt-2 w-24 h-10 bg-white rounded-md shadow-lg hover:bg-stone-200">
               <ul className="py-1">
                 <li
                   className="block px-1 text-xs xl:text-base text-center text-gray-800 font-semibold hover:text-blue-600"

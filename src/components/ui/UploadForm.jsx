@@ -1,8 +1,36 @@
 import React from "react";
 import UploadButton from "./UploadButton";
 import ImagesPreview from "../../screens/admin/ImagesPreview";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  cancelUploadingImages,
+  uploadPreviewedImages,
+} from "../../reducers/adminFetchDataReducers";
+import { notify } from "../../lib/utils";
+import { Toaster } from "react-hot-toast";
 
 function UploadForm() {
+  const dispatch = useDispatch();
+  const { uploadState: { previewing = false, uploaded = false } = {} } =
+    useSelector((state) => state.adminFetchData);
+  const handleUploadImages = (e) => {
+    e.preventDefault();
+    if (previewing) {
+      dispatch(uploadPreviewedImages());
+      notify("successfully staged images for changes");
+      return;
+    }
+    notify("No images to stage");
+  };
+
+  const handleCancelUpload = (e) => {
+    e.preventDefault();
+    if (previewing || uploaded) {
+      dispatch(cancelUploadingImages());
+      return;
+    }
+    notify("No images to remove");
+  };
   return (
     <div className="flex flex-col items-center w-full h-full">
       <div className="flex items-center justify-center w-11/12 h-32 xl:h-44 border-2 border-dashed border-slate-400">
@@ -26,11 +54,15 @@ function UploadForm() {
       </div>
       <hr className="mt-2 xl:mt-3 mb-6" />
       <div className="flex justify-end w-10/12 gap-2">
-        <button className="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none">
+        <button
+          onClick={handleUploadImages}
+          className="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none"
+        >
           Upload now
         </button>
-        <button>Cancel</button>
+        <button onClick={handleCancelUpload}>Cancel</button>
       </div>
+      <Toaster />
     </div>
   );
 }

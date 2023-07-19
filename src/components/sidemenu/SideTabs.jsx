@@ -27,8 +27,8 @@ SideTabs.Links = ({ items, className }) => {
 
   return (
     <>
-      {items.map((item) => (
-        <span key={item?.id}>
+      {items.map((item, i) => (
+        <span key={item?.id + i}>
           <Link
             to={item?.path}
             className={cn(

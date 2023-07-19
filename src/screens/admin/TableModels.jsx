@@ -41,14 +41,7 @@ function TableModels() {
           />
         </>
       )}
-      {location.pathname.includes(`/admin/site/models/site-settings`) && (
-        <>
-          <aside className="hidden xl:block">
-            <ModelSideBar />
-          </aside>
-          <SiteSettings />
-        </>
-      )}
+
       {location.pathname.includes(`/admin/site/models/propertyimages`) && (
         <>
           <ImagesPortal />

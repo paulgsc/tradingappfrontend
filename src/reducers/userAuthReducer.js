@@ -6,7 +6,7 @@ const userInfoFromStorage = localStorage.getItem('userInfo') ?
 
 const userAuthentification = createSlice({
   name: "userAuth",
-  initialState: { adminHash: null, access: false, smsVerified: false, loading: false, userInfo: { ...userInfoFromStorage } },
+  initialState: { adminHash: null, access: false, smsVerified: false, loading: false, refreshingSession: false, userInfo: { ...userInfoFromStorage } },
   reducers: {
     userRegistration(state, action) {
       return { ...state, loading: true };
@@ -19,17 +19,20 @@ const userAuthentification = createSlice({
       return { ...state, loading: false, error: action.payload };
     },
     userLoginRequest(state, action) {
-      return { ...state, loading: true};
+      return { ...state, loading: true, error: null};
+    },
+    userRefreshLoginSession(state, action){
+      return {  ...state, refreshingSession: true }
     },
     userLoginSuccess(state, action) {
       localStorage.setItem('userInfo', JSON.stringify({ ...state.userInfo, ...action.payload }));
-      return { access: false, loading: false, userInfo: { ...state.userInfo,  ...action.payload } };
+      return { access: false, loading: false, refreshingSession: false, userInfo: { ...state.userInfo,  ...action.payload } };
     },
     userLogOut(state, action){
       return { access: false, loading: false, userInfo: {} };
     },
     userLoginWithGmailRequest(state, actiion) {
-      return { ...state, loading: true }
+      return { ...state, loading: true, error: null }
     },
     userLoginWithGmailSuccessful(state, action) {
       return { access: false, userInfo: { ...state.userInfo, ...action.payload },  loading: false }
@@ -66,6 +69,7 @@ export const {
   adminProtectedView,
   userLoginWithGmailSuccessful,
   userRegisterWithGmailSuccessful,
+  userRefreshLoginSession,
   userSMSVerificationComplete,
   userSMSVerificationFailed,
   userLoginFailure,

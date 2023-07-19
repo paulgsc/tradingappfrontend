@@ -7,6 +7,23 @@ export default {
       backfaceVisibility: {
         hidden: 'hidden',
       },
+      keyframes: {
+        wiggle: {
+          '0%': {
+            transform: 'translateX(0) scale(0.5 )',
+            opacity: '0',
+            backgroundColor: '#000000'
+          },
+          '25%': {
+            backgroundColor: '#0000'
+          },
+          '100%': {
+            transform: 'translateX(100px) scale(1)',
+            opacity: '1',
+            backgroundColor: '#FF0000'
+          },
+        }
+      },
     },
   },
   plugins: [

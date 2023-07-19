@@ -6,7 +6,7 @@ import {
 } from "../../hooks/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { djangoToReactTypes, notify } from "../../lib/utils";
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import {
   createProperty,
   updateProperty,
