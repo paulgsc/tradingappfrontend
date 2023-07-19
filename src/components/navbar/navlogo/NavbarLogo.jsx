@@ -6,10 +6,10 @@ function NavbarLogo() {
   return (
     <div className="flex items-center overflow-y-hidden ">
       <Link to={"/"} className="">
-        <div className=" flex items-center text-start justify-start rounded-lg shadow-sm h-12  w-36">
+        <div className="  flex items-center text-start justify-start rounded-lg shadow-sm h-12  w-36">
           <img
             src={siteLogo1}
-            className="z-50 flex justify-start text-start object-left"
+            className=" z-50 flex justify-start text-start object-left"
           />
         </div>
       </Link>
