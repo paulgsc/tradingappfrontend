@@ -24,8 +24,13 @@ Card.Footer = function CardFooter({ ...props }) {
   return <div {...props} />;
 };
 
-Card.Title = function CardTitle({ ...props }) {
-  return <h3 {...props} />;
+Card.Title = function CardTitle({ className, ...props }) {
+  return (
+    <h3
+      className={`${className} font-semibold text-lg xl:text-xl capitalize`}
+      {...props}
+    />
+  );
 };
 
 Card.Description = function CardDescription({ ...props }) {

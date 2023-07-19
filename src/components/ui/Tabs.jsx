@@ -16,7 +16,7 @@ function Tabs({ soldShares, totalShares, raisedAmount }) {
   };
 
   return (
-    <div className="flex flex-col h-screen w-full">
+    <div className="flex flex-col h-full w-full">
       <div className="w-full mb-4 border-b border-gray-200 dark:border-gray-700">
         <Tabs.Header
           handleTabClick={handleTabClick}

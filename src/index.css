@@ -33,6 +33,13 @@
   animation-timing-function: ease-in-out;
 }
 
+.images-table-row:nth-child(even) {
+  background-color: #f8f8f8; /* Set the background color for even rows */
+}
+.images-table-row:nth-child(odd) {
+  background-color: #ffffff; /* Set the background color for odd rows */
+}
+
 @keyframes slide {
   0% {
     transform: translateX(-100%);

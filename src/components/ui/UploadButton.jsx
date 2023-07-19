@@ -10,14 +10,17 @@ function UploadButton() {
   const fileInputRef = useRef(null);
   const [filename, setFileName] = useState(null);
   const dispatch = useDispatch();
-  const { imageUpload = [] } = useSelector((state) => state.adminFetchData);
+  const {
+    imageUpload = [],
+    uploadState: { cancel = false, uploaded = false, posted = false } = {},
+  } = useSelector((state) => state.adminFetchData);
 
   const handleFileChange = (e) => {
     const files = e.target.files;
     const fileArray = Array.from(files);
 
-    if (fileArray.length > 7) {
-      fileArray.splice(7);
+    if (fileArray.length > 10) {
+      fileArray.splice(10);
       notify("Can only upload at most 7 images per property!");
     }
 
@@ -43,14 +46,48 @@ function UploadButton() {
       fileInputRef.current.value = ""; // Clear the file input
       return;
     }
-    const fileUrls = fileArray.map((file) => ({
+    const fileUrls = fileArray.map((file, i) => ({
+      id: i,
       imageUrl: URL.createObjectURL(file),
       imageName: file.name,
     }));
 
     setFileName(fileArray[0].name);
     dispatch(addSelectedImagesSuccess(fileUrls));
+    storeFilesInSessionStorage(fileArray);
   };
+
+  const storeFilesInSessionStorage = async (files) => {
+    const fileDataArray = [];
+
+    await Promise.all(
+      files.map((file) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const fileData = {
+              name: file.name,
+              type: file.type,
+              data: event.target.result,
+            };
+            fileDataArray.push(fileData);
+            resolve();
+          };
+          reader.readAsDataURL(file);
+        });
+      })
+    );
+
+    sessionStorage.setItem("stagedImageFiles", JSON.stringify(fileDataArray));
+  };
+
+  useEffect(() => {
+    if (cancel || posted) {
+      fileInputRef.current.value = ""; // Clear the file input
+      setFileName(null);
+      sessionStorage.removeItem("stagedImageFiles");
+    }
+  }, [cancel]);
 
   return (
     <>

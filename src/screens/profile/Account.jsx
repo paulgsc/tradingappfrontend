@@ -86,7 +86,7 @@ function Account() {
 }
 
 Account.Nav = ({ openMenu, profileInitial, adminHash, navigate }) => (
-  <nav className="fixed top-0 w-full bg-green-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+  <nav className="z-50 fixed top-0 w-full bg-green-50 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="px-3 py-3 lg:px-5 lg:pl-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center justify-start">

@@ -72,6 +72,14 @@ export const adminMenuItems = [
                 subtitle: "",
                 path: "/admin/site/models",
             },
+            {
+                id: 'side_3-2',
+                icon: "bank",
+                className: "",
+                title: "Settings",
+                subtitle: "",
+                path: "/admin/site/settings",
+            },
 
         ]
     },

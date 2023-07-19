@@ -9,9 +9,10 @@ import { GoogleIcon } from "../../constants/svgs/Svg";
 import { auth, handleSignInWithGoogle } from "../../../firebase";
 import { useRecaptcha, verifyUserMFA } from "../../hooks/firebase-hooks";
 import { CodeSignIn } from "../multifactorOauth/CodeSignIn";
-import { notify } from "../../lib/utils";
+import { notify, removeToast, showNotify } from "../../lib/utils";
 import SkeletonLoading from "../loading/SkeletonLoading";
 import { Toaster } from "react-hot-toast";
+import ToastAlerts from "../ui/ToastAlerts";
 
 const Login = () => {
   const recaptcha = useRecaptcha("sign-in");
@@ -24,6 +25,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loginAttemptCount, setLoginAttemptCount] = useState(0);
 
   const { userInfo: { token = "", is_admin = false } = {}, error = null } =
     useSelector((state) => state.userAuth);
@@ -72,6 +74,9 @@ const Login = () => {
         password: password,
       };
       dispatch(login(formData));
+      setLoginAttemptCount(
+        (prevLoginAttemptCount) => prevLoginAttemptCount + 1
+      );
     }
   };
 
@@ -82,10 +87,24 @@ const Login = () => {
   }, [token, redirect]);
 
   useEffect(() => {
+    if (error && loginAttemptCount) {
+      showNotify(
+        "error",
+        "bg-gradient-to-r from-pink-100 to-red-500",
+        <ToastAlerts.Success msg={error} removeToast={removeToast} />,
+        "top-center"
+      );
+    }
+  }, [error]);
+
+  useEffect(() => {
     try {
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
         if (user) {
           dispatch(gmailLogin(user));
+          setLoginAttemptCount(
+            (prevLoginAttemptCount) => prevLoginAttemptCount + 1
+          );
         }
         if (firebaseError) {
           if (firebaseError.code === "auth/web-storage-unsupported") {

@@ -10,6 +10,7 @@ import TableModels from "./TableModels";
 import Dashbaord from "./Dashbaord";
 import Tasks from "./Tasks";
 import TaskStatusPage from "../../components/tasks/Status";
+import SiteSettings from "./SiteSettings";
 
 function AdminPage() {
   const [isActive, setIsActive] = useState(false);
@@ -90,6 +91,11 @@ function AdminPage() {
         <div className="mt-14">
           <TableModels />
         </div>
+      )}
+      {location.pathname.includes(`/admin/site/settings`) && (
+        <>
+          <SiteSettings />
+        </>
       )}
       {location.pathname === `/admin/timeline/task/${taskId}` && (
         <TaskStatusPage />

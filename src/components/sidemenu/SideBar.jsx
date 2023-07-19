@@ -3,7 +3,6 @@ import { siteLogo1 } from "../../assets";
 import CustomSvg from "../ui/CustomSvg";
 import PlaceHolder from "../loading/PlaceHolder";
 import { adminMenuItems } from "../../constants/sidemenu/sideMenu";
-import { Link } from "react-router-dom";
 
 const Sidebar = ({ closeAdminMenu }) => {
   const showMenu = () => {};

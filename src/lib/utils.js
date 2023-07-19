@@ -31,12 +31,44 @@ export const popupStyles = (element) => {
 
 
 
-export function notify(message, position) {
-  toast(message, {
-    className: "w-full",
+export function notify(message, position, type) {
+const getClassname = (type) => {
+  switch (type){
+    case "success":
+      return "bg-gradient-to-r from-indigo-100 to-blue-600"
+    default:
+      return ""
+  }
+}
+  const toastId = toast(message, {
+    className: `${getClassname(type)} relative h-full w-80 flex justify-center p-0 m-0`,
     duration: 5000,
     position: position
   });
+  return toastId
+}
+
+export const removeToast = () => {
+  toast.dismiss(); // Programmatically dismiss the toast
+};
+
+export const showNotify = (type, className, content, position) => {
+  switch (type){
+    case "error":
+      return toast.error(content, {
+        duration: 5000,
+        position: position,
+        className: className,
+      });
+    case "success":
+      return toast.success(content, {
+        duration: 5000,
+        position: position,
+        className: className,
+      });
+    default:
+      break
+  }
 }
 
 export const djangoToReactTypes = {
@@ -95,4 +127,41 @@ export function formatTimestamp(created_at) {
     return `${yearsDiff} years ago`;
   }
 }
+
+export const reduceTokenDuration = (secs) => {
+  const durationArray = [
+    { title: 'seconds', duration: 1 },
+    { title: 'minutes', duration: 60 },
+    { title: 'hours', duration: 60 * 60 },
+    { title: 'days', duration: 60 * 60 * 24 },
+    { title: 'weeks', duration: 60 * 60 * 24 * 7 }
+  ];
+
+  for (let i = durationArray.length - 1; i >= 0; i--) {
+    const { title, duration } = durationArray[i];
+    if (secs >= duration) {
+      return {
+        title: title,
+        duration: Math.floor(secs / duration)
+      };
+    }
+  }
+
+  return {
+    title: 'seconds',
+    duration: secs
+  };
+};
+
+// csrf.js
+export function getCsrfToken() {
+  const csrfCookie = document.cookie.split('; ').find((cookie) => cookie.startsWith('csrftoken='));
+  if (csrfCookie) {
+    return csrfCookie.split('=')[1];
+  }
+  return null;
+}
+
+
+
 

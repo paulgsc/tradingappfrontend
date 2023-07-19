@@ -402,8 +402,8 @@ Index.Tabs = ({
   return (
     <TabMenu>
       <TabMenu.List>
-        {headers.map((item) => (
-          <TabMenu.ListItems key={item.id}>
+        {headers.map((item, i) => (
+          <TabMenu.ListItems key={i}>
             <TabMenu.ButtonAction
               handleTabClick={handleTabClick}
               isTabActive={isTabActive}
@@ -422,8 +422,8 @@ Index.Tabs = ({
         ))}
       </TabMenu.List>
       <TabMenu.ContentCard>
-        {headers.map((item) => (
-          <TabMenu.Content item={item} isTabActive={isTabActive} />
+        {headers.map((item, i) => (
+          <TabMenu.Content key={i} item={item} isTabActive={isTabActive} />
         ))}
       </TabMenu.ContentCard>
     </TabMenu>

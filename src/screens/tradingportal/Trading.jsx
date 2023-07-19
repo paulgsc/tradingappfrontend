@@ -57,8 +57,8 @@ function Trading() {
             <Trading.PropertyCard showSummaryPortal={showSummaryPortal} />
 
             <div className="hidden lg:block lg:col-span-1 xl:col-span-2 w-full h-fit sticky top-[80px] xl:top-32 ">
-              <div className="flex items-center justify-center rounded bg-gray-50 h-full w-full dark:bg-gray-800">
-                <div className="flex flex-col justify-start m-0 p-4 w-full h-full mb-4 rounded shadow-md bg-transparent dark:bg-gray-800">
+              <div className="flex items-center justify-center rounded  h-full w-full ">
+                <div className="flex flex-col justify-start m-0 p-4 w-full h-full mb-4 bg-transparent">
                   <Tabs
                     soldShares={total_purchased_shares}
                     totalShares={total_property_shares}
@@ -153,6 +153,16 @@ Trading.PropertyCard = ({ showSummaryPortal }) => (
 );
 
 Trading.PropertyImage = ({ flipped = true }) => {
+  const getClassname = (name) => {
+    switch (name) {
+      case "image-container":
+        return "relative overflow-hidden rounded-lg  h-[440px] md:h-[524px] lg:h-[440px] xl:h-[524px]";
+      case "full-screen":
+        return "fixed flex flex-1 left-0 right-0 top-0 min-h-screen w-screen z-50";
+      default:
+        return "";
+    }
+  };
   return (
     <div className="flex items-center justify-center w-full h-full rounded bg-gray-50 dark:bg-gray-800">
       <div className="relative flex justify-center items-start w-full h-[440px] md:h-[524px] lg:h-[440px] xl:h-[524px] p-0 m-0 bg-center bg-no-repeat bg-cover">
@@ -161,7 +171,7 @@ Trading.PropertyImage = ({ flipped = true }) => {
             flipped ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full"
           } transition-all duration-1000 ease-in-out absolute top-0 left-0 w-full`}
         >
-          <Caraousel />
+          <Caraousel getClassname={getClassname} />
         </div>
 
         <div

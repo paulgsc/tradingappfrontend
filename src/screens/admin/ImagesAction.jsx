@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TabMenu from "../../components/ui/TabMenu";
 import UploadForm from "../../components/ui/UploadForm";
+import { useSelector } from "react-redux";
+import ImageSubmitCard from "./ImageSubmitCard";
 
 function ImagesAction() {
   const [activeTab, setActiveTab] = useState("Dashboard");
+  const { uploadState: { uploaded = false } = {} } = useSelector(
+    (state) => state.adminFetchData
+  );
 
   const handleTabClick = (tabId, path = "") => {
     setActiveTab(tabId);
@@ -16,7 +21,7 @@ function ImagesAction() {
     {
       id: "tab_1",
       title: "Dashboard",
-      content: "",
+      content: <ImageSubmitCard />,
     },
     {
       id: "tab_2",
@@ -24,6 +29,16 @@ function ImagesAction() {
       content: <UploadForm />,
     },
   ];
+
+  useEffect(() => {
+    if (uploaded) {
+      if (activeTab !== "Dashboard") {
+        setActiveTab("Dashboard");
+        return;
+      }
+    }
+  }, [uploaded]);
+
   return (
     <TabMenu className={"w-full h-full"}>
       <TabMenu.List>
