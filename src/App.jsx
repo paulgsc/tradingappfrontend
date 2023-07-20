@@ -24,10 +24,12 @@ import AdminPage from "./screens/admin/AdminPage";
 import AdminRoute from "./components/auth/AdminRoute";
 import ProfileSettings from "./screens/profile/ProfileSettings";
 import Layout from "./Layout";
+import EnvVariablesLoader from "./components/auth/EnvVariablesLoader";
 
 function App() {
   return (
     <Router>
+      <EnvVariablesLoader />
       <Layout>
         <Routes>
           {homePaths.map((path, index) => (

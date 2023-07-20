@@ -5,20 +5,23 @@ import { useDispatch } from "react-redux";
 import { stageImageIds } from "../../contexts/redux/actions/adminActions";
 import DeleteImageDialog from "./imageActions/DeleteImageDialog";
 import DeleteImagesDialog from "./imageActions/DeleteImagesDialog";
+import { envVariables } from "../../lib/utils";
 
 function ImagesTable({ type = "", data = [] }) {
   const [showDialog, setShowDialog] = useState(false);
   const dispatch = useDispatch();
   const [deleteImageIds, setDeleteImageIds] = useState([]);
+
   const columns = [
     {
       Header: "Image",
       accessor: (row) => row.imageUrl || row.image, // Use imageUrl if available, otherwise use image
       Cell: ({ row }) => {
+        const { VITE_APP_BACKEND_URL = "" } = envVariables;
         const formatUrl = (imageUrl) =>
           import.meta.env.DEV
             ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${imageUrl}`
-            : import.meta.env.VITE_APP_BACKEND_URL + imageUrl;
+            : `${VITE_APP_BACKEND_URL}${imageUrl}`;
         const imageUrl = row.original.imageUrl || formatUrl(row.original.image);
         return (
           <img className="h-12 w-12 rounded-md" src={imageUrl} alt="Property" />
