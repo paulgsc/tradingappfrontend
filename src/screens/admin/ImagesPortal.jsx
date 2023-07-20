@@ -69,7 +69,9 @@ function ImagesPortal() {
       "backend url:",
       import.meta.env.VITE_APP_BACKEND_URL,
       "key_test: ",
-      import.meta.env.VITE_APP_FIRE_BASE_API_KEY
+      import.meta.env.VITE_APP_FIRE_BASE_API_KEY,
+      "meta: ",
+      import.meta.env
     );
     refetch();
   }, [query]);
