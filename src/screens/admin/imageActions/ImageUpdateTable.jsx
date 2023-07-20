@@ -1,7 +1,10 @@
 import React from "react";
-import { envVariables } from "../../../lib/utils";
+import { useSelector } from "react-redux";
 
 function ImageUpdateTable({ toPubish = [], toReplace = [] }) {
+  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
+    (state) => state.env
+  );
   return (
     <div className="flex flex-col justify-start h-full w-full shadow-inner ring-1 ring-gray-400 p-2 bg-gradient-to-br from-white via-blue-50 to-gray-100 ">
       <div className="grid grid-cols-2">
@@ -54,7 +57,6 @@ function ImageUpdateTable({ toPubish = [], toReplace = [] }) {
         </ul>
         <ul className="h-full shadow-inner">
           {toReplace.map((image, i) => {
-            const { VITE_APP_BACKEND_URL = "" } = envVariables;
             const formatUrl = (imageUrl) =>
               import.meta.env.DEV
                 ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${imageUrl}`

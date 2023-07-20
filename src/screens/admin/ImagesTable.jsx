@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import Table from "../../components/tables/Table";
 import { ColumnFilter } from "./TableModels";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { stageImageIds } from "../../contexts/redux/actions/adminActions";
 import DeleteImageDialog from "./imageActions/DeleteImageDialog";
 import DeleteImagesDialog from "./imageActions/DeleteImagesDialog";
-import { envVariables } from "../../lib/utils";
 
 function ImagesTable({ type = "", data = [] }) {
   const [showDialog, setShowDialog] = useState(false);
   const dispatch = useDispatch();
   const [deleteImageIds, setDeleteImageIds] = useState([]);
+  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
+    (state) => state.env
+  );
 
   const columns = [
     {
       Header: "Image",
       accessor: (row) => row.imageUrl || row.image, // Use imageUrl if available, otherwise use image
       Cell: ({ row }) => {
-        const { VITE_APP_BACKEND_URL = "" } = envVariables;
         const formatUrl = (imageUrl) =>
           import.meta.env.DEV
             ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${imageUrl}`

@@ -164,6 +164,6 @@ export function getCsrfToken() {
 }
 
 
-export const { envVariables = {} } = useSelector((state) => state.env)
+
 
 

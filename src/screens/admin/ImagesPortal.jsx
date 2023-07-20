@@ -1,4 +1,4 @@
-import VITE, { useEffect } from "react";
+import React, { useEffect } from "react";
 import ImagesAction from "./ImagesAction";
 import Caraousel from "../../components/animation/Caraousel";
 import ImageDescription from "./ImageDescription";
@@ -10,7 +10,6 @@ import { useFetchPropertyWithImages } from "../../hooks/react-query";
 import { useState } from "react";
 import { adminSetImagePropertyQuery } from "../../reducers/adminFetchDataReducers";
 import { Toaster } from "react-hot-toast";
-import { envVariables } from "../../lib/utils";
 
 function ImagesPortal() {
   const location = useLocation();
@@ -20,6 +19,7 @@ function ImagesPortal() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [selectedQuery, setSelectedQuery] = useState(null);
+
   const {
     propertyWithImages = [],
     isLoading,
@@ -64,16 +64,6 @@ function ImagesPortal() {
     }
   };
   useEffect(() => {
-    console.log(
-      "dev env: ",
-      import.meta.env.DEV,
-      "backend url:",
-      import.meta.env.VITE_APP_BACKEND_URL,
-      "key_test: ",
-      import.meta.env.VITE_APP_FIRE_BASE_API_KEY,
-      "meta: ",
-      import.meta.env
-    );
     refetch();
   }, [query]);
 
@@ -118,9 +108,12 @@ function ImagesPortal() {
 }
 
 const PropertyImagesCard = ({ images, propertyWithImages, selectedQuery }) => {
+  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
+    (state) => state.env
+  );
   const selectedProperty =
     propertyWithImages.find((property) => property?.id === selectedQuery) || [];
-  const { VITE_APP_BACKEND_URL = "" } = envVariables;
+
   const publishedImages =
     (selectedProperty?.images &&
       selectedProperty?.images.map((item) =>
