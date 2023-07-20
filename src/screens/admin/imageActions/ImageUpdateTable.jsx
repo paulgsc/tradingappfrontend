@@ -1,4 +1,5 @@
 import React from "react";
+import { envVariables } from "../../../lib/utils";
 
 function ImageUpdateTable({ toPubish = [], toReplace = [] }) {
   return (
@@ -53,10 +54,11 @@ function ImageUpdateTable({ toPubish = [], toReplace = [] }) {
         </ul>
         <ul className="h-full shadow-inner">
           {toReplace.map((image, i) => {
+            const { VITE_APP_BACKEND_URL = "" } = envVariables;
             const formatUrl = (imageUrl) =>
               import.meta.env.DEV
                 ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${imageUrl}`
-                : import.meta.env.VITE_APP_BACKEND_URL + imageUrl;
+                : `${VITE_APP_BACKEND_URL}${imageUrl}`;
             return (
               <li
                 key={`replace_${i}`}

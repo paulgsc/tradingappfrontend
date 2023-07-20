@@ -10,6 +10,7 @@ import { useFetchPropertyWithImages } from "../../hooks/react-query";
 import { useState } from "react";
 import { adminSetImagePropertyQuery } from "../../reducers/adminFetchDataReducers";
 import { Toaster } from "react-hot-toast";
+import { envVariables } from "../../lib/utils";
 
 function ImagesPortal() {
   const location = useLocation();
@@ -119,13 +120,13 @@ function ImagesPortal() {
 const PropertyImagesCard = ({ images, propertyWithImages, selectedQuery }) => {
   const selectedProperty =
     propertyWithImages.find((property) => property?.id === selectedQuery) || [];
-
+  const { VITE_APP_BACKEND_URL = "" } = envVariables;
   const publishedImages =
     (selectedProperty?.images &&
       selectedProperty?.images.map((item) =>
         import.meta.env.DEV
           ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${item.image}`
-          : import.meta.env.VITE_APP_BACKEND_URL + item.image
+          : `${VITE_APP_BACKEND_URL}${item.image}`
       )) ||
     [];
 

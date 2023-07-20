@@ -1,5 +1,6 @@
 
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 export function cn(...inputs) {
     const classes = inputs.filter((input) => input != null && input !== false);
@@ -163,5 +164,6 @@ export function getCsrfToken() {
 }
 
 
+export const { envVariables = {} } = useSelector((state) => state.env)
 
 
