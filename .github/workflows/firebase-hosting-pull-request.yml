@@ -24,10 +24,8 @@ jobs:
           VITE_APP_BACKEND_URL: "https://tradingapp.up.railway.app"
 
         run: |
-          echo "VITE_APP_FIRE_BASE_API_KEY=$VITE_APP_FIRE_BASE_API_KEY"
-          echo "VITE_APP_FIRE_BASE_AUTH_DOMAIN=$VITE_APP_FIRE_BASE_AUTH_DOMAIN"
-          echo "VITE_APP_FIRE_BASE_PROJECT_ID=$VITE_APP_FIRE_BASE_PROJECT_ID"
-          # Add other echo statements for other environment variables
+          echo "VITE_APP_DEVELOPMENT_URL=$VITE_APP_DEVELOPMENT_URL"
+          echo "VITE_APP_BACKEND_URL=$VITE_APP_BACKEND_URL"
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
