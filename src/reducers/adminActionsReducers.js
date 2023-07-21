@@ -24,10 +24,16 @@ const adminActionsReducers = createSlice({
         return { ...state, loading: false, error: action.payload  }
       },
       adminSetImageIdsSuccess(state, action){
-        return { ...state, imageActions: { ...state.imageActions, publish: [ ...action.payload.publish ], overwrite: [ ...action.payload.overwrite ] }  }
+        return { ...state, loading: false, imageActions: { ...state.imageActions, publish: [ ...action.payload.publish ], overwrite: [ ...action.payload.overwrite ] }  }
       },
       adminSetImageIdsFailed(state, action){
-        return { ...state, imageActions: { ...state.imageActions, publish: [], overwrite: [] }, error: action.payload  }
+        return { ...state, loading: false, imageActions: { ...state.imageActions, publish: [], overwrite: [] }, error: action.payload  }
+      },
+      adminAddDeviceIPAddressSuccess(state, action){
+        return { ...state, loading: false, successMessage: action.payload }
+      },
+      adminAddDeviceIPAddressFailed(state, action){
+        return { ...state, loading: false, error: action.payload }
       },
     }
 });
@@ -41,6 +47,8 @@ export const {
   adminDeleteImagesSuccessful,
   adminSetImageIdsFailed,
   adminSetImageIdsSuccess,
+  adminAddDeviceIPAddressSuccess,
+  adminAddDeviceIPAddressFailed,
 } = adminActionsReducers.actions;
 
 export default adminActionsReducers.reducer;

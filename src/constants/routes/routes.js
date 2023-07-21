@@ -41,3 +41,8 @@ export const settingsPaths = [
     '/personal/settings',
     'personal/settings/notifications',
 ]
+
+export const setupPaths = [
+    '/setup/guide/:redirect?',
+    '/admin/setup/guide/:redirect?',
+]

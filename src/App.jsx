@@ -19,12 +19,14 @@ import {
   historyPaths,
   homePaths,
   settingsPaths,
+  setupPaths,
 } from "./constants/routes/routes";
 import AdminPage from "./screens/admin/AdminPage";
 import AdminRoute from "./components/auth/AdminRoute";
 import ProfileSettings from "./screens/profile/ProfileSettings";
 import Layout from "./Layout";
 import EnvVariablesLoader from "./components/auth/EnvVariablesLoader";
+import SetupStep from "./components/auth/SetupStep";
 
 function App() {
   return (
@@ -67,6 +69,9 @@ function App() {
           <Route exact path="/trade" element={<Trading />} />
           <Route path="/test" element={<Test />} />
           <Route element={<AuthRoute />}>
+            {setupPaths.map((path, index) => (
+              <Route key={index} exact path={path} element={<SetupStep />} />
+            ))}
             <Route exact path="/personal" element={<ProfileScreen />} />
             <Route
               exact
