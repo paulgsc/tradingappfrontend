@@ -1,6 +1,6 @@
 import API from "../../../api/django"
 import { getCsrfToken } from "../../../lib/utils"
-import { adminDeleteImagesFailed, adminDeleteImagesSuccessful, adminRequestImageDeletion, adminSetImageIdsFailed, adminSetImageIdsSuccess, adminStartUpdate, adminUpdateSettingsFailed, adminUpdateSettingsSuccess } from "../../../reducers/adminActionsReducers"
+import { adminAddDeviceIPAddressFailed, adminAddDeviceIPAddressSuccess, adminDeleteImagesFailed, adminDeleteImagesSuccessful, adminRequestImageDeletion, adminSetImageIdsFailed, adminSetImageIdsSuccess, adminStartUpdate, adminUpdateSettingsFailed, adminUpdateSettingsSuccess } from "../../../reducers/adminActionsReducers"
 import { addSelectedImagesSuccess, adminPostPropertyImagesSuccess, adminRequestData, cancelUploadingImages, imageUploadActionFailed, removeSelectedImagesSuccess } from "../../../reducers/adminFetchDataReducers"
 
 
@@ -201,6 +201,49 @@ export const stageImageIds = (type, imageIds) => (dispatch, getState) => {
     }
     catch (error){
 dispatch(adminSetImageIdsFailed(error.message))
+
+    }
+} 
+
+export const addIPAddress = (ipAddresses) => async (dispatch, getState) => {
+    try{
+        dispatch(adminStartUpdate())
+        
+      
+
+        const {
+            userAuth: { userInfo: { token = "" } = {} },
+         
+        } = getState()
+
+        const path ="admin/update-allowed-ips/";
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${token}`,
+          
+               
+            }
+        }
+
+        const formData = {
+            allowed_ip_addresses: ipAddresses.split(','),
+        }
+
+        const response = await API.put(
+            path,
+            formData,
+            config,
+        )
+
+
+       
+
+        dispatch(adminAddDeviceIPAddressSuccess(response.data))
+     
+    }
+    catch (error){
+dispatch(adminAddDeviceIPAddressFailed(error.message))
 
     }
 } 

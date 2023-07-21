@@ -164,6 +164,45 @@ export function getCsrfToken() {
 }
 
 
+// Function to clear local storage, except for specific items
+export function clearLocalStorageExcept(...keysToKeep) {
+  const itemsToKeep = {};
+
+  // Get the specific items you want to keep
+  keysToKeep.forEach((key) => {
+    itemsToKeep[key] = localStorage.getItem(key);
+  });
+
+  // Clear local storage
+  localStorage.clear();
+
+  // Set back the specific items into local storage
+  for (const [key, value] of Object.entries(itemsToKeep)) {
+    localStorage.setItem(key, value);
+  }
+}
+
+// Function to clear session storage, except for specific items
+export function clearSessionStorageExcept(...keysToKeep) {
+  const itemsToKeep = {};
+
+  // Get the specific items you want to keep
+  keysToKeep.forEach((key) => {
+    itemsToKeep[key] = sessionStorage.getItem(key);
+  });
+
+  // Clear session storage
+  sessionStorage.clear();
+
+  // Set back the specific items into session storage
+  for (const [key, value] of Object.entries(itemsToKeep)) {
+    sessionStorage.setItem(key, value);
+  }
+}
+
+
+
+
 
 
 

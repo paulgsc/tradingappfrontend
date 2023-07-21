@@ -9,6 +9,7 @@ import PropertiesModel from "./PropertiesModel";
 import ModelSideBar from "./ModelSideBar";
 import SiteSettings from "./SiteSettings";
 import ImagesPortal from "./ImagesPortal";
+import TradeLayout from "./trade/TradeLayout";
 
 function TableModels() {
   const dispatch = useDispatch();
@@ -47,6 +48,9 @@ function TableModels() {
           <ImagesPortal />
         </>
       )}
+      {location.pathname.includes(`/admin/site/models/trade`) && (
+        <TradeLayout />
+      )}
     </div>
   );
 }
@@ -73,7 +77,7 @@ TableModels.Header = () => (
       <button className="w-32 h-8 justify-center flex items-center text-center text-xs text-white font-semibold gap-1 p-2 my-1 enabled:bg-stone-800 enabled:hover:bg-blue-600 rounded-lg shadow-md">
         <Link
           className="flex items-center gap-2"
-          to={`/admin/site/models/${-1}/record/form-view`}
+          to={`/admin/site/models/properties/${-1}/record/form-view`}
         >
           <p>Add Property</p>
           <AddCircleOutlineIcon

@@ -27,8 +27,14 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [loginAttemptCount, setLoginAttemptCount] = useState(0);
 
-  const { userInfo: { token = "", is_admin = false } = {}, error = null } =
-    useSelector((state) => state.userAuth);
+  const {
+    userInfo: {
+      token = "",
+      is_admin = false,
+      onboarding: { is_onboarding_completed = true } = {},
+    } = {},
+    error = null,
+  } = useSelector((state) => state.userAuth);
 
   const redirect = location.search
     ? location.search.split("=")[1] === "/" && is_admin
@@ -81,10 +87,16 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && is_onboarding_completed) {
       navigate(redirect);
     }
-  }, [token, redirect]);
+    if (token && is_admin && !is_onboarding_completed) {
+      navigate(`/admin/setup/guide?redirect=${redirect}`);
+    }
+    if (token && !is_admin && !is_onboarding_completed) {
+      navigate(`/setup/guide?redirect=${redirect}`);
+    }
+  }, [token, redirect, is_onboarding_completed]);
 
   useEffect(() => {
     if (error && loginAttemptCount) {
