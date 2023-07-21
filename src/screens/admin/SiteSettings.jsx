@@ -47,16 +47,9 @@ const General = () => {
           <LoginSettings />
         )}
         {location.pathname === "/admin/site/settings/network-security" && (
-          <div className=" border col-span-5 justify-center items-center shadow-md h-full">
-            <div className="w-full xl:hidden">
+          <div className="flex justify-center w-full ">
+            <div className=" w-10/12">
               <IpAdresses />
-            </div>
-            <div className="hidden xl:grid grid-cols-7">
-              <div className="col-span-1 ">+</div>
-              <div className=" col-span-5">
-                <IpAdresses />
-              </div>
-              <div className="col-span-1 ">+</div>
             </div>
           </div>
         )}
