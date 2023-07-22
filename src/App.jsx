@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Home from "./screens/Home";
-import Listings from "./screens/Listings";
 import Register from "./components/auth/Register";
 import ProfileScreen from "./screens/profile/ProfileScreen";
 import PlaidHome from "./screens/plaid/PlaidHome";
@@ -27,6 +26,7 @@ import ProfileSettings from "./screens/profile/ProfileSettings";
 import Layout from "./Layout";
 import EnvVariablesLoader from "./components/auth/EnvVariablesLoader";
 import SetupStep from "./components/auth/SetupStep";
+import Listings from "./screens/admin/listings/Listings";
 
 function App() {
   return (
@@ -38,15 +38,6 @@ function App() {
             <Route key={index} exact path={`/${path}`} element={<Home />} />
           ))}
 
-          <Route
-            exact
-            path="/listings"
-            element={
-              <>
-                <Listings />
-              </>
-            }
-          />
           <Route
             exact
             path="/login/:redirect?"
@@ -113,14 +104,23 @@ function App() {
             />
           </Route>
           <Route element={<AdminRoute />}>
-            {adminPaths.map((path, index) => (
-              <Route
-                key={index}
-                exact
-                path={`/${path}`}
-                element={<AdminPage />}
-              />
-            ))}
+            {adminPaths.map((path, index) =>
+              path.includes("admin/listings") ? (
+                <Route
+                  key={index}
+                  exact
+                  path={`/${path}`}
+                  element={<Listings />}
+                />
+              ) : (
+                <Route
+                  key={index}
+                  exact
+                  path={`/${path}`}
+                  element={<AdminPage />}
+                />
+              )
+            )}
           </Route>
           <Route exact path="/*" element={<NotFound404 />} />
         </Routes>

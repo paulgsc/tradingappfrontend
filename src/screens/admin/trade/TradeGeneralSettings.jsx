@@ -2,6 +2,7 @@ import React from "react";
 import SideTabs from "../../../components/sidemenu/SideTabs";
 import { Link, useLocation } from "react-router-dom";
 import DetailsPage from "./DetailsPage";
+import TradingMode from "./TradingMode";
 
 function TradeGeneralSettings() {
   const location = useLocation();
@@ -29,6 +30,12 @@ function TradeGeneralSettings() {
         {location.pathname === "/admin/site/models/trade" && (
           <div className="border col-span-5 justify-center shadow-md bg-white h-full">
             <DetailsPage />
+          </div>
+        )}
+        {location.pathname ===
+          "/admin/site/models/trade/settings/listings-mode" && (
+          <div className="border col-span-5 justify-center shadow-md bg-white h-full">
+            <TradingMode />
           </div>
         )}
       </div>

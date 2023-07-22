@@ -1,9 +1,9 @@
 import React from "react";
-import Property from "./Property";
 import { useState } from "react";
 import { useEffect } from "react";
+import PropertyCard from "./PropertyCard";
 
-function PropertyRow({ payload, maxCol }) {
+function PropertyRow({ payload, maxCol, handleSelect }) {
   const [columns, setColumns] = useState(maxCol);
   const [screenWidth, setScreenWidth] = useState(null);
 
@@ -33,23 +33,19 @@ function PropertyRow({ payload, maxCol }) {
 
   const numRows = Math.ceil(payload.length / columns);
   return (
-    <div className="">
+    <div className="flex  space-y-2 items-center justify-center min-w-full">
       {[...Array(numRows)].map((_, rowIndex) => (
-        <div className="flex-row-container" key={rowIndex}>
+        <div
+          className="flex justify-between items-center space-x-6 w-11/12"
+          key={rowIndex}
+        >
           {payload
             .slice(rowIndex * columns, rowIndex * columns + columns)
             .map((item, index) => (
-              <Property
-                key={`${rowIndex}-${index}`}
-                thumbnail={item.url}
-                street={item.property_address}
-                title={item.property_name}
-                availableshares={item.total_shares_remaining}
-                income={item.income}
-                expense={item.expenses}
-                propertyValue={item.current_property_value}
-                classId={item.id}
-                propertyId={item.id}
+              <PropertyCard
+                key={item?.id || index}
+                item={item}
+                handleSelect={handleSelect}
               />
             ))}
         </div>

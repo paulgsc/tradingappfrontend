@@ -206,7 +206,7 @@ export const fetchPropertiesQuery = (token) => {
 
 
 
-export const useFetchPropertyWithImages = (searchQuery) => {
+export const useFetchPropertyWithImages = async (searchQuery) => {
   const queryKey = ['property-query'];
 
   // Use the useQuery hook to fetch the property data
@@ -244,8 +244,74 @@ export const useFetchPropertyWithImages = (searchQuery) => {
 };
 
 
+export const fetchActiveProperty =  () => {
+  const queryKey = ['property-active'];
+
+  // Use the useQuery hook to fetch the property data
+  const { data, isLoading, isError } = useQuery(
+    queryKey,
+    async () => {
+      try {
+        const config = {
+          headers: {
+            'Content-type': 'application/json',
+          }
+        };
+
+        const response = await API.get(
+          `data/active_property/`,
+          config
+        );
+
+        return response.data;
+      } catch (error) {
+        throw new Error('Error fetching data');
+      }
+    },
+    
+  );
+
+  return {
+    activeProperty: data,
+    isLoading,
+    isError,
   
+  };
+};
+
+export const fetchUserBalance = (token) => {
+  // Define your query key or URL
+  const queryKey = ['user-balance'];
+
+  // Define your fetch function
+  const fetchSettings = async () => {
+    try {
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+      const response = await API.get('users/summary/', config);
+      return response.data;
+    } catch (error) {
+      throw new Error('Error fetching data');
+    }
+  };
+
+  // Use the useQuery hook to fetch the property data
+  const { data, isLoading, isError } = useQuery(queryKey, fetchSettings, 
+    { 
+      refetchInterval: 5000, 
+      staleTime: 30000,  
+  } );
+
+  return {
+    balance: data,
+    isLoading,
+    isError,
+  };
+};
 
 
-  
-  
