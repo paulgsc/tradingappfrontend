@@ -3,10 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const adminActionsReducers = createSlice({
     name: "adminActions",
-    initialState: { loading: false,  error: null, successMessage: null, imageActions: { publish: [], overwrite: [], delete: [] }  },
+    initialState: { loading: false,  error: null, successMessage: null, imageActions: { publish: [], overwrite: [], delete: [] }, tradingActions: { propertyId: null, setToActive: false }  },
     reducers: {
       adminStartUpdate(state, action){
-        return { ...state, loading: true, successMessage: null, error: null,  }
+        return { ...state, loading: true, successMessage: null, error: null  }
       },
       adminRequestImageDeletion(state){
         return { ...state, loading: true, error: null, successMessage: null, }
@@ -35,6 +35,18 @@ const adminActionsReducers = createSlice({
       adminAddDeviceIPAddressFailed(state, action){
         return { ...state, loading: false, error: action.payload }
       },
+      adminStageActivePropertySuccess(state, action){
+        return { ...state, loading: false, tradingActions: { ...state.tradingActions, ...action.payload } }
+      },
+      adminStageActivePropertyFailed(state, action){
+        return { ...state, loading: false, error: action.payload, tradingActions: { ...state.tradingActions, propertyId: null, setToActive: false }  }
+      },
+      adminSetActivePropertySuccess(state, actiion){
+        return { ...state, loading: false, successMessage: actiion.payload }
+      },
+      adminSetActivePropertyFailed(state, actiion){
+        return { ...state, loading: false, error: actiion.payload }
+      },
     }
 });
 
@@ -49,6 +61,10 @@ export const {
   adminSetImageIdsSuccess,
   adminAddDeviceIPAddressSuccess,
   adminAddDeviceIPAddressFailed,
+  adminStageActivePropertySuccess,
+  adminStageActivePropertyFailed,
+  adminSetActivePropertySuccess,
+  adminSetActivePropertyFailed,
 } = adminActionsReducers.actions;
 
 export default adminActionsReducers.reducer;

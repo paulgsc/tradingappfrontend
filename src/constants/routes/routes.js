@@ -14,10 +14,12 @@ export const historyPaths = [
 export const adminPaths = [
     '/admin',
     '/admin/site/models',
+    'admin/listings/:redirect?',
     '/admin/site/models/properties',
     '/admin/site/models/propertyimages',
     "/admin/site/models/propertyimages/uploads",
     "/admin/site/models/propertyimages/published",
+    "/admin/site/models/trade/settings/listings-mode",
     '/admin/site/models/trade',
     '/admin/site/settings',
     '/admin/site/settings/login',

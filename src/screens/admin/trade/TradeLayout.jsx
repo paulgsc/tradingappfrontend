@@ -6,7 +6,7 @@ function TradeLayout() {
   const location = useLocation();
   return (
     <div className="flex w-full h-full mt-3">
-      {location.pathname === `/admin/site/models/trade` && (
+      {location.pathname.includes(`/admin/site/models/trade`) && (
         <TradeAdminDashboard />
       )}
     </div>

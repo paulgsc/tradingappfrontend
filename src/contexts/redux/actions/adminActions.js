@@ -1,6 +1,6 @@
 import API from "../../../api/django"
 import { getCsrfToken } from "../../../lib/utils"
-import { adminAddDeviceIPAddressFailed, adminAddDeviceIPAddressSuccess, adminDeleteImagesFailed, adminDeleteImagesSuccessful, adminRequestImageDeletion, adminSetImageIdsFailed, adminSetImageIdsSuccess, adminStartUpdate, adminUpdateSettingsFailed, adminUpdateSettingsSuccess } from "../../../reducers/adminActionsReducers"
+import { adminAddDeviceIPAddressFailed, adminAddDeviceIPAddressSuccess, adminDeleteImagesFailed, adminDeleteImagesSuccessful, adminRequestImageDeletion,  adminSetActivePropertyFailed,  adminSetActivePropertySuccess,  adminSetImageIdsFailed, adminSetImageIdsSuccess, adminStageActivePropertyFailed, adminStageActivePropertySuccess, adminStartUpdate, adminUpdateSettingsFailed, adminUpdateSettingsSuccess } from "../../../reducers/adminActionsReducers"
 import { addSelectedImagesSuccess, adminPostPropertyImagesSuccess, adminRequestData, cancelUploadingImages, imageUploadActionFailed, removeSelectedImagesSuccess } from "../../../reducers/adminFetchDataReducers"
 
 
@@ -244,6 +244,56 @@ export const addIPAddress = (ipAddresses) => async (dispatch, getState) => {
     }
     catch (error){
 dispatch(adminAddDeviceIPAddressFailed(error.message))
+
+    }
+} 
+
+export const stageNewActivePropertyId = (propertyId) => (dispatch) => {
+    try{
+        dispatch(adminStartUpdate())
+        
+        dispatch(adminStageActivePropertySuccess( { propertyId: propertyId, setToActive: true }))
+     
+    }
+    catch (error){
+dispatch(adminStageActivePropertyFailed(error.message))
+
+    }
+} 
+
+
+export const setActiveProperty = () => async (dispatch, getState) => {
+    try{
+        dispatch(adminStartUpdate())
+        
+        const {
+            userAuth: { userInfo: { token = "" } = {} },
+            adminActions: { tradingActions: { propertyId } }
+         
+        } = getState()
+
+
+        const path =`admin/properties/${propertyId}/update-active/`;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'X-CSRFToken': getCsrfToken(),
+            }
+        }
+
+        const requestData = {};
+
+        const response = await API.put(
+            path,
+            requestData, // Pass the request data as the second argument
+            { ...config } // Merge the config with the request data using spread operator
+        );
+
+        dispatch(adminSetActivePropertySuccess(response.data))
+     
+    }
+    catch (error){
+dispatch(adminSetActivePropertyFailed(error.message))
 
     }
 } 

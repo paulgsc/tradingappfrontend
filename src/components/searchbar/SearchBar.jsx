@@ -18,7 +18,7 @@ function SearchBar({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-5/12 mt-2 xl:mt-0">
+    <form onSubmit={handleSubmit} className="flex-1 mt-2 xl:mt-0">
       <div className="flex flex-1">
         <label
           htmlFor="search-dropdown"

@@ -75,7 +75,7 @@ function ImagesPortal() {
     <div
       className={`flex flex-col items-start min-h-screen mx-auto w-full bg-white `}
     >
-      <div className="flex h-16 xl:h-24 w-full grid-rows-1 items-center justify-center shadow-sm mx-auto">
+      <div className="flex h-16 xl:h-24 w-5/12 grid-rows-1 items-center justify-center shadow-sm mx-auto">
         <SearchBar
           results={results}
           handleSubmit={handleSubmit}
