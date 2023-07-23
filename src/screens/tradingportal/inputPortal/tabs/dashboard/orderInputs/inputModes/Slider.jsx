@@ -30,6 +30,7 @@ function Slider() {
     const orderInfo = {
       orderInput: input,
     };
+    console.log("foo foo huh!");
     dispatch(storeOrderInput(orderInfo));
   }, [sliderVal]);
   return (
