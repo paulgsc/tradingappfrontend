@@ -7,15 +7,11 @@ function NoFunds() {
   const { userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
-  const {
-    balance: { transfer_remaining = "" } = {},
-    isLoading,
-    isError,
-  } = fetchUserBalance(token);
+  const { balance = {}, isLoading, isError } = fetchUserBalance(token);
 
   return (
     <>
-      {!transfer_remaining && (
+      {!balance?.transfer_remaining && (
         <div className="sticky top-14 grid lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-4 w-full">
           <div className=" lg:col-span-2 xl:col-span-4 invisible">
             <div className="flex items-center justify-center rounded bg-gray-50 h-4/5 dark:bg-gray-800">

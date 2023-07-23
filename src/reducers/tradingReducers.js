@@ -4,8 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const tradingReducers = createSlice({
     name: "trade",
     initialState: { loading: false, showSummaryPortal: false, orderInfo: { shares: "", amount: "", 
-    propertyId: "", transactionType: "", }, balanceInfo: { transferAmountRemaining: "",
-    amountPurchased: "" } },
+    propertyId: null, pricePerShare: null, availableShares: null, transactionType: "", validOrder: false, }, balanceInfo: { transferAmountRemaining: "",
+    amountPurchased: "" }, userBalance: {}, },
     reducers: {
         startTradeRequest(state, action){
             return { ...state, loading: true };
@@ -17,7 +17,16 @@ const tradingReducers = createSlice({
             return { ...state, loading: false,  ...action.payload };
         },
         storeOrderInfo(state, action){
-            return { ...state, orderInfo: { ...state.orderInfo, ...action.payload } };
+            return { ...state, orderInfo: { ...state.orderInfo, ...action.payload, validOrder: true } };
+        },
+        storeOrderInfoFailed(state, action){
+            return { ...state, orderInfo: { ...state.orderInfo, validOrder: false } };
+        },
+        setTransactionType(state, action){
+            return { ...state, orderInfo: { ...state.orderInfo, transactionType: action.payload } };
+        },
+        storeBalanceInfo(state, action){
+            return { ...state, userBalance: { ...action.payload } }
         },
         showSummaryPortal(state, action){
             return { ...state, ...action.payload  };
@@ -49,8 +58,11 @@ export const {
     fetchBalanceInfoSuccessful,
     tradeRequestSuccessful,
     showSummaryPortal,
+    storeBalanceInfo,
+    setTransactionType,
     tradeRequestFailure,
     fetchBalanceInfoFailure,
+    storeOrderInfoFailed,
     storeOrderInfo,
     clearOrderInfo,
     clearTradeInfoOnLogout,

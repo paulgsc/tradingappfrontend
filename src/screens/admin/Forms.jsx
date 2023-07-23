@@ -18,6 +18,7 @@ function Forms({ recordId = null, create = false }) {
   const [editedData, setEditedData] = useState({});
   const [showFocus, setShowFocus] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
+
   const [missingRequiredFields, setMissingRequiredFields] = useState([]);
   const { userInfo: { token = "", is_admin = false } = {}, error = null } =
     useSelector((state) => state.userAuth);
@@ -51,13 +52,20 @@ function Forms({ recordId = null, create = false }) {
 
     setEditedData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: {
+        value: value,
+        edited: true,
+      },
     }));
   };
 
   const handleSubmit = () => {
     setSaveCount((prevCount) => prevCount + 1);
     // Check if all required fields are filled
+    let data = {};
+    Object.keys(editedData).forEach(
+      (key) => (data = { ...data, [key]: editedData[key].value })
+    );
     const requiredFields =
       property &&
       Object.entries(create ? property : property?.field_metadata)
@@ -66,10 +74,10 @@ function Forms({ recordId = null, create = false }) {
 
     const missingFields = requiredFields.filter((field) => {
       if (!create) {
-        return !editedData[field] && !property[field];
+        return !data[field] && !property[field];
       }
       if (create) {
-        return !editedData[field];
+        return !data[field];
       }
     });
 
@@ -84,7 +92,7 @@ function Forms({ recordId = null, create = false }) {
     }
 
     // Validate field types
-    const invalidFields = Object.entries(editedData).filter(([name, value]) => {
+    const invalidFields = Object.entries(data).filter(([name, value]) => {
       const fieldType = create
         ? property[name]?.type
         : property.field_metadata[name]?.type;
@@ -118,14 +126,13 @@ function Forms({ recordId = null, create = false }) {
     // Perform the form submission logic here
     const postRecord = async () => {
       if (create) {
-        editedData && dispatch(createProperty(editedData));
+        data && dispatch(createProperty(data));
       }
       if (!create) {
-        if ("id" in editedData) {
-          editedData && dispatch(updateProperty(editedData));
+        if ("id" in data) {
+          data && dispatch(updateProperty(data));
         } else {
-          editedData &&
-            dispatch(updateProperty({ ...editedData, id: property.id }));
+          data && dispatch(updateProperty({ ...data, id: property.id }));
         }
       }
     };
@@ -410,8 +417,11 @@ const PropertyData = ({
                 isRequired && "ring-4 ring-red-500"
               }`}
               value={
-                editedData[item?.name] ||
-                (property && !create && property[item?.name]) ||
+                editedData[item?.name]?.value ||
+                (property &&
+                  !create &&
+                  !editedData[item?.name]?.edited &&
+                  property[item?.name]) ||
                 ""
               }
               onChange={handleChange}

@@ -4,7 +4,7 @@ import ToPublishPreview from "./imageActions/ToPublishPreview";
 
 function ImagePropertyCard() {
   return (
-    <div className="h-full w-full overflow-y-auto">
+    <div className="h-full w-full overflow-y-auto no-scrollbar">
       <PropertyTitle />
       <ToPublishPreview />
     </div>
