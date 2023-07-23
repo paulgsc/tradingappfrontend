@@ -12,7 +12,8 @@ function ManualInput() {
   const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
     useSelector((state) => state.trade);
 
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState("0");
+  const [counter, setCounter] = useState(0);
 
   const isPositiveNumber = (val) => {
     const numericValue = parseFloat(val);
@@ -80,6 +81,7 @@ function ManualInput() {
   };
 
   const handleInput = (e) => {
+    setCounter((prevCounter) => prevCounter + 1);
     const val = e.target.value.trim();
     if (val !== "" && !numericOnly(val)) {
       return;
@@ -101,7 +103,7 @@ function ManualInput() {
       orderInput: input,
     };
     dispatch(storeOrderInput(orderInfo));
-  }, [input]);
+  }, [input, counter]);
 
   useEffect(() => {
     setInput("");
