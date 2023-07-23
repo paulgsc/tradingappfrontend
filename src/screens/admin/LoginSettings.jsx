@@ -9,7 +9,7 @@ function LoginSettings() {
   );
   const { settings: { site_settings: { token_expiration = 0 } = {} } = {} } =
     fetchSiteSettings(token);
-  console.log(token_expiration);
+
   return (
     <div className="w-full h-full">
       <TokenSettings token_duration={token_expiration} />

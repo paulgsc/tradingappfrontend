@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { storeOrderInput } from "../../../../../../../contexts/redux/actions/tradingActions";
+import { clearOrderInfo } from "../../../../../../../reducers/tradingReducers";
 
 function ManualInput() {
   const dispatch = useDispatch();
@@ -102,6 +103,10 @@ function ManualInput() {
     dispatch(storeOrderInput(orderInfo));
   }, [input]);
 
+  useEffect(() => {
+    setInput("");
+  }, [transactionType]);
+
   return (
     <div className="flex flex-1 h-full">
       <input
@@ -112,7 +117,7 @@ function ManualInput() {
         inputMode="numeric"
         value={orderInput}
         onChange={handleInput}
-        className="w-full h-full py-2 text-right outline-0 bg-slate-100 rounded-r-md shadow-sm text-black appearance-none no-spin-button"
+        className="w-full h-full py-2 text-right text-lg xl:text-xl outline-0 bg-slate-100 rounded-r-md shadow-sm text-black appearance-none no-spin-button"
       />
     </div>
   );

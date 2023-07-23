@@ -1,4 +1,5 @@
 import React from "react";
+import SummaryPage from "./SummaryPage";
 
 function ReviewPage({ flipped }) {
   return (

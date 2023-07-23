@@ -1,5 +1,5 @@
 import API from "../../../api/django";
-import { clearOrderInfo, fetchBalanceInfoSuccessful, requestBalanceInfo, startTradeRequest, storeOrderInfo, storeOrderInfoFailed, tradeRequestFailure, tradeRequestSuccessful } from "../../../reducers/tradingReducers"
+import { clearOrderInfo, fetchBalanceInfoSuccessful, requestBalanceInfo, startTradeRequest, storeOrderInfo, storeOrderInfoFailed, tradeRequestFailure, tradeRequestSuccessful, validateOrder, validateOrderError } from "../../../reducers/tradingReducers"
 
 
 export const popUpTradeInfo = (payload)  => (dispatch) => {
@@ -88,5 +88,13 @@ export const storeOrderInput = (orderInfo) => (dispatch) => {
         dispatch(storeOrderInfo(orderInfo))
     }catch (error){
         dispatch(storeOrderInfoFailed())
+    }
+}
+
+export const validateOrderInput = (validationInfo) => (dispatch) => {
+    try{
+        dispatch(validateOrder(validationInfo))
+    }catch (error){
+        dispatch(validateOrderError())
     }
 }
