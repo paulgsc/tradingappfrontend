@@ -5,7 +5,7 @@ const tradingReducers = createSlice({
     name: "trade",
     initialState: { loading: false, showSummaryPortal: false, orderInfo: { shares: "", amount: "", 
     propertyId: null, pricePerShare: null, availableShares: null, transactionType: "", validOrder: false, }, balanceInfo: { transferAmountRemaining: "",
-    amountPurchased: "" }, userBalance: {}, },
+    amountPurchased: "" }, userBalance: {}, orderValidation: {} },
     reducers: {
         startTradeRequest(state, action){
             return { ...state, loading: true };
@@ -31,12 +31,19 @@ const tradingReducers = createSlice({
         showSummaryPortal(state, action){
             return { ...state, ...action.payload  };
         },
+        validateOrder(state, action){
+            return { ...state, orderValidation: { ...action.payload } }
+        },
+        validateOrderError(state, action){
+            return { ...state, orderValidation: {} }
+        },
         tradeRequestSuccessful(state, action){
             return { loading: false, orderInfo: { ...state.orderInfo, ...action.payload } };
         },
+        
         clearOrderInfo(state, action){
             return {  ...state, orderInfo: {  shares: "", amount: "", 
-            propertyId: "", transactionType: "", } }
+             transactionType: "", } }
         },
         clearTradeInfoOnLogout(state, action){
             return { loading: false, orderInfo: { shares: "", amount: "", 
@@ -61,6 +68,8 @@ export const {
     storeBalanceInfo,
     setTransactionType,
     tradeRequestFailure,
+    validateOrder,
+    validateOrderError,
     fetchBalanceInfoFailure,
     storeOrderInfoFailed,
     storeOrderInfo,

@@ -4,6 +4,7 @@ import API from '../api/django';
 import { useDispatch } from 'react-redux';
 import { storeBalanceInfo, storeOrderInfo } from '../reducers/tradingReducers';
 import { setTradingProperty } from '../reducers/fetchPropertyReducers';
+import { storeOrderInput } from '../contexts/redux/actions/tradingActions';
 
 
 
@@ -286,12 +287,11 @@ export const fetchActiveProperty =  () => {
           } = data;
         
       
-            dispatch(
-              storeOrderInfo({
-                propertyId: id,
-                pricePerShare: price_per_share,
-                availableShares: available_shares,
-              }));
+            dispatch(storeOrderInput({
+              propertyId: id,
+              pricePerShare: price_per_share,
+              availableShares: available_shares,
+            }));
               dispatch(setTradingProperty(data))
       
         

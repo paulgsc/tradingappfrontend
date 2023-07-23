@@ -1,4 +1,9 @@
 import React from "react";
+import OrderSummary from "../../../../../components/ui/OrderSummary";
+import { ProfileSvg } from "../../../../../constants/svgs/Svg";
+import ProfileInfo from "../../../../../components/ui/ProfileInfo";
+import currency from "currency.js";
+import BuyBtn from "./orderInputs/buttons/BuyBtn";
 
 function SummaryPage() {
   let shares;
@@ -34,11 +39,7 @@ function SummaryPage() {
             <span>{shares} shares</span>
           </div>
         </div>
-        <div className="mt-6 w-full flex justify-center items-center">
-          <OrderSummary.Button handleClick={handleClick}>
-            Submit Order
-          </OrderSummary.Button>
-        </div>
+        <BuyBtn />
       </div>
     </OrderSummary>
   );
