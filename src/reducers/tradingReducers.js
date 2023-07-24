@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const tradingReducers = createSlice({
     name: "trade",
-    initialState: { loading: false, showSummaryPortal: false, orderInfo: { shares: "", amount: "", 
+    initialState: { loading: false, showSummaryPortal: false, orderInfo: { shares: 0, amount: 0, 
     propertyId: null, pricePerShare: null, availableShares: null, transactionType: "", validOrder: false, }, balanceInfo: { transferAmountRemaining: "",
-    amountPurchased: "" }, userBalance: {}, orderValidation: {} },
+    amountPurchased: "" }, userBalance: {}, orderValidation: {}, callouts: {}, }, 
     reducers: {
         startTradeRequest(state, action){
             return { ...state, loading: true };
@@ -32,7 +32,7 @@ const tradingReducers = createSlice({
             return { ...state, ...action.payload  };
         },
         validateOrder(state, action){
-            return { ...state, orderValidation: { ...action.payload } }
+            return { ...state, orderValidation: { ...state.orderValidation, ...action.payload } }
         },
         validateOrderError(state, action){
             return { ...state, orderValidation: {} }
@@ -42,8 +42,8 @@ const tradingReducers = createSlice({
         },
         
         clearOrderInfo(state, action){
-            return {  ...state, orderInfo: {  shares: "", amount: "", 
-             transactionType: "", } }
+            return {  ...state, orderInfo: {  shares: 0, amount: 0, 
+             } }
         },
         clearTradeInfoOnLogout(state, action){
             return { loading: false, orderInfo: { shares: "", amount: "", 
@@ -56,6 +56,9 @@ const tradingReducers = createSlice({
         tradeRequestFailure(state, action){
             return { ...state, loading: false, error: action.payload }
         },
+        showCalloutAlert(state, action){
+            return { ...state, callouts: { ...state.callouts, ...action.payload } }
+        }
     },
 });
 
@@ -66,6 +69,7 @@ export const {
     tradeRequestSuccessful,
     showSummaryPortal,
     storeBalanceInfo,
+    showCalloutAlert,
     setTransactionType,
     tradeRequestFailure,
     validateOrder,

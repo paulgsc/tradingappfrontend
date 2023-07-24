@@ -91,6 +91,14 @@ export const storeOrderInput = (orderInfo) => (dispatch) => {
     }
 }
 
+export const stageLiveOrder = (orderInfo) => (dispatch) => {
+    try{
+        dispatch(storeOrderInfo(orderInfo))
+    }catch (error){
+        dispatch(clearOrderInfo())
+    }
+}
+
 export const validateOrderInput = (validationInfo) => (dispatch) => {
     try{
         dispatch(validateOrder(validationInfo))

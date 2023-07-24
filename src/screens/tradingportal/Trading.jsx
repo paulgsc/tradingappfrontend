@@ -1,8 +1,8 @@
 import React from "react";
 import { fetchActiveProperty } from "../../hooks/react-query";
-import TradingHeader from "./TradingHeader";
-import NoFunds from "./NoFunds";
-import TradingInfoLayout from "./tradingInfo/TradingInfoLayout";
+import TradingHeader from "./components/ui/TradingHeader";
+import NoFunds from "./components/alerts/transfer/NoFunds";
+import TradingInfoLayout from "./layouts/TradingInfoLayout";
 
 function Trading() {
   const { activeProperty = {}, isLoading, isError } = fetchActiveProperty();
