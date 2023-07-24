@@ -7,15 +7,24 @@ import {
 
 function ReviewBtn() {
   const dispatch = useDispatch();
+  const { userInfo: { token = "" } = {} } = useSelector(
+    (state) => state.userAuth
+  );
   const {
     orderInfo: { orderInput = "", validOrder = false } = {},
     orderValidation: { isWholeShares = false, isLessThanBalance = false } = {},
   } = useSelector((state) => state.trade);
 
   const handleReview = () => {
-    orderInput && handleValidOrder();
-    orderInput && handleNotEnoughFunds();
-    orderInput && handleNotWholeShares();
+    if (token) {
+      orderInput && handleValidOrder();
+      orderInput && handleNotEnoughFunds();
+      orderInput && handleNotWholeShares();
+      return;
+    }
+    if (!token) {
+      orderInput && handleNotLoggedIn();
+    }
   };
   const handleValidOrder = () => {
     if (isWholeShares && isLessThanBalance && validOrder) {
@@ -45,8 +54,21 @@ function ReviewBtn() {
     }
   };
 
+  const handleNotLoggedIn = () => {
+    if (!token) {
+      dispatch(
+        showCalloutAlert({
+          showNotNotLoggedInAlert: true,
+        })
+      );
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center w-full mx-auto my-auto py-6">
+    <div
+      id="review-btn-container"
+      className="flex items-center justify-center w-full mx-auto my-auto py-6"
+    >
       <button
         disabled={!orderInput}
         onClick={handleReview}

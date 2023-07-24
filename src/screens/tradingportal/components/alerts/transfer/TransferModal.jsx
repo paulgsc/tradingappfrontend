@@ -1,32 +1,36 @@
 import React from "react";
 import ModalMsg from "./ModalMsg";
 import ModalFooter from "./ModalFooter";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "../../../../../components/ui/Modal";
+import { useEffect } from "react";
+import { showCalloutAlert } from "../../../../../reducers/tradingReducers";
 
 function TransferModal() {
-  const { userBalance: { transfer_remaining } = {} } = useSelector(
+  const dispatch = useDispatch();
+  const { callouts: { showNotNotLoggedInAlert = false } = {} } = useSelector(
     (state) => state.trade
   );
 
-  // Check if transfer_remaining is a valid number or not
-  const isValidNumber =
-    !isNaN(transfer_remaining) && typeof transfer_remaining === "number";
+  const { userInfo: { token = "" } = {} } = useSelector(
+    (state) => state.userAuth
+  );
 
-  // If transfer_remaining is not a valid number, you can show an error message or handle it in any way you prefer
-  if (!isValidNumber) {
-    return <div>Invalid balance value</div>;
-  }
-
+  const title = token ? "Transfer Funds To Trade" : "Login to begin trading";
+  useEffect(() => {
+    if (token) {
+      dispatch(
+        showCalloutAlert({
+          showNotNotLoggedInAlert: false,
+        })
+      );
+    }
+  }, [token]);
   return (
     <>
-      {transfer_remaining <= 0 && (
+      {showNotNotLoggedInAlert && (
         <div className="absolute">
-          <Modal
-            title={"Transfer Funds To Trade"}
-            body={<ModalMsg />}
-            Footer={<ModalFooter />}
-          />
+          <Modal title={title} body={<ModalMsg />} Footer={<ModalFooter />} />
         </div>
       )}
     </>

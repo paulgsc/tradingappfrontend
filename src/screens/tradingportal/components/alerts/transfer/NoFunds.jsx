@@ -1,17 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { fetchUserBalance } from "../../../../../hooks/react-query";
+import { Link } from "react-router-dom";
 
 function NoFunds() {
-  const { userInfo: { token = "" } = {} } = useSelector(
-    (state) => state.userAuth
+  const { userBalance: { transfer_remaining = "" } = {} } = useSelector(
+    (state) => state.trade
   );
-  const { balance = {}, isLoading, isError } = fetchUserBalance(token);
 
   return (
     <>
-      {!balance?.transfer_remaining && (
+      {transfer_remaining <= 0 && (
         <div className="sticky top-14 grid lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-4 w-full">
           <div className=" lg:col-span-2 xl:col-span-4 invisible">
             <div className="flex items-center justify-center rounded bg-gray-50 h-4/5 dark:bg-gray-800">
