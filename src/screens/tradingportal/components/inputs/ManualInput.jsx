@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { storeOrderInput } from "../../../../contexts/redux/actions/tradingActions";
 import NotEnoughFunds from "../alerts/orders/NotEnoughFunds";
+import NotWholeShares from "../alerts/orders/NotWholeShares";
 
 function ManualInput() {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ function ManualInput() {
   return (
     <div className="flex flex-1 h-full">
       <NotEnoughFunds />
+      <NotWholeShares />
       <input
         id="inputAmount"
         type="text"
