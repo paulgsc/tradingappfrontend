@@ -1,7 +1,5 @@
 import React from "react";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import {
   showCalloutAlert,
   showSummaryPortal,
@@ -9,14 +7,15 @@ import {
 
 function ReviewBtn() {
   const dispatch = useDispatch();
-  const [count, setCount] = useState(0);
   const {
     orderInfo: { orderInput = "", validOrder = false } = {},
     orderValidation: { isWholeShares = false, isLessThanBalance = false } = {},
   } = useSelector((state) => state.trade);
 
   const handleReview = () => {
-    setCount((prevCount) => prevCount + 1);
+    orderInput && handleValidOrder();
+    orderInput && handleNotEnoughFunds();
+    orderInput && handleNotWholeShares();
   };
   const handleValidOrder = () => {
     if (isWholeShares && isLessThanBalance && validOrder) {
@@ -28,7 +27,7 @@ function ReviewBtn() {
     }
   };
   const handleNotEnoughFunds = () => {
-    if (isWholeShares && validOrder && !isLessThanBalance) {
+    if (validOrder && !isLessThanBalance) {
       dispatch(
         showCalloutAlert({
           showNotEnoughFundsAlert: true,
@@ -36,10 +35,16 @@ function ReviewBtn() {
       );
     }
   };
-  useEffect(() => {
-    handleValidOrder();
-    handleNotEnoughFunds();
-  }, [count]);
+  const handleNotWholeShares = () => {
+    if (!isWholeShares && validOrder && isLessThanBalance) {
+      dispatch(
+        showCalloutAlert({
+          showNotWholeSharesAlert: true,
+        })
+      );
+    }
+  };
+
   return (
     <div className="flex items-center justify-center w-full mx-auto my-auto py-6">
       <button
