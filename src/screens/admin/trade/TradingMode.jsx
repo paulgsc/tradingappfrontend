@@ -13,7 +13,7 @@ function TradingMode() {
   const dispatch = useDispatch();
   const redirect = location.pathname;
   const {
-    activePropertyWithImages: { property_address = "" } = {},
+    activeProperty: { property_address = "" } = {},
     isLoading,
     isError,
   } = fetchActiveProperty();

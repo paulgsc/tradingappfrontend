@@ -286,12 +286,23 @@ export const fetchActiveProperty =  () => {
             available_shares = "",
           } = data;
         
-      
-            dispatch(storeOrderInput({
-              propertyId: id,
-              pricePerShare: price_per_share,
-              availableShares: available_shares,
-            }));
+      const parsedValues = () => {
+        try{
+          return {
+            propertyId: id,
+            pricePerShare: parseFloat(price_per_share),
+            availableShares: parseInt(available_shares)
+          }
+
+        }catch(error){
+          return {
+            propertyId: id,
+            price_per_share: 0,
+            available_shares: 0,
+          }
+        }
+      }
+            dispatch(storeOrderInput(parsedValues()));
               dispatch(setTradingProperty(data))
       
         
