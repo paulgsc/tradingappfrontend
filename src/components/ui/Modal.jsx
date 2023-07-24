@@ -2,24 +2,36 @@ import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { showCalloutAlert } from "../../reducers/tradingReducers";
 
 const Modal = ({ title, body, Footer }) => {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(true);
   const modalRef = useRef(null);
 
   const handleCloseModal = () => {
     setShowModal(false);
+    dispatch(
+      showCalloutAlert({
+        showNotNotLoggedInAlert: false,
+      })
+    );
   };
 
   const hanldeClickOutsideModal = (event) => {
-    const input = document.getElementById("inputAmount");
-    const slider = document.getElementById("inputSlider");
-    if (input.contains(event.target) || slider.contains(event.target)) {
+    const review = document.getElementById("review-btn-container");
+    if (review.contains(event.target)) {
       setShowModal(true);
       return;
     }
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       showModal && setShowModal(false);
+      dispatch(
+        showCalloutAlert({
+          showNotNotLoggedInAlert: false,
+        })
+      );
     }
   };
 

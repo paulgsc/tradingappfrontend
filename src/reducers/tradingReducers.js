@@ -4,8 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const tradingReducers = createSlice({
     name: "trade",
     initialState: { loading: false, showSummaryPortal: false, orderInfo: { shares: 0, amount: 0, 
-    propertyId: null, pricePerShare: null, availableShares: null, transactionType: "", validOrder: false, }, balanceInfo: { transferAmountRemaining: "",
-    amountPurchased: "" }, userBalance: {}, orderValidation: {}, callouts: {}, }, 
+    propertyId: null, pricePerShare: null, availableShares: null, transactionType: "", validOrder: false, }, userBalance: {}, orderValidation: {}, callouts: {}, }, 
     reducers: {
         startTradeRequest(state, action){
             return { ...state, loading: true };
@@ -47,8 +46,7 @@ const tradingReducers = createSlice({
         },
         clearTradeInfoOnLogout(state, action){
             return { loading: false, orderInfo: { shares: "", amount: "", 
-            propertyId: "", transactionType: "", }, balanceInfo: { transferAmountRemaining: "",
-            amountPurchased: "" } };
+            propertyId: "", transactionType: "", },  };
         },
         fetchBalanceInfoFailure(state, action){
             return { ...state, loading: false, error: action.payload, balanceInfo: {} }
