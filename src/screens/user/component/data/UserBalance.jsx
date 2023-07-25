@@ -36,7 +36,6 @@ function UserBalance() {
     staleTime: 60000, // Cache data for 30 seconds before refetching
     onSuccess: (data) => {
       try {
-        console.log(data);
         // Dispatch the action to store the balance data in Redux when data is successfully fetched
         dispatch(storeBalanceInfo(data || {}));
       } catch (error) {

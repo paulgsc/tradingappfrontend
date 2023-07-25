@@ -5,6 +5,7 @@ import { userLogoutPlaid } from "../../../reducers/plaidAuthReducer";
 import { userLogOutClearData } from "../../../reducers/fetchDataReducers";
 import { clearTradeInfoOnLogout } from "../../../reducers/tradingReducers";
 import { firebaseLogout } from "../../../hooks/firebase-hooks";
+import { setOrdersError, setUserOrdersSuccess } from "../../../reducers/userActionsReducers";
 
 
 function generatePassword(length) {
@@ -282,5 +283,13 @@ export const SendSMS = () => async (dispatch, getState) => {
         localStorage.removeItem('link_token');
         dispatch(userLoginFailure(error.message));
         return false;
+    }
+}
+
+export const storeOrdersInfo = (orders) => (dispatch) => {
+    try{
+        dispatch(setUserOrdersSuccess(orders))
+    }catch (error){
+        dispatch(setOrdersError(error.message))
     }
 }

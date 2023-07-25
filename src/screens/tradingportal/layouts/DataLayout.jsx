@@ -1,6 +1,6 @@
 import React from "react";
-import UserBalance from "../components/data/UserBalance";
 import { useSelector } from "react-redux";
+import UserBalance from "../../user/component/data/UserBalance";
 
 function DataLayout() {
   const { userInfo: { token = "" } = {} } = useSelector(

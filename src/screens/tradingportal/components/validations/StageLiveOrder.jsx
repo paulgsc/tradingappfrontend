@@ -39,10 +39,12 @@ function StageLiveOrder() {
     if (isLessThanBalance && isWholeShares && validOrder) {
       const shares = setShares();
       const amount = setAmount();
+
       const orderInfo = {
         shares: shares,
         amount: amount,
       };
+
       dispatch(stageLiveOrder(orderInfo));
     } else {
       const orderInfo = {
@@ -51,7 +53,7 @@ function StageLiveOrder() {
       };
       dispatch(stageLiveOrder(orderInfo));
     }
-  }, [isLessThanBalance, isWholeShares, validOrder]);
+  }, [orderInput, isLessThanBalance, isWholeShares, validOrder]);
   return <div></div>;
 }
 

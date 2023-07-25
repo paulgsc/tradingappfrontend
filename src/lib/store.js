@@ -9,6 +9,7 @@ import firebaseReducer from '../reducers/firebaseReducer';
 import adminFetchDataReducers from '../reducers/adminFetchDataReducers';
 import adminActionsReducers from '../reducers/adminActionsReducers';
 import envVariablesReducers from '../reducers/envVariablesReducers';
+import userActionsReducers from '../reducers/userActionsReducers';
 
 export const store = configureStore({
     reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
         adminFetchData: adminFetchDataReducers,
         adminActions: adminActionsReducers,
         env: envVariablesReducers,
+        userActions: userActionsReducers,
 
     },
     devTools: process.env.NODE_ENV !== 'production',    

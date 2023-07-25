@@ -106,8 +106,6 @@ Transactions.MenuItems = ({ dropdown, handleSelect }) => (
   <div className="hidden dropdown-menu">
     <div
       className="absolute right-0 top-12 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-      aria-labelledby="headlessui-menu-button-1"
-      id="headlessui-menu-items-117"
       role="menu"
     >
       {dropdown.map((item) => (
