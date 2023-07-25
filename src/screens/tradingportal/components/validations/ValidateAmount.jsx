@@ -22,7 +22,7 @@ function ValidateAmount() {
       }
     }
     if (transactionType === "Shares") {
-      if (!isNaN(parseInt(orderInput)) && pricePerShare > 0) {
+      if (!isNaN(parseInt(orderInput))) {
         const shares = parseInt(orderInput);
         const orderAmount = shares * pricePerShare;
         return orderAmount;

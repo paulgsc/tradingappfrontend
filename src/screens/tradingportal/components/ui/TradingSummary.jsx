@@ -7,6 +7,15 @@ import SummaryPageImage from "../images/SummaryPageImage";
 function TradingSummary() {
   const { orderInfo: { amount = "", shares = "", pricePerShare = "" } = {} } =
     useSelector((state) => state.trade);
+  const {
+    tradingPropertyInfo: {
+      property_name = "",
+      property_address = "",
+      rental_status = "",
+      dividend = "",
+      total_property_shares = 0,
+    } = {},
+  } = useSelector((state) => state.propertyData);
   return (
     <OrderSummary className={"shadow-md border-l border-t"}>
       <OrderSummary.Card
@@ -49,9 +58,12 @@ function TradingSummary() {
           </div>
           <div className="grid grid-cols-3">
             <div className="grid text-sm xl:text-base gap-2 ">
-              <span>Property name: name</span>
-              <span>Property address: address</span>
-              <span>Property rental status: status</span>
+              <span>Property name:{` ${property_name}`}</span>
+              <span>Property address:{` ${property_address}`}</span>
+              <span>
+                Property rental status:
+                <small className="text-xs font-light text-lime-600">{` ${rental_status}`}</small>
+              </span>
             </div>
             <div className="grid text-sm xl:text-base gap-2 ">
               <span>Price Per Share: {currency(pricePerShare).format()}</span>
@@ -59,8 +71,8 @@ function TradingSummary() {
               <span>Purchase Amount: {currency(amount).format()}</span>
             </div>
             <div className="grid text-sm xl:text-base gap-2 ">
-              <span>Current dividend: $0.00</span>
-              <span>Outstanding shares: 0.00</span>
+              <span>Current dividend:{` ${dividend}`}</span>
+              <span>Outstanding shares:{` ${total_property_shares}`}</span>
               <span>Percent shares sold: 0%</span>
             </div>
           </div>
