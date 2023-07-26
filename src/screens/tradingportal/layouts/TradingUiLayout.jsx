@@ -7,7 +7,7 @@ function TradingUiLayout() {
   const { showSummaryPortal = false } = useSelector((state) => state.trade);
 
   return (
-    <div className="flex justify-center w-full h-full border border-red-600 overflow-clip">
+    <div className="flex justify-center w-full h-full overflow-clip">
       <div className="relative flex justify-center items-start w-full h-full p-0 m-0 ">
         <div
           className={`${
