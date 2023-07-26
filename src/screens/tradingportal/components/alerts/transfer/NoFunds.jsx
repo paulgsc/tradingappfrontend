@@ -1,16 +1,24 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import SkeletonLoading from "../../../../../components/loading/SkeletonLoading";
 
 function NoFunds() {
   const location = useLocation();
   const redirect = location.pathname;
-  const { userBalance: { transfer_remaining = "" } = {} } = useSelector(
-    (state) => state.trade
-  );
+  const { userBalance: { transfer_remaining = "", loading = false } = {} } =
+    useSelector((state) => state.trade);
   const { userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
+
+  if (loading) {
+    return (
+      <div className="w-full scale-75 blur-sm">
+        <SkeletonLoading size={0} />
+      </div>
+    );
+  }
 
   return (
     <>
