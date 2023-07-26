@@ -9,13 +9,15 @@ function Trading() {
   const { activeProperty = {}, isLoading, isError } = fetchActiveProperty();
 
   return (
-    <div className="min-h-screen flex flex-col w-full ">
+    <div className="min-h-screen flex flex-col w-full">
       <hr className="mt-12" />
-      <div className="flex flex-col items-center justify-center w-full flex-1 ">
-        <div className="relative flex flex-col w-full justify-center items-center flex-1 px-4 border-gray-200 rounded-lg dark:border-gray-700 ">
+      <div className="flex flex-col items-center justify-center w-full h-full ">
+        <div className="relative flex flex-col w-full  h-full justify-center items-center px-4 border-gray-200 rounded-lg ">
           <TradingHeader propertyName={activeProperty?.property_name} />
           <hr className="  w-full mb-2" />
+
           <NoFunds />
+
           <TradingInfoLayout />
         </div>
       </div>

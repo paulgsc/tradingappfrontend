@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import SummaryPage from "./SummaryPage";
 import OrderPage from "./OrderPage";
 import ReviewPage from "./ReviewPage";
 

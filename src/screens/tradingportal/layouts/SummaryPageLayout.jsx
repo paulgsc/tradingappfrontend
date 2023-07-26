@@ -1,19 +1,19 @@
 import React from "react";
 import currency from "currency.js";
-import OrderSummary from "../../../../components/ui/OrderSummary";
-import { ProfileSvg } from "../../../../constants/svgs/Svg";
-import BuyBtn from "../buttons/BuyBtn";
-import ProfileInfo from "../../../../components/ui/ProfileInfo";
 import { useSelector } from "react-redux";
+import OrderSummary from "../../../components/ui/OrderSummary";
+import { ProfileSvg } from "../../../constants/svgs/Svg";
+import ProfileInfo from "../../../components/ui/ProfileInfo";
+import BuyBtn from "../components/buttons/BuyBtn";
 
-function SummaryPage() {
+function SummaryPageLayout() {
   const {
     orderInfo: { amount = 0, shares = 0 } = {},
     userBalance: { transfer_remaining } = {},
   } = useSelector((state) => state.trade);
 
   return (
-    <OrderSummary className={""}>
+    <OrderSummary className={" p-2 border h-full z-50"}>
       <OrderSummary.Title className={""}>User Snapshot</OrderSummary.Title>
       <div className="flex gap-4 border-t p-2 ">
         <ProfileInfo.ProfileImageCard
@@ -30,9 +30,9 @@ function SummaryPage() {
           </span>
         </div>
       </div>
-      <div className="mt-2">
-        <OrderSummary.Title>Order Amount</OrderSummary.Title>
-        <div className="border-t">
+      <div className="w-full">
+        <OrderSummary.Title className={""}>Order Amount</OrderSummary.Title>
+        <div className="border-t mb-2">
           <div>
             <span>You're paying: </span>
             <span>{currency(amount).format()}</span>
@@ -42,10 +42,10 @@ function SummaryPage() {
             <span>{shares} shares</span>
           </div>
         </div>
-        <BuyBtn />
       </div>
+      <BuyBtn />
     </OrderSummary>
   );
 }
 
-export default SummaryPage;
+export default SummaryPageLayout;

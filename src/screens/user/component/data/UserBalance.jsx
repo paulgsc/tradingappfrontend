@@ -9,6 +9,7 @@ function UserBalance() {
   const { userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
+  const { userBalance = {} } = useSelector((state) => state.trade);
 
   // Define your query key or URL
   const queryKey = ["user-balance"];

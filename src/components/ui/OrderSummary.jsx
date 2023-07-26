@@ -2,12 +2,7 @@ import React from "react";
 import { cn } from "../../lib/utils";
 
 function OrderSummary({ className, ...props }) {
-  return (
-    <div
-      className={cn(`${className} px-6 w-full min-h-screen bg-white`)}
-      {...props}
-    />
-  );
+  return <div className={cn(`${className}  `)} {...props} />;
 }
 
 export default OrderSummary;
@@ -51,9 +46,7 @@ OrderSummary.Button = ({ className, handleClick, ...props }) => {
   return (
     <button
       onClick={handleClick}
-      className={cn(
-        `${className}  h-12 w-28 shadow-sm rounded-md text-white bg-black enabled:hover:bg-blue-600 disabled:opacity-40 enabled:cursor-pointer disabled:cursor-not-allowed`
-      )}
+      className={cn(`${className}  h-12 w-28 shadow-sm rounded-md text-white`)}
       {...props}
     />
   );

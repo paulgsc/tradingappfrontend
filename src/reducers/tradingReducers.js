@@ -3,11 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const tradingReducers = createSlice({
     name: "trade",
-    initialState: { loading: false, showSummaryPortal: false, orderInfo: { shares: 0, amount: 0, 
-    propertyId: null, pricePerShare: null, availableShares: null, transactionType: "", validOrder: false, }, userBalance: {}, orderValidation: {}, callouts: {}, }, 
+    initialState: {  },
     reducers: {
         startTradeRequest(state, action){
-            return { ...state, loading: true };
+            return { ...state, loading: true,  };
         },
         requestBalanceInfo(state, action){
             return { ...state, loading: true };
@@ -37,7 +36,7 @@ const tradingReducers = createSlice({
             return { ...state, orderValidation: {} }
         },
         tradeRequestSuccessful(state, action){
-            return { loading: false, orderInfo: { ...state.orderInfo, ...action.payload } };
+            return { loading: false, tradeComplete: true, orderInfo: { ...state.orderInfo, ...action.payload } };
         },
         
         clearOrderInfo(state, action){
@@ -52,12 +51,16 @@ const tradingReducers = createSlice({
             return { ...state, loading: false, error: action.payload, balanceInfo: {} }
         },
         tradeRequestFailure(state, action){
-            return { ...state, loading: false, error: action.payload }
+            return { ...state, tradeComplete: false, loading: false, error: action.payload }
         },
         showCalloutAlert(state, action){
             return { ...state, callouts: { ...state.callouts, ...action.payload } }
+        },
+        resetTradingState(state, action){
+           return {}
         }
     },
+
 });
 
 export const {
@@ -77,6 +80,7 @@ export const {
     storeOrderInfo,
     clearOrderInfo,
     clearTradeInfoOnLogout,
+    resetTradingState,
 
 } = tradingReducers.actions;
 
