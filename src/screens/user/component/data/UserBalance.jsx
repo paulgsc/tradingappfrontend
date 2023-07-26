@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { storeBalanceInfo } from "../../../../reducers/tradingReducers";
 import API from "../../../../api/django";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 function UserBalance() {
   const dispatch = useDispatch();
@@ -45,6 +46,10 @@ function UserBalance() {
       }
     },
   });
+
+  useEffect(() => {
+    dispatch(storeBalanceInfo({ loading: true }));
+  }, []);
 
   return <></>;
 }
