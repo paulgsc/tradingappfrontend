@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import PropertyOverview from "./PropertyOverview";
-import PropertyHeader from "./PropertyHeader";
-import TabWidget from "../../../../components/ui/TabWidget";
+import TabMenu from "../../../../components/ui/TabMenu";
 
 function PropertyTabs() {
+  const [activeTab, setActiveTab] = useState("Overview");
+
+  const handleTabClick = (tabId, path = "") => {
+    setActiveTab(tabId);
+    path && navigate(path);
+  };
+  const isTabActive = (tabId) => {
+    return activeTab === tabId;
+  };
   const headers = [
     {
       id: "1_1",
@@ -30,14 +38,37 @@ function PropertyTabs() {
     }
   };
   return (
-    <div className="flex flex-col w-11/12">
-      <PropertyHeader />
-      <TabWidget
-        getclassName={getClassname}
-        active="Overview"
-        tabHeaders={headers}
-      />
-    </div>
+    <TabMenu>
+      <TabMenu.List
+        className={
+          " rounded-t-md shadow-sm  py-2 shadow-neutral-50 bg-gradient-to-r from-stone-200 via-white to-stone-50"
+        }
+      >
+        {headers.map((item, i) => (
+          <TabMenu.ListItems key={i}>
+            <TabMenu.ButtonAction
+              handleTabClick={handleTabClick}
+              isTabActive={isTabActive}
+              item={item}
+            >
+              <div className="flex relative">
+                <span>{item.title}</span>
+                {item?.icon && (
+                  <span className="absolute -right-4 xl:-right-6 -top-2">
+                    {item?.icon}
+                  </span>
+                )}
+              </div>
+            </TabMenu.ButtonAction>
+          </TabMenu.ListItems>
+        ))}
+      </TabMenu.List>
+      <TabMenu.ContentCard>
+        {headers.map((item, i) => (
+          <TabMenu.Content key={i} item={item} isTabActive={isTabActive} />
+        ))}
+      </TabMenu.ContentCard>
+    </TabMenu>
   );
 }
 

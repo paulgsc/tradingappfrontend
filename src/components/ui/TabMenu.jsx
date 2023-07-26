@@ -10,7 +10,7 @@ TabMenu.List = ({ className, ...props }) => {
     <ul
       role="tablist"
       className={cn(
-        `${className} w-full h-fit flex flex-wrap p-0 m-0  text-base font-medium text-center`
+        `${className} w-full flex flex-wrap text-base font-medium text-center`
       )}
       {...props}
     />

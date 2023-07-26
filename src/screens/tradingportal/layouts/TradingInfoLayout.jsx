@@ -10,7 +10,7 @@ function TradingInfoLayout() {
   const { showSummaryPortal = false } = useSelector((state) => state.trade);
   return (
     <div className="flex justify-between w-full h-full">
-      <div className="flex flex-col w-3/5 p-2 ml-2 xl:ml-16">
+      <div className="flex flex-col w-3/5 p-2 ml-2 xl:ml-16 space-y-2">
         <div
           className={`${
             !showSummaryPortal
