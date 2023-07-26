@@ -13,6 +13,7 @@ function ProgressBar() {
   const percent =
     100 *
     (parseFloat(total_purchased_shares) / parseFloat(total_property_shares));
+
   return (
     <div className="flex items-center justify-center w-full rounded bg-gray-50  dark:bg-gray-800">
       <div className="w-full h-fit mb-06 rounded-lg shadow-lg">

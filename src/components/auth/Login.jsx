@@ -24,7 +24,6 @@ const Login = () => {
   const [firebaseError, setFirebaseError] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [loginAttemptCount, setLoginAttemptCount] = useState(0);
 
   const {
@@ -34,6 +33,7 @@ const Login = () => {
       onboarding: { is_onboarding_completed = true } = {},
     } = {},
     error = null,
+    loading = false,
   } = useSelector((state) => state.userAuth);
 
   const redirect = location.search
