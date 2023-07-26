@@ -1,5 +1,5 @@
 import React from "react";
-import OrderSummary from "../../../../components/ui/OrderSummary";
+
 import { useDispatch } from "react-redux";
 import { excersiseTrade } from "../../../../contexts/redux/actions/tradingActions";
 
@@ -9,11 +9,12 @@ function BuyBtn() {
     dispatch(excersiseTrade());
   };
   return (
-    <div className="mt-6 w-full flex justify-center items-center">
-      <OrderSummary.Button handleClick={handleClick}>
-        Submit Order
-      </OrderSummary.Button>
-    </div>
+    <button
+      className="mt-2 shadow-sm border w-full xl:h-16 p-2 rounded-md text-white bg-black enabled:hover:bg-blue-600 disabled:opacity-40 enabled:cursor-pointer disabled:cursor-not-allowed"
+      onClick={handleClick}
+    >
+      Submit Order
+    </button>
   );
 }
 

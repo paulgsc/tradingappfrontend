@@ -17,7 +17,7 @@ function TradingSummary() {
     } = {},
   } = useSelector((state) => state.propertyData);
   return (
-    <OrderSummary className={"shadow-md border-l border-t"}>
+    <OrderSummary className={"min-h-screen w-full px-6  border-l border-t"}>
       <OrderSummary.Card
         className={"flex items-center justify-center w-full p-4"}
       >

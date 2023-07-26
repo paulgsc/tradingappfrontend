@@ -7,7 +7,7 @@ import ReviewBtn from "../components/buttons/ReviewBtn";
 function OrderEntryLayout() {
   return (
     <div className="flex justify-center items-center h-full w-full">
-      <div className="items-center w-full gap-2 mb-4">
+      <div className="items-center w-full space-y-2">
         <TransferModal />
         <InputLayout />
         <ReviewBtn />

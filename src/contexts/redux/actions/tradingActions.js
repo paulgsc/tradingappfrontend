@@ -25,7 +25,7 @@ export const excersiseTrade = () => async (dispatch, getState) => {
             }
         }
         const orderData = {
-            'transaction_type': transactionType,
+            'order_type': 'BUY',
             'property': propertyId,
             'order_shares_total': shares,
             'order_amount': amount,
