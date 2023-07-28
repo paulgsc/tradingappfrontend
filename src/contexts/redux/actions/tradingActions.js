@@ -106,3 +106,19 @@ export const validateOrderInput = (validationInfo) => (dispatch) => {
         dispatch(validateOrderError())
     }
 }
+
+export const fetchSelectedProperty = async () => {
+
+        const config = {
+          headers: {
+            'Content-type': 'application/json',
+          }
+        };
+
+        const response = await API.get(
+          `data/active_property/`,
+          config
+        );
+
+        return response.data;
+}

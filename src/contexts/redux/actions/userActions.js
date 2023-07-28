@@ -5,7 +5,7 @@ import { userLogoutPlaid } from "../../../reducers/plaidAuthReducer";
 import { userLogOutClearData } from "../../../reducers/fetchDataReducers";
 import { clearTradeInfoOnLogout } from "../../../reducers/tradingReducers";
 import { firebaseLogout } from "../../../hooks/firebase-hooks";
-import { setOrdersError, setUserOrdersSuccess } from "../../../reducers/userActionsReducers";
+
 
 
 function generatePassword(length) {
@@ -286,10 +286,39 @@ export const SendSMS = () => async (dispatch, getState) => {
     }
 }
 
-export const storeOrdersInfo = (orders) => (dispatch) => {
-    try{
-        dispatch(setUserOrdersSuccess(orders))
-    }catch (error){
-        dispatch(setOrdersError(error.message))
+
+export const fetchUserOrders = async (token) => {
+    if(!token){
+        return {}
     }
-}
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const response = await API.get("users/orders/", config);
+      return response.data;
+
+  };
+
+  export const fetchUserBalance = async (token) => {
+    if(!token){
+        return {}
+    }
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const response = await API.get("users/summary/", config);
+      return response.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+

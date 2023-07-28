@@ -15,7 +15,7 @@ function NavMenu() {
             <div
               to={menu.title}
               className={
-                activePath !== menu.id
+                true
                   ? ""
                   : "flex items-center h-full relative after:absolute after:bottom-0 after:left-0 after:w-3/5 after:h-[3px] after:rounded-lg after:bg-blue-400"
               }
@@ -32,9 +32,7 @@ function NavMenu() {
               </button>
             </div>
           </span>
-          {menu?.content && (
-            <NavMenuItems dropdown={menu.content} handleSelect={handleSelect} />
-          )}
+          {menu?.content && <NavMenuItems dropdown={menu.content} />}
         </div>
       ))}
     </div>

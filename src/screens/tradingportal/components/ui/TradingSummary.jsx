@@ -3,6 +3,7 @@ import currency from "currency.js";
 import { useSelector } from "react-redux";
 import OrderSummary from "../../../../components/ui/OrderSummary";
 import SummaryPageImage from "../images/SummaryPageImage";
+import Goback from "../buttons/Goback";
 
 function TradingSummary() {
   const { orderInfo: { amount = "", shares = "", pricePerShare = "" } = {} } =
@@ -17,7 +18,10 @@ function TradingSummary() {
     } = {},
   } = useSelector((state) => state.propertyData);
   return (
-    <OrderSummary className={"min-h-screen w-full px-6  border-l border-t"}>
+    <OrderSummary
+      className={"relative min-h-screen w-full px-6  border-l border-t"}
+    >
+      <Goback />
       <OrderSummary.Card
         className={"flex items-center justify-center w-full p-4"}
       >

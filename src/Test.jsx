@@ -3,14 +3,32 @@ import ConfirmationPage from "./screens/tradingportal/components/dashboard/Confi
 import BuyBtn from "./screens/tradingportal/components/buttons/BuyBtn";
 
 function Test() {
-  const [toggle, setToggle] = useState(false);
-  const handleToggle = () => {
-    setToggle((prevToggle) => !prevToggle);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-tr from-red-300 to-yellow-200 flex justify-center items-center py-20">
-      <BuyBtn />
+      <table className="w-96 h-96 animate-pulse bg-transparent">
+        <thead className="h-4 bg-stone-100 shadow-inner rounded-t-lg p-2 space-x-2s">
+          <tr className="">
+            {Array(5)
+              .fill()
+              .map((_, i) => (
+                <td key={i} className="h-4/5 rounded-full p-2"></td>
+              ))}
+          </tr>
+        </thead>
+        <tbody>
+          {Array(5)
+            .fill()
+            .map((_, i) => (
+              <tr key={i}>
+                {Array(5)
+                  .fill()
+                  .map((item, i) => (
+                    <td key={i}>foo foo</td>
+                  ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </div>
   );
 }

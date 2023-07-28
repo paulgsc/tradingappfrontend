@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PortfolioChart from "./PortfolioChart";
-import { BsChatLeft } from "react-icons/bs";
-import { RiNotification3Line } from "react-icons/ri";
+
 import SideMenu from "./SideMenu";
 import CustomSvg from "../../components/ui/CustomSvg";
 import NavbarLogo from "../../components/navbar/navlogo/NavbarLogo";
@@ -11,7 +10,7 @@ import {
   fetchSummary,
   fetchShares,
 } from "../../contexts/redux/actions/fetchDataActions";
-import PropertyShares from "../../components/tables/PropertyShares";
+
 import Profile from "../../components/profile/Profile";
 import currency from "currency.js";
 
@@ -200,9 +199,7 @@ Account.Property = ({ sharesData }) => (
   <div className="flex flex-col items-start h-full w-full bg-gray-100 dark:bg-gray-800">
     <span className="text-base lg:text-lg  ml-4 py-2"> Properties owned</span>
     <div className="flex w-full justify-center">
-      <div className="w-10/12 h-full font-medium text-gray-600 bg-white">
-        <PropertyShares sharesData={sharesData} />
-      </div>
+      <div className="w-10/12 h-full font-medium text-gray-600 bg-white"></div>
     </div>
   </div>
 );
