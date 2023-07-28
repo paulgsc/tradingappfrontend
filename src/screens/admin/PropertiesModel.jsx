@@ -100,7 +100,7 @@ function PropertiesModel({ propertyData, handleRecordClick }) {
         return "";
     }
   };
-  console.log(location.pathname);
+
   return (
     <>
       {location.pathname ===

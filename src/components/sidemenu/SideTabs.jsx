@@ -17,9 +17,7 @@ SideTabs.Title = ({ className, ...props }) => {
 };
 
 SideTabs.ContentContainer = ({ className, ...props }) => {
-  return (
-    <div className={cn(`${className} mt-4 space-y-4 lg:mt-8`)} {...props} />
-  );
+  return <div className={cn(`${className} `)} {...props} />;
 };
 
 SideTabs.Links = ({ items, className }) => {

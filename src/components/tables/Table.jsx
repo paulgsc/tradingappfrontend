@@ -160,7 +160,7 @@ function Table({
           })}
         </div>
       ) : (
-        <Table.EmptyBody />
+        <></>
       )}
     </div>
   );
@@ -168,17 +168,6 @@ function Table({
 
 Table.Headers = ({ className, ...props }) => (
   <div className={cn(className)} {...props} />
-);
-
-Table.EmptyBody = () => (
-  <div className="flex flex-col items-center justify-center border shadow-sm w-full h-32 xl:h-40 bg-gray-50">
-    <span className="text-sm xl:text-base leading-4 text-gray-600">
-      You have no transfers
-    </span>
-    <span className="text-sm xl:text-base leading-4 text-gray-600">
-      Link an account and add transfers
-    </span>
-  </div>
 );
 
 Table.SimulateWidget = ({ handleSimulate, transferId, transferStatus }) => (

@@ -11,7 +11,6 @@ import Test from "./Test";
 import Trading from "./screens/tradingportal/Trading";
 import Index from "./screens/banking/Index";
 import LinkAccount from "./screens/plaid/LinkAccount";
-import Transactions from "./screens/profile/Transactions";
 import NotFound404 from "./components/notFound/NotFound404";
 import {
   adminPaths,
@@ -27,6 +26,7 @@ import Layout from "./Layout";
 import EnvVariablesLoader from "./components/auth/EnvVariablesLoader";
 import SetupStep from "./components/auth/SetupStep";
 import Listings from "./screens/admin/listings/Listings";
+import UserScreen from "./screens/user/component/UserScreen";
 
 function App() {
   return (
@@ -83,7 +83,7 @@ function App() {
                 key={index}
                 exact
                 path={`/personal${path}`}
-                element={<Transactions />}
+                element={<UserScreen />}
               />
             ))}
             <Route exact path="/personal/banking" element={<Index />} />

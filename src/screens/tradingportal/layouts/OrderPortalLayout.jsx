@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import DashboardLayout from "./DashboardLayout";
 import TabMenu from "../../../components/ui/TabMenu";
+import OrdersLayout from "./OrdersLayout";
 
 function OrderPortalLayout() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -23,7 +24,7 @@ function OrderPortalLayout() {
     {
       id: "tab_2",
       title: "Orders",
-      content: "",
+      content: <OrdersLayout />,
     },
   ];
   return (

@@ -1,6 +1,5 @@
 import React from "react";
 import ProgressBar from "../components/dashboard/ProgressBar";
-import FlipCard from "../components/dashboard/FlipCard";
 import ValidateAmount from "../components/validations/ValidateAmount";
 import StageLiveOrder from "../components/validations/StageLiveOrder";
 import ValidShares from "../components/validations/ValidShares";

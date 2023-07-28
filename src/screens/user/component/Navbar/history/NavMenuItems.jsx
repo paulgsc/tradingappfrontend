@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-function NavMenuItems({ dropdown, handleSelect }) {
+function NavMenuItems({ dropdown }) {
   return (
     <div className="hidden dropdown-menu">
       <div
@@ -14,10 +14,7 @@ function NavMenuItems({ dropdown, handleSelect }) {
             className="px-4 py-3 hover:bg-gray-100 cursor-pointer"
           >
             <NavLink to={item.path}>
-              <button
-                onClick={() => handleSelect(item.parent)}
-                className="text-sm text-left leading-5 w-full"
-              >
+              <button className="text-sm text-left leading-5 w-full">
                 {item.title}
               </button>
             </NavLink>

@@ -5,6 +5,7 @@ import OrderSummary from "../../../components/ui/OrderSummary";
 import { ProfileSvg } from "../../../constants/svgs/Svg";
 import ProfileInfo from "../../../components/ui/ProfileInfo";
 import BuyBtn from "../components/buttons/BuyBtn";
+import Goback from "../components/buttons/Goback";
 
 function SummaryPageLayout() {
   const {
@@ -13,7 +14,8 @@ function SummaryPageLayout() {
   } = useSelector((state) => state.trade);
 
   return (
-    <OrderSummary className={" p-2 border h-full z-50"}>
+    <OrderSummary className={"relative border h-full z-50 "}>
+      <Goback />
       <OrderSummary.Title className={""}>User Snapshot</OrderSummary.Title>
       <div className="flex gap-4 border-t p-2 ">
         <ProfileInfo.ProfileImageCard

@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import OrderPortalLayout from "./OrderPortalLayout";
 import PropertyTabs from "../components/ui/PropertyTabs";
-import TradingUiLayout from "./TradingUiLayout";
 import OrderPropertyImages from "../components/images/OrderPropertyImages";
 import TradingSummary from "../components/ui/TradingSummary";
 
