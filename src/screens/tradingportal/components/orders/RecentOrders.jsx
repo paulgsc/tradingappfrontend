@@ -32,8 +32,9 @@ function RecentOrders() {
       }
     );
 
-  const orders =
-    data?.pages?.flatMap((page) => page?.paginated_orders?.results) || [];
+  const orders = !token
+    ? []
+    : data?.pages?.flatMap((page) => page?.paginated_orders?.results) || [];
 
   const handleScroll = () => {
     const elements = document.getElementsByClassName("your-class-name");
