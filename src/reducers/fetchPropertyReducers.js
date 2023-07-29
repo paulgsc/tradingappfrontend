@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const fetchPropertyReducers = createSlice({
     name: "propertyData",
-    initialState: { loading: false, count: "", next: "", previous: "",  propertyInfo: [], tradingPropertyInfo: {} },
+    initialState: { loading: false, count: "", next: "", previous: "",  propertyInfo: [] },
     reducers: {
         requestPropertyData(state, action){
             return { ...state, loading: true };
@@ -16,9 +16,7 @@ const fetchPropertyReducers = createSlice({
         fetchProperyDataFailure(state, action){
             return {  ...state, loading: false, error: action.payload }
         },
-        setTradingProperty(state, action){
-            return { ...state, tradingPropertyInfo: { ...action.payload } }
-        },
+
     },
 });
 
@@ -26,7 +24,7 @@ export const {
     requestPropertyData,
     fetchPropertyDataSuccess,
     fetchProperyDataFailure,
-    setTradingProperty,
+
 
 } = fetchPropertyReducers.actions;
 

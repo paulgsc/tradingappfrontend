@@ -1,10 +1,7 @@
 
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import API from '../api/django';
-import { useDispatch } from 'react-redux';
-import { storeBalanceInfo, storeOrderInfo } from '../reducers/tradingReducers';
-import { setTradingProperty } from '../reducers/fetchPropertyReducers';
-import { storeOrderInput } from '../contexts/redux/actions/tradingActions';
+
 
 
 
@@ -252,7 +249,7 @@ export const fetchPropertiesQuery = (token) => {
 
 
 export const fetchActiveProperty =  () => {
-  const dispatch = useDispatch()
+
   const queryKey = ['property-active'];
 
   // Use the useQuery hook to fetch the property data
@@ -276,42 +273,7 @@ export const fetchActiveProperty =  () => {
         throw new Error('Error fetching data');
       }
     },
-    {
-      onSuccess: (data) => {
-        try {
-          // Dispatch the action to store the balance data in Redux when data is successfully fetched
-          const {
-            id = null,
-            price_per_share = "",
-            available_shares = "",
-          } = data;
-        
-      const parsedValues = () => {
-        try{
-          return {
-            propertyId: id,
-            pricePerShare: parseFloat(price_per_share),
-            availableShares: parseInt(available_shares)
-          }
 
-        }catch(error){
-          return {
-            propertyId: id,
-            price_per_share: 0,
-            available_shares: 0,
-          }
-        }
-      }
-            dispatch(storeOrderInput(parsedValues()));
-              dispatch(setTradingProperty(data))
-      
-        
-        } catch (error) {
-          // Handle the error that occurred during dispatch (if needed)
-          console.error('Error dispatching action:', error);
-        }
-      },
-    }
     
   );
 

@@ -1,20 +1,29 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { storeOrderInput } from "../../../../contexts/redux/actions/tradingActions";
+import {
+  fetchSelectedProperty,
+  storeOrderInput,
+} from "../../../../contexts/redux/actions/tradingActions";
 import NotEnoughFunds from "../alerts/orders/NotEnoughFunds";
 import NotWholeShares from "../alerts/orders/NotWholeShares";
+import { useQuery } from "@tanstack/react-query";
 
 function ManualInput() {
   const dispatch = useDispatch();
-  const { tradingPropertyInfo: { available_shares } = {} } = useSelector(
-    (state) => state.propertyData
-  );
-  const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
-    useSelector((state) => state.trade);
-
   const [input, setInput] = useState("0");
   const [counter, setCounter] = useState(0);
+  const queryKey = ["active-property"];
+  const {
+    data: { available_shares = 0 } = {},
+    isError,
+    refetch,
+  } = useQuery(queryKey, fetchSelectedProperty, {
+    enabled: true,
+  });
+
+  const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
+    useSelector((state) => state.trade);
 
   const isPositiveNumber = (val) => {
     const numericValue = parseFloat(val);
@@ -40,7 +49,9 @@ function ManualInput() {
 
   const handleInput = (e) => {
     setCounter((prevCounter) => prevCounter + 1);
+
     const val = e.target.value.trim();
+
     if (val === "") {
       setInput(val);
       return;
@@ -67,12 +78,17 @@ function ManualInput() {
     const orderInfo = {
       orderInput: input,
     };
+
     dispatch(storeOrderInput(orderInfo));
   }, [input, counter]);
 
   useEffect(() => {
     setInput("");
   }, [transactionType]);
+
+  useEffect(() => {
+    refetch();
+  }, [orderInput]);
 
   return (
     <div className="flex flex-1 h-full">
