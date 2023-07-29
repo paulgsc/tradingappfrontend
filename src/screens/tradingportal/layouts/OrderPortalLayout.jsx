@@ -3,6 +3,7 @@ import { useState } from "react";
 import DashboardLayout from "./DashboardLayout";
 import TabMenu from "../../../components/ui/TabMenu";
 import OrdersLayout from "./OrdersLayout";
+import Investments from "../components/ui/Investments";
 
 function OrderPortalLayout() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -23,6 +24,11 @@ function OrderPortalLayout() {
     },
     {
       id: "tab_2",
+      title: "Portfolio",
+      content: <Investments />,
+    },
+    {
+      id: "tab_3",
       title: "Orders",
       content: <OrdersLayout />,
     },
@@ -53,7 +59,7 @@ function OrderPortalLayout() {
           </TabMenu.ListItems>
         ))}
       </TabMenu.List>
-      <TabMenu.ContentCard>
+      <TabMenu.ContentCard className={"w-full"}>
         {headers.map((item, i) => (
           <TabMenu.Content key={i} item={item} isTabActive={isTabActive} />
         ))}

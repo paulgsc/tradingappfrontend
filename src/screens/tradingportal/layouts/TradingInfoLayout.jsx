@@ -39,8 +39,8 @@ function TradingInfoLayout() {
         </div>
       </div>
 
-      <div className="flex-1 p-2">
-        <div className="w-11/12">
+      <div className="w-2/5">
+        <div className="w-11/12 ">
           <OrderPortalLayout />
         </div>
       </div>

@@ -3,7 +3,7 @@ import RecentOrders from "../components/orders/RecentOrders";
 
 function OrdersLayout() {
   return (
-    <div>
+    <div className="w-full">
       <RecentOrders />
     </div>
   );
