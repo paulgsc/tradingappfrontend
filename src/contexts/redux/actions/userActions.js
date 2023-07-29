@@ -287,7 +287,7 @@ export const SendSMS = () => async (dispatch, getState) => {
 }
 
 
-export const fetchUserOrders = async (token) => {
+export const fetchUserOrders = async (token, page=1) => {
     if(!token){
         return {}
     }
@@ -298,7 +298,7 @@ export const fetchUserOrders = async (token) => {
         },
       };
 
-      const response = await API.get("users/orders/", config);
+      const response = await API.get(`users/orders/?page=${page}`, config);
       return response.data;
 
   };

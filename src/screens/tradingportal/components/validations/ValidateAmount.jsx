@@ -37,6 +37,7 @@ function ValidateAmount() {
   useEffect(() => {
     if (validOrder) {
       const amount = orderAmount();
+      console.log(amount);
       if (amount) {
         const result = isLessThanBalance(amount);
         const validationInfo = {

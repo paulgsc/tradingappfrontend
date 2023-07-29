@@ -5,7 +5,6 @@ import { cn } from "../../lib/utils";
 function Table({
   columnData,
   history,
-
   getClassName,
   handleScroll = () => {},
   showCheckboxColumn = false,
