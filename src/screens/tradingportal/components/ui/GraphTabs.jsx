@@ -4,9 +4,10 @@ import BarGraph from "../charts/BarGraph";
 import { fetchPropertyFinancials } from "../../../../contexts/redux/actions/fetchPropertyActions";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
+import FinancialArticle from "./FinancialArticle";
 
 function GraphTabs() {
-  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [activeTab, setActiveTab] = useState("Last Year");
 
   const handleTabClick = (tabId, path = "") => {
     setActiveTab(tabId);
@@ -52,14 +53,14 @@ function GraphTabs() {
 
   const headers = [
     {
-      id: "tab_1",
+      id: "tab_2",
       title: "Last Year",
-      content: <BarGraph data={financialsData} />,
+      content: <FinancialArticle data={financialsData} />,
     },
     {
       id: "tab_3",
       title: "This Year",
-      content: <BarGraph data={financialsData} />,
+      content: <FinancialArticle data={financialsData} />,
     },
   ];
 
@@ -88,7 +89,7 @@ function GraphTabs() {
       <TabMenu.ContentCard className={"w-full h-full"}>
         {headers.map((item, i) => (
           <TabMenu.Content
-            className={" min-h-[600px] xl:min-h-[800px]"}
+            className={"h-full"}
             key={i}
             item={item}
             isTabActive={isTabActive}
