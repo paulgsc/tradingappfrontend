@@ -1,5 +1,5 @@
 import React from "react";
-import GraphTabs from "../dashboard/GraphTabs";
+import GraphTabs from "../components/ui/GraphTabs";
 
 function FinancialsLayout() {
   return (

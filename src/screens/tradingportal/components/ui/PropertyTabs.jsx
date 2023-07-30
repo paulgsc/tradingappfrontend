@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropertyOverview from "./PropertyOverview";
 import TabMenu from "../../../../components/ui/TabMenu";
-import FinancialsLayout from "./FinancialsLayout";
+import FinancialsLayout from "../../layouts/FinancialsLayout";
 
 function PropertyTabs() {
   const [activeTab, setActiveTab] = useState("Overview");
