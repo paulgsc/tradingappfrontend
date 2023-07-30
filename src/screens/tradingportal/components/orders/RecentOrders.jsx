@@ -31,10 +31,16 @@ function RecentOrders() {
         },
       }
     );
+  let orders = [];
 
-  const orders = !token
-    ? []
-    : data?.pages?.flatMap((page) => page?.paginated_orders?.results) || [];
+  try {
+    const financialsData =
+      data?.pages?.flatMap((page) => page?.paginated_orders?.results) || [];
+
+    if (Array.isArray(financialsData) && !financialsData.includes(undefined)) {
+      orders = financialsData;
+    }
+  } catch (error) {}
 
   const handleScroll = () => {
     const elements = document.getElementsByClassName("your-class-name");
