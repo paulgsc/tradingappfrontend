@@ -1,15 +1,20 @@
+import { useQuery } from "@tanstack/react-query";
 import currency from "currency.js";
 import React from "react";
-import { useSelector } from "react-redux";
+import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
 
 function ProgressBar() {
+  const queryKey = ["active-property"];
   const {
-    tradingPropertyInfo: {
+    data: {
       total_property_shares = 0,
       total_purchased_shares = 0,
       total_purchased_amount = 0,
     } = {},
-  } = useSelector((state) => state.propertyData);
+  } = useQuery(queryKey, fetchSelectedProperty, {
+    enabled: true,
+  });
+
   const percent =
     100 *
     (parseFloat(total_purchased_shares) / parseFloat(total_property_shares));
