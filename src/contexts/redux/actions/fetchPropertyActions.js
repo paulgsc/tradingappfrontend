@@ -24,3 +24,17 @@ export const fetchPropertyRows = () => async (dispatch) => {
         dispatch(fetchProperyDataFailure(error.message));
     }
 }
+
+export const fetchPropertyFinancials = async (page=1, propertyId) => {
+
+    const config = {
+    headers: {
+        "Content-type": "application/json",
+    },
+    };
+
+    const response = await API.get(`users/property_financials/${propertyId}/?page=${page}&page_size=12`, config);
+    
+    return response.data;
+
+};

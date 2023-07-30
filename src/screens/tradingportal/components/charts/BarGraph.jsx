@@ -3,6 +3,7 @@ import { Chart } from "chart.js";
 
 const BarGraph = ({ data }) => {
   const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
 
   useEffect(() => {
     // Function to generate random color for each dataset
@@ -11,59 +12,59 @@ const BarGraph = ({ data }) => {
 
     if (data && chartRef.current) {
       const chartData = {
-        labels: data.map((item) => item.tracking_date),
+        labels: data.map((item) => item?.month),
         datasets: [
           {
             label: "Rental Income",
-            data: data.map((item) => item.rental_income),
+            data: data.map((item) => item?.rental_income),
             backgroundColor: randomColor(),
             stack: "stack1",
           },
           {
             label: "Maintanance Costs",
-            data: data.map((item) => item.maintanance_cost),
+            data: data.map((item) => item?.maintanance_cost),
             backgroundColor: randomColor(),
-            stack: "stack1",
+            stack: "stack2",
           },
           {
             label: "Utility Expenses",
-            data: data.map((item) => item.utility_expenses),
+            data: data.map((item) => item?.utility_expenses),
             backgroundColor: randomColor(),
-            stack: "stack1",
+            stack: "stack2",
           },
           {
             label: "Insurance",
-            data: data.map((item) => item.insurance),
+            data: data.map((item) => item?.insurance),
             backgroundColor: randomColor(),
-            stack: "stack1",
+            stack: "stack2",
           },
           {
             label: "Home Owner Expenses",
-            data: data.map((item) => item.home_owner_expenses),
+            data: data.map((item) => item?.home_owner_expenses),
             backgroundColor: randomColor(),
-            stack: "stack1",
+            stack: "stack2",
           },
           {
             label: "Other Expenses",
-            data: data.map((item) => item.other_expenses),
+            data: data.map((item) => item?.other_expenses),
             backgroundColor: randomColor(),
-            stack: "stack1",
+            stack: "stack2",
           },
           {
             label: "Taxes",
-            data: data.map((item) => item.taxes),
+            data: data.map((item) => item?.taxes),
             backgroundColor: randomColor(),
-            stack: "stack1",
+            stack: "stack2",
           },
           // Add more datasets for other financial metrics here...
           {
             label: "Net Income",
-            data: data.map((item) => item.rental_income),
+            data: data.map((item) => item?.net_income),
             backgroundColor: (ctx) => {
               const value = ctx.dataset.data[ctx.dataIndex];
               return value >= 0 ? "green" : "red";
             },
-            stack: "stack2",
+            stack: "stack3",
           },
         ],
       };
@@ -100,11 +101,26 @@ const BarGraph = ({ data }) => {
         },
       };
 
-      new Chart(chartRef.current, {
-        type: "bar",
-        data: chartData,
-        options: chartOptions,
-      });
+      chartInstanceRef.current = chartData;
+
+      try {
+        // If the chart instance exists, update the data and options
+        if (chartInstanceRef.current?.id) {
+          chartInstanceRef.current.destroy();
+        }
+        if (data.length) {
+          chartInstanceRef.current = new Chart(chartRef.current, {
+            type: "bar",
+            data: chartData,
+            options: chartOptions,
+          });
+        }
+      } catch (error) {}
+      return () => {
+        if (chartInstanceRef.current?.id) {
+          chartInstanceRef.current.destroy();
+        }
+      };
     }
   }, [data]);
 

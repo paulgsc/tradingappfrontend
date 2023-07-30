@@ -1,14 +1,22 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Caraousel from "../../../../components/animation/Caraousel";
+import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
+import { useQuery } from "@tanstack/react-query";
 
 function OrderPropertyImages() {
   const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
     (state) => state.env
   );
-  const { tradingPropertyInfo: { images = [] } = {} } = useSelector(
-    (state) => state.propertyData
+  const queryKey = ["active-property"];
+  const { data: { images = [] } = {} } = useQuery(
+    queryKey,
+    fetchSelectedProperty,
+    {
+      enabled: true,
+    }
   );
+
   const propertyImages =
     images.map((item) =>
       import.meta.env.DEV
