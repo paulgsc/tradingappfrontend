@@ -26,7 +26,9 @@ export const fetchPropertyRows = () => async (dispatch) => {
 }
 
 export const fetchPropertyFinancials = async (page=1, propertyId) => {
-
+    if(!propertyId){
+        return []
+    }
     const config = {
     headers: {
         "Content-type": "application/json",

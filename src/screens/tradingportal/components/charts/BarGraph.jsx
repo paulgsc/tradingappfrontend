@@ -105,7 +105,7 @@ const BarGraph = ({ data }) => {
 
       try {
         // If the chart instance exists, update the data and options
-        if (chartInstanceRef.current?.id) {
+        if (chartInstanceRef.current?.id >= 0) {
           chartInstanceRef.current.destroy();
         }
         if (data.length) {
@@ -115,9 +115,11 @@ const BarGraph = ({ data }) => {
             options: chartOptions,
           });
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
       return () => {
-        if (chartInstanceRef.current?.id) {
+        if (chartInstanceRef.current?.id >= 0) {
           chartInstanceRef.current.destroy();
         }
       };
