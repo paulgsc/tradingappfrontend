@@ -46,7 +46,7 @@ function ValidShares() {
     if (price_per_share > 0 && !isNaN(parseFloat(orderInput))) {
       const orderAmount = parseFloat(orderInput);
       const shares = orderAmount / price_per_share;
-      return Number.isInteger(shares);
+      return Number.isInteger(shares) && orderAmount > 0;
     }
     return false;
   };
@@ -62,14 +62,12 @@ function ValidShares() {
         return;
       }
       if (transactionType === "Shares") {
-        if (!isNaN(parseInt(orderInput))) {
-          const result = parseInt(orderInput) <= available_shares;
-          const validationInfo = {
-            isWholeShares: result,
-          };
-          dispatch(validateOrderInput(validationInfo));
-          return;
-        }
+        const result = parseInt(orderInput) <= available_shares;
+        const validationInfo = {
+          isWholeShares: result,
+        };
+        dispatch(validateOrderInput(validationInfo));
+        return;
       }
     }
   }, [orderInput, price_per_share, available_shares, transfer_remaining]);

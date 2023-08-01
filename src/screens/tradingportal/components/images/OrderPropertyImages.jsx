@@ -3,13 +3,14 @@ import { useSelector } from "react-redux";
 import Caraousel from "../../../../components/animation/Caraousel";
 import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
 import { useQuery } from "@tanstack/react-query";
+import ImageSkeleton from "./ImageSkeleton";
 
 function OrderPropertyImages() {
   const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
     (state) => state.env
   );
   const queryKey = ["active-property"];
-  const { data: { images = [] } = {} } = useQuery(
+  const { data: { images = [] } = {}, isLoading } = useQuery(
     queryKey,
     fetchSelectedProperty,
     {
@@ -23,6 +24,10 @@ function OrderPropertyImages() {
         ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${item.image}`
         : `${VITE_APP_BACKEND_URL}${item.image}`
     ) || [];
+
+  if (isLoading) {
+    return <ImageSkeleton />;
+  }
   return <Caraousel getClassname={getClassname} imageUrls={propertyImages} />;
 }
 

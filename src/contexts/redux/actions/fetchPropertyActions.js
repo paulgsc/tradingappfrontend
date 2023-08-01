@@ -1,9 +1,8 @@
 import API from "../../../api/django";
-import { fetchPropertyDataSuccess, fetchProperyDataFailure, requestPropertyData } from "../../../reducers/fetchPropertyReducers";
 
 
 export const fetchPropertyRows = () => async (dispatch) => {
-    dispatch(requestPropertyData());
+  
     try{
 
         const config = {
@@ -17,11 +16,11 @@ export const fetchPropertyRows = () => async (dispatch) => {
         )
         
        
-        dispatch(fetchPropertyDataSuccess(response.data));
+    
 
 
     }catch (error){
-        dispatch(fetchProperyDataFailure(error.message));
+
     }
 }
 

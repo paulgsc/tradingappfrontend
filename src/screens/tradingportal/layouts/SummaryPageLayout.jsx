@@ -8,10 +8,9 @@ import BuyBtn from "../components/buttons/BuyBtn";
 import Goback from "../components/buttons/Goback";
 
 function SummaryPageLayout() {
-  const {
-    orderInfo: { amount = 0, shares = 0 } = {},
-    userBalance: { transfer_remaining } = {},
-  } = useSelector((state) => state.trade);
+  const { orderInfo: { amount = 0, shares = 0 } = {} } = useSelector(
+    (state) => state.trade
+  );
 
   return (
     <OrderSummary className={"relative border h-full z-50 "}>
