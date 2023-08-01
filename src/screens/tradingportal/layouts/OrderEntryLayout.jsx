@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import TransferModal from "../components/alerts/transfer/TransferModal";
 import InputLayout from "./InputLayout";
 import ReviewBtn from "../components/buttons/ReviewBtn";
+import ReviewLoading from "../components/loading/ReviewLoading";
 
 function OrderEntryLayout() {
   return (
@@ -10,7 +11,9 @@ function OrderEntryLayout() {
       <div className="items-center w-full space-y-2">
         <TransferModal />
         <InputLayout />
-        <ReviewBtn />
+        <ReviewLoading>
+          <ReviewBtn />
+        </ReviewLoading>
       </div>
 
       <Toaster />

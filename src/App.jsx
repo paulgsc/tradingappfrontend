@@ -27,104 +27,111 @@ import EnvVariablesLoader from "./components/auth/EnvVariablesLoader";
 import SetupStep from "./components/auth/SetupStep";
 import Listings from "./screens/admin/listings/Listings";
 import UserScreen from "./screens/user/component/UserScreen";
+import { ErrorBoundary } from "react-error-boundary";
+import FallBackUi from "./components/ui/FallBackUi";
 
 function App() {
   return (
     <Router>
-      <EnvVariablesLoader />
-      <Layout>
-        <Routes>
-          {homePaths.map((path, index) => (
-            <Route key={index} exact path={`/${path}`} element={<Home />} />
-          ))}
-
-          <Route
-            exact
-            path="/login/:redirect?"
-            element={
-              <>
-                <Login />
-              </>
-            }
-          />
-          <Route
-            exact
-            path="/register"
-            element={
-              <>
-                <Register />
-              </>
-            }
-          />
-
-          <Route exact path="/trade" element={<Trading />} />
-          <Route path="/test" element={<Test />} />
-          <Route element={<AuthRoute />}>
-            {setupPaths.map((path, index) => (
-              <Route key={index} exact path={path} element={<SetupStep />} />
+      <ErrorBoundary
+        FallbackComponent={() => <FallBackUi />}
+        onError={() => {}}
+      >
+        <EnvVariablesLoader />
+        <Layout>
+          <Routes>
+            {homePaths.map((path, index) => (
+              <Route key={index} exact path={`/${path}`} element={<Home />} />
             ))}
-            <Route exact path="/personal" element={<ProfileScreen />} />
+
             <Route
               exact
-              path="/personal/balances"
-              element={<ProfileScreen />}
+              path="/login/:redirect?"
+              element={
+                <>
+                  <Login />
+                </>
+              }
+            />
+            <Route
+              exact
+              path="/register"
+              element={
+                <>
+                  <Register />
+                </>
+              }
             />
 
-            {settingsPaths.map((path, index) => (
+            <Route exact path="/trade" element={<Trading />} />
+            <Route path="/test" element={<Test />} />
+            <Route element={<AuthRoute />}>
+              {setupPaths.map((path, index) => (
+                <Route key={index} exact path={path} element={<SetupStep />} />
+              ))}
+              <Route exact path="/personal" element={<ProfileScreen />} />
               <Route
-                key={index}
                 exact
-                path={path}
-                element={<ProfileSettings />}
+                path="/personal/balances"
+                element={<ProfileScreen />}
               />
-            ))}
-            {historyPaths.map((path, index) => (
-              <Route
-                key={index}
-                exact
-                path={`/personal${path}`}
-                element={<UserScreen />}
-              />
-            ))}
-            <Route exact path="/personal/banking" element={<Index />} />
-            <Route
-              exact
-              path="/personal/banking/transfer/:redirect?"
-              element={<PlaidHome />}
-            />
-            <Route
-              exact
-              path="/personal/register"
-              element={<CreateAccount />}
-            />
-            <Route
-              exact
-              path="/personal/banking/link/:redirect?"
-              element={<LinkAccount />}
-            />
-          </Route>
-          <Route element={<AdminRoute />}>
-            {adminPaths.map((path, index) =>
-              path.includes("admin/listings") ? (
+
+              {settingsPaths.map((path, index) => (
                 <Route
                   key={index}
                   exact
-                  path={`/${path}`}
-                  element={<Listings />}
+                  path={path}
+                  element={<ProfileSettings />}
                 />
-              ) : (
+              ))}
+              {historyPaths.map((path, index) => (
                 <Route
                   key={index}
                   exact
-                  path={`/${path}`}
-                  element={<AdminPage />}
+                  path={`/personal${path}`}
+                  element={<UserScreen />}
                 />
-              )
-            )}
-          </Route>
-          <Route exact path="/*" element={<NotFound404 />} />
-        </Routes>
-      </Layout>
+              ))}
+              <Route exact path="/personal/banking" element={<Index />} />
+              <Route
+                exact
+                path="/personal/banking/transfer/:redirect?"
+                element={<PlaidHome />}
+              />
+              <Route
+                exact
+                path="/personal/register"
+                element={<CreateAccount />}
+              />
+              <Route
+                exact
+                path="/personal/banking/link/:redirect?"
+                element={<LinkAccount />}
+              />
+            </Route>
+            <Route element={<AdminRoute />}>
+              {adminPaths.map((path, index) =>
+                path.includes("admin/listings") ? (
+                  <Route
+                    key={index}
+                    exact
+                    path={`/${path}`}
+                    element={<Listings />}
+                  />
+                ) : (
+                  <Route
+                    key={index}
+                    exact
+                    path={`/${path}`}
+                    element={<AdminPage />}
+                  />
+                )
+              )}
+            </Route>
+            <Route exact path="/*" element={<NotFound404 />} />
+          </Routes>
+        </Layout>
+      </ErrorBoundary>
     </Router>
   );
 }

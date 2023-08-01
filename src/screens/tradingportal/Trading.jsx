@@ -3,7 +3,6 @@ import { fetchActiveProperty } from "../../hooks/react-query";
 import TradingHeader from "./components/ui/TradingHeader";
 import NoFunds from "./components/alerts/transfer/NoFunds";
 import TradingInfoLayout from "./layouts/TradingInfoLayout";
-import DataLayout from "./layouts/DataLayout";
 
 function Trading() {
   const { activeProperty = {}, isLoading, isError } = fetchActiveProperty();
@@ -21,7 +20,6 @@ function Trading() {
           <TradingInfoLayout />
         </div>
       </div>
-      <DataLayout />
     </div>
   );
 }
