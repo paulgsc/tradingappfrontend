@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import TabMenu from "../../../../components/ui/TabMenu";
-import BarGraph from "../charts/BarGraph";
 import { fetchPropertyFinancials } from "../../../../contexts/redux/actions/fetchPropertyActions";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";

@@ -1,7 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { validateOrderInput } from "../../../../contexts/redux/actions/tradingActions";
+import {
+  fetchSelectedProperty,
+  validateOrderInput,
+} from "../../../../contexts/redux/actions/tradingActions";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserBalance } from "../../../../contexts/redux/actions/userActions";
 
 function ValidateAmount() {
   const dispatch = useDispatch();
@@ -9,11 +14,35 @@ function ValidateAmount() {
     orderInfo: {
       transactionType = null,
       orderInput = "",
-      pricePerShare = 0,
+
       validOrder = false,
     } = {},
-    userBalance: { transfer_remaining } = {},
   } = useSelector((state) => state.trade);
+
+  const { userInfo: { token = null } = {} } = useSelector(
+    (state) => state.userAuth
+  );
+
+  const activePropertyQueryKey = ["active-property", orderInput];
+  const { data: { price_per_share = 0 } = {} } = useQuery(
+    activePropertyQueryKey,
+    fetchSelectedProperty,
+    {
+      enabled: true,
+    }
+  );
+
+  // Second API call
+  const userBalanceQueryKey = ["user-balance", orderInput];
+  const { data: { transfer_remaining = 0 } = {} } = useQuery(
+    userBalanceQueryKey,
+    async () => {
+      return await fetchUserBalance(token);
+    },
+    {
+      enabled: true,
+    }
+  );
 
   const orderAmount = () => {
     if (transactionType === "Dollars") {
@@ -24,7 +53,7 @@ function ValidateAmount() {
     if (transactionType === "Shares") {
       if (!isNaN(parseInt(orderInput))) {
         const shares = parseInt(orderInput);
-        const orderAmount = shares * pricePerShare;
+        const orderAmount = shares * price_per_share;
         return orderAmount;
       }
     }
@@ -37,7 +66,7 @@ function ValidateAmount() {
   useEffect(() => {
     if (validOrder) {
       const amount = orderAmount();
-      console.log(amount);
+
       if (amount) {
         const result = isLessThanBalance(amount);
         const validationInfo = {
@@ -46,7 +75,7 @@ function ValidateAmount() {
         dispatch(validateOrderInput(validationInfo));
       }
     }
-  }, [orderInput]);
+  }, [orderInput, transfer_remaining, price_per_share]);
   return <></>;
 }
 
