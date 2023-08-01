@@ -60,20 +60,18 @@ function ValidateAmount() {
     return null;
   };
   const isLessThanBalance = (orderAmount) => {
-    return orderAmount <= transfer_remaining;
+    return orderAmount <= transfer_remaining && orderAmount > 0;
   };
 
   useEffect(() => {
     if (validOrder) {
       const amount = orderAmount();
 
-      if (amount) {
-        const result = isLessThanBalance(amount);
-        const validationInfo = {
-          isLessThanBalance: result,
-        };
-        dispatch(validateOrderInput(validationInfo));
-      }
+      const result = isLessThanBalance(amount);
+      const validationInfo = {
+        isLessThanBalance: result,
+      };
+      dispatch(validateOrderInput(validationInfo));
     }
   }, [orderInput, transfer_remaining, price_per_share]);
   return <></>;

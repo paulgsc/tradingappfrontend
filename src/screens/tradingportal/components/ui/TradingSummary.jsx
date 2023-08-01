@@ -4,19 +4,31 @@ import { useSelector } from "react-redux";
 import OrderSummary from "../../../../components/ui/OrderSummary";
 import SummaryPageImage from "../images/SummaryPageImage";
 import Goback from "../buttons/Goback";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
 
 function TradingSummary() {
-  const { orderInfo: { amount = "", shares = "", pricePerShare = "" } = {} } =
-    useSelector((state) => state.trade);
   const {
-    tradingPropertyInfo: {
+    orderInfo: {
+      amount = "",
+      shares = "",
+      pricePerShare = "",
+      orderInput = "",
+    } = {},
+  } = useSelector((state) => state.trade);
+
+  const activePropertyQueryKey = ["active-property", orderInput];
+  const {
+    data: {
       property_name = "",
       property_address = "",
       rental_status = "",
       dividend = "",
       total_property_shares = 0,
     } = {},
-  } = useSelector((state) => state.propertyData);
+  } = useQuery(activePropertyQueryKey, fetchSelectedProperty, {
+    enabled: true,
+  });
   return (
     <OrderSummary
       className={"relative min-h-screen w-full px-6  border-l border-t"}

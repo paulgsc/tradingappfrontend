@@ -1,7 +1,12 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { stageLiveOrder } from "../../../../contexts/redux/actions/tradingActions";
+import {
+  fetchSelectedProperty,
+  stageLiveOrder,
+} from "../../../../contexts/redux/actions/tradingActions";
+import { useQuery } from "@tanstack/react-query";
+import { showSummaryPortal } from "../../../../reducers/tradingReducers";
 
 function StageLiveOrder() {
   const dispatch = useDispatch();
@@ -10,11 +15,19 @@ function StageLiveOrder() {
     orderInfo: {
       transactionType = null,
       orderInput = "",
-      pricePerShare = 0,
       validOrder = false,
     } = {},
     orderValidation: { isWholeShares = false, isLessThanBalance = false } = {},
   } = useSelector((state) => state.trade);
+
+  const activePropertyQueryKey = ["active-property", orderInput];
+  const { data: { price_per_share = 0, available_shares = 0 } = {} } = useQuery(
+    activePropertyQueryKey,
+    fetchSelectedProperty,
+    {
+      enabled: true,
+    }
+  );
 
   const setShares = () => {
     if (transactionType === "Shares") {
@@ -22,7 +35,7 @@ function StageLiveOrder() {
     }
     if (transactionType === "Dollars") {
       const amount = parseFloat(orderInput);
-      return pricePerShare > 0 ? amount / pricePerShare : 0;
+      return price_per_share > 0 ? amount / price_per_share : 0;
     }
   };
 
@@ -32,7 +45,7 @@ function StageLiveOrder() {
     }
     if (transactionType === "Shares") {
       const shares = parseInt(orderInput);
-      return pricePerShare * shares;
+      return price_per_share * shares;
     }
   };
   useEffect(() => {
@@ -52,6 +65,11 @@ function StageLiveOrder() {
         amount: 0,
       };
       dispatch(stageLiveOrder(orderInfo));
+      dispatch(
+        showSummaryPortal({
+          showSummaryPortal: false,
+        })
+      );
     }
   }, [orderInput, isLessThanBalance, isWholeShares, validOrder]);
   return <div></div>;

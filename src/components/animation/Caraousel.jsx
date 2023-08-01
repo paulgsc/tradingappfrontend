@@ -1,30 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  housePic_1,
-  housePic_2,
-  housePic_3,
-  housePic_4,
-  housePic_5,
-  housePic_6,
-  housePic_7,
-  housePic_8,
-  housePic_9,
-} from "../../assets";
-import { FileImage } from "../../constants/svgs/Svg";
+import ImageSkeleton from "../../screens/tradingportal/components/images/ImageSkeleton";
 
-const urls = [
-  housePic_1,
-  housePic_2,
-  housePic_3,
-  housePic_4,
-  housePic_5,
-  housePic_6,
-  housePic_7,
-  housePic_8,
-  housePic_9,
-];
-
-function Caraousel({ getClassname = () => {}, imageUrls = urls }) {
+function Caraousel({ getClassname = () => {}, imageUrls = [] }) {
   const carouselRef = useRef(null);
   const currentIndexRef = useRef(0);
   const intervalRef = useRef(null);
@@ -249,9 +226,7 @@ const Images = ({ images }) => {
           );
         })
       ) : (
-        <div className="flex items-center justify-center h-full w-full ">
-          <FileImage />
-        </div>
+        <ImageSkeleton />
       )}
     </>
   );
