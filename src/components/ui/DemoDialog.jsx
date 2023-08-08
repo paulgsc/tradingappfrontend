@@ -23,11 +23,11 @@ function DemoDialog({ step, maxStep, handleBack, handleContinue, children }) {
   }, []);
 
   return (
-    <div className="relative flex min-h-full flex-1 flex-col items-center justify-center bg-gray-900/90 p-4 backdrop-blur-xl sm:aspect-[4/3] md:aspect-[2/1]">
+    <div className="relative flex min-h-full flex-1 flex-col items-center justify-center bg-gray-900/60 p-4 backdrop-blur-md sm:aspect-[4/3] md:aspect-[2/1]">
       <button
         onClick={handleClose}
         title="finish setup later"
-        className="bg-gray-400/80 absolute right-8 top-4 z-50 rounded-sm scale-90 hover:scale-100 transition-all duration-200 ease-in-out hover:rounded-md hover:bg-white"
+        className="bg-gray-400/80 absolute right-6 xl:right-12 top-4 z-50 rounded-sm scale-90 hover:scale-100 transition-all duration-200 ease-in-out hover:rounded-md hover:bg-white"
       >
         <CloseSvg />
       </button>

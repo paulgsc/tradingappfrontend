@@ -20,22 +20,20 @@ function Dialog({ children, onClose }) {
       role="dialog"
       aria-modal="true"
       tabIndex="-1"
-      className="z-[1055] min-h-screen fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-70"
+      className="z-[1055] min-h-screen fixed inset-0 flex justify-center items-center  backdrop-blur-md backdrop-brightness-50"
     >
-      <div className="relative bg-white flex h-72 w-96 rounded-lg shadow-xl">
-        <button
-          type="button"
-          onClick={onClose}
-          className=" absolute right-0 top-0 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 "
-          data-dismiss-target="#toast-success"
-          aria-label="Close"
-        >
-          <span className="sr-only">Close</span>
-          <CloseSvg />
-        </button>
-        <div className="h-full w-full flex items-center justify-center">
-          {children}
-        </div>
+      <button
+        type="button"
+        onClick={onClose}
+        className=" absolute right-6 top-6 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 "
+        data-dismiss-target="#toast-success"
+        aria-label="Close"
+      >
+        <span className="sr-only">Close</span>
+        <CloseSvg />
+      </button>
+      <div className="h-full w-full flex items-center justify-center">
+        {children}
       </div>
     </div>
   );

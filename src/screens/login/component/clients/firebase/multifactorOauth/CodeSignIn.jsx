@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router";
 import { Code } from "./Code";
-import { notify } from "../../lib/utils";
-import { useCurrentUser, verifyUserEnrolled } from "../../hooks/firebase-hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { gmailLogin } from "../../contexts/redux/actions/userActions";
-import { useState } from "react";
 import { useEffect } from "react";
+import { notify } from "../../../../../../lib/utils";
+import {
+  useCurrentUser,
+  verifyUserEnrolled,
+} from "../../../../../../hooks/firebase-hooks";
+import { gmailLogin } from "../../../../../../contexts/redux/actions/userActions";
 
 export function CodeSignIn({ verificationId, resolver, redirect }) {
   const user = useCurrentUser();

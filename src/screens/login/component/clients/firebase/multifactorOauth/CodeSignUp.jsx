@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { Code } from "./Code";
-import { notify } from "../../lib/utils";
-import { enrollUser } from "../../hooks/firebase-hooks";
+import { enrollUser } from "../../../../../../hooks/firebase-hooks";
+import { notify } from "../../../../../../lib/utils";
 
 export function CodeSignup({ currentUser, verificationCodeId }) {
   const navigate = useNavigate();

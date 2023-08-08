@@ -7,10 +7,10 @@ import Sidebar from "../../components/sidemenu/SideBar";
 import Timeline from "./Timeline";
 import { useLocation, useNavigate, useParams } from "react-router";
 import TableModels from "./TableModels";
-import Dashbaord from "./Dashbaord";
 import Tasks from "./Tasks";
 import TaskStatusPage from "../../components/tasks/Status";
 import SiteSettings from "./SiteSettings";
+import Metrics from "./components/dashboard/Metrics";
 
 function AdminPage() {
   const [isActive, setIsActive] = useState(false);
@@ -85,7 +85,7 @@ function AdminPage() {
     <div className="h-screen flex flex-col">
       <Sidebar closeAdminMenu={closeAdminMenu} />
       <Account.Nav openMenu={openAdminMenu} profileInitial={profileInitial} />
-      {location.pathname === `/admin` && <Dashbaord />}
+      {location.pathname === `/admin` && <Metrics />}
       {location.pathname === `/admin/timeline` && <Timeline />}
       {location.pathname.includes(`/admin/site/models`) && (
         <div className="mt-14">

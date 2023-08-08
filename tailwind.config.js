@@ -10,17 +10,31 @@ export default {
       keyframes: {
         wiggle: {
           '0%': {
-            transform: 'translateX(0) scale(0.5 )',
-            opacity: '0',
-            backgroundColor: '#000000'
+            transform: 'translateX(0) scale(.3)',
+            opacity: '1',
+   
           },
+   
           '25%': {
-            backgroundColor: '#0000'
+            transform: 'translateX(20px) scale(1)',
+            opacity: '0',
+      
+          },
+          '50%': {
+            transform: 'translateX(0) scale(.3)',
+            opacity: '0',
+      
+          },
+   
+          '75%': {
+            transform: 'translateX(-20px) scale(1)',
+            opacity: '1',
+      
           },
           '100%': {
-            transform: 'translateX(100px) scale(1)',
-            opacity: '1',
-            backgroundColor: '#FF0000'
+            transform: 'translateX(0) scale(.3)',
+            opacity: '0',
+      
           },
         }
       },

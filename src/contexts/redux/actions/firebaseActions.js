@@ -1,6 +1,6 @@
 import { storage } from "../../../../firebase";
 import { ref, uploadBytes, getDownloadURL, listAll, list } from "firebase/storage";
-import { firebaseStorageRequestFailed, firebaseStorageRequestSuccess, requestFirebaseStorage } from "../../../reducers/firebaseReducer"
+import { clearFirebaseErrorCodes, firebaseStorageRequestFailed, firebaseStorageRequestSuccess, requestFirebaseStorage, setFirebaseErrorCodeReducer } from "../../../reducers/firebaseReducer"
 import { v4 } from "uuid";
 
 export const postProfileImage = (imageUpload) => async (dispatch) => {
@@ -32,3 +32,5 @@ export const postProfileImage = (imageUpload) => async (dispatch) => {
       }
     
 }
+
+

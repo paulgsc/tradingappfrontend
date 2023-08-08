@@ -12,7 +12,6 @@ function AuthRoute() {
   const redirect = location?.pathname;
   const {
     access,
-    loading,
     refreshingSession = false,
     userInfo: { token = "" },
   } = useSelector((state) => state.userAuth);

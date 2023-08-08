@@ -1,6 +1,6 @@
 import React from "react";
-import { Card } from "../cards/Card";
-import ToggleButton from "../ui/ToggleButton";
+import ToggleButton from "../../../../../../components/ui/ToggleButton";
+import { Card } from "../../../../../../components/cards/Card";
 
 function TwoFactorOptionToggle({ handleClick, checked }) {
   return (

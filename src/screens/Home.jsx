@@ -1,7 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { fetchTransactions } from "../contexts/redux/actions/fetchDataActions";
 import Index from "../components/hero/Index";
 import Footer from "../components/bottom/Footer";
 import { useLocation } from "react-router";
@@ -11,9 +9,7 @@ import Contact from "../components/ui/Contact";
 function Home() {
   const dispatch = useDispatch();
   const location = useLocation();
-  useEffect(() => {
-    dispatch(fetchTransactions());
-  }, []);
+
   return (
     <div className="flex">
       {location.pathname === "/" && <Home.Main />}

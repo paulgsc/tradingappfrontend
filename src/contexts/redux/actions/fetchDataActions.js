@@ -1,33 +1,7 @@
 import API from "../../../api/django";
 import { fetchOrdersByProperty, fetchOrdersByPropertyFailed, fetchSharesDataFailed, fetchSharesDataSuccessful, fetchSummaryDataSuccessful, fetchUserLinkedAccountsFailed, fetchUserLinkedAccountsSusccess, fetchUserNotificationsFailed, fetchUserNotificationsSuccess, propertyTradeDataRequestFailed, propertyTradeDataRequestSuccess, userOrdersDataRequestFailure, userOrdersDataRequestSuccessful, userRequestData, userSummaryDataRequestFailure, userTransactionsDataRequestFailure, userTransactionsDataRequestSuccessful, userTransferDataRequestSuccessful, userTransfersDataRequestFailure } from "../../../reducers/fetchDataReducers"
 
-export const fetchTransactions = () => async (dispatch, getState) => {
-    dispatch(userRequestData());
-    try{
-        const {
-            userAuth: { userInfo },
-        } = getState()
 
-        const config = {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        }
-        const response = await API.get(
-            'users/transaction_history/',
-            config,
-        )
-        const transaction_data = [ ...[].concat(...(response.data.map((item) => (item.transfers.map((transfer) => ({ ...transfer, recordType: "Transfer" }) ) )))),
-         ...[].concat(...(response.data.map((item) => item.orders.map((order) => ({ ...order, recordType: "Trade Order" })) ))) ]
-       
-        dispatch(userTransactionsDataRequestSuccessful(transaction_data));
-
-
-    }catch (error){
-        dispatch(userTransactionsDataRequestFailure(error.message));
-    }
-}
 
 export const fetchTransfers = () => async (dispatch, getState) => {
     dispatch(userRequestData());
