@@ -1,12 +1,14 @@
 
-import { adminProtectedView, userLogOut, userLoginFailure, userLoginRequest, userLoginSuccess, userLoginWithGmailRequest, userLoginWithGmailSuccessful, userProtectedView, userRegisterWithGmailSuccessful, userRegistration, userRegistrationFailure, userRegistrationSuccess } from "../../../reducers/userAuthReducer";
+import { adminProtectedView, userLogOut, userLoginFailure, userLoginRequest, userLoginSuccess, userLoginWithGmailRequest, userLoginWithGmailSuccessful, userProtectedView, userRegisterWithGmailSuccessful, userRegistration, userRegistrationFailure, userRegistrationSuccess, userVerifyEmailSuccessful } from "../../../reducers/userAuthReducer";
 import API from '../../../api/django';
 import { userLogoutPlaid } from "../../../reducers/plaidAuthReducer";
 import { userLogOutClearData } from "../../../reducers/fetchDataReducers";
 import { clearTradeInfoOnLogout } from "../../../reducers/tradingReducers";
 import { firebaseLogout } from "../../../hooks/firebase-hooks";
+import jwtDecode from "jwt-decode";
 
 
+ 
 
 function generatePassword(length) {
     let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
@@ -38,7 +40,68 @@ export const register = (formData) => async (dispatch) => {
     };
 };
 
+const sendOTP = async (token, redirect) => {
+    const decodedToken = jwtDecode(token);
+  
+    const formdata = {
+      session_id: decodedToken?.session_id,
+      redirect: redirect,
+    }
+  
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    };
+  
+    try {
+      const response = await API.post(
+        'emails/send_otp/',
+        formdata,
+        config
+      );
+      return response;
+    } catch (error) {
+      // Handle errors here
+      console.error('Error sending OTP:', error);
+      throw error;
+    }
+  };
+
+  
+  const createOTP = async (token) => {
+    const decodedToken = jwtDecode(token);
+  
+    const formdata = {
+      session_id: decodedToken?.session_id
+    }
+  
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    };
+  
+    try {
+      const response = await API.post(
+        'redis/create_otp/',
+        formdata,
+        config
+      );
+      return response;
+    } catch (error) {
+      // Handle errors here
+      console.error('Error sending OTP:', error);
+      throw error;
+    }
+  };
+  
+
 export const login = (formData) => async (dispatch) => {
+
+
     try {
         dispatch(userLoginRequest());
         const config = {
@@ -46,11 +109,15 @@ export const login = (formData) => async (dispatch) => {
                 'Content-type': 'application/json'
             }
         };
+        const { redirect = "/" } = formData
         const response = await API.post(
             'users/login/',
             formData,
             config
         );
+        const { data: { token = null  } = {} } = response
+        await createOTP(token)
+        await sendOTP(token, redirect)
         localStorage.setItem('userInfo', JSON.stringify(response.data));
         dispatch(userLoginSuccess(response.data));
     } catch (error) {
@@ -89,7 +156,8 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
 
           const formdata = {
             username: email,
-            password: uid,
+            email: email,
+            password: "blank",
           }
   
         
@@ -100,7 +168,7 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
         };
 
         const response = await API.post(
-            'users/gmail_login/',
+            'users/login/',
             formdata,
             config
         );
@@ -136,6 +204,106 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
 }}
 
 
+export const verifyLoginEmail = (otp) => async (dispatch, getState) => {
+ 
+    try{
+        dispatch(userLoginRequest());
+        const {
+            userAuth: {
+                userInfo: {
+                    token = null,
+                    email = null,
+                } = {}
+            } = {}
+           
+          } = getState()
+
+          const decodedToken = jwtDecode(token);
+        
+          const config = {
+            headers: {
+              'Content-type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          };
+        
+
+          const formdata = {
+            username: email,
+            email: email,
+            password: "blank",
+            session_id: decodedToken?.session_id,
+            otp: otp,
+          }
+
+
+            const response = await API.post(
+                'users/email_login_verify/',
+                formdata,
+                config
+            );
+
+
+        dispatch(userVerifyEmailSuccessful(response.data));
+ 
+        
+    }catch(error)  {
+      
+          // dispatch(logout());
+          dispatch(userLoginFailure( error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,));
+ 
+}}
+
+
+export const verifyGmailLogin = () => async (dispatch, getState) => {
+ 
+
+    try{
+
+        const {
+            userAuth: {
+                userInfo: {
+                    gmailInfo: { email = null } = {}
+                } = {}
+            } = {}
+           
+          } = getState()
+
+          const formdata = {
+            username: email,
+            email: email,
+            password: "blank",
+          }
+
+      
+  
+        
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        };
+
+            const response = await API.post(
+                'users/gmail_login_verify/',
+                formdata,
+                config
+            );
+        // localStorage.setItem('userInfo', JSON.stringify(response.data));
+        dispatch(userVerifyEmailSuccessful(response.data));
+ 
+        
+    }catch(error)  {
+       
+          dispatch(logout());
+          dispatch(userLoginFailure(error.message));
+ 
+}}
+
+
+
 
 export const gmailRegister = (gmailInfo) => async (dispatch) => {
     dispatch(userLoginWithGmailRequest());
@@ -160,7 +328,6 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
             first_name: displayName,
             last_name: displayName,
             photoUrl: photoURL,
-            password: uid,
           }
      
           dispatch(register(formdata));
@@ -200,6 +367,8 @@ export const logout = ()  => async (dispatch, getState)  => {
     dispatch(userLogOutClearData());
     dispatch(clearTradeInfoOnLogout());
     dispatch(userLogOut());
+
+
 };
 
 

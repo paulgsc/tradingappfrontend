@@ -105,7 +105,7 @@ export async function verifyPhoneNumber(
 
 export async function verifyUserMFA(error, recaptchaVerifier, selectedIndex) {
     const resolver = getMultiFactorResolver(auth, error);
-    console.log(resolver)
+   
     if (resolver.hints[selectedIndex].factorId === PhoneMultiFactorGenerator.FACTOR_ID) {
       const phoneInfoOptions = {
         multiFactorHint: resolver.hints[selectedIndex],

@@ -29,17 +29,16 @@ function Slider() {
   );
 
   // Second API call
-  const userBalanceQueryKey = ["user-balance"];
-  const { data: { transfer_remaining = 0 } = {}, refetch: refetchBalance } =
-    useQuery(
-      userBalanceQueryKey,
-      async () => {
-        return await fetchUserBalance(token);
-      },
-      {
-        enabled: true,
-      }
-    );
+  const userBalanceQueryKey = ["user-balance", orderInput];
+  const { data: { transfer_remaining = 0 } = {} } = useQuery(
+    userBalanceQueryKey,
+    async () => {
+      return await fetchUserBalance(token);
+    },
+    {
+      enabled: true,
+    }
+  );
 
   const max =
     transactionType === "Shares"
@@ -60,9 +59,6 @@ function Slider() {
     dispatch(storeOrderInput(orderInfo));
   }, [sliderVal]);
 
-  useEffect(() => {
-    refetchBalance();
-  }, [orderInput]);
   return (
     <div
       id="inputSlider"

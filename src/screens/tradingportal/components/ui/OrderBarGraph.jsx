@@ -2,16 +2,40 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { fetchUserBalance } from "../../../../contexts/redux/actions/userActions";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
 
 function OrderBarGraph() {
   const [percent, setPercent] = useState(0);
   const [valid, setValid] = useState(true);
-  const {
-    orderInfo: { transactionType = null, orderInput = "" } = {},
-    userBalance: { transfer_remaining } = {},
-  } = useSelector((state) => state.trade);
-  const { tradingPropertyInfo: { available_shares } = {} } = useSelector(
-    (state) => state.propertyData
+
+  const { userInfo: { token = null } = {} } = useSelector(
+    (state) => state.userAuth
+  );
+
+  const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
+    useSelector((state) => state.trade);
+
+  const activePropertyQueryKey = ["active-property"];
+  const { data: { available_shares = 0 } = {} } = useQuery(
+    activePropertyQueryKey,
+    fetchSelectedProperty,
+    {
+      enabled: true,
+    }
+  );
+
+  // Second API call
+  const userBalanceQueryKey = ["user-balance", orderInput];
+  const { data: { transfer_remaining = 0 } = {} } = useQuery(
+    userBalanceQueryKey,
+    async () => {
+      return await fetchUserBalance(token);
+    },
+    {
+      enabled: true,
+    }
   );
 
   const handleInputChange = () => {

@@ -14,6 +14,9 @@ function ProfileMenu({ user }) {
   const handleAuthentication = (e, path, id) => {
     e.preventDefault();
     if (id === "signOut") {
+      // Create a new Broadcast Channel and send the message to notify other tabs
+      const broadcastChannel = new BroadcastChannel("authChannel");
+      broadcastChannel.postMessage({ type: "AUTH_LOGOUT" });
       dispatch(logout());
     } else {
       navigate(path);

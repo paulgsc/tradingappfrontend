@@ -11,6 +11,22 @@ export function PhoneRegistration({ getPhoneNumber }) {
     }
   }
 
+  // phoneInput.addEventListener("input", () => {
+  //   const phoneNumber = phoneInput.value.replace(/[^\d]/g, ""); // Remove non-digit characters
+  //   if (phoneNumber.length >= 3 && phoneNumber.length <= 9) {
+  //     // Format for 3-9 digits: 123456789 -> 123-456-789
+  //     phoneInput.value = phoneNumber.replace(/(\d{3})(\d{0,3})(\d{0,4})/, (_, p1, p2, p3) => {
+  //       let parts = [p1];
+  //       if (p2) parts.push(p2);
+  //       if (p3) parts.push(p3);
+  //       return parts.join("-");
+  //     });
+  //   } else if (phoneNumber.length >= 10) {
+  //     // Format for 10+ digits: 1234567890 -> 123-456-7890
+  //     phoneInput.value = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  //   }
+  // });
+
   return (
     <div className="flex sm:justify-center items-center px-4 sm:px-0">
       <div className="bg-white flex flex-col p-5 md:p-6  border-2 shadow-md shadow-gray-100/10  border-palladium rounded-xl w-full sm:max-w-[440px]">
@@ -19,7 +35,7 @@ export function PhoneRegistration({ getPhoneNumber }) {
             Provide your phone
           </h1>
           <p className="text-slate-500 mt-2 text-base">
-            Fill in your phone number to receive the code
+            Enter a phone number to receive an sms code.
           </p>
         </div>
         <div className="space-y-4 my-6">
@@ -33,7 +49,7 @@ export function PhoneRegistration({ getPhoneNumber }) {
               type="text"
               name="password"
               id="password"
-              placeholder="Insert your phone number"
+              placeholder="Enter phone number"
               className="focus:outline-none block w-full rounded-xl placeholder-gray-500 bg-gray-100 pl-12 pr-4 h-12 text-gray-600 transition duration-300 invalid:ring-2 invalid:ring-red-400 focus:ring-2 focus:ring-black"
             />
           </div>

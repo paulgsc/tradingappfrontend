@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { unEnrollMultiFactor } from "../../hooks/firebase-hooks";
-import { notify } from "../../lib/utils";
 import { Toaster } from "react-hot-toast";
 import TwoFactorOptionToggle from "./TwoFactorOptionToggle";
 import CreateTwoFA from "./CreateTwoFA";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../contexts/redux/actions/userActions";
+import { unEnrollMultiFactor } from "../../../../../../hooks/firebase-hooks";
+import { notify } from "../../../../../../lib/utils";
+import { logout } from "../../../../../../contexts/redux/actions/userActions";
 
 function ToggleTwoFactor({ currentUser }) {
   const storedValue = true;

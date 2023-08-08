@@ -28,6 +28,12 @@ const userAuthentification = createSlice({
       localStorage.setItem('userInfo', JSON.stringify({ ...state.userInfo, ...action.payload }));
       return { access: false, loading: false, refreshingSession: false, userInfo: { ...state.userInfo,  ...action.payload } };
     },
+    userStartBroadcastChannel(state, action){
+      return { ...state, broadcasting: true, }
+    },
+    userProcessChannelBroadcast(state, action){
+      return { ...state, broadcasting: false, userInfo: { ...action.payload } }
+    },
     userLogOut(state, action){
       return { access: false, loading: false, userInfo: {} };
     },
@@ -39,6 +45,10 @@ const userAuthentification = createSlice({
     },
     userRegisterWithGmailSuccessful(state, action) {
       return { access: false, userInfo: { ...state.userInfo, ...action.payload },  loading: false }
+    },
+    userVerifyEmailSuccessful(state, action){
+      localStorage.setItem('userInfo', JSON.stringify({ ...state.userInfo, ...action.payload }));
+      return { ...state, loading: false, userInfo: { ...state.userInfo, ...action.payload } }
     },
     userLoginFailure(state, action) {
       return { ...state, access: false, loading: false, error: action.payload };
@@ -69,6 +79,9 @@ export const {
   adminProtectedView,
   userLoginWithGmailSuccessful,
   userRegisterWithGmailSuccessful,
+  userVerifyEmailSuccessful,
+  userStartBroadcastChannel,
+  userProcessChannelBroadcast,
   userRefreshLoginSession,
   userSMSVerificationComplete,
   userSMSVerificationFailed,

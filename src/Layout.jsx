@@ -3,6 +3,7 @@
 import React from "react";
 import { useLocation } from "react-router";
 import { navbar } from "./components/navbar/Navlist";
+import AuthBroadcast from "./components/auth/AuthBroadcast";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -10,7 +11,9 @@ const Layout = ({ children }) => {
   return (
     <div>
       <header>{navbarComponent}</header>
-      <main>{children}</main>
+      <main>
+        <AuthBroadcast>{children}</AuthBroadcast>
+      </main>
       <footer></footer>
     </div>
   );

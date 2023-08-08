@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const firebaseReducer = createSlice({
     name: 'firebase',
-    initialState: { loading: false, firebaseInfo: {} },
+    initialState: { loading: false, firebaseInfo: {}, firebaseErrorCode: null },
     reducers: {
         requestFirebaseStorage(state, action){
             return { ...state, loading: true  };
@@ -14,12 +14,15 @@ const firebaseReducer = createSlice({
         firebaseStorageRequestFailed(state, action){
             return { ...state, loading: false, error: action.payload };
         },
+
     },
 })
 
 export const {
     requestFirebaseStorage,
     firebaseStorageRequestSuccess,
+    setFirebaseErrorCodeReducer,
+    clearFirebaseErrorCodes,
     firebaseStorageRequestFailed,
 } = firebaseReducer.actions;
 

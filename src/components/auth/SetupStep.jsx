@@ -12,7 +12,7 @@ function SetupStep() {
     setStep((prevStep) => (prevStep < maxStep ? prevStep + 1 : prevStep));
   };
 
-  console.log(step);
+
   return (
     <DemoDialog
       step={step}
