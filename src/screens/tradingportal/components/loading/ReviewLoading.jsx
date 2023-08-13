@@ -1,11 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useSelector } from "react-redux";
-import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
-import { fetchUserBalance } from "../../../../contexts/redux/actions/userActions";
 import { useState } from "react";
 import { useEffect } from "react";
 import LoadingBtn from "../buttons/LoadingBtn";
+import { getActivePropertyData, getUserBalance } from "../hooks/reactQuery";
 
 function ReviewLoading({ children }) {
   const [loading, setLoading] = useState(false);
@@ -18,28 +16,11 @@ function ReviewLoading({ children }) {
     (state) => state.userAuth
   );
 
-  const activePropertyQueryKey = ["active-property", orderInput];
-  const { isLoading: propertyLoading } = useQuery(
-    activePropertyQueryKey,
-    fetchSelectedProperty,
-    {
-      refetchOnWindowFocus: false, // Disable fetch on tab switch
-      refetchOnMount: true, // Fetch on initial mount
-    }
-  );
+  const { isLoading: propertyLoading } = getActivePropertyData(orderInput);
 
   // Second API call
-  const userBalanceQueryKey = ["user-balance", orderInput];
-  const { isLoading: userBalanceLoading } = useQuery(
-    userBalanceQueryKey,
-    async () => {
-      return await fetchUserBalance(token);
-    },
-    {
-      refetchOnWindowFocus: false, // Disable fetch on tab switch
-      refetchOnMount: true, // Fetch on initial mount,
-    }
-  );
+
+  const { isLoading: userBalanceLoading } = getUserBalance(orderInput, token);
 
   useEffect(() => {
     setLoading(propertyLoading || userBalanceLoading);

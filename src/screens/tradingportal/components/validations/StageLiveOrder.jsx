@@ -1,12 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchSelectedProperty,
-  stageLiveOrder,
-} from "../../../../contexts/redux/actions/tradingActions";
-import { useQuery } from "@tanstack/react-query";
+import { stageLiveOrder } from "../../../../contexts/redux/actions/tradingActions";
+
 import { showSummaryPortal } from "../../../../reducers/tradingReducers";
+import { getActivePropertyData } from "../hooks/reactQuery";
 
 function StageLiveOrder() {
   const dispatch = useDispatch();
@@ -20,14 +18,8 @@ function StageLiveOrder() {
     orderValidation: { isWholeShares = false, isLessThanBalance = false } = {},
   } = useSelector((state) => state.trade);
 
-  const activePropertyQueryKey = ["active-property", orderInput];
-  const { data: { price_per_share = 0, available_shares = 0 } = {} } = useQuery(
-    activePropertyQueryKey,
-    fetchSelectedProperty,
-    {
-      enabled: true,
-    }
-  );
+  const { data: { price_per_share = 0 } = {} } =
+    getActivePropertyData(orderInput);
 
   const setShares = () => {
     if (transactionType === "Shares") {

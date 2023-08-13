@@ -248,42 +248,6 @@ export const fetchPropertiesQuery = (token) => {
   
 
 
-export const fetchActiveProperty =  () => {
-
-  const queryKey = ['property-active'];
-
-  // Use the useQuery hook to fetch the property data
-  const { data, isLoading, isError } = useQuery(
-    queryKey,
-    async () => {
-      try {
-        const config = {
-          headers: {
-            'Content-type': 'application/json',
-          }
-        };
-
-        const response = await API.get(
-          `data/active_property/`,
-          config
-        );
-
-        return response.data;
-      } catch (error) {
-        throw new Error('Error fetching data');
-      }
-    },
-
-    
-  );
-
-  return {
-    activeProperty: data,
-    isLoading,
-    isError,
-  
-  };
-};
 
 
 

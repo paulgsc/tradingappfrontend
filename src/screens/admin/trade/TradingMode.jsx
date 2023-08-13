@@ -4,19 +4,15 @@ import { AngleDownSVG } from "../../../constants/svgs/Svg";
 import { useLocation, useNavigate } from "react-router";
 import Alert from "../../../components/alerts/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchActiveProperty } from "../../../hooks/react-query";
 import { setActiveProperty } from "../../../contexts/redux/actions/adminActions";
+import { getActivePropertyData } from "../../tradingportal/components/hooks/reactQuery";
 
 function TradingMode() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const redirect = location.pathname;
-  const {
-    activeProperty: { property_address = "" } = {},
-    isLoading,
-    isError,
-  } = fetchActiveProperty();
+  const { data: { property_address = "" } = {} } = getActivePropertyData();
 
   const { tradingActions: { propertyId = null, setToActive = false } = {} } =
     useSelector((state) => state.adminActions);

@@ -2,9 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchUserBalance } from "../../../../contexts/redux/actions/userActions";
-import { useQuery } from "@tanstack/react-query";
-import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
+import { getActivePropertyData, getUserBalance } from "../hooks/reactQuery";
 
 function OrderBarGraph() {
   const [percent, setPercent] = useState(0);
@@ -17,27 +15,13 @@ function OrderBarGraph() {
   const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
     useSelector((state) => state.trade);
 
-  const activePropertyQueryKey = ["active-property"];
-  const { data: { available_shares = 0 } = {} } = useQuery(
-    activePropertyQueryKey,
-    fetchSelectedProperty,
-    {
-      refetchOnWindowFocus: false, // Disable fetch on tab switch
-      refetchOnMount: true, // Fetch on initial mount
-    }
-  );
+  const { data: { available_shares = 0 } = {} } = getActivePropertyData();
 
   // Second API call
-  const userBalanceQueryKey = ["user-balance", orderInput];
-  const { data: { transfer_remaining = 0 } = {} } = useQuery(
-    userBalanceQueryKey,
-    async () => {
-      return await fetchUserBalance(token);
-    },
-    {
-      refetchOnWindowFocus: false, // Disable fetch on tab switch
-      refetchOnMount: true, // Fetch on initial mount
-    }
+
+  const { data: { transfer_remaining = 0 } = {} } = getUserBalance(
+    orderInput,
+    token
   );
 
   const handleInputChange = () => {

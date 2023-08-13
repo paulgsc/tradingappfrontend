@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useDispatch } from "react-redux";
 import { excersiseTrade } from "../../../../contexts/redux/actions/tradingActions";
 
