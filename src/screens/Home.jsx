@@ -2,8 +2,8 @@ import React from "react";
 import Index from "../components/hero/Index";
 import Footer from "../components/bottom/Footer";
 import { useLocation } from "react-router";
-import FAQ from "../components/ui/FAQ";
 import Contact from "../components/ui/Contact";
+import FAQ from "./faq/FAQ";
 
 function Home() {
   const location = useLocation();
