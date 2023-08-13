@@ -26,7 +26,8 @@ function ValidShares() {
     activePropertyQueryKey,
     fetchSelectedProperty,
     {
-      enabled: true,
+      refetchOnWindowFocus: false, // Disable fetch on tab switch
+      refetchOnMount: true, // Fetch on initial mount
     }
   );
 
@@ -38,7 +39,8 @@ function ValidShares() {
       return await fetchUserBalance(token);
     },
     {
-      enabled: true,
+      refetchOnWindowFocus: false, // Disable fetch on tab switch
+      refetchOnMount: true, // Fetch on initial mount
     }
   );
 

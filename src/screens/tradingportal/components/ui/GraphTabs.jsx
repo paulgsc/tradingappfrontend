@@ -22,7 +22,8 @@ function GraphTabs() {
     queryKeyActiveProperty,
     fetchSelectedProperty,
     {
-      enabled: true,
+      refetchOnWindowFocus: false, // Disable fetch on tab switch
+      refetchOnMount: true, // Fetch on initial mount
     }
   );
 

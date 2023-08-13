@@ -19,7 +19,8 @@ function ManualInput() {
     isError,
     refetch,
   } = useQuery(queryKey, fetchSelectedProperty, {
-    enabled: true,
+    refetchOnWindowFocus: false, // Disable fetch on tab switch
+    refetchOnMount: true, // Fetch on initial mount
   });
 
   const { orderInfo: { transactionType = null, orderInput = "" } = {} } =

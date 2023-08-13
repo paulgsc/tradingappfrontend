@@ -23,7 +23,8 @@ function ReviewLoading({ children }) {
     activePropertyQueryKey,
     fetchSelectedProperty,
     {
-      enabled: true,
+      refetchOnWindowFocus: false, // Disable fetch on tab switch
+      refetchOnMount: true, // Fetch on initial mount
     }
   );
 
@@ -35,7 +36,8 @@ function ReviewLoading({ children }) {
       return await fetchUserBalance(token);
     },
     {
-      enabled: true,
+      refetchOnWindowFocus: false, // Disable fetch on tab switch
+      refetchOnMount: true, // Fetch on initial mount,
     }
   );
 

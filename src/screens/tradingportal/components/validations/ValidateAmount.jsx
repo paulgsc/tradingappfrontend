@@ -28,7 +28,8 @@ function ValidateAmount() {
     activePropertyQueryKey,
     fetchSelectedProperty,
     {
-      enabled: true,
+      refetchOnWindowFocus: false, // Disable fetch on tab switch
+      refetchOnMount: true, // Fetch on initial mount
     }
   );
 
@@ -40,7 +41,8 @@ function ValidateAmount() {
       return await fetchUserBalance(token);
     },
     {
-      enabled: true,
+      refetchOnWindowFocus: false, // Disable fetch on tab switch
+      refetchOnMount: true, // Fetch on initial mount
     }
   );
 
