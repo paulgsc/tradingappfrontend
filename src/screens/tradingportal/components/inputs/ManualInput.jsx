@@ -1,27 +1,21 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchSelectedProperty,
-  storeOrderInput,
-} from "../../../../contexts/redux/actions/tradingActions";
+import { storeOrderInput } from "../../../../contexts/redux/actions/tradingActions";
 import NotEnoughFunds from "../alerts/orders/NotEnoughFunds";
 import NotWholeShares from "../alerts/orders/NotWholeShares";
-import { useQuery } from "@tanstack/react-query";
+import { getActivePropertyData } from "../hooks/reactQuery";
 
 function ManualInput() {
   const dispatch = useDispatch();
   const [input, setInput] = useState("0");
   const [counter, setCounter] = useState(0);
-  const queryKey = ["active-property"];
+
   const {
     data: { available_shares = 0 } = {},
-    isError,
-    refetch,
-  } = useQuery(queryKey, fetchSelectedProperty, {
-    refetchOnWindowFocus: false, // Disable fetch on tab switch
-    refetchOnMount: true, // Fetch on initial mount
-  });
+
+    refetch: propertyRefetch,
+  } = getActivePropertyData();
 
   const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
     useSelector((state) => state.trade);
@@ -88,7 +82,7 @@ function ManualInput() {
   }, [transactionType]);
 
   useEffect(() => {
-    refetch();
+    propertyRefetch();
   }, [orderInput]);
 
   return (

@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchSelectedProperty,
-  validateOrderInput,
-} from "../../../../contexts/redux/actions/tradingActions";
-import { useQuery } from "@tanstack/react-query";
-import { fetchUserBalance } from "../../../../contexts/redux/actions/userActions";
+import { validateOrderInput } from "../../../../contexts/redux/actions/tradingActions";
+import { getActivePropertyData, getUserBalance } from "../hooks/reactQuery";
 
 function ValidShares() {
   const dispatch = useDispatch();
@@ -21,27 +17,14 @@ function ValidShares() {
     (state) => state.userAuth
   );
 
-  const activePropertyQueryKey = ["active-property", orderInput];
-  const { data: { price_per_share = 0, available_shares = 0 } = {} } = useQuery(
-    activePropertyQueryKey,
-    fetchSelectedProperty,
-    {
-      refetchOnWindowFocus: false, // Disable fetch on tab switch
-      refetchOnMount: true, // Fetch on initial mount
-    }
-  );
+  const { data: { price_per_share = 0, available_shares = 0 } = {} } =
+    getActivePropertyData(orderInput);
 
   // Second API call
-  const userBalanceQueryKey = ["user-balance", orderInput];
-  const { data: { transfer_remaining = 0 } = {} } = useQuery(
-    userBalanceQueryKey,
-    async () => {
-      return await fetchUserBalance(token);
-    },
-    {
-      refetchOnWindowFocus: false, // Disable fetch on tab switch
-      refetchOnMount: true, // Fetch on initial mount
-    }
+
+  const { data: { transfer_remaining = 0 } = {} } = getUserBalance(
+    orderInput,
+    token
   );
 
   const isWholeShares = () => {

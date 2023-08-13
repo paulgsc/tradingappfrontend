@@ -3,14 +3,9 @@ import { useSelector } from "react-redux";
 import { fetchUserOrders } from "../../../../contexts/redux/actions/userActions";
 import SkeletonLoading from "../../../../components/loading/SkeletonLoading";
 import Table from "../../../../components/tables/Table";
-import {
-  useInfiniteQuery,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { ColumnFilter } from "../../../admin/TableModels";
 import currency from "currency.js";
-import { useEffect } from "react";
 
 function RecentOrders() {
   const { userInfo: { token = null } = {} } = useSelector(

@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 import OrderSummary from "../../../../components/ui/OrderSummary";
 import SummaryPageImage from "../images/SummaryPageImage";
 import Goback from "../buttons/Goback";
-import { useQuery } from "@tanstack/react-query";
-import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
 
 function TradingSummary() {
   const {
@@ -17,7 +15,6 @@ function TradingSummary() {
     } = {},
   } = useSelector((state) => state.trade);
 
-  const activePropertyQueryKey = ["active-property", orderInput];
   const {
     data: {
       property_name = "",
@@ -26,10 +23,7 @@ function TradingSummary() {
       dividend = "",
       total_property_shares = 0,
     } = {},
-  } = useQuery(activePropertyQueryKey, fetchSelectedProperty, {
-    refetchOnWindowFocus: false, // Disable fetch on tab switch
-    refetchOnMount: true, // Fetch on initial mount
-  });
+  } = getActivePropertyData(orderInput);
   return (
     <OrderSummary
       className={"relative min-h-screen w-full px-6  border-l border-t"}

@@ -1,18 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
+import { getActivePropertyData } from "../hooks/reactQuery";
 
 function PropertyOverview() {
-  const activePropertyQueryKey = ["active-property"];
   const {
     data: {
       property_address = "property name",
       description = "description...",
     } = {},
-  } = useQuery(activePropertyQueryKey, fetchSelectedProperty, {
-    refetchOnMount: true, // Fetch on initial mount
-    refetchOnWindowFocus: false, // Disable fetch on tab switch
-  });
+  } = getActivePropertyData();
 
   return (
     <div className="flex flex-col mx-auto my-2 space-y-4">

@@ -3,12 +3,8 @@ import "./tradeslider.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
-import {
-  fetchSelectedProperty,
-  storeOrderInput,
-} from "../../../../contexts/redux/actions/tradingActions";
-import { useQuery } from "@tanstack/react-query";
-import { fetchUserBalance } from "../../../../contexts/redux/actions/userActions";
+import { storeOrderInput } from "../../../../contexts/redux/actions/tradingActions";
+import { getActivePropertyData, getUserBalance } from "../hooks/reactQuery";
 
 function Slider() {
   const dispatch = useDispatch();
@@ -19,26 +15,14 @@ function Slider() {
   const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
     useSelector((state) => state.trade);
 
-  const activePropertyQueryKey = ["active-property"];
-  const { data: { available_shares = 0 } = {} } = useQuery(
-    activePropertyQueryKey,
-    fetchSelectedProperty,
-    {
-      refetchOnWindowFocus: false, // Disable fetch on tab switch
-      refetchOnMount: true, // Fetch on initial mount
-    }
-  );
+  const { data: { available_shares = 0 } = {} } =
+    getActivePropertyData(orderInput);
 
   // Second API call
-  const userBalanceQueryKey = ["user-balance", orderInput];
-  const { data: { transfer_remaining = 0 } = {} } = useQuery(
-    userBalanceQueryKey,
-    async () => {
-      return await fetchUserBalance(token);
-    },
-    {
-      enabled: true,
-    }
+
+  const { data: { transfer_remaining = 0 } = {} } = getUserBalance(
+    orderInput,
+    token
   );
 
   const max =

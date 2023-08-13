@@ -60,7 +60,7 @@ TabMenu.ContentCard = ({ className, ...props }) => {
 
 TabMenu.Content = ({ className, isTabActive, item, itemKey = "" }) => {
   return (
-    <content
+    <div
       key={`${item.id}_${itemKey}`}
       className={cn(
         `${className} ${
@@ -73,7 +73,7 @@ TabMenu.Content = ({ className, isTabActive, item, itemKey = "" }) => {
     >
       {" "}
       {item.content}
-    </content>
+    </div>
   );
 };
 

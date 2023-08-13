@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import TabMenu from "../../../../components/ui/TabMenu";
 import { fetchPropertyFinancials } from "../../../../contexts/redux/actions/fetchPropertyActions";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchSelectedProperty } from "../../../../contexts/redux/actions/tradingActions";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import FinancialArticle from "./FinancialArticle";
+import { getActivePropertyData } from "../hooks/reactQuery";
 
 function GraphTabs() {
   const [activeTab, setActiveTab] = useState("Last Year");
@@ -17,15 +17,7 @@ function GraphTabs() {
     return activeTab === tabId;
   };
 
-  const queryKeyActiveProperty = ["active-property"];
-  const { data: { id = null } = {} } = useQuery(
-    queryKeyActiveProperty,
-    fetchSelectedProperty,
-    {
-      refetchOnWindowFocus: false, // Disable fetch on tab switch
-      refetchOnMount: true, // Fetch on initial mount
-    }
-  );
+  const { data: { id = null } = {} } = getActivePropertyData();
 
   const queryKey = ["financials", id];
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
