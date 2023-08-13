@@ -8,6 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { gmailRegister } from "../../../../../contexts/redux/actions/userActions";
 import TFADialog from "./multifactorOauth/dialog/TFADialog";
 import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 function FirebaseSignUp() {
   const location = useLocation();
@@ -38,8 +39,15 @@ function FirebaseSignUp() {
         if (user) {
           setCurrentUser(user);
           dispatch(gmailRegister(user));
+          return;
         }
       });
+      firebaseError?.code &&
+        toast.error(firebaseError.code, {
+          duration: 5000,
+          position: "top-center",
+          className: "bg-gradient-to-r from-pink-100 to-red-500",
+        });
 
       return () => unsubscribe();
     } catch (error) {}

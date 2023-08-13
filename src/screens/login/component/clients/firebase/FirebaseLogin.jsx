@@ -75,11 +75,12 @@ function FirebaseLogin() {
             handleMFA(firebaseError);
             return;
           } else {
-            toast.error(firebaseError.code, {
-              duration: 5000,
-              position: "top-center",
-              className: "bg-gradient-to-r from-pink-100 to-red-500",
-            });
+            firebaseError?.code &&
+              toast.error(firebaseError.code, {
+                duration: 5000,
+                position: "top-center",
+                className: "bg-gradient-to-r from-pink-100 to-red-500",
+              });
           }
         }
       });

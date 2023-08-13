@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 function LoginError() {
@@ -15,7 +15,11 @@ function LoginError() {
         className: "bg-gradient-to-r from-pink-100 to-red-500",
       });
   }, [error]);
-  return <></>;
+  return (
+    <>
+      <Toaster />
+    </>
+  );
 }
 
 export default LoginError;

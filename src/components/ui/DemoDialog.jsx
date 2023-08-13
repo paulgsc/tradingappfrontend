@@ -27,7 +27,7 @@ function DemoDialog({ step, maxStep, handleBack, handleContinue, children }) {
       <button
         onClick={handleClose}
         title="finish setup later"
-        className="bg-gray-400/80 absolute right-6 xl:right-12 top-4 z-50 rounded-sm scale-90 hover:scale-100 transition-all duration-200 ease-in-out hover:rounded-md hover:bg-white"
+        className="bg-gray-400/80 absolute right-6 xl:right-60 top-4 xl:top-32 z-50 rounded-sm scale-90 hover:scale-100 transition-all duration-200 ease-in-out hover:rounded-md hover:bg-white"
       >
         <CloseSvg />
       </button>

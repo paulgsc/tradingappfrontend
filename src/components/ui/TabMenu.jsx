@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "../../lib/utils";
 
 function TabMenu({ className, ...props }) {
-  return <div className={cn(`${className} `)} {...props} />;
+  return <section className={cn(`${className} `)} {...props} />;
 }
 
 TabMenu.List = ({ className, ...props }) => {
@@ -60,7 +60,7 @@ TabMenu.ContentCard = ({ className, ...props }) => {
 
 TabMenu.Content = ({ className, isTabActive, item, itemKey = "" }) => {
   return (
-    <div
+    <content
       key={`${item.id}_${itemKey}`}
       className={cn(
         `${className} ${
@@ -73,7 +73,7 @@ TabMenu.Content = ({ className, isTabActive, item, itemKey = "" }) => {
     >
       {" "}
       {item.content}
-    </div>
+    </content>
   );
 };
 

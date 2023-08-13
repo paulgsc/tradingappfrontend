@@ -12,7 +12,8 @@ function ProgressBar() {
       total_purchased_amount = 0,
     } = {},
   } = useQuery(queryKey, fetchSelectedProperty, {
-    enabled: true,
+    refetchOnWindowFocus: false, // Disable fetch on tab switch
+    refetchOnMount: true, // Fetch on initial mount
   });
 
   const percent =

@@ -36,7 +36,11 @@ export default {
             opacity: '0',
       
           },
-        }
+        },
+        blinkcaret: {
+          '0%, 100%': { borderColor: 'transparent' },
+          '50%': { borderColor: '#000' },
+        },
       },
     },
   },

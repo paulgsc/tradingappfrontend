@@ -1,5 +1,6 @@
 import React from "react";
 import "./hero.css";
+import AnimatedText from "../animation/AnimatedText";
 
 const Hero = () => {
   return (
@@ -9,7 +10,9 @@ const Hero = () => {
           Invest in Real Estate, Earn Passive Income
         </h1>
         <h2 className="hero-subheading">Unlock the Power of Property Shares</h2>
-        <button className="cta-button">Start Investing Today</button>
+        <div className="flex flex-1 justify-center mx-auto">
+          <AnimatedText />{" "}
+        </div>
         <p className="hero-description">
           Own a piece of prime real estate and earn regular dividends. Invest in
           property shares and enjoy the benefits of passive income.

@@ -39,7 +39,7 @@ function PropertyTabs() {
     }
   };
   return (
-    <TabMenu>
+    <TabMenu className={"min-h-screen"}>
       <TabMenu.List
         className={
           " rounded-t-md shadow-sm  py-2 shadow-neutral-50 bg-gradient-to-r from-stone-200 via-white to-stone-50"
