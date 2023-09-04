@@ -59,22 +59,25 @@ TabMenu.ContentCard = ({ className, ...props }) => {
 };
 
 TabMenu.Content = ({ className, isTabActive, item, itemKey = "" }) => {
-  return (
-    <div
-      key={`${item.id}_${itemKey}`}
-      className={cn(
-        `${className} ${
-          isTabActive(item.title) ? "" : "hidden"
-        } p-0 py-4 rounded-lg dark:bg-gray-800`
-      )}
-      id={item.title}
-      role="tabpanel"
-      aria-labelledby={`${item.title}-tab`}
-    >
-      {" "}
-      {item.content}
-    </div>
-  );
+  if (isTabActive) {
+    return (
+      <div
+        key={`${item.id}_${itemKey}`}
+        className={cn(
+          `${className} ${
+            isTabActive(item.title) ? "" : "hidden"
+          } p-0 py-4 rounded-lg`
+        )}
+        id={item.title}
+        role="tabpanel"
+        aria-labelledby={`${item.title}-tab`}
+      >
+        {" "}
+        {item.content}
+      </div>
+    );
+  }
+  return <></>;
 };
 
 export default TabMenu;

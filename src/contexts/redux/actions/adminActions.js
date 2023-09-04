@@ -1,6 +1,6 @@
 import API from "../../../api/django"
 import { getCsrfToken } from "../../../lib/utils"
-import { adminAddDeviceIPAddressFailed, adminAddDeviceIPAddressSuccess, adminDeleteImagesFailed, adminDeleteImagesSuccessful, adminRequestImageDeletion,  adminSetActivePropertyFailed,  adminSetActivePropertySuccess,  adminSetImageIdsFailed, adminSetImageIdsSuccess, adminStageActivePropertyFailed, adminStageActivePropertySuccess, adminStartUpdate, adminUpdateSettingsFailed, adminUpdateSettingsSuccess } from "../../../reducers/adminActionsReducers"
+import { adminAddDeviceIPAddressFailed, adminAddDeviceIPAddressSuccess, adminAddSheetsCronJobFailed, adminAddSheetsCronJobSuccess, adminDeleteImagesFailed, adminDeleteImagesSuccessful, adminEditCronJobFailed, adminEditCronJobSuccess, adminRequestImageDeletion,  adminSetActivePropertyFailed,  adminSetActivePropertySuccess,  adminSetImageIdsFailed, adminSetImageIdsSuccess, adminStageActivePropertyFailed, adminStageActivePropertySuccess, adminStartUpdate, adminUpdateSettingsFailed, adminUpdateSettingsSuccess } from "../../../reducers/adminActionsReducers"
 import { addSelectedImagesSuccess, adminPostPropertyImagesSuccess, adminRequestData, cancelUploadingImages, imageUploadActionFailed, removeSelectedImagesSuccess } from "../../../reducers/adminFetchDataReducers"
 
 
@@ -297,3 +297,69 @@ dispatch(adminSetActivePropertyFailed(error.message))
 
     }
 } 
+
+export const addGsheetCronJob = (data) => async (dispatch, getState) => {
+    try{
+        dispatch(adminStartUpdate())
+        
+        const {
+            userAuth: { userInfo: { token = "" } = {} },
+         
+        } = getState()
+
+        const path ="admin/add/sheet/cron/";
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                // Authorization: `Bearer ${token}`            
+            }
+        }
+
+        const response = await API.post(
+            path,
+            data,
+            config,
+        )
+        dispatch(adminAddSheetsCronJobSuccess(response.data))
+    }
+    catch (error){
+dispatch(adminAddSheetsCronJobFailed(error.message))
+
+    }
+} 
+
+
+export const editCronJob = (data, queryParams, refetch) => async (dispatch, getState) => {
+    try{
+        dispatch(adminStartUpdate({ updating: data }))
+        
+        const {
+            userAuth: { userInfo: { token = "" } = {} },
+         
+        } = getState()
+
+        const path ="admin/edit_cron_job/";
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                // Authorization: `Bearer ${token}`            
+            },
+            params: queryParams,
+        }
+        const response = await API.post(
+            path,
+            data,
+            config,
+        )
+        dispatch(adminEditCronJobSuccess(response.data))
+        refetch();
+    }
+    catch (error){
+dispatch(adminEditCronJobFailed({
+    message: error.message,
+    ...data
+}))
+
+    }
+} 
+

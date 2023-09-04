@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import NavbarLogins from "./navlogins/NavbarLogins";
+import { useEffect, useState } from "react";
+import NavbarLogins from "../ui/NavbarLogins";
 import NavbarLogo from "./navlogo/NavbarLogo";
 import Profile from "../profile/Profile";
 import { useSelector } from "react-redux";
 import CustomSvg from "../ui/CustomSvg";
-import Sidebar2 from "../sidemenu/Sidebar2";
 
 function Navbar({ showMenu, Menubar }) {
   const [isActive, setIsActive] = useState(false);
@@ -83,15 +82,6 @@ function Navbar({ showMenu, Menubar }) {
           </div>
         </div>
       </nav>
-      <aside
-        id="navbar-sidebar"
-        className="hidden z-20 absolute top-4 left-0 w-28 h-screen  transition-transform -translate-x-full  sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-        aria-label="Sidebar"
-      >
-        <div className=" top-0 h-full overflow-y-auto  dark:bg-gray-800">
-          {true && <Sidebar2 />}
-        </div>
-      </aside>
     </div>
   );
 }

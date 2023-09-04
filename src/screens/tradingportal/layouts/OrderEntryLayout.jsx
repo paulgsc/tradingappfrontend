@@ -1,4 +1,3 @@
-import React from "react";
 import { Toaster } from "react-hot-toast";
 import TransferModal from "../components/alerts/transfer/TransferModal";
 import InputLayout from "./InputLayout";

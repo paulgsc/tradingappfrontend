@@ -1,5 +1,3 @@
-import React from "react";
-
 function Callout({ className, message }) {
   return (
     <div className={className}>

@@ -1,4 +1,3 @@
-import React from "react";
 import ModalMsg from "./ModalMsg";
 import ModalFooter from "./ModalFooter";
 import { useDispatch, useSelector } from "react-redux";

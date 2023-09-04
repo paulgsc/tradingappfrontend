@@ -1,11 +1,10 @@
-import React from "react";
 import PlaceHolder from "../../../../components/loading/PlaceHolder";
 import { DownArrow } from "../../../../constants/svgs/Svg";
 import MetricChart from "./MetricChart";
 
 function MetricCard({ id, title, metric }) {
   return (
-    <div className="relative mt-6 px-2 py-4 flex flex-col flex-1 justify-center max-w-[18rem] rounded-sm border border-stroke bg-white shadow-default">
+    <div className=" z-0 relative mt-6 px-2 py-4 flex flex-col flex-1 justify-center max-w-[18rem] rounded-sm border border-stroke bg-white shadow-default">
       <div className="grid grid-rows-3 w-10/12 gap-2 p-2 ">
         <div className="">
           <div className="flex items-center justify-center h-8 lg:h-9 w-8 lg:w-9 rounded-full bg-red-600">

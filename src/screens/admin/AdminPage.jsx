@@ -10,7 +10,7 @@ import TableModels from "./TableModels";
 import Tasks from "./Tasks";
 import TaskStatusPage from "../../components/tasks/Status";
 import SiteSettings from "./SiteSettings";
-import Metrics from "./components/dashboard/Metrics";
+import Metrics from "../adminDashboard/components/ui/Metrics";
 
 function AdminPage() {
   const [isActive, setIsActive] = useState(false);
