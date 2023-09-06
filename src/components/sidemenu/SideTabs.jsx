@@ -1,16 +1,14 @@
-import React from "react";
-import TabWidget from "../ui/TabWidget";
 import { cn } from "../../lib/utils";
 import { Link, useLocation } from "react-router-dom";
 
 function SideTabs({ className, ...props }) {
-  return <div className={cn(`${className} `)} {...props} />;
+  return <section className={cn(`${className} `)} {...props} />;
 }
 
 SideTabs.Title = ({ className, ...props }) => {
   return (
     <h1
-      className={cn(`${className} text-xl font-semibold text-gray-800`)}
+      className={cn(`${className}  text-xl font-semibold text-gray-800`)}
       {...props}
     />
   );

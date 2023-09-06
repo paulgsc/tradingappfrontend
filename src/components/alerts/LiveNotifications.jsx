@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import API from "../../api/django";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -7,7 +6,7 @@ import Notification from "../ui/Notification";
 import { createWebSocket } from "../../hooks/react-query";
 
 function LiveNotifications() {
-  const { userInfo: { token = "", is_admin = false } = {} } = useSelector(
+  const { userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
   const fetchNotifications = async () => {
@@ -27,23 +26,21 @@ function LiveNotifications() {
     return response.data.notifications;
   };
 
-  const { data, isLoading, isError, error, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(
-      ["notifications"],
-      ({ pageParam = 1 }) => fetchNotifications(pageParam, 2, 4),
-      {
-        enabled: false,
-        refetchOnWindowFocus: false,
-      }
-    );
+  const { data, fetchNextPage } = useInfiniteQuery(
+    ["notifications"],
+    ({ pageParam = 1 }) => fetchNotifications(pageParam, 2, 4),
+    {
+      enabled: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   useEffect(() => {
     const socket = createWebSocket(
       `user-notifications/?authorization=${token}`
     );
 
-    const onNotificationReceived = (event) => {
-      const notification = JSON.parse(event.data);
+    const onNotificationReceived = () => {
       fetchNextPage();
     };
 

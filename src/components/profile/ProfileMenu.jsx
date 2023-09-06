@@ -2,11 +2,11 @@ import React from "react";
 import { quickActionMenu } from "../../constants/navbar/profileMenu";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../contexts/redux/actions/userActions";
+import { broadcastLogout } from "../../contexts/redux/actions/userActions";
 import PlaceHolder from "../loading/PlaceHolder";
 
 function ProfileMenu({ user }) {
-  const { userInfo: { email, username } = {}, error = null } = useSelector(
+  const { userInfo: { email, username } = {}, l } = useSelector(
     (state) => state.userAuth
   );
   const navigate = useNavigate();
@@ -14,10 +14,7 @@ function ProfileMenu({ user }) {
   const handleAuthentication = (e, path, id) => {
     e.preventDefault();
     if (id === "signOut") {
-      // Create a new Broadcast Channel and send the message to notify other tabs
-      const broadcastChannel = new BroadcastChannel("authChannel");
-      broadcastChannel.postMessage({ type: "AUTH_LOGOUT" });
-      dispatch(logout());
+      dispatch(broadcastLogout());
     } else {
       navigate(path);
     }

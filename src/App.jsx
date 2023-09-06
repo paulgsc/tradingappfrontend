@@ -1,6 +1,4 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./screens/Home";
 import ProfileScreen from "./screens/profile/ProfileScreen";
 import PlaidHome from "./screens/plaid/PlaidHome";
 import CreateAccount from "./screens/legal/CreateAccount";
@@ -11,9 +9,11 @@ import Index from "./screens/banking/Index";
 import LinkAccount from "./screens/plaid/LinkAccount";
 import NotFound404 from "./components/notFound/NotFound404";
 import {
+  adminDashboardPaths,
   adminPaths,
   historyPaths,
   homePaths,
+  modelsPaths,
   settingsPaths,
   setupPaths,
 } from "./constants/routes/routes";
@@ -32,6 +32,9 @@ import LoginScreen from "./screens/login/LoginScreen";
 import LoginOTPScreen from "./screens/login/LoginOTPScreen";
 import MagicLinkScreen from "./screens/login/MagicLinkScreen";
 import SignUpScreen from "./screens/login/SignUpScreen";
+import HomePage from "./screens/home/routes/HomePage";
+import IndexModels from "./screens/models/IndexModels";
+import AdminDashboardIndex from "./screens/adminDashboard/AdminDashboardIndex";
 
 function App() {
   return (
@@ -81,10 +84,15 @@ function App() {
             />
             <Route element={<OTPRoute />}>
               {homePaths.map((path, index) => (
-                <Route key={index} exact path={`/${path}`} element={<Home />} />
+                <Route
+                  key={index}
+                  exact
+                  path={`/${path}`}
+                  element={<HomePage />}
+                />
               ))}
               <Route exact path="/trade" element={<Trading />} />
-              <Route path="/test" element={<Test />} />
+              <Route path="/test/:someParam?" element={<Test />} />
               <Route element={<AuthRoute />}>
                 {setupPaths.map((path, index) => (
                   <Route
@@ -94,6 +102,7 @@ function App() {
                     element={<SetupStep />}
                   />
                 ))}
+
                 <Route exact path="/personal" element={<ProfileScreen />} />
                 <Route
                   exact
@@ -152,6 +161,22 @@ function App() {
                     />
                   )
                 )}
+                {adminDashboardPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={`${path}`}
+                    element={<AdminDashboardIndex />}
+                  />
+                ))}
+                {modelsPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<IndexModels />}
+                  />
+                ))}
               </Route>
               <Route exact path="/*" element={<NotFound404 />} />
             </Route>

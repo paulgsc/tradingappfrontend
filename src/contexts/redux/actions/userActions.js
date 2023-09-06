@@ -357,8 +357,7 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
  
 }}
 
-export const logout = ()  => async (dispatch, getState)  => {
-    const { userAuth: { userInfo: { gmailInfo = "" } = {}  } = {} } = getState()
+export const logout = ()  => async (dispatch)  => {
    
     firebaseLogout();
     localStorage.clear();
@@ -368,8 +367,14 @@ export const logout = ()  => async (dispatch, getState)  => {
     dispatch(clearTradeInfoOnLogout());
     dispatch(userLogOut());
 
-
 };
+
+export const broadcastLogout = () =>  (dispatch) => {
+  const broadcastChannel = new BroadcastChannel("authChannel");
+  broadcastChannel.postMessage({ type: "AUTH_LOGOUT" });
+  dispatch(logout());
+};
+
 
 
 export const accessProtectedView = () => async (dispatch, getState) => {

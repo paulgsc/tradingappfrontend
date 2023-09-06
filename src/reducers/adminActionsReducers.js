@@ -6,7 +6,7 @@ const adminActionsReducers = createSlice({
     initialState: { loading: false,  error: null, successMessage: null, imageActions: { publish: [], overwrite: [], delete: [] }, tradingActions: { propertyId: null, setToActive: false }  },
     reducers: {
       adminStartUpdate(state, action){
-        return { ...state, loading: true, successMessage: null, error: null  }
+        return { ...state, loading: true, successMessage: null, error: null, ...action.payload  }
       },
       adminRequestImageDeletion(state){
         return { ...state, loading: true, error: null, successMessage: null, }
@@ -41,12 +41,28 @@ const adminActionsReducers = createSlice({
       adminStageActivePropertyFailed(state, action){
         return { ...state, loading: false, error: action.payload, tradingActions: { ...state.tradingActions, propertyId: null, setToActive: false }  }
       },
-      adminSetActivePropertySuccess(state, actiion){
-        return { ...state, loading: false, successMessage: actiion.payload }
+      adminSetActivePropertySuccess(state, action){
+        return { ...state, loading: false, successMessage: action.payload }
       },
-      adminSetActivePropertyFailed(state, actiion){
-        return { ...state, loading: false, error: actiion.payload }
+      adminSetActivePropertyFailed(state, action){
+        return { ...state, loading: false, error: action.payload }
       },
+      adminAddSheetsCronJobSuccess(state, action){
+        return { ...state, loading:false, ...action.payload}
+      },
+      adminAddSheetsCronJobFailed(state, action){
+        return { ...state, loading:false, error: action.payload}
+      },
+      adminEditCronJobSuccess(state, action){
+        return { ...state, loading: false, ...action.payload }
+      },
+      adminEditCronJobFailed(state, action){
+        return { ...state, loading: false, error: action.payload }
+      },
+      adminStageCronChanges(state, action){
+        return { ...state, editedCronFields: { ...action.payload } }
+      },
+
     }
 });
 
@@ -65,6 +81,11 @@ export const {
   adminStageActivePropertyFailed,
   adminSetActivePropertySuccess,
   adminSetActivePropertyFailed,
+  adminAddSheetsCronJobSuccess,
+  adminAddSheetsCronJobFailed,
+  adminEditCronJobSuccess,
+  adminEditCronJobFailed,
+  adminStageCronChanges,
 } = adminActionsReducers.actions;
 
 export default adminActionsReducers.reducer;

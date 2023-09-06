@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavbarLogo from "./navlogo/NavbarLogo";
-import NavbarLogins from "./navlogins/NavbarLogins";
+import NavbarLogins from "../ui/NavbarLogins";
 import SearchBar from "../searchbar/SearchBar";
 import Profile from "../profile/Profile";
 import { useSelector } from "react-redux";

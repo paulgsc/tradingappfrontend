@@ -1,7 +1,7 @@
 import React from "react";
 import CircularProgresBar from "../../../../../components/ui/CircularProgresBar";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../../../../contexts/redux/actions/userActions";
+import { broadcastLogout } from "../../../../../contexts/redux/actions/userActions";
 
 function OTPAttempts() {
   const dispatch = useDispatch();
@@ -11,10 +11,7 @@ function OTPAttempts() {
   const passcodeError = regex.test(error);
   const attempts = passcodeError ? error?.match(/you have\s(\d)\s/i)[1] : 0;
   if (tooManyAttemptRegex.test(error)) {
-    // Create a new Broadcast Channel and send the message to notify other tabs
-    const broadcastChannel = new BroadcastChannel("authChannel");
-    broadcastChannel.postMessage({ type: "AUTH_LOGOUT" });
-    dispatch(logout());
+    dispatch(broadcastLogout());
   }
   return (
     <div

@@ -14,6 +14,8 @@ import loader from './loader.svg';
 import thirdweb from './thirdweb.png';
 import notFound from './404img.jpg';
 import siteLogo1 from './siteLogoOne.png';
+import appIcon from './appIcon.png';
+
 
 
 export {
@@ -33,4 +35,5 @@ export {
   thirdweb,
   notFound,
   siteLogo1,
+  appIcon,
 };

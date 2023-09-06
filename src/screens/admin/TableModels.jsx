@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { fetchPropertiesQuery } from "../../hooks/react-query";
 import PropertiesModel from "./PropertiesModel";
 import ModelSideBar from "./ModelSideBar";
-import SiteSettings from "./SiteSettings";
 import ImagesPortal from "./ImagesPortal";
 import TradeLayout from "./trade/TradeLayout";
 

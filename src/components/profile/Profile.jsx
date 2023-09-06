@@ -1,4 +1,3 @@
-import React from "react";
 import ProfileMenu from "./ProfileMenu";
 import { Link } from "react-router-dom";
 import LiveNotifications from "../alerts/LiveNotifications";

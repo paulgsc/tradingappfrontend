@@ -5,7 +5,7 @@ import CreateTwoFA from "./CreateTwoFA";
 import { useDispatch, useSelector } from "react-redux";
 import { unEnrollMultiFactor } from "../../../../../../hooks/firebase-hooks";
 import { notify } from "../../../../../../lib/utils";
-import { logout } from "../../../../../../contexts/redux/actions/userActions";
+import { broadcastLogout } from "../../../../../../contexts/redux/actions/userActions";
 
 function ToggleTwoFactor({ currentUser }) {
   const storedValue = true;
@@ -31,7 +31,7 @@ function ToggleTwoFactor({ currentUser }) {
     }
     setChecked(checked);
     localStorage.setItem("checked", checked);
-    dispatch(logout());
+    dispatch(broadcastLogout());
   };
 
   const toggleMultifactor = (event) => {

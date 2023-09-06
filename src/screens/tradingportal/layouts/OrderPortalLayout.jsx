@@ -8,9 +8,8 @@ import Investments from "../components/ui/Investments";
 function OrderPortalLayout() {
   const [activeTab, setActiveTab] = useState("Dashboard");
 
-  const handleTabClick = (tabId, path = "") => {
+  const handleTabClick = (tabId) => {
     setActiveTab(tabId);
-    path && navigate(path);
   };
 
   const isTabActive = (tabId) => {

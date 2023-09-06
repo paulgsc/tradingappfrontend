@@ -48,3 +48,17 @@ export const setupPaths = [
     '/setup/guide/:redirect?',
     '/admin/setup/guide/:redirect?',
 ]
+
+export const modelsPaths = [
+    '/models/:model?',
+    '/models/:model/list-view/:params?',
+    '/models/:model/uploads/:params?',
+    '/models/:model/uploads/scheduled-actions/:params?',
+    '/models/:model/uploads/gsheets/cron/:cronId?',
+    '/models/:model/uploads/gsheets/:params?',
+    '/models/:model/form-view/:params?',
+]
+export const adminDashboardPaths = [
+    'admin/dashboard/:params?'
+]
+

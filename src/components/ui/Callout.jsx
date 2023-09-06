@@ -1,11 +1,9 @@
-import React from "react";
-
 function Callout({ className, message }) {
   return (
     <div className={className}>
-      <div className="relative px-4 h-8 xl:h-10 w-full flex justify-center items-center rounded-lg bg-gray-800">
-        <div className="flex  items-center w-full h-full overflow-clip ">
-          <span className="text-xs xl:text-sm text-white font-normal ">
+      <div className="relative px-4 max-h-18 w-full flex justify-center items-center rounded-lg bg-gray-800">
+        <div className="flex  items-center w-full h-full overflow-auto no-scrollbar ">
+          <span className="text-xs text-white font-normal break-words text-center mb-4 mt-2 ">
             {message}
           </span>
         </div>

@@ -1,5 +1,3 @@
-import React from "react";
-
 function DynamicCards({ data, size, classname }) {
   const ListItems = [];
   let index = 0;

@@ -141,37 +141,7 @@ export const fetchPropertiesQuery = (token) => {
   };
   
 
-  export const fetchUserMetrics = (token) => {
-    // Define your query key or URL
-    const queryKey = ['user-metrics'];
   
-    // Define your fetch function
-    const fetchUserMetrics = async () => {
-      try {
-        const config = {
-          headers: {
-            'Content-type': 'application/json',
-            Authorization: `Bearer ${token}`
-          }
-        };
-  
-        const response = await API.get('admin/user_metrics/', config);
-        return response.data;
-      } catch (error) {
-        throw new Error('Error fetching data');
-      }
-    };
-  
-    // Use the useQuery hook to fetch the property data
-    const { data, isLoading, isError } = useQuery(queryKey, fetchUserMetrics);
-  
-    return {
-      property: data,
-      isLoading,
-      isError,
-    };
-  };
-
   
   export const fetchSiteSettings = (token) => {
     // Define your query key or URL

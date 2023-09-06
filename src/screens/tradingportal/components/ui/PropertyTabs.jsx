@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropertyOverview from "./PropertyOverview";
 import TabMenu from "../../../../components/ui/TabMenu";
 import FinancialsLayout from "../../layouts/FinancialsLayout";
+import Documents from "./Documents";
 
 function PropertyTabs() {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -28,6 +29,11 @@ function PropertyTabs() {
       id: "1_3",
       title: "Financials",
       content: <FinancialsLayout />,
+    },
+    {
+      id: "1_3",
+      title: "Documents",
+      content: <Documents />,
     },
   ];
   const getClassname = (name) => {
