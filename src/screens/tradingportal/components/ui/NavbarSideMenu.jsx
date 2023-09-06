@@ -7,6 +7,7 @@ function NavSideMenu() {
         id: "dashboard",
         title: "dashboard",
         path: "/admin",
+        authUserOnly: true,
         icon: (
           <svg
             className="w-6 h-6 stroke-current"
@@ -28,6 +29,7 @@ function NavSideMenu() {
         id: "search",
         title: "search",
         path: "/admin",
+        authUserOnly: false,
         icon: (
           <svg
             className="w-6 h-6 stroke-current"
@@ -49,6 +51,7 @@ function NavSideMenu() {
         id: "insights",
         title: "insights",
         path: "/admin",
+        authUserOnly: false,
         icon: (
           <svg
             className="w-6 h-6 stroke-current"
@@ -72,6 +75,7 @@ function NavSideMenu() {
         id: "documents",
         title: "documents",
         path: "/admin",
+        authUserOnly: false,
         icon: (
           <svg
             className="w-6 h-6 stroke-current"
@@ -93,6 +97,7 @@ function NavSideMenu() {
         id: "settings",
         title: "settings",
         path: "/admin",
+        authUserOnly: false,
         icon: (
           <svg
             className="w-6 h-6 stroke-current"

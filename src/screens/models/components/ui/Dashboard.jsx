@@ -1,9 +1,11 @@
+import { useSelector } from "react-redux";
 import { getModelsList } from "../../hooks/reactQuery";
 import ModelsCard from "./ModelsCard";
 import { filter } from "lodash";
 
 function Dashboard({ searchQuery }) {
-  const { data = [], isLoading } = getModelsList();
+  const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
+  const { data = [], isLoading } = getModelsList(token);
   const filteredData = filter(data, (item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );

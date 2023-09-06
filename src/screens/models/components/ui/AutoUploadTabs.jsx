@@ -7,6 +7,7 @@ import RangePreview from "../gsheets/RangePreview";
 import { getActionTrace } from "../../hooks/reactQuery";
 import { useSearchParams } from "react-router-dom";
 import SettingsArccordian from "../settings/SettingsArccordian";
+import { useSelector } from "react-redux";
 
 function AutoUploadTabs() {
   const [activeTab, setActiveTab] = useState("");
@@ -14,9 +15,15 @@ function AutoUploadTabs() {
   const [queryParameters] = useSearchParams();
   const cronId = queryParameters.get("jobId");
   const navigate = useNavigate();
+  const { userInfo: { token = null } = {} } = useSelector(
+    (state) => state.userAuth
+  );
   const { data: { sheet_url = "", data_range = "" } = {} } = getActionTrace(
-    "",
-    { job_id: cronId }
+    token,
+    {
+      job_id: queryParameters.get("jobId"),
+      model_name: model,
+    }
   );
   const match = sheet_url.match(/\/d\/(.+?)\//);
   const sheetId = match ? match[1] : null;

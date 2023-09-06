@@ -1,8 +1,16 @@
-function InputField({ label, type, required, name, value, handleChange }) {
+function InputField({
+  label,
+  type,
+  required,
+  name,
+  value,
+  disabled,
+  handleChange,
+}) {
   return (
     <div className="w-full">
       <label
-        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+        className="block h-6 uppercase text-blueGray-600 text-xs font-bold mb-2"
         htmlFor="grid-password"
       >
         {label}
@@ -16,6 +24,7 @@ function InputField({ label, type, required, name, value, handleChange }) {
         }`}
         value={value}
         onChange={handleChange}
+        disabled={disabled}
       />
     </div>
   );

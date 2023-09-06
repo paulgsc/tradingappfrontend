@@ -13,7 +13,7 @@ function WorkFlows({ globalFilter, setGlobalFilter }) {
     (state) => state.userAuth
   );
   const {
-    data = [],
+    data: { data = [], count } = {},
     isLoading,
     isFetching,
   } = getScheduledCronActions(token, {
@@ -136,7 +136,7 @@ function WorkFlows({ globalFilter, setGlobalFilter }) {
 
   return (
     <div className=" col-span-10 w-full">
-      <WorkFlowsNav />
+      <WorkFlowsNav count={count} />
       <main className="">
         <Table
           columnData={columns}

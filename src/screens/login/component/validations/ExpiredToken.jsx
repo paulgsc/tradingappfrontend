@@ -1,11 +1,10 @@
 import jwtDecode from "jwt-decode";
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
-import { logout } from "../../../../contexts/redux/actions/userActions";
+import { broadcastLogout } from "../../../../contexts/redux/actions/userActions";
 
 function ExpiredToken({ login = true, children }) {
   const navigate = useNavigate();
@@ -56,7 +55,7 @@ function ExpiredToken({ login = true, children }) {
         position: "top-center",
         className: "bg-gradient-to-r from-pink-100 to-red-500",
       });
-      dispatch(logout());
+      dispatch(broadcastLogout());
     }
     if (!token) {
       navigate(`/${login ? "login" : "register"}/?redirect=${redirect}`);

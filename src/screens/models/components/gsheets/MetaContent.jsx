@@ -10,7 +10,7 @@ function MetaContent() {
 
   const {
     data: { fields_meta = [] },
-  } = getModelsMetadata(token, { model: model });
+  } = getModelsMetadata(token, model);
 
   return (
     <tbody>
@@ -29,7 +29,7 @@ function MetaContent() {
                 rowIdx === 0
                   ? "lowercase font-semibold bg-indigo-600 text-white text-lg hover:bg-indigo-800"
                   : "font-normal hover:bg-blue-200 capitalize"
-              } text-end px-1  border `}
+              } text-end text-sm overflow-clip leading-tight px-1  border `}
             >
               {String(field[key])}
             </td>

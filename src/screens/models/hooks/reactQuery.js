@@ -9,7 +9,7 @@ export const getSheetsMetadata = (token, url) => {
           const config = {
             headers: {
               "Content-type": "application/json",
-            //   Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           };
           const data = {
@@ -103,29 +103,26 @@ return {
 }
 }
 
-export const getModelsMetadata = (token, queryParams) => {
+export const getModelsMetadata = (token, model) => {
 
     const fetchSheetsMetadata = async () => {
           const config = {
             headers: {
               "Content-type": "application/json", 
-            //   Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           };
 
           const response = await API.get(
-            "data/admin/property_meta/",
-            {
-              params: queryParams,
-              ...config,
-            }
+            `model-data/get/${model}/fields_meta/`,
+            config,
+            
           );
           return response.data;
        
       };
       
-    const { model } = queryParams
-    const sheetsQueryKey = ["models-metadata", model];
+    const sheetsQueryKey = [`${model}-fields-metadata`];
     const { data = [], isLoading: modelsMetadataLoading, refetch: modelsMetadataRefetch, isFetching } = useQuery(
     sheetsQueryKey,
     fetchSheetsMetadata,
@@ -152,7 +149,7 @@ export const getModelsList = (token) => {
           const config = {
             headers: {
               "Content-type": "application/json", 
-            //   Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           };
 
@@ -194,7 +191,7 @@ export const getCeleryIntervals = (token) => {
         const config = {
           headers: {
             "Content-type": "application/json", 
-          //   Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         };
 
@@ -234,7 +231,7 @@ export const getScheduledCronActions = (token, queryParams) => {
         const config = {
           headers: {
             "Content-type": "application/json", 
-          //   Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         };
 
@@ -279,7 +276,7 @@ export const getActionTrace = (token, queryParams = {}) => {
         const config = {
           headers: {
             "Content-type": "application/json", 
-          //   Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         };
 
@@ -324,7 +321,7 @@ export const getSheetsPreview = (token, queryParams) => {
         const config = {
           headers: {
             "Content-type": "application/json", 
-          //   Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         };
 
@@ -366,7 +363,7 @@ export const getCronActionById = (token, queryParams) => {
         const config = {
           headers: {
             "Content-type": "application/json", 
-          //   Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         };
 
@@ -410,7 +407,7 @@ export const getModelData = (token, model,  queryParams) => {
         const config = {
           headers: {
             "Content-type": "application/json", 
-          //   Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         };
 
@@ -428,7 +425,7 @@ export const getModelData = (token, model,  queryParams) => {
 
     
   const sheetsQueryKey = [`${model}-data`];
-  const { data = [], isLoading: modelsMetadataLoading, refetch: modelsMetadataLoadingRefetch, isFetching } = useQuery(
+  const { data = [], isLoading: modelsMetadataLoading, refetch: modelsMetadataLoadingRefetch, isFetching, error } = useQuery(
   sheetsQueryKey,
   fetchModelData,
   {
@@ -443,5 +440,49 @@ return {
   isLoading: modelsMetadataLoading,
   isFetching: isFetching,
   refetch: modelsMetadataLoadingRefetch,
+  error: error,
+}
+}
+
+export const getModelRowRecord = (token, model,  queryParams) => {
+
+  const fetchModelRowRecord = async () => {
+        const config = {
+          headers: {
+            "Content-type": "application/json", 
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const response = await API.get(
+          `model-data/get/${model}/data/`,
+          {
+            params: queryParams,
+            ...config
+          }
+        );
+        return response.data;
+     
+    };
+
+
+    
+  const sheetsQueryKey = [`${model}-row-record`];
+  const { data = [], isLoading: modelRowRecordLoading, refetch: modelRowRecordLoadingRefetch, isFetching, error } = useQuery(
+  sheetsQueryKey,
+  fetchModelRowRecord,
+  {
+    enabled: false,
+    retry: false,
+    refetchOnMount: true,
+  }
+  );
+
+return {
+  data: data,
+  isLoading: modelRowRecordLoading,
+  isFetching: isFetching,
+  refetch: modelRowRecordLoadingRefetch,
+  error: error,
 }
 }

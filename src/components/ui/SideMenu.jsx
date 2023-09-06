@@ -19,7 +19,7 @@ function SideMenu({ sidenavslinks }) {
     };
   }, []);
   return (
-    <div id="admin-dashboard-sidebar" className="relative group ">
+    <div id="admin-dashboard-sidebar" className="relative group">
       <button
         onClick={() => {
           setActive(!active);
@@ -31,10 +31,8 @@ function SideMenu({ sidenavslinks }) {
       </button>
       <aside
         tabIndex={-1}
-        className={`pointer-events-none fixed top-16 left-0 w-64 h-screen border-r-2 transition-transform -translate-x-full ${
-          active
-            ? "translate-x-0 group-focus-within:pointer-events-auto bg-white"
-            : ""
+        className={`pointer-events-none fixed top-[68px] left-0 w-64 h-screen border-r-2 transition-transform -translate-x-full ${
+          active ? "translate-x-0 pointer-events-auto bg-white" : ""
         }`}
         aria-label="Sidebar"
       >

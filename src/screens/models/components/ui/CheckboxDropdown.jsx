@@ -54,7 +54,7 @@ function CheckboxDropdown({ btnTitle, children }) {
             />
           </div>
         </div>
-        <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200">
+        <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 ">
           {children}
         </ul>
       </div>

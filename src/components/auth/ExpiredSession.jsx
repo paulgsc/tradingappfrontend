@@ -1,17 +1,15 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "../../contexts/redux/actions/userActions";
+import { broadcastLogout } from "../../contexts/redux/actions/userActions";
 import { useState } from "react";
-import { useLocation } from "react-router";
 import { userRefreshLoginSession } from "../../reducers/userAuthReducer";
 
 function ExpiredSession() {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const handleExit = () => {
-    dispatch(logout());
+    dispatch(broadcastLogout);
   };
   useEffect(() => {
     setShowModal(true);
@@ -32,8 +30,8 @@ function ExpiredSession() {
         </div>
         <div className="w-1/2 flex items-center gap-6 justify-center">
           <button
-            onClick={(e) => {
-              dispatch(logout());
+            onClick={() => {
+              handleExit();
               dispatch(userRefreshLoginSession());
             }}
             className="text-base bg-blue-500 hover:bg-blue-600 ring-1 shadow-md rounded-lg text-white p-2"

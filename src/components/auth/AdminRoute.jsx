@@ -12,7 +12,6 @@ function AdminRoute() {
   const redirect = location?.pathname;
   const {
     adminHash,
-    loading,
     access,
     refreshingSession = false,
     userInfo: { token = "" },

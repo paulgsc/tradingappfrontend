@@ -4,10 +4,12 @@ import { useEffect } from "react";
 import SetInterval from "./SetInterval";
 import { useState } from "react";
 import { addGsheetCronJob } from "../../../../contexts/redux/actions/adminActions";
+import Callout from "../../../../components/ui/Callout";
 
 function AddCronJob({ setShowContinue }) {
   const { model } = useParams();
   const dispatch = useDispatch();
+  const [showError, setShowError] = useState(false);
   const { jobId = null, error } = useSelector((state) => state.adminActions);
   const [selectedFrequency, setSelectedFrequency] = useState("");
 
@@ -55,7 +57,21 @@ function AddCronJob({ setShowContinue }) {
     if (jobId) {
       setShowContinue(true);
     }
-  }, [jobId, setShowContinue]);
+  }, [jobId]);
+
+  useEffect(() => {
+    if (error) {
+      setShowError(true);
+    }
+
+    const timer = setTimeout(() => {
+      setShowError(false);
+    }, 10000); // 10000 milliseconds (10 seconds)
+
+    // Clear the timer if the component unmounts before the timeout
+    return () => clearTimeout(timer);
+  }, [error]);
+
   return (
     <>
       <li>
@@ -65,7 +81,7 @@ function AddCronJob({ setShowContinue }) {
         />
       </li>
       <li>
-        <div className="flex p-2 rounded hover:bg-gray-100 ">
+        <div className="relative flex p-2 rounded hover:bg-gray-100 ">
           <label className="relative inline-flex items-center w-full cursor-pointer">
             <input
               onChange={handleChecked}
@@ -77,7 +93,7 @@ function AddCronJob({ setShowContinue }) {
               Add Cron task
             </span>
             {jobId && <p className=" flex-1 text-end px-6">&#x2714;</p>}
-            {error && (
+            {showError && (
               <span className="flex flex-1 items-center justify-end text-end px-6">
                 <p className="items-center text-center  w-5 h-5 rounded-full text-semibold text-pink-200 bg-red-900 ">
                   &#x2718;
@@ -85,6 +101,14 @@ function AddCronJob({ setShowContinue }) {
               </span>
             )}
           </label>
+          {showError && (
+            <Callout
+              className={
+                "absolute z-50 top-0 max-w-[200px] w-fit -translate-y-full flex justify-center"
+              }
+              message={error}
+            />
+          )}
         </div>
       </li>
     </>

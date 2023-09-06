@@ -4,15 +4,20 @@ import { getActionTrace } from "../../hooks/reactQuery";
 import { formatTimestamp } from "../../../../lib/utils";
 import SkeletonLoading from "../../../../components/loading/SkeletonLoading";
 import { useParams, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function CronJobs({ setGlobalFilter, globalFilter }) {
   const [queryParameters] = useSearchParams();
   const { model } = useParams();
+  const { userInfo: { token = null } = {} } = useSelector(
+    (state) => state.userAuth
+  );
   const {
     data: { trace = [] } = {},
     isLoading,
     isFetching,
-  } = getActionTrace("", {
+  } = getActionTrace(token, {
     job_id: queryParameters.get("jobId"),
     model_name: model,
   });

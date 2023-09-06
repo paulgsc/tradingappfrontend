@@ -3,10 +3,11 @@ import SheetsTemplate from "./SheetsTemplate";
 import LinkGsheet from "./LinkGsheet";
 import { getActionTrace } from "../../hooks/reactQuery";
 import PreviewContent from "./PreviewContent";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function RangePreview() {
+  const { model } = useParams();
   const [queryParameters] = useSearchParams();
   const { userInfo: { token = null } = {} } = useSelector(
     (state) => state.userAuth
@@ -14,6 +15,7 @@ function RangePreview() {
 
   const { data: { sheet_url = "" } = {} } = getActionTrace(token, {
     job_id: queryParameters.get("jobId"),
+    model_name: model,
   });
   return (
     <section className="space-y-6">

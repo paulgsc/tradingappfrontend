@@ -18,7 +18,8 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
   );
 
   const {
-    data: { results: { data = [], fields = [], import_enabled } = {} },
+    data: { results: { data, fields = [], import_enabled } = {} },
+    error,
     isLoading,
     isFetching,
     refetch,
@@ -49,12 +50,10 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
         <div
           className="cursor-pointer hover:text-emerald-500"
           onClick={() => {
-            navigate(
-              `/models/${model}/form-view?recordId=${row.original?.id?.value}`
-            );
+            navigate(`/models/${model}/form-view?recordId=${row.original?.id}`);
           }}
         >
-          {row.original[column.accessor]?.value || ""}
+          {row.original[column.accessor] || ""}
         </div>
       ),
     };
@@ -80,10 +79,10 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
   };
 
   useEffect(() => {
-    if (!data.length) {
+    if (data === undefined && error === null) {
       refetch();
     }
-  }, [data, refetch]);
+  }, [data, error, refetch]);
 
   return (
     <div className="flex flex-col flex-1 justify-center px-6 xl:px-12 py-6 h-full bg-white">
@@ -104,23 +103,24 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
             <main className="">
               <Table
                 columnData={updatedColumns}
-                history={data}
+                history={data || []}
                 getClassName={getClassName}
                 showCheckboxColumn={true}
                 globalFilter={globalFilter}
                 setGlobalFilter={setGlobalFilter}
                 tbodyId={"orders-table-container"}
               />
-              {!data.length && (
-                <div className="flex flex-col items-center justify-center border shadow-sm w-full h-32 xl:h-40 bg-gray-50">
-                  <span className="text-sm xl:text-base leading-4 text-gray-600">
-                    You have no orders
-                  </span>
-                  <span className="text-sm xl:text-base leading-4 text-gray-600">
-                    Your recent orders will appear here.
-                  </span>
-                </div>
-              )}
+              {!Array.isArray(data) ||
+                (Array.isArray(data) && !data.length && (
+                  <div className="flex flex-col items-center justify-center border shadow-sm w-full h-32 xl:h-40 bg-gray-50">
+                    <span className="text-sm xl:text-base leading-4 text-gray-600">
+                      There are no <strong>{model}&apos;s</strong> data records.
+                    </span>
+                    <span className="text-xs lg:text-sm leading-4 text-gray-600">
+                      Once created they will appear here
+                    </span>
+                  </div>
+                ))}
             </main>
           </div>
         )}

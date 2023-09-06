@@ -1,6 +1,6 @@
 import AddBtn from "./AddBtn";
 
-function WorkFlowsNav() {
+function WorkFlowsNav({ count }) {
   const dropdowns = [
     {
       id: 1,
@@ -31,7 +31,7 @@ function WorkFlowsNav() {
     <header className=" z-10 w-full bg-stone-100 rounded-t-md p-6 flex items-center justify-between border border-gray-300">
       <div>
         <span className="text-base font-semibold text-neutral-600">
-          47 workflow runs
+          {`${count || 0} upload scheduled action`}
         </span>
       </div>
 

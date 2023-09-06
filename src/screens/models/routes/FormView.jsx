@@ -19,7 +19,7 @@ function FormView() {
           />
         </section>
         <section className=" min-h-screen flex bg-gradient-to-b from-gray-100 via-gray-50 to-gray-100">
-          <nav className="w-48 border-r-2">
+          <nav className="w-56 border-r-2">
             <ModelEditSidebar />
           </nav>
           <ModelEditForm />

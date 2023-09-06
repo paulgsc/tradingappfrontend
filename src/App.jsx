@@ -93,14 +93,6 @@ function App() {
               ))}
               <Route exact path="/trade" element={<Trading />} />
               <Route path="/test/:someParam?" element={<Test />} />
-              {modelsPaths.map((path, index) => (
-                <Route
-                  key={index}
-                  exact
-                  path={path}
-                  element={<IndexModels />}
-                />
-              ))}
               <Route element={<AuthRoute />}>
                 {setupPaths.map((path, index) => (
                   <Route
@@ -175,6 +167,14 @@ function App() {
                     exact
                     path={`${path}`}
                     element={<AdminDashboardIndex />}
+                  />
+                ))}
+                {modelsPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<IndexModels />}
                   />
                 ))}
               </Route>

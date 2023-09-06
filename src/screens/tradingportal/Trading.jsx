@@ -6,7 +6,7 @@ import Navbar from "./components/ui/Navbar";
 function Trading() {
   return (
     <div className="">
-      <section>
+      <section className="w-full sticky top-0 z-50">
         <Navbar />
       </section>
       <main className="min-h-screen flex flex-col items-center justify-center w-full h-full ">

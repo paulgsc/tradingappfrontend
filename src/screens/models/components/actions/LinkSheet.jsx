@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { getSheetsMetadata } from "../../hooks/reactQuery";
+import { useSelector } from "react-redux";
 
 function LinkSheet() {
   const [sheetUrl, setSheetUrl] = useState("");
-  const { refetch = () => {} } = getSheetsMetadata("", sheetUrl) || {};
+  const { userInfo: { token = null } = {} } = useSelector(
+    (state) => state.userAuth
+  );
+  const { refetch = () => {} } = getSheetsMetadata(token, sheetUrl) || {};
   const handleChecked = (e) => {
     const checked = e.target.checked;
     if (checked) {

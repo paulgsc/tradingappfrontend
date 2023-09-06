@@ -39,9 +39,21 @@ function Step2({ setShowContinue }) {
   }, [data, setShowContinue, name]);
 
   useEffect(() => {
-    const { name, url } = JSON.parse(localStorage.getItem("gsheet"));
-    name && setName(name);
-    url && setUrl(url);
+    const storedValue = JSON.parse(localStorage.getItem("gsheet"));
+    if (typeof storedValue === "object") {
+      if (typeof storedValue === "object") {
+        try {
+          const parsedData = JSON.parse(localStorage.getItem("gsheet"));
+          if (parsedData && parsedData.name && parsedData.url) {
+            const { name, url } = parsedData;
+            setName(name);
+            setUrl(url);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
   }, []);
   return (
     <div>

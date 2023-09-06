@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { fetchUserMetrics } from "../../../../hooks/react-query";
 import MetricCard from "../../../admin/components/dashboard/MetricCard";
 import { useState } from "react";
 import { createGroups } from "../../../admin/components/utils/utils";
 import DynamicCards from "../../../admin/components/dashboard/DynamicCards";
+import { fetchUserMetrics } from "../../hooks/react_query";
 
 function Metrics() {
   const { userInfo: { token = "" } = {} } = useSelector(

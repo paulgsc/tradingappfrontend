@@ -1,14 +1,24 @@
 import { useRef } from "react";
 import { useState } from "react";
-import MetaContent from "./MetaContent";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { getModelsMetadata } from "../../hooks/reactQuery";
+import { useEffect } from "react";
 
 function SheetsTemplate({ children }) {
-  const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
   const [highlightedColumns, setHighlightedColumns] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([]);
   const isMouseDown = useRef(false);
   const lastColumnIndex = useRef(null);
-  const [dynamicLetters, setDynamicLetters] = useState([...letters]);
+  const [dynamicLetters, setDynamicLetters] = useState([]);
+  const { model } = useParams();
+  const { userInfo: { token = null } = {} } = useSelector(
+    (state) => state.userAuth
+  );
+
+  const {
+    data: { fields_meta },
+  } = getModelsMetadata(token, model);
 
   const handleHeaderMouseDown = (columnIndex, event) => {
     event.preventDefault();
@@ -49,15 +59,23 @@ function SheetsTemplate({ children }) {
     lastColumnIndex.current = null;
   };
 
+  useEffect(() => {
+    if (Array.isArray(fields_meta)) {
+      const letters = ["A", "B", "C", "D"];
+      setDynamicLetters(() => [
+        ...generateDynamicLetters(letters, fields_meta.length + 5),
+      ]);
+    }
+  }, [fields_meta]);
   return (
     <table className="w-full table-fixed">
       <thead className="w-full">
         <tr className="w-full">
-          <th className="w-10 border border-b-4 border-r-4 border-neutral-400/60 shadow-inner"></th>
+          <th className=" w-10 border border-b-4 border-r-4 border-neutral-400/60 shadow-inner"></th>
           {dynamicLetters.map((letter, i) => (
             <th
               key={i}
-              className={`w-24 border-2 border-neutral-300/60 font-normal ${
+              className={`w-48 leading-snug  border-2 border-neutral-300/60 font-normal ${
                 highlightedColumns.includes(i) || selectedColumns.includes(i)
                   ? "bg-blue-600 text-white"
                   : ""
@@ -76,8 +94,8 @@ function SheetsTemplate({ children }) {
   );
 }
 
-function generateDynamicLetters(baseLetters) {
-  const MAX_COLUMNS = 50;
+function generateDynamicLetters(baseLetters, maxColumns) {
+  const MAX_COLUMNS = maxColumns || 4;
   let dynamicLetters = [...baseLetters];
 
   while (dynamicLetters.length < MAX_COLUMNS) {

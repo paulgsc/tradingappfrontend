@@ -1,8 +1,13 @@
+import { useSelector } from "react-redux";
 import { getCeleryIntervals } from "../../hooks/reactQuery";
 import Selection from "../ui/Selection";
 
 function SetInterval({ handleFrequencyChange, selectedFrequency }) {
-  const { data = [] } = getCeleryIntervals();
+  const { userInfo: { token = null } = {} } = useSelector(
+    (state) => state.userAuth
+  );
+
+  const { data = [] } = getCeleryIntervals(token);
 
   return (
     <Selection
