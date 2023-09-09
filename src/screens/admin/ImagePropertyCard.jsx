@@ -1,4 +1,3 @@
-import React from "react";
 import PropertyTitle from "../../components/property/PropertyTitle";
 import ToPublishPreview from "./imageActions/ToPublishPreview";
 

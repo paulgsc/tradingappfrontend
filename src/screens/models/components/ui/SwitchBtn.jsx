@@ -1,4 +1,22 @@
-function SwitchBtn({ checked, label, handleChecked }) {
+import { useEffect } from "react";
+import { useState } from "react";
+import Callout from "../../../../components/ui/Callout";
+
+function SwitchBtn({ checked, label, result, error, handleChecked }) {
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      setShowNotification(true);
+    }
+
+    const timer = setTimeout(() => {
+      setShowNotification(false);
+    }, 10000); // 10000 milliseconds (10 seconds)
+
+    // Clear the timer if the component unmounts before the timeout
+    return () => clearTimeout(timer);
+  }, [result, error]);
   return (
     <div className="flex p-2 rounded hover:bg-gray-100 ">
       <label className="relative inline-flex items-center w-full cursor-pointer">
@@ -12,7 +30,23 @@ function SwitchBtn({ checked, label, handleChecked }) {
         <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
           {label}
         </span>
+        {result && <p className=" flex-1 text-end px-6">&#x2714;</p>}
+        {showNotification && (
+          <span className="flex flex-1 items-center justify-end text-end px-6">
+            <p className="items-center text-center  w-5 h-5 rounded-full text-semibold text-pink-200 bg-red-900 ">
+              &#x2718;
+            </p>
+          </span>
+        )}
       </label>
+      {showNotification && (
+        <Callout
+          className={
+            "absolute z-50 top-0 max-w-[200px] w-fit -translate-y-full flex justify-center"
+          }
+          message={error}
+        />
+      )}
     </div>
   );
 }
