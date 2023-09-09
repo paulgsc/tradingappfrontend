@@ -1,10 +1,10 @@
 import React from "react";
 
-function TestimonialCard() {
+function TestimonialCard({ className, content, index }) {
   return (
-    <div className="!overflow-hidden">
-      <blockquote className="flex h-full flex-col justify-between bg-white p-6 space-y-4">
-        <div>
+    <div className={className} style={{ transform: `translateX(${index}%)` }}>
+      <blockquote className="flex  w-80 xl:w-96 h-full flex-col justify-between  p-6 space-y-4 ">
+        <div className="">
           <div className="flex gap-0.5 text-green-500">
             {Array(5)
               .fill("")
@@ -24,7 +24,7 @@ function TestimonialCard() {
 
           <div className="mt-4">
             <p className="text-2xl font-bold text-lime-600 sm:text-3xl">
-              Lorem ipsum...
+              Lorem ipsum...{content}
             </p>
 
             <p className="mt-4 leading-relaxed text-gray-500 break-words h-40 xl:h-56 overflow-clip">

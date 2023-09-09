@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Step from "../animation/Step";
 import { useDispatch, useSelector } from "react-redux";
 import { addIPAddress } from "../../contexts/redux/actions/adminActions";
@@ -90,7 +90,7 @@ const Step1 = () => {
       </h3>
       <div className="p-6 space-y-6">
         <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-          You've logged in as <b>admin</b> user in a <b>new device</b>. To
+          You&apos;ve logged in as <b>admin</b> user in a <b>new device</b>. To
           <b> access</b> admin dashboard, you need to <b>add</b> the device{" "}
           <b>ip address</b> to the allowed ip address permission list. Continue
           with the next step to learn how to add the device ip address.

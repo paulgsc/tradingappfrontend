@@ -68,7 +68,7 @@ function SheetsTemplate({ children }) {
     }
   }, [fields_meta]);
   return (
-    <table className="w-full table-fixed">
+    <table className="w-full table-fixed mb-12">
       <thead className="w-full">
         <tr className="w-full">
           <th className=" w-10 border border-b-4 border-r-4 border-neutral-400/60 shadow-inner"></th>

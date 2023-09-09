@@ -1,15 +1,18 @@
-import React from "react";
-
-function TestimonialsNavBtns() {
+function TestimonialsNavBtns({ setIndex }) {
   return (
-    <div>
-      <button className="prev-button rounded-full border border-teal-600 p-3 text-teal-600 hover:bg-teal-600 hover:text-white">
+    <div className="inline-flex items-center w-full justify-center gap-16">
+      <button
+        onClick={() => {
+          setIndex((prevIndex) => prevIndex + 100);
+        }}
+        className="prev-button rounded-full border border-teal-600 p-3 text-teal-600 hover:bg-teal-600 hover:text-white"
+      >
         <span className="sr-only">Previous Slide</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="h-5 w-5 rtl:rotate-180"
         >
@@ -21,7 +24,12 @@ function TestimonialsNavBtns() {
         </svg>
       </button>
 
-      <button className="next-button rounded-full border border-teal-600 p-3 text-teal-600 hover:bg-teal-600 hover:text-white">
+      <button
+        onClick={() => {
+          setIndex((prevIndex) => prevIndex - 100);
+        }}
+        className="next-button rounded-full border border-teal-600 p-3 text-teal-600 hover:bg-teal-600 hover:text-white"
+      >
         <span className="sr-only">Next Slide</span>
         <svg
           className="h-5 w-5 rtl:rotate-180"
@@ -34,7 +42,7 @@ function TestimonialsNavBtns() {
             d="M9 5l7 7-7 7"
             strokeLinecap="round"
             strokeLinejoin="round"
-            stroke-width="2"
+            strokeWidth="2"
           />
         </svg>
       </button>

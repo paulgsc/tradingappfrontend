@@ -1,4 +1,3 @@
-import React from "react";
 import { siteLogo1 } from "../../assets";
 import CustomSvg from "../ui/CustomSvg";
 import PlaceHolder from "../loading/PlaceHolder";
