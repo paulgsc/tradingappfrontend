@@ -9,21 +9,30 @@ import { getModelData } from "../../hooks/reactQuery";
 import { useSelector } from "react-redux";
 import SetFields from "../actions/SetFields";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 function PaginatedResults({ globalFilter, setGlobalFilter }) {
   const navigate = useNavigate();
   const { model } = useParams();
+  const [queryParameters] = useSearchParams();
   const { userInfo: { token = null } = {} } = useSelector(
     (state) => state.userAuth
   );
 
   const {
-    data: { results: { data, fields = [], import_enabled } = {} },
+    data: {
+      next,
+      previous,
+      results: { data, fields = [], import_enabled } = {},
+    },
     error,
     isLoading,
     isFetching,
     refetch,
-  } = getModelData(token, model.toLowerCase(), { page: 1, model_name: model });
+  } = getModelData(token, model.toLowerCase(), {
+    page: queryParameters.get("page") || 1,
+    model_name: model,
+  });
 
   const columns = [
     ...fields.slice(0, 6).map((field) => ({
@@ -126,7 +135,7 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
         )}
       </div>
       <footer>
-        <Pagination />
+        <Pagination next={next} previous={previous} />
       </footer>
     </div>
   );

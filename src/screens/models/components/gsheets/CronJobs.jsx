@@ -5,7 +5,6 @@ import { formatTimestamp } from "../../../../lib/utils";
 import SkeletonLoading from "../../../../components/loading/SkeletonLoading";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 
 function CronJobs({ setGlobalFilter, globalFilter }) {
   const [queryParameters] = useSearchParams();

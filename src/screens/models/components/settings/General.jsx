@@ -21,18 +21,21 @@ function General() {
       type: "input",
       field: "name",
       label: "Name",
+      placeholder: "Upload Job Name",
     },
     {
       id: 2,
       type: "input",
       field: "sheet_url",
       label: "Spreadsheet Url",
+      placeholder: "Enter the url for your google spreadsheet",
     },
     {
       id: 3,
       type: "input",
       field: "data_range",
       label: "Data Range",
+      placeholder: 'Enter range i.e "A:E", "D3:H12"',
     },
     {
       id: 4,
@@ -40,9 +43,16 @@ function General() {
       field: "frequency",
       label: "Job Schedule",
     },
-
     {
       id: 5,
+      type: "input",
+      field: "notify_email",
+      label: "Send notifications to",
+      placeholder: "enter email address",
+    },
+
+    {
+      id: 6,
       type: "switch",
       field: "active",
       label: "Active",
@@ -56,6 +66,7 @@ function General() {
           <InputField
             field={setting.field}
             label={setting.label}
+            placeholder={setting?.placeholder}
             value={data[setting.field]}
             key={i}
           />

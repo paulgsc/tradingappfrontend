@@ -9,8 +9,11 @@ import { useEffect } from "react";
 function UpdateInteral({ field, value = "" }) {
   const dispatch = useDispatch();
   const [selectedFrequency, setSelectedFrequency] = useState(value);
+  const { userInfo: { token = null } = {} } = useSelector(
+    (state) => state.userAuth
+  );
   const { editedCronFields = {} } = useSelector((state) => state.adminActions);
-  const { data = [] } = getCeleryIntervals();
+  const { data = [] } = getCeleryIntervals(token);
   const handleFrequencyChange = (event) => {
     setSelectedFrequency(parseInt(event.target.value) || 0);
     const stagedChange = {

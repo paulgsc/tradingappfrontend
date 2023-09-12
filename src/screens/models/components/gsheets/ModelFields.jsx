@@ -8,7 +8,7 @@ import { useState } from "react";
 function ModelFields() {
   const [spreadsheetUrl, setSpreadsheetUrl] = useState("");
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 p-4 min-w-full h-full">
       <header className="inline-flex items-center justify-between p-2 w-full">
         <div>
           <h1 className="sticky left-0 font-bold text-lg xl:text-2xl">
@@ -24,7 +24,7 @@ function ModelFields() {
           setSpreadsheetUrl={setSpreadsheetUrl}
         />
       </header>
-      <main className="overflow-auto">
+      <main className=" w-full p-2 overflow-auto">
         <SheetsUrl url={spreadsheetUrl} />
         <SheetsTemplate>
           <MetaContent />

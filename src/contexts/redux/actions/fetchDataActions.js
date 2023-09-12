@@ -1,5 +1,6 @@
 import API from "../../../api/django";
 import { fetchOrdersByProperty, fetchOrdersByPropertyFailed, fetchSharesDataFailed, fetchSharesDataSuccessful, fetchSummaryDataSuccessful, fetchUserLinkedAccountsFailed, fetchUserLinkedAccountsSusccess, fetchUserNotificationsFailed, fetchUserNotificationsSuccess, propertyTradeDataRequestFailed, propertyTradeDataRequestSuccess, userOrdersDataRequestFailure, userOrdersDataRequestSuccessful, userRequestData, userSummaryDataRequestFailure, userTransactionsDataRequestFailure, userTransactionsDataRequestSuccessful, userTransferDataRequestSuccessful, userTransfersDataRequestFailure } from "../../../reducers/fetchDataReducers"
+import { userRequestPDF, userRequestPDFFailed, userRequestPDFSuccesful } from "../../../reducers/userActionsReducers";
 
 
 
@@ -228,5 +229,32 @@ export const fetchPropertyQuery = (searchQuery) => async (dispatch) => {
 
     }catch (error){
         dispatch(fetchUserNotificationsFailed(error.message));
+    }
+}
+  
+
+export const fetchPublicPDFs = (pdfName, setSearchParams) => async (dispatch) => {
+    dispatch(userRequestPDF())
+    try{
+
+        const response = await fetch(
+            `http://127.0.0.1:8000/api/dropbox/public_files/render_pdf/?file_path=${pdfName}`,
+            {
+              method: "GET", // Optional, GET is the default method
+              responseType: "blob",
+            }
+          );
+          
+
+        const blob = await response.blob();
+        const pdfURL = URL.createObjectURL(blob);
+        setSearchParams((prevSearchParams) => ({
+            ...prevSearchParams,
+            viewPdf: pdfName,
+          }));
+        dispatch(userRequestPDFSuccesful(pdfURL));
+
+    }catch (error){
+        dispatch(userRequestPDFFailed(error.message));
     }
 }

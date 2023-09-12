@@ -421,10 +421,9 @@ export const getModelData = (token, model,  queryParams) => {
         return response.data;
      
     };
-
-
-    
-  const sheetsQueryKey = [`${model}-data`];
+  
+  const { page } = queryParams
+  const sheetsQueryKey = [`${model}-data-page-${page}`];
   const { data = [], isLoading: modelsMetadataLoading, refetch: modelsMetadataLoadingRefetch, isFetching, error } = useQuery(
   sheetsQueryKey,
   fetchModelData,

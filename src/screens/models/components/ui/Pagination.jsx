@@ -1,63 +1,75 @@
-function Pagination() {
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
+function Pagination({ next, previous }) {
+  console.log("this is running?");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const updateUrlParams = () => {
+    setSearchParams((prevSearchParams) => ({
+      ...prevSearchParams,
+      page: currentPage + 1,
+    }));
+  };
+
   return (
-    <nav aria-label="Page navigation example">
-      <ul className="inline-flex -space-x-px text-sm">
+    <nav aria-label="Page navigation">
+      <ul className="inline-flex -space-x-px text-sm transform">
         <li>
-          <a
-            href="#"
-            className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          <button
+            disabled={previous === null}
+            onClick={() => {
+              setCurrentPage((prevCurrentPage) =>
+                prevCurrentPage > 1 ? prevCurrentPage - 1 : 1
+              );
+              updateUrlParams();
+            }}
+            className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:bg-gray-100 disabled:opacity-60"
           >
             Previous
-          </a>
+          </button>
         </li>
+        <section className="inline-flex items-center max-w-[192px] overflow-hidden">
+          {Array(5 + currentPage)
+            .fill("")
+            .map((_, i) => (
+              <li
+                key={i}
+                style={{
+                  transform: `translateX(${
+                    -100 * Math.max(0, currentPage - 4)
+                  }%)`,
+                }}
+              >
+                <button
+                  disabled={i > currentPage && next === null ? true : false}
+                  onClick={() => {
+                    setCurrentPage(i);
+                    updateUrlParams;
+                  }}
+                  className={`${
+                    currentPage === i
+                      ? "bg-blue-600/20 shadow-inner"
+                      : "bg-white"
+                  } flex items-center justify-center px-3 h-8 w-8 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:bg-gray-100 disabled:opacity-60`}
+                >
+                  {i + 1}
+                </button>
+              </li>
+            ))}
+        </section>
+
         <li>
-          <a
-            href="#"
-            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            1
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            2
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            aria-current="page"
-            className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-          >
-            3
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            4
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            5
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          <button
+            disabled={next === null}
+            onClick={() => {
+              setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+              updateUrlParams();
+            }}
+            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:bg-gray-100 disabled:opacity-60"
           >
             Next
-          </a>
+          </button>
         </li>
       </ul>
     </nav>

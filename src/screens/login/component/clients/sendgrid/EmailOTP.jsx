@@ -1,14 +1,15 @@
-import React from "react";
-
 import Input from "../firebase/multifactorOauth/Input";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyLoginEmail } from "../../../../../contexts/redux/actions/userActions";
+import {
+  broadcastLogout,
+  verifyLoginEmail,
+} from "../../../../../contexts/redux/actions/userActions";
 import { useLocation, useNavigate } from "react-router-dom";
+import WiggleLoader from "../../../../../components/loading/WiggleLoader";
 
 function EmailOTP() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const locaton = useLocation();
+  const location = useLocation();
   const redirect = location.search
     ? location.search.split("redirect=")[1]
     : "/";
@@ -64,7 +65,9 @@ function EmailOTP() {
       </div>
       <div className="flex mt-4 gap-x-4">
         <button
-          onClick={() => navigate("/personal")}
+          onClick={() => {
+            dispatch(broadcastLogout());
+          }}
           className="rounded-xl flex gap-x-4 mb-8 text-black h-11 w-1/2 items-center justify-center px-6 border border-gray-500"
         >
           Cancel

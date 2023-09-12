@@ -28,7 +28,7 @@ function RangePreview() {
           10 records
         </p>
       </header>
-      <main>
+      <main className=" overflow-auto">
         <SheetsUrl url={sheet_url} />
         <SheetsTemplate>
           <PreviewContent />

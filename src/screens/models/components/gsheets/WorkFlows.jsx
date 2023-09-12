@@ -31,10 +31,12 @@ function WorkFlows({ globalFilter, setGlobalFilter }) {
             <div className="flex items-center gap-2">
               {row.original.last_run_status === "success" ? (
                 <p className=" text-end">&#x2714;</p>
-              ) : (
+              ) : row.original.last_run_status !== null ? (
                 <p className="items-center text-center  w-5 h-5 rounded-full text-semibold text-pink-200 bg-red-900 ">
                   &#x2718;
                 </p>
+              ) : (
+                <></>
               )}
               <Link
                 to={`/models/${model}/uploads/gsheets/cron/?jobId=${row.original.id}`}
@@ -54,15 +56,17 @@ function WorkFlows({ globalFilter, setGlobalFilter }) {
               </a>
             </div>
             <div className="inline-flex items-center space-x-4 ml-12">
-              <span>{`last run #${row.original.last_run_id}: ${row.original.last_run_status}`}</span>
+              {row.original.last_run_id && (
+                <span>{`last run #${row.original.last_run_id}: ${row.original.last_run_status}`}</span>
+              )}
               <span
                 className={`relative capitalize after:absolute after:top-[.65rem] after:ml-2 after:content-[''] after:h-2 after:w-2 after:rounded-full ${
-                  !row.original.paused
+                  row.original.active
                     ? "after:bg-lime-600"
                     : "after:bg-gray-400"
                 }`}
               >
-                {!row.original.paused ? "Active" : "Archived"}
+                {row.original.active ? "Active" : "Archived"}
               </span>
             </div>
           </div>
