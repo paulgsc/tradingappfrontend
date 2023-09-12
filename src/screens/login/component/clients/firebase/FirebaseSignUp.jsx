@@ -1,4 +1,3 @@
-import React from "react";
 import GmailSignUp from "../../ui/GmailSignUp";
 import { useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +15,7 @@ function FirebaseSignUp() {
   const [firebaseError, setFirebaseError] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
-  const { userInfo: { is_admin = false, token = "" } = {} } = useSelector(
+  const { userInfo: { is_admin = false, token } = {} } = useSelector(
     (state) => state.userAuth
   );
 
@@ -38,7 +37,7 @@ function FirebaseSignUp() {
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
         if (user) {
           setCurrentUser(user);
-          dispatch(gmailRegister(user));
+          !token && dispatch(gmailRegister(user));
           return;
         }
       });
@@ -51,7 +50,7 @@ function FirebaseSignUp() {
 
       return () => unsubscribe();
     } catch (error) {}
-  }, [firebaseError]);
+  }, [firebaseError, dispatch, token]);
 
   if (currentUser && token) {
     return <TFADialog user={currentUser} redirect={redirect} />;

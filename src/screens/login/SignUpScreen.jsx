@@ -1,4 +1,3 @@
-import React from "react";
 import SignUpFormLayout from "./layout/SignUpFormLayout";
 import ExpiredToken from "./component/validations/ExpiredToken";
 import LoginSuccess from "./component/validations/LoginSuccess";

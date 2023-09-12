@@ -1,4 +1,3 @@
-import React from "react";
 import EmailOTP from "../component/clients/sendgrid/EmailOTP";
 import { useSelector } from "react-redux";
 import WiggleLoader from "../../../components/loading/WiggleLoader";

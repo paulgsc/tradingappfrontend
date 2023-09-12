@@ -4,7 +4,7 @@ import {
   broadcastLogout,
   verifyLoginEmail,
 } from "../../../../../contexts/redux/actions/userActions";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import WiggleLoader from "../../../../../components/loading/WiggleLoader";
 
 function EmailOTP() {

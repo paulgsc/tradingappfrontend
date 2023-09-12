@@ -19,7 +19,6 @@ function LoginForm() {
       const formData = {
         username: email,
         email: email,
-        password: "blank",
         redirect: redirect,
       };
       dispatch(login(formData));
