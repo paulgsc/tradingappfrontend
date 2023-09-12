@@ -171,6 +171,8 @@ export const login = (formData) => async (dispatch, getState) => {
 
     try {
 
+      await dispatch(fetchEnvVariables());
+
         dispatch(userLoginRequest());
 
         const {
@@ -180,7 +182,7 @@ export const login = (formData) => async (dispatch, getState) => {
             }
           },
          
-        } = getState()
+        } = await getState()
 
         const config = {
             headers: {
@@ -214,6 +216,7 @@ export const gmailLogin = (gmailInfo) => async (dispatch, getState) => {
 
     try{
 
+      await dispatch(fetchEnvVariables());
 
       const {
         env: {
@@ -222,7 +225,7 @@ export const gmailLogin = (gmailInfo) => async (dispatch, getState) => {
           }
         },
        
-      } = getState()
+      } = await getState()
 
         const {
             email = "",
