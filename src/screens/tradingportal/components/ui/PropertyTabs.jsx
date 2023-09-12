@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropertyOverview from "./PropertyOverview";
 import TabMenu from "../../../../components/ui/TabMenu";
 import FinancialsLayout from "../../layouts/FinancialsLayout";
@@ -7,9 +7,8 @@ import Documents from "./Documents";
 function PropertyTabs() {
   const [activeTab, setActiveTab] = useState("Overview");
 
-  const handleTabClick = (tabId, path = "") => {
+  const handleTabClick = (tabId) => {
     setActiveTab(tabId);
-    path && navigate(path);
   };
   const isTabActive = (tabId) => {
     return activeTab === tabId;
@@ -36,14 +35,7 @@ function PropertyTabs() {
       content: <Documents />,
     },
   ];
-  const getClassname = (name) => {
-    switch (name) {
-      case "main-container":
-        return "relative";
-      default:
-        return "";
-    }
-  };
+
   return (
     <TabMenu className={"min-h-screen"}>
       <TabMenu.List

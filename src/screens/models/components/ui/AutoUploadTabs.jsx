@@ -69,10 +69,10 @@ function AutoUploadTabs() {
     }
   }, [cronId]);
   return (
-    <TabMenu className="w-full col-span-10">
+    <TabMenu className="min-w-full col-span-10">
       <TabMenu.List
         className={
-          " sticky left-0 rounded-t-md shadow-sm shadow-neutral-50 bg-gradient-to-tr from-white via-stone-100 to-white"
+          "rounded-t-md shadow-sm shadow-neutral-50 bg-gradient-to-tr from-white via-stone-100 to-white"
         }
       >
         {headers.map((item, i) => (
@@ -94,12 +94,12 @@ function AutoUploadTabs() {
           </TabMenu.ListItems>
         ))}
       </TabMenu.List>
-      <TabMenu.ContentCard className={"w-full"}>
+      <TabMenu.ContentCard className={"w-full border rounded-sm"}>
         {headers.map(
           (item, i) =>
             isTabActive(item.title) && (
               <TabMenu.Content
-                className={"max-w-screen"}
+                className={"w-full"}
                 key={i}
                 item={item}
                 isTabActive={isTabActive}

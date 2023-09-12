@@ -9,6 +9,7 @@ function ListView() {
   const { model } = useParams();
 
   const [globalFilter, setGlobalFilter] = useState("");
+
   if (model && location.pathname === `/models/${model}/list-view`) {
     return (
       <>

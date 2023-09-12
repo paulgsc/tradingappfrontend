@@ -358,7 +358,7 @@ export const editCronJob = (data, queryParams, refetch) => async (dispatch, getS
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                // Authorization: `Bearer ${token}`            
+                Authorization: `Bearer ${token}`            
             },
             params: queryParams,
         }

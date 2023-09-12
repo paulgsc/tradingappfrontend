@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import EditInputField from "../actions/EditInputField";
 import { adminStageCronChanges } from "../../../../reducers/adminActionsReducers";
 
-function InputField({ value = "", label = "label", field }) {
+function InputField({ value = "", label = "label", field, placeholder }) {
   const [input, setInput] = useState(value);
   const dispatch = useDispatch();
   const { editedCronFields = {} } = useSelector((state) => state.adminActions);
@@ -37,7 +37,7 @@ function InputField({ value = "", label = "label", field }) {
           type="text"
           id="success"
           className={`valid:bg-green-50 border border-slate-400  text-sm rounded-lg hover:border-neutral-300 focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500`}
-          placeholder="Success input"
+          placeholder={placeholder}
         />
         <EditInputField field={field} />
       </div>
