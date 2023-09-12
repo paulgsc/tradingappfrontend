@@ -1,4 +1,3 @@
-import React from "react";
 import OTPLayout from "./layout/OTPLayout";
 import ExpiredToken from "./component/validations/ExpiredToken";
 

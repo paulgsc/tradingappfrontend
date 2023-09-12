@@ -46,6 +46,9 @@ const userAuthentification = createSlice({
     userRegisterWithGmailSuccessful(state, action) {
       return { access: false, userInfo: { ...state.userInfo, ...action.payload },  loading: false }
     },
+    userVerifyEmailRequest(state, action){
+      return { ...state, loading: true }
+    },
     userVerifyEmailSuccessful(state, action){
       localStorage.setItem('userInfo', JSON.stringify({ ...state.userInfo, ...action.payload }));
       return { ...state, loading: false, userInfo: { ...state.userInfo, ...action.payload } }
@@ -79,6 +82,7 @@ export const {
   adminProtectedView,
   userLoginWithGmailSuccessful,
   userRegisterWithGmailSuccessful,
+  userVerifyEmailRequest,
   userVerifyEmailSuccessful,
   userStartBroadcastChannel,
   userProcessChannelBroadcast,

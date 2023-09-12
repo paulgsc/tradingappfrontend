@@ -1,4 +1,3 @@
-import React from "react";
 import ValidOTPSession from "./component/validations/ValidOTPSession";
 
 function MagicLinkScreen() {

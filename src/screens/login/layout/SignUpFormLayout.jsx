@@ -1,4 +1,3 @@
-import React from "react";
 import WiggleLoader from "../../../components/loading/WiggleLoader";
 import SignUpTitle from "../component/ui/SignUpTitle";
 import FirebaseSignUp from "../component/clients/firebase/FirebaseSignUp";

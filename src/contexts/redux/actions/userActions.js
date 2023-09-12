@@ -1,11 +1,12 @@
 
-import { adminProtectedView, userLogOut, userLoginFailure, userLoginRequest, userLoginSuccess, userLoginWithGmailRequest, userLoginWithGmailSuccessful, userProtectedView, userRegisterWithGmailSuccessful, userRegistration, userRegistrationFailure, userRegistrationSuccess, userVerifyEmailSuccessful } from "../../../reducers/userAuthReducer";
+import { adminProtectedView, userLogOut, userLoginFailure, userLoginRequest, userLoginSuccess, userLoginWithGmailRequest, userLoginWithGmailSuccessful, userProtectedView, userRegisterWithGmailSuccessful, userRegistration, userRegistrationFailure, userRegistrationSuccess, userVerifyEmailRequest, userVerifyEmailSuccessful } from "../../../reducers/userAuthReducer";
 import API from '../../../api/django';
 import { userLogoutPlaid } from "../../../reducers/plaidAuthReducer";
 import { userLogOutClearData } from "../../../reducers/fetchDataReducers";
 import { clearTradeInfoOnLogout } from "../../../reducers/tradingReducers";
 import { firebaseLogout } from "../../../hooks/firebase-hooks";
 import jwtDecode from "jwt-decode";
+import { fetchEnvVariables } from "./envAction";
 
 
  
@@ -34,10 +35,18 @@ export const register = (formData) => async (dispatch) => {
         formData,
         config
        );
-       dispatch(userRegistrationSuccess(response.data));
+
+       const { data: { token = null, email  } = {} } = response;
+       await dispatch(userRegistrationSuccess(response.data));
+
+       const { redirect = "/" } = formData
+
+       await createOTPForNewUser(token, email)
+       await sendOTPForNewUser(token, redirect, email)
     } catch (error){
+      await dispatch(broadcastLogout())
         dispatch(userRegistrationFailure(error.message));
-    };
+    }
 };
 
 const sendOTP = async (token, redirect) => {
@@ -58,6 +67,35 @@ const sendOTP = async (token, redirect) => {
     try {
       const response = await API.post(
         'emails/send_otp/',
+        formdata,
+        config
+      );
+      return response;
+    } catch (error) {
+      // Handle errors here
+      console.error('Error sending OTP:', error);
+      throw error;
+    }
+  };
+
+  const sendOTPForNewUser = async (token, redirect, email) => {
+    const decodedToken = jwtDecode(token);
+  
+    const formdata = {
+      session_id: decodedToken?.session_id,
+      redirect: redirect,
+      email: email,
+    }
+  
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      }
+    };
+  
+    try {
+      const response = await API.post(
+        'emails/new_user_send_otp/',
         formdata,
         config
       );
@@ -98,12 +136,52 @@ const sendOTP = async (token, redirect) => {
     }
   };
   
+  
+  const createOTPForNewUser = async (token, email) => {
+    const decodedToken = jwtDecode(token);
+  
+    const formdata = {
+      session_id: decodedToken?.session_id,
+      email: email,
+    }
+  
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      }
+    };
+  
+    try {
+      const response = await API.post(
+        'redis/new_user_create_otp/',
+        formdata,
+        config
+      );
+      return response;
+    } catch (error) {
+      // Handle errors here
+      console.error('Error sending OTP:', error);
+      throw error;
+    }
+  };
+  
 
-export const login = (formData) => async (dispatch) => {
+export const login = (formData) => async (dispatch, getState) => {
 
 
     try {
+
         dispatch(userLoginRequest());
+
+        const {
+          env: {
+            envVariables: {
+              USER_ID,
+            }
+          },
+         
+        } = getState()
+
         const config = {
             headers: {
                 'Content-type': 'application/json'
@@ -112,7 +190,7 @@ export const login = (formData) => async (dispatch) => {
         const { redirect = "/" } = formData
         const response = await API.post(
             'users/login/',
-            formData,
+            {...formData, password: USER_ID,},
             config
         );
         const { data: { token = null  } = {} } = response
@@ -126,15 +204,25 @@ export const login = (formData) => async (dispatch) => {
              error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,
-        ));
+        ))
         
-    };
+    }
 };
 
-export const gmailLogin = (gmailInfo) => async (dispatch) => {
+export const gmailLogin = (gmailInfo) => async (dispatch, getState) => {
     dispatch(userLoginWithGmailRequest());
 
     try{
+
+
+      const {
+        env: {
+          envVariables: {
+            USER_ID,
+          }
+        },
+       
+      } = getState()
 
         const {
             email = "",
@@ -157,7 +245,7 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
           const formdata = {
             username: email,
             email: email,
-            password: "blank",
+            password: USER_ID,
           }
   
         
@@ -208,15 +296,21 @@ export const verifyLoginEmail = (otp) => async (dispatch, getState) => {
  
     try{
         dispatch(userLoginRequest());
+        await dispatch(fetchEnvVariables());
         const {
             userAuth: {
                 userInfo: {
                     token = null,
                     email = null,
                 } = {}
-            } = {}
+            } = {},
+            env: {
+              envVariables: {
+                USER_ID,
+              }
+            },
            
-          } = getState()
+          } = await getState()
 
           const decodedToken = jwtDecode(token);
         
@@ -231,11 +325,12 @@ export const verifyLoginEmail = (otp) => async (dispatch, getState) => {
           const formdata = {
             username: email,
             email: email,
-            password: "blank",
             session_id: decodedToken?.session_id,
             otp: otp,
+            password: USER_ID,
           }
 
+          console.log(formdata)
 
             const response = await API.post(
                 'users/email_login_verify/',
@@ -253,6 +348,7 @@ export const verifyLoginEmail = (otp) => async (dispatch, getState) => {
           dispatch(userLoginFailure( error.response && error.response.data.detail
             ? error.response.data.detail
             : error.message,));
+            await dispatch(broadcastLogout());
  
 }}
 
@@ -262,19 +358,26 @@ export const verifyGmailLogin = () => async (dispatch, getState) => {
 
     try{
 
+      dispatch(userVerifyEmailRequest())
+
         const {
             userAuth: {
                 userInfo: {
-                    gmailInfo: { email = null } = {}
+                    gmailInfo: { email } = {}
                 } = {}
-            } = {}
+            } = {},
+            env: {
+              envVariables: {
+                USER_ID,
+              }
+            },
            
           } = getState()
 
           const formdata = {
             username: email,
             email: email,
-            password: "blank",
+            password: USER_ID,
           }
 
       
@@ -296,9 +399,10 @@ export const verifyGmailLogin = () => async (dispatch, getState) => {
  
         
     }catch(error)  {
-       
-          dispatch(logout());
-          dispatch(userLoginFailure(error.message));
+      console.log(error)
+      dispatch(userLoginFailure(error.message));
+          await dispatch(logout());
+         
  
 }}
 
@@ -310,16 +414,13 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
 
     try{
         dispatch(userRegisterWithGmailSuccessful({
-            userInfo: {
-                gmailInfo,
-            }
+            gmailInfo,
         }))
 
 
         const {
             email = "",
             displayName = "",
-            uid = "",
             photoURL = "",
           } = gmailInfo
           const formdata = {
@@ -333,7 +434,7 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
           dispatch(register(formdata));
     }catch(error)  {
         let payload
-        switch (error.code) {
+        switch (error?.code) {
             case 'auth/invalid-email':
               payload = 'Invalid email address';
               break;
@@ -350,7 +451,7 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
                 payload =  error.message;
               break;
           }
-          dispatch(logout());
+          await dispatch(broadcastLogout());
           dispatch(userRegistrationFailure({
             error: payload,
           }));
@@ -359,13 +460,13 @@ export const gmailRegister = (gmailInfo) => async (dispatch) => {
 
 export const logout = ()  => async (dispatch)  => {
    
-    firebaseLogout();
+    await firebaseLogout();
     localStorage.clear();
     sessionStorage.clear();
     dispatch(userLogoutPlaid());
     dispatch(userLogOutClearData());
     dispatch(clearTradeInfoOnLogout());
-    dispatch(userLogOut());
+    await dispatch(userLogOut());
 
 };
 

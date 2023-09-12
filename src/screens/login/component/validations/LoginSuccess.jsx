@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import jwtDecode from "jwt-decode";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useCurrentUser } from "../../../../hooks/firebase-hooks";
 import { useLocation, useNavigate } from "react-router";
 import { useEffect } from "react";
+import { verifyGmailLogin } from "../../../../contexts/redux/actions/userActions";
 
 function LoginSuccess() {
   const { userInfo: { token = null } = {} } = useSelector(
@@ -13,6 +14,7 @@ function LoginSuccess() {
   const [decodedToken, setDecodedToken] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -20,8 +22,9 @@ function LoginSuccess() {
     if (decodedToken && !decodedToken?.verified_email) {
       const currentTime = Date.now() / 1000; // Convert to seconds
 
-      if (decodedToken.exp < currentTime && user) {
+      if (decodedToken.exp > currentTime && user) {
         // call backend to create emailverified token for authenticated firebase user
+        dispatch(verifyGmailLogin());
       }
       if (decodedToken.exp > currentTime && !user) {
         // render otp dialog

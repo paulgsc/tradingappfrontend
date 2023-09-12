@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
@@ -10,8 +9,8 @@ function ValidOTPSession() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const otp = location.search.match(/otp\=(\d{6})/)[1];
-  const redirect = location.search.match(/redirect\=(.+)$/)[1];
+  const otp = location.search.match(/otp=(\d{6})/)[1];
+  const redirect = location.search.match(/redirect=(.+)$/)[1];
   const { userInfo: { token = null, loading = false } = {} } = useSelector(
     (state) => state.userAuth
   );
@@ -19,11 +18,12 @@ function ValidOTPSession() {
   useEffect(() => {
     const handleMagicLink = (otp) => async (dispatch) => {
       await dispatch(verifyLoginEmail(otp));
+
       token && navigate(redirect);
     };
 
     dispatch(handleMagicLink(otp));
-  }, []);
+  }, [dispatch, navigate, otp, redirect, token]);
 
   if (loading) {
     return <WiggleLoader />;
