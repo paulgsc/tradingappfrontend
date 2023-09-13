@@ -1,12 +1,16 @@
+
 import API from "../../../api/django";
 import { envVariablesRequestFailed, envVariablesRequestSuccess, requestEnvVariables } from "../../../reducers/envVariablesReducers";
 
 export const fetchEnvVariables = () => async (dispatch) => {
     dispatch(requestEnvVariables());
     try {
-        const path ="app/env/";
-
-
+        let data;
+        const storedValue = JSON.parse(localStorage.getItem('sessionValues'))
+        if(typeof storedValue === 'object' && storedValue !== null){
+            data = storedValue;
+        }else{
+            const path ="app/env/";
 
         const config = {
             headers: {
@@ -18,11 +22,16 @@ export const fetchEnvVariables = () => async (dispatch) => {
             path,
             config,
         )
-        const data = response.data;
+            data = response.data;
+        localStorage.setItem('sessionValues', JSON.stringify(data))
+        }
+
+        
         dispatch(envVariablesRequestSuccess(
         data));
     
     } catch(error){
-     dispatch(envVariablesRequestFailed(error))
+        console.log(error)
+     dispatch(envVariablesRequestFailed(error.message))
 }
 }

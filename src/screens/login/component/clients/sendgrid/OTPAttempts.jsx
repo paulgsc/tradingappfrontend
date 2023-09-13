@@ -1,4 +1,3 @@
-import React from "react";
 import CircularProgresBar from "../../../../../components/ui/CircularProgresBar";
 import { useDispatch, useSelector } from "react-redux";
 import { broadcastLogout } from "../../../../../contexts/redux/actions/userActions";

@@ -171,7 +171,7 @@ export const login = (formData) => async (dispatch, getState) => {
 
     try {
 
-      await dispatch(fetchEnvVariables());
+       await dispatch(fetchEnvVariables());
 
         dispatch(userLoginRequest());
 
@@ -182,7 +182,7 @@ export const login = (formData) => async (dispatch, getState) => {
             }
           },
          
-        } = await getState()
+        } = getState()
 
         const config = {
             headers: {
@@ -216,7 +216,6 @@ export const gmailLogin = (gmailInfo) => async (dispatch, getState) => {
 
     try{
 
-      await dispatch(fetchEnvVariables());
 
       const {
         env: {
@@ -225,7 +224,7 @@ export const gmailLogin = (gmailInfo) => async (dispatch, getState) => {
           }
         },
        
-      } = await getState()
+      } = getState()
 
         const {
             email = "",
@@ -333,7 +332,7 @@ export const verifyLoginEmail = (otp) => async (dispatch, getState) => {
             password: USER_ID,
           }
 
-          console.log(formdata)
+        
 
             const response = await API.post(
                 'users/email_login_verify/',
@@ -347,11 +346,22 @@ export const verifyLoginEmail = (otp) => async (dispatch, getState) => {
         
     }catch(error)  {
       
-          // dispatch(logout());
-          dispatch(userLoginFailure( error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,));
+         try{
+          const exception = error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message
+          if(exception.includes('Incorrect passcode provided. You have')){
+            dispatch(userLoginFailure( error.response && error.response.data.detail
+              ? error.response.data.detail
+              : error.message,));
+          }else{
             await dispatch(broadcastLogout());
+          }
+         }catch(error){
+          throw new Error("can't catch me!")
+         }
+
+            
  
 }}
 
@@ -402,7 +412,7 @@ export const verifyGmailLogin = () => async (dispatch, getState) => {
  
         
     }catch(error)  {
-      console.log(error)
+ 
       dispatch(userLoginFailure(error.message));
           await dispatch(logout());
          
