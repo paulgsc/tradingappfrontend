@@ -1,15 +1,14 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TypingEffect from "./TypingEffect";
+
+const messages = [
+  "Start Investing Today!",
+  "Buy shares, earn dividends.",
+  "Sign up for exclusive deals.",
+];
 
 function AnimatedText() {
   const [index, setIndex] = useState(0);
-  const messages = [
-    "Start Investing Today!",
-    "Buy shares, earn dividends.",
-    "Sign up for exclusive deals.",
-  ];
 
   useEffect(() => {
     const messagesIntervalId = setInterval(() => {
@@ -20,6 +19,7 @@ function AnimatedText() {
       clearInterval(messagesIntervalId);
     };
   }, []);
+
   return <TypingEffect message={messages[index]} />;
 }
 

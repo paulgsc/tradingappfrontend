@@ -22,7 +22,7 @@ function LoginSuccess() {
     if (decodedToken && !decodedToken?.verified_email) {
       const currentTime = Date.now() / 1000; // Convert to seconds
 
-      if (decodedToken.exp > currentTime && user) {
+      if (decodedToken.exp < currentTime && user) {
         // call backend to create emailverified token for authenticated firebase user
         dispatch(verifyGmailLogin());
       }
