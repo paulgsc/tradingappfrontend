@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router";
 import { verifyLoginEmail } from "../../../../contexts/redux/actions/userActions";
 import MagicLinkCard from "../ui/MagicLinkCard";
 import WiggleLoader from "../../../../components/loading/WiggleLoader";
+import ExpiredMagicLinkCard from "../ui/ExpiredMagicLinkCard";
+import jwtDecode from "jwt-decode";
 
 function ValidOTPSession() {
   const navigate = useNavigate();
@@ -11,13 +13,16 @@ function ValidOTPSession() {
   const location = useLocation();
   const otp = location.search.match(/otp=(\d{6})/)[1];
   const redirect = location.search.match(/redirect=(.+)$/)[1];
-  const { userInfo: { token = null, loading = false } = {} } = useSelector(
+  const { userInfo: { token, loading } = {} } = useSelector(
     (state) => state.userAuth
   );
 
   useEffect(() => {
     const handleMagicLink = (otp) => async (dispatch) => {
-      await dispatch(verifyLoginEmail(otp));
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken?.verified_email) await dispatch(verifyLoginEmail(otp));
+      }
 
       token && navigate(redirect);
     };
@@ -27,6 +32,10 @@ function ValidOTPSession() {
 
   if (loading) {
     return <WiggleLoader />;
+  }
+
+  if (token === undefined) {
+    return <ExpiredMagicLinkCard />;
   }
 
   return <MagicLinkCard />;
