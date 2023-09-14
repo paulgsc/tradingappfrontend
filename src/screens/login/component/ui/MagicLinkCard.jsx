@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 function MagicLinkCard() {
   return (
@@ -11,7 +11,7 @@ function MagicLinkCard() {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlnx="http://www.w.org/2000/svg"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
@@ -30,17 +30,14 @@ function MagicLinkCard() {
             </p>
           </div>
           <div className="items-center px-4 py-3">
-            <button
-              type="button"
-              onClick={() => {
-                navigate("/");
-              }}
+            <Link
+              to={"/"}
               className="px-4 py-2 bg-purple-500 text-white
                           text-base font-medium rounded-md w-full
                           shadow-sm hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-300"
             >
               OK
-            </button>
+            </Link>
           </div>
         </div>
       </div>

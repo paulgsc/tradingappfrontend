@@ -1,22 +1,29 @@
-const removeDuplicates = (nums) => {
-    let k = 0;
-    const freq = {}
-    for (let i = 0; i < nums.length; i++){
-        let j = i;
-        while (freq[nums[j]] !== undefined && j < nums.length-1){
-            j++;
-           
+const isValidSudoku = (board) => {
+    let n = 0;
+    for (let row = 0; row < 9; row++){
+        let side = {};
+        let down = {};
+        let Grid = {};
+        for(let column = 0; column < 9; column++){
+            if(side[board[row][column]] === 1 || down[board[column][row]] === 1){
+                return false;
+            }
+            if(board[row][column] !== '.') side[board[row][column]] = 1;
+            if(board[column][row] !== '.') down[board[column][row]] = 1;
+            
+            const nthGrid =  row + 1;
+            if(Grid[board[row][column]] === nthGrid) return false;
+                
+            if(board[row][column] !== '.') Grid[board[row][column]] = nthGrid;
+            console.log([row, column,  n + Math.ceil((column + 1) / 3) ])
         }
-        nums[i] = nums[j];
+        n += 3;
 
-          
-        freq[nums[i]] = (freq[nums[i]] || 0) +  1;
-        if(freq[nums[i]] === 1){
-            k++;
-        }
+
     }
-    return k;
+    return true;
 }
 
-const nums = [1, 1, 4, 5, 5, 6, 6, 7, 8, 9, 10, 11, 11];
-removeDuplicates(nums);
+const board =[[".",".",".",".","5",".",".","1","."],[".","4",".","3",".",".",".",".","."],[".",".",".",".",".","3",".",".","1"],["8",".",".",".",".",".",".","2","."],[".",".","2",".","7",".",".",".","."],[".","1","5",".",".",".",".",".","."],[".",".",".",".",".","2",".",".","."],[".","2",".","9",".",".",".",".","."],[".",".","4",".",".",".",".",".","."]];
+
+console.log(isValidSudoku(board));
