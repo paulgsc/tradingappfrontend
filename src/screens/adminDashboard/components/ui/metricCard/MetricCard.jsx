@@ -1,5 +1,5 @@
-import PlaceHolder from "../../../../components/loading/PlaceHolder";
-import { DownArrow } from "../../../../constants/svgs/Svg";
+import PlaceHolder from "../../../../../components/loading/PlaceHolder";
+import { DownArrow } from "../../../../../constants/svgs/Svg";
 import MetricChart from "./MetricChart";
 
 function MetricCard({ id, title, metric }) {

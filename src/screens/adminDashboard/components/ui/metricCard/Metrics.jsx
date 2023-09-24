@@ -1,24 +1,22 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import MetricCard from "../../../admin/components/dashboard/MetricCard";
 import { useState } from "react";
-import { createGroups } from "../../../admin/components/utils/utils";
-import DynamicCards from "../../../admin/components/dashboard/DynamicCards";
-import { fetchUserMetrics } from "../../hooks/react_query";
+import DynamicCards from "./DynamicCards";
+import { fetchUserMetrics } from "../../../hooks/react_query";
+import MetricCard from "./MetricCard";
 
 function Metrics() {
   const { userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth
   );
-  const { property } = fetchUserMetrics(token);
-  const metrics = createGroups(property) || [];
+  const { data } = fetchUserMetrics(token);
   const cards =
-    (metrics &&
-      metrics.map((item, i) => (
+    (Array.isArray(data) &&
+      data.map((item, i) => (
         <MetricCard
           key={i}
-          id={i}
-          metric={item?.metrics?.default}
+          id={item?.title}
+          metric={item?.summary}
           title={item?.title}
         />
       ))) ||

@@ -50,7 +50,7 @@ function Pagination({ next, previous }) {
                   className={`${
                     currentPage === i
                       ? "bg-blue-600/20 shadow-inner"
-                      : "bg-white"
+                      : "bg-white border-[#564d4f]"
                   } flex items-center justify-center px-3 h-8 w-8 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:bg-gray-100 disabled:opacity-60`}
                 >
                   {i + 1}
