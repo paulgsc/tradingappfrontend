@@ -10,6 +10,7 @@ function ExpiredSession() {
 
   const handleExit = () => {
     dispatch(broadcastLogout);
+    window.location.href("/");
   };
   useEffect(() => {
     setShowModal(true);

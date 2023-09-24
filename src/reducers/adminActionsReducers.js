@@ -62,6 +62,9 @@ const adminActionsReducers = createSlice({
       adminStageCronChanges(state, action){
         return { ...state, editedCronFields: { ...action.payload } }
       },
+      adminSelectMetric(state, action){
+        return { ...state, metric: action.payload }
+      },
 
     }
 });
@@ -86,6 +89,7 @@ export const {
   adminEditCronJobSuccess,
   adminEditCronJobFailed,
   adminStageCronChanges,
+  adminSelectMetric,
 } = adminActionsReducers.actions;
 
 export default adminActionsReducers.reducer;

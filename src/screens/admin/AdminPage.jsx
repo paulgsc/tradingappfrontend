@@ -10,7 +10,6 @@ import TableModels from "./TableModels";
 import Tasks from "./Tasks";
 import TaskStatusPage from "../../components/tasks/Status";
 import SiteSettings from "./SiteSettings";
-import Metrics from "../adminDashboard/components/ui/Metrics";
 
 function AdminPage() {
   const [isActive, setIsActive] = useState(false);
@@ -85,7 +84,6 @@ function AdminPage() {
     <div className="h-screen flex flex-col">
       <Sidebar closeAdminMenu={closeAdminMenu} />
       <Account.Nav openMenu={openAdminMenu} profileInitial={profileInitial} />
-      {location.pathname === `/admin` && <Metrics />}
       {location.pathname === `/admin/timeline` && <Timeline />}
       {location.pathname.includes(`/admin/site/models`) && (
         <div className="mt-14">

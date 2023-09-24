@@ -33,7 +33,7 @@ export const fetchUserMetrics = (token) => {
         );
   
     return {
-      property: data,
+      data: data,
       isLoading,
       isError,
     };
