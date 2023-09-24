@@ -2,9 +2,14 @@ import { Link, useParams } from "react-router-dom";
 
 function FileImportExport() {
   const { model } = useParams();
+
   return (
     <Link
-      to={`/models/${model}/uploads`}
+      to={
+        model.toLowerCase().includes("propertyimage")
+          ? `/models/${model}/images/uploads`
+          : `/models/${model}/uploads`
+      }
       className=" inline-flex items-center justify-center space-x-2 bg-blue-600  text-white rounded-lg p-2"
     >
       <span>import</span>

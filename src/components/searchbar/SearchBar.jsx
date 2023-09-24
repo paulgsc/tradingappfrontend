@@ -1,5 +1,6 @@
-import React from "react";
+import { useRef } from "react";
 import { SearchIcon } from "../../constants/svgs/Svg";
+import { useEffect } from "react";
 
 function SearchBar({
   getClassName = () => {},
@@ -10,12 +11,31 @@ function SearchBar({
   handleSelect,
   selectedQuery,
 }) {
+  const inputRef = useRef(null);
+
   const handleMouseDown = () => {
     const queryDropdown = document.getElementById("query-dropdown");
     if (queryDropdown) {
       queryDropdown.classList.add("group");
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "/" && inputRef.current) {
+        event.preventDefault();
+        inputRef.current.focus();
+        return;
+      }
+      return;
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [inputRef]);
 
   return (
     <form onSubmit={handleSubmit} className="flex-1 mt-2 xl:mt-0">
@@ -35,6 +55,7 @@ function SearchBar({
               onChange={handleInput}
               onMouseDown={handleMouseDown}
               value={input}
+              ref={inputRef}
             />
             <div
               className={`${getClassName(

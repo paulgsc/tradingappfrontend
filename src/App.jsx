@@ -11,6 +11,7 @@ import NotFound404 from "./components/notFound/NotFound404";
 import {
   adminDashboardPaths,
   adminPaths,
+  adminPropertyImagesPaths,
   historyPaths,
   homePaths,
   modelsPaths,
@@ -35,6 +36,7 @@ import SignUpScreen from "./screens/login/SignUpScreen";
 import HomePage from "./screens/home/routes/HomePage";
 import IndexModels from "./screens/models/IndexModels";
 import AdminDashboardIndex from "./screens/adminDashboard/AdminDashboardIndex";
+import PropertyImagesPages from "./screens/propertyImages/routes/PropertyImagesPages";
 
 function App() {
   return (
@@ -175,6 +177,14 @@ function App() {
                     exact
                     path={path}
                     element={<IndexModels />}
+                  />
+                ))}
+                {adminPropertyImagesPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<PropertyImagesPages />}
                   />
                 ))}
               </Route>

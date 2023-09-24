@@ -180,7 +180,7 @@ export const fetchPropertiesQuery = (token) => {
 
   
   export const useFetchPropertyWithImages = (searchQuery) => {
-    const queryKey = ['property-query'];
+    const queryKey = [`property-query-${searchQuery}`];
   
     // Use the useQuery hook to fetch the property data
     const { data, isLoading, isError, refetch } = useQuery(
@@ -204,7 +204,10 @@ export const fetchPropertiesQuery = (token) => {
         }
       },
       {
-        enabled: true,
+        refetchOnMount: true,
+        refetchOnWindowFocus: false,
+        staleTime: Infinity,
+        retry: 3,
       }
     );
   
