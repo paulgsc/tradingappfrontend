@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-function Pagination({ next, previous }) {
-  console.log("this is running?");
+function Pagination({ data, next, previous }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const updateUrlParams = () => {
@@ -17,7 +16,7 @@ function Pagination({ next, previous }) {
       <ul className="inline-flex -space-x-px text-sm transform">
         <li>
           <button
-            disabled={previous === null}
+            disabled={!previous}
             onClick={() => {
               setCurrentPage((prevCurrentPage) =>
                 prevCurrentPage > 1 ? prevCurrentPage - 1 : 1
@@ -42,7 +41,13 @@ function Pagination({ next, previous }) {
                 }}
               >
                 <button
-                  disabled={i > currentPage && next === null ? true : false}
+                  disabled={
+                    !Array.isArray(data)
+                      ? true
+                      : i > currentPage && next === null
+                      ? true
+                      : false
+                  }
                   onClick={() => {
                     setCurrentPage(i);
                     updateUrlParams;
@@ -51,7 +56,7 @@ function Pagination({ next, previous }) {
                     currentPage === i
                       ? "bg-blue-600/20 shadow-inner"
                       : "bg-white border-[#564d4f]"
-                  } flex items-center justify-center px-3 h-8 w-8 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:bg-gray-100 disabled:opacity-60`}
+                  } flex items-center justify-center px-3 h-8 w-8 leading-tight text-gray-500 border border-zinc-300 hover:bg-gray-100 hover:text-gray-700 disabled:pointer-events-none disabled:bg-gray-100 disabled:opacity-60`}
                 >
                   {i + 1}
                 </button>
@@ -61,7 +66,7 @@ function Pagination({ next, previous }) {
 
         <li>
           <button
-            disabled={next === null}
+            disabled={!next}
             onClick={() => {
               setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
               updateUrlParams();

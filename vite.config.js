@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), splitVendorChunkPlugin(), tsconfigPaths()],
     build: {
+      publicDir: 'public',
       manifest: true,
       rollupOptions: {
         output: {
