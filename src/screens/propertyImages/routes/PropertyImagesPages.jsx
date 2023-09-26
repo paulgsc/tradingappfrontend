@@ -1,3 +1,4 @@
+import ImagesPortal from "../components/ui/ImagesPortal";
 import Navbar from "../components/ui/Navbar";
 
 function PropertyImagesPages() {
@@ -6,7 +7,9 @@ function PropertyImagesPages() {
       <section>
         <Navbar />
       </section>
-      <main></main>
+      <main>
+        <ImagesPortal />
+      </main>
     </>
   );
 }

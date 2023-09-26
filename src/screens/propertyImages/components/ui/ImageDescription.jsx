@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TabMenu from "../../components/ui/TabMenu";
+import TabMenu from "../../../../components/ui/TabMenu";
 import { useNavigate } from "react-router";
 import ImagesTable from "./ImagesTable";
 import { useSelector } from "react-redux";

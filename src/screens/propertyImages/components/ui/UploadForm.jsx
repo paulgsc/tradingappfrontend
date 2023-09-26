@@ -1,12 +1,11 @@
-import React from "react";
-import UploadButton from "./UploadButton";
-import ImagesPreview from "../../screens/admin/ImagesPreview";
+import UploadButton from "../../../../components/ui/UploadButton";
+import ImagesPreview from "./ImagesPreview";
 import { useDispatch, useSelector } from "react-redux";
 import {
   cancelUploadingImages,
   uploadPreviewedImages,
-} from "../../reducers/adminFetchDataReducers";
-import { notify } from "../../lib/utils";
+} from "../../../../reducers/adminFetchDataReducers";
+import { notify } from "../../../../lib/utils";
 import { Toaster } from "react-hot-toast";
 
 function UploadForm() {

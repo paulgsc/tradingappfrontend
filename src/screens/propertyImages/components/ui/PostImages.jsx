@@ -1,7 +1,6 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { publishImageFiles } from "../../contexts/redux/actions/adminActions";
-import { showNotify } from "../../lib/utils";
+import { publishImageFiles } from "../../../../contexts/redux/actions/adminActions";
+import { showNotify } from "../../../../lib/utils";
 
 function PostImages() {
   const dispatch = useDispatch();

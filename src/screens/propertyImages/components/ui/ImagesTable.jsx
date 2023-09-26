@@ -1,10 +1,9 @@
 import { useState } from "react";
-import Table from "../../components/tables/Table";
-import { ColumnFilter } from "./TableModels";
+import Table from "../../../../components/tables/Table";
+import { ColumnFilter } from "../../../admin/TableModels";
 import { useDispatch, useSelector } from "react-redux";
-import { stageImageIds } from "../../contexts/redux/actions/adminActions";
-import DeleteImageDialog from "./imageActions/DeleteImageDialog";
-import DeleteImagesDialog from "./imageActions/DeleteImagesDialog";
+import { stageImageIds } from "../../../../contexts/redux/actions/adminActions";
+import DeleteImagesDialog from "../imageActions/DeleteImagesDialog";
 
 function ImagesTable({ type = "", data = [] }) {
   const [showDialog, setShowDialog] = useState(false);
@@ -84,7 +83,7 @@ function ImagesTable({ type = "", data = [] }) {
 
   const getSelectedIds = (selectedIds) => {
     dispatch(stageImageIds(type, selectedIds || []));
-    setDeleteImageIds((prevDeleteImageIds) => [...selectedIds]);
+    setDeleteImageIds(() => [...selectedIds]);
   };
 
   const handleClose = () => {
