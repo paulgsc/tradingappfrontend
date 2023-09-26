@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import ImagesAction from "./ImagesAction";
 import Caraousel from "../../components/animation/Caraousel";
 import ImageDescription from "./ImageDescription";
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "../../components/searchbar/SearchBar";
-import { useLocation } from "react-router";
 import ImagePropertyCard from "./ImagePropertyCard";
 import { useFetchPropertyWithImages } from "../../hooks/react-query";
 import { useState } from "react";
@@ -12,7 +11,6 @@ import { adminSetImagePropertyQuery } from "../../reducers/adminFetchDataReducer
 import { Toaster } from "react-hot-toast";
 
 function ImagesPortal() {
-  const location = useLocation();
   const dispatch = useDispatch();
   const { imageUpload = [] } = useSelector((state) => state.adminFetchData);
   const urls = imageUpload.map((image) => image.imageUrl);
@@ -20,16 +18,12 @@ function ImagesPortal() {
   const [results, setResults] = useState([]);
   const [selectedQuery, setSelectedQuery] = useState(null);
 
-  const {
-    propertyWithImages = [],
-    isLoading,
-    isError,
-    refetch,
-  } = useFetchPropertyWithImages(query);
+  const { propertyWithImages = [], refetch } =
+    useFetchPropertyWithImages(query);
 
   const showResults = () => {
     if (propertyWithImages.length) {
-      setResults((prevResults) => [
+      setResults(() => [
         ...propertyWithImages.map((property) => ({
           id: property.id,
           name: property.property_name,

@@ -62,3 +62,7 @@ export const adminDashboardPaths = [
     'admin/dashboard/:params?'
 ]
 
+export const adminPropertyImagesPaths = [
+    '/models/:model/images/uploads/:params?'
+]
+

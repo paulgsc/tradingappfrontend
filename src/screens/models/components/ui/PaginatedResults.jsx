@@ -18,6 +18,9 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
   const { userInfo: { token = null } = {} } = useSelector(
     (state) => state.userAuth
   );
+  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
+    (state) => state.env
+  );
 
   const {
     data: {
@@ -55,16 +58,58 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
   const updatedColumns = columns.map((column) => {
     return {
       ...column,
-      Cell: ({ row }) => (
-        <div
-          className="cursor-pointer hover:text-emerald-500"
-          onClick={() => {
-            navigate(`/models/${model}/form-view?recordId=${row.original?.id}`);
-          }}
-        >
-          {row.original[column.accessor] || ""}
-        </div>
-      ),
+      Cell: ({ row }) => {
+        const cellValue = row.original[column.accessor];
+
+        // Check if the cell value is a URL with a jpg, jpeg, or png extension
+        const isImage = /property_images\/.*\.(jpg|jpeg|png)$/i.test(cellValue);
+
+        if (isImage) {
+          // If it's an image URL, render the image
+          return (
+            <div
+              className="cursor-pointer hover:text-emerald-500"
+              onClick={() => {
+                model.toLowerCase().includes("propertyimage")
+                  ? navigate(
+                      `/models/${model}/images/uploads?recordId=${row.original?.id}`
+                    )
+                  : navigate(
+                      `/models/${model}/form-view?recordId=${row.original?.id}`
+                    );
+              }}
+            >
+              <img
+                className=" bg-cover h-12 w-12 rounded-full"
+                src={
+                  import.meta.env.DEV
+                    ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${cellValue}`
+                    : `${VITE_APP_BACKEND_URL}${cellValue}`
+                }
+                alt="Image"
+              />
+            </div>
+          );
+        } else {
+          // If it's not an image URL, render the text
+          return (
+            <div
+              className="cursor-pointer hover:text-emerald-500"
+              onClick={() => {
+                model.toLowerCase().includes("propertyimage")
+                  ? navigate(
+                      `/models/${model}/images/form-view?recordId=${row.original?.id}`
+                    )
+                  : navigate(
+                      `/models/${model}/form-view?recordId=${row.original?.id}`
+                    );
+              }}
+            >
+              {cellValue || ""}
+            </div>
+          );
+        }
+      },
     };
   });
 

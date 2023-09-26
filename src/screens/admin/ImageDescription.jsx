@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TabMenu from "../../components/ui/TabMenu";
 import { useNavigate } from "react-router";
 import ImagesTable from "./ImagesTable";
@@ -8,10 +8,8 @@ import { useEffect } from "react";
 function ImageDescription({ publishedImages = [] }) {
   const [activeTab, setActiveTab] = useState("How to");
   const navigate = useNavigate();
-  const {
-    imageUpload = [],
-    uploadState: { cancel = false, uploaded = false } = {},
-  } = useSelector((state) => state.adminFetchData);
+  const { imageUpload = [], uploadState: { uploaded = false } = {} } =
+    useSelector((state) => state.adminFetchData);
 
   const handleTabClick = (tabId, path = "") => {
     setActiveTab(tabId);
@@ -27,7 +25,7 @@ function ImageDescription({ publishedImages = [] }) {
       setActiveTab("Published Images");
       navigate("/admin/site/models/propertyimages/published");
     }
-  }, [uploaded]);
+  }, [uploaded, navigate]);
 
   const headers = [
     {
