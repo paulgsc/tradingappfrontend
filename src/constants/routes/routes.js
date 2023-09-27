@@ -63,6 +63,8 @@ export const adminDashboardPaths = [
 ]
 
 export const adminPropertyImagesPaths = [
-    '/models/:model/images/uploads/:params?'
+    '/models/:model/images/uploads/:recordId?/:propertyId?',
+    '/models/:model/images/uploads/published/:recordId?/:propertyId?',
+    '/models/:model/images/uploads/stage/:recordId?/:propertyId?',
 ]
 

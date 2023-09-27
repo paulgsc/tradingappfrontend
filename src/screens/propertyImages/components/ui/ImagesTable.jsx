@@ -4,6 +4,7 @@ import { ColumnFilter } from "../../../admin/TableModels";
 import { useDispatch, useSelector } from "react-redux";
 import { stageImageIds } from "../../../../contexts/redux/actions/adminActions";
 import DeleteImagesDialog from "../imageActions/DeleteImagesDialog";
+import DeleteImageDialog from "../imageActions/DeleteImageDialog";
 
 function ImagesTable({ type = "", data = [] }) {
   const [showDialog, setShowDialog] = useState(false);
@@ -16,13 +17,14 @@ function ImagesTable({ type = "", data = [] }) {
   const columns = [
     {
       Header: "Image",
-      accessor: (row) => row.imageUrl || row.image, // Use imageUrl if available, otherwise use image
+      accessor: (row) => row.imageUrl || row.image.value, // Use imageUrl if available, otherwise use image
       Cell: ({ row }) => {
         const formatUrl = (imageUrl) =>
           import.meta.env.DEV
             ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${imageUrl}`
             : `${VITE_APP_BACKEND_URL}${imageUrl}`;
-        const imageUrl = row.original.imageUrl || formatUrl(row.original.image);
+        const imageUrl =
+          row.original.imageUrl || formatUrl(row.original.image.value);
         return (
           <img className="h-12 w-12 rounded-md" src={imageUrl} alt="Property" />
         );
@@ -31,7 +33,7 @@ function ImagesTable({ type = "", data = [] }) {
     },
     {
       Header: "Title",
-      accessor: (row) => row.imageName || row.image_title, // Use imageName if available, otherwise use image_title
+      accessor: (row) => row.imageName || row.image_title.value, // Use imageName if available, otherwise use image_title
       Filter: ColumnFilter,
       width: "100%",
     },

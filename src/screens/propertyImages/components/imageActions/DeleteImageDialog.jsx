@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ImageDeleteForm from "./ImageDeleteForm";
-import Dialog from "../../../components/ui/Dialog";
+import Dialog from "../../../../components/ui/Dialog";
 import { useDispatch, useSelector } from "react-redux";
+
+import DeleteSingleImage from "./DeleteSingleImage";
+import { useLocation } from "react-router";
 import {
   deletePropertyImages,
   removePreviewImageFile,
-} from "../../../contexts/redux/actions/adminActions";
-import DeleteSingleImage from "./DeleteSingleImage";
-import { useLocation } from "react-router";
+} from "../../../../contexts/redux/actions/adminActions";
 
 function DeleteImageDialog({ rowId }) {
   const [showDialog, setShowDialog] = useState(false);

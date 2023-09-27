@@ -7,7 +7,7 @@ function PropertyImagesPages() {
       <section>
         <Navbar />
       </section>
-      <main>
+      <main className="">
         <ImagesPortal />
       </main>
     </>

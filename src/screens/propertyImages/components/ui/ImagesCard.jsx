@@ -2,24 +2,29 @@ import { useSelector } from "react-redux";
 import Caraousel from "../../../../components/animation/Caraousel";
 import ImagePropertyCard from "./ImagePropertyCard";
 import ImageDescription from "./ImageDescription";
-import { useFetchPropertyWithImages } from "../../../../hooks/react-query";
 
-function ImagesCard({ selectedQuery }) {
+import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+import { fetchRentalPhotos } from "../../hooks/reactQuery";
+
+function ImagesCard() {
+  const [queryParameters] = useSearchParams();
+  const [searchParams, setSearchParams] = useState({});
+  const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
   const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
     (state) => state.env
   );
   const { imageUpload = [] } = useSelector((state) => state.adminFetchData);
-  const { propertyWithImages } = useFetchPropertyWithImages(selectedProperty);
   const images = imageUpload.map((image) => image.imageUrl);
-  const selectedProperty =
-    propertyWithImages.find((property) => property?.id === selectedQuery) || [];
 
+  const { data } = fetchRentalPhotos(token, searchParams);
   const publishedImages =
-    (selectedProperty?.images &&
-      selectedProperty?.images.map((item) =>
+    (Array.isArray(data) &&
+      data.map((item) =>
         import.meta.env.DEV
-          ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${item.image}`
-          : `${VITE_APP_BACKEND_URL}${item.image}`
+          ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${item?.image?.value}`
+          : `${VITE_APP_BACKEND_URL}${item?.image?.value}`
       )) ||
     [];
 
@@ -33,6 +38,22 @@ function ImagesCard({ selectedQuery }) {
         return "";
     }
   };
+
+  useEffect(() => {
+    const recordId = queryParameters.get("recordId");
+    const propertyId = queryParameters.get("propertyId");
+    if (recordId) {
+      setSearchParams(() => ({
+        record_id: recordId,
+      }));
+    } else if (propertyId) {
+      setSearchParams(() => ({
+        property_id: propertyId,
+      }));
+    } else {
+      setSearchParams({});
+    }
+  }, [queryParameters]);
   return (
     <div className="flex flex-col w-full h-full gap-2 ">
       <div className="flex justify-center items-center row-span-1 xl:row-span-1 h-full">
@@ -59,7 +80,7 @@ function ImagesCard({ selectedQuery }) {
       </div>
       <div className="flex justify-center items-center row-span-2 xl:row-span-1 h-full shadow-sm border-t-2">
         <ImageDescription
-          publishedImages={selectedProperty?.images && selectedProperty.images}
+          publishedImages={(Array.isArray(data) && data) || []}
         />
       </div>
     </div>

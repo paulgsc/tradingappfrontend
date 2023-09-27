@@ -1,11 +1,14 @@
 import { useState } from "react";
 import SearchBar from "../../../../components/searchbar/SearchBar";
-import { useFetchPropertyWithImages } from "../../../../hooks/react-query";
+import { useFetchPropertyWithImages } from "../../hooks/reactQuery";
 import { adminSetImagePropertyQuery } from "../../../../reducers/adminFetchDataReducers";
 import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 
 function SearchImages() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { model } = useParams();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [selectedQuery, setSelectedQuery] = useState(null);
@@ -47,6 +50,7 @@ function SearchImages() {
     if (queryDropdown) {
       queryDropdown.classList.toggle("group");
     }
+    navigate(`/models/${model}/images/uploads?propertyId=${queryId}`);
   };
   return (
     <SearchBar

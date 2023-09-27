@@ -24,7 +24,6 @@ import ProfileSettings from "./screens/profile/ProfileSettings";
 import Layout from "./Layout";
 import EnvVariablesLoader from "./components/auth/EnvVariablesLoader";
 import SetupStep from "./components/auth/SetupStep";
-import Listings from "./screens/admin/listings/Listings";
 import UserScreen from "./screens/user/component/UserScreen";
 import { ErrorBoundary } from "react-error-boundary";
 import FallBackUi from "./components/ui/FallBackUi";
@@ -146,23 +145,14 @@ function App() {
                 />
               </Route>
               <Route element={<AdminRoute />}>
-                {adminPaths.map((path, index) =>
-                  path.includes("admin/listings") ? (
-                    <Route
-                      key={index}
-                      exact
-                      path={`/${path}`}
-                      element={<Listings />}
-                    />
-                  ) : (
-                    <Route
-                      key={index}
-                      exact
-                      path={`/${path}`}
-                      element={<AdminPage />}
-                    />
-                  )
-                )}
+                {adminPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={`/${path}`}
+                    element={<AdminPage />}
+                  />
+                ))}
                 {adminDashboardPaths.map((path, index) => (
                   <Route
                     key={index}
