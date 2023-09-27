@@ -18,7 +18,7 @@ function ModelsCard({ model }) {
       <p className="text-white/50">{`${model?.record_count || 0} records`}</p>
       <p className="absolute top-2 text-white/20 inline-flex items-center text-xs">
         {" "}
-        <span className="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
+        <span aria-readonly={!model?.editable} className=" bg-blue-800 aria-readonly:bg-red-600 ml-2 w-2 h-2 block  rounded-full group-hover:animate-pulse"></span>
       </p>
     </Link>
   );
