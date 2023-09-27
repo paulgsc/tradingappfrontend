@@ -1,5 +1,5 @@
-import PropertyTitle from "../../components/property/PropertyTitle";
-import ToPublishPreview from "./imageActions/ToPublishPreview";
+import PropertyTitle from "../../../../components/property/PropertyTitle";
+import ToPublishPreview from "../imageActions/ToPublishPreview";
 
 function ImagePropertyCard() {
   return (

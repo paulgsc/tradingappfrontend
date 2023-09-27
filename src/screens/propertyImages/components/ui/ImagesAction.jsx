@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import TabMenu from "../../components/ui/TabMenu";
-import UploadForm from "../../components/ui/UploadForm";
+import { useEffect, useState } from "react";
+import TabMenu from "../../../../components/ui/TabMenu";
+import UploadForm from "./UploadForm";
 import { useSelector } from "react-redux";
 import ImageSubmitCard from "./ImageSubmitCard";
 
@@ -10,7 +10,7 @@ function ImagesAction() {
     (state) => state.adminFetchData
   );
 
-  const handleTabClick = (tabId, path = "") => {
+  const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
 
@@ -37,7 +37,7 @@ function ImagesAction() {
         return;
       }
     }
-  }, [uploaded]);
+  }, [uploaded, activeTab]);
 
   return (
     <TabMenu className={"w-full h-full"}>

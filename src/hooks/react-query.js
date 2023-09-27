@@ -179,45 +179,7 @@ export const fetchPropertiesQuery = (token) => {
 
 
   
-  export const useFetchPropertyWithImages = (searchQuery) => {
-    const queryKey = [`property-query-${searchQuery}`];
   
-    // Use the useQuery hook to fetch the property data
-    const { data, isLoading, isError, refetch } = useQuery(
-      queryKey,
-      async () => {
-        try {
-          const config = {
-            headers: {
-              'Content-type': 'application/json',
-            }
-          };
-  
-          const response = await API.get(
-            `data/property_images/search?query=${searchQuery}`,
-            config
-          );
-  
-          return response.data;
-        } catch (error) {
-          throw new Error('Error fetching data');
-        }
-      },
-      {
-        refetchOnMount: true,
-        refetchOnWindowFocus: false,
-        staleTime: Infinity,
-        retry: 3,
-      }
-    );
-  
-    return {
-      propertyWithImages: data,
-      isLoading,
-      isError,
-      refetch
-    };
-  };
   
 
 

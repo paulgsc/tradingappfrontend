@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { fetchPropertiesQuery } from "../../hooks/react-query";
 import PropertiesModel from "./PropertiesModel";
 import ModelSideBar from "./ModelSideBar";
-import ImagesPortal from "./ImagesPortal";
 import TradeLayout from "./trade/TradeLayout";
 
 function TableModels() {
@@ -42,11 +41,6 @@ function TableModels() {
         </>
       )}
 
-      {location.pathname.includes(`/admin/site/models/propertyimages`) && (
-        <>
-          <ImagesPortal />
-        </>
-      )}
       {location.pathname.includes(`/admin/site/models/trade`) && (
         <TradeLayout />
       )}

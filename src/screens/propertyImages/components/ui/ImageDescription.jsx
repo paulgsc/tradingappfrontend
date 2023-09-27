@@ -1,19 +1,23 @@
 import { useState } from "react";
-import TabMenu from "../../components/ui/TabMenu";
-import { useNavigate } from "react-router";
+import TabMenu from "../../../../components/ui/TabMenu";
+import { useNavigate, useParams } from "react-router";
 import ImagesTable from "./ImagesTable";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
-function ImageDescription({ publishedImages = [] }) {
+function ImageDescription({ publishedImages }) {
+  const { model } = useParams();
+  const [queryParameters] = useSearchParams();
   const [activeTab, setActiveTab] = useState("How to");
   const navigate = useNavigate();
   const { imageUpload = [], uploadState: { uploaded = false } = {} } =
     useSelector((state) => state.adminFetchData);
 
   const handleTabClick = (tabId, path = "") => {
+    const currentSearchParams = new URLSearchParams(queryParameters);
     setActiveTab(tabId);
-    navigate(path);
+    navigate(`${path}?${currentSearchParams.toString()}`);
   };
 
   const isTabActive = (tabId) => {
@@ -23,28 +27,30 @@ function ImageDescription({ publishedImages = [] }) {
   useEffect(() => {
     if (uploaded) {
       setActiveTab("Published Images");
-      navigate("/admin/site/models/propertyimages/published");
+      const currentSearchParams = new URLSearchParams(queryParameters);
+      const path = `/models/${model}/images/uploads/published`;
+      navigate(`${path}?${currentSearchParams.toString()}`);
     }
-  }, [uploaded, navigate]);
+  }, [uploaded, navigate, model, queryParameters]);
 
   const headers = [
     {
       id: "tab_4",
       title: "How to",
       content: <Instructions />,
-      path: "/admin/site/models/propertyimages",
+      path: `/models/${model}/images/uploads`,
     },
     {
       id: "tab_1",
       title: "Published Images",
       content: <ImagesTable type="published" data={publishedImages} />,
-      path: "/admin/site/models/propertyimages/published",
+      path: `/models/${model}/images/uploads/published`,
     },
     {
       id: "tab_2",
       title: "Uploaded Images",
       content: <ImagesTable type="uploads" data={imageUpload} />,
-      path: "/admin/site/models/propertyimages/uploads",
+      path: `/models/${model}/images/uploads/stage`,
     },
   ];
   return (
