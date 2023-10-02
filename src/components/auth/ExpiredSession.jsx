@@ -2,16 +2,24 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { broadcastLogout } from "../../contexts/redux/actions/userActions";
 import { useState } from "react";
-import { userRefreshLoginSession } from "../../reducers/userAuthReducer";
+import { useLocation, useNavigate } from "react-router";
 
 function ExpiredSession() {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleExit = () => {
-    dispatch(broadcastLogout);
-    window.location.href("/");
+    dispatch(broadcastLogout());
+    window.location.href = "/";
   };
+
+  const handlRefresh = () => {
+    dispatch(broadcastLogout());
+    navigate(`/login?redirect=${location.pathname}`);
+  };
+
   useEffect(() => {
     setShowModal(true);
   }, []);
@@ -32,8 +40,7 @@ function ExpiredSession() {
         <div className="w-1/2 flex items-center gap-6 justify-center">
           <button
             onClick={() => {
-              handleExit();
-              dispatch(userRefreshLoginSession());
+              handlRefresh();
             }}
             className="text-base bg-blue-500 hover:bg-blue-600 ring-1 shadow-md rounded-lg text-white p-2"
           >

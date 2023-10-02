@@ -6,14 +6,13 @@ import TabWidget from "../../components/ui/TabWidget";
 import Navbar from "../../components/navbar/Navbar";
 import SideTabs from "../../components/sidemenu/SideTabs";
 import ToggleButton from "../../components/ui/ToggleButton";
-import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import ProfileInfo from "../../components/ui/ProfileInfo";
 import { CameraSvg, ProfileSvg } from "../../constants/svgs/Svg";
 import ToggleTwoFactor from "../login/component/clients/firebase/multifactorOauth/ToggleTwoFactor";
 
 function ProfileSettings() {
-  const user = useCurrentUser();
+  const { user } = useCurrentUser();
   const headers = [
     {
       id: "tab1",

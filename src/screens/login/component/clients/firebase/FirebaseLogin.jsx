@@ -1,38 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   useRecaptcha,
   verifyUserMFA,
 } from "../../../../../hooks/firebase-hooks";
-import { useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import GmailLogin from "../../ui/GmailLogin";
-import { RecaptchaVerifier, onAuthStateChanged } from "firebase/auth";
+import {
+  RecaptchaVerifier,
+  getIdToken,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { gmailLogin } from "../../../../../contexts/redux/actions/userActions";
 import { CodeSignIn } from "./multifactorOauth/CodeSignIn";
 import { auth, handleSignInWithGoogle } from "../../../../../../firebase";
-import TFADialog from "./multifactorOauth/dialog/TFADialog";
 import { toast } from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
 
 function FirebaseLogin() {
   const recaptcha = useRecaptcha("sign-in");
   const [verificationId, setVerificationId] = useState(null);
   const [resolver, setResolver] = useState(null);
-  const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
+
   const [firebaseError, setFirebaseError] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
-
-  const { userInfo: { is_admin = false, token = "" } = {} } = useSelector(
-    (state) => state.userAuth
-  );
-
-  const redirect = location.search
-    ? location.search.split("=")[1] === "/" && is_admin
-      ? "/admin"
-      : location.search.split("=")[1]
-    : is_admin
-    ? "/admin"
-    : "/";
 
   const handleGmail = async () => {
     const result = await handleSignInWithGoogle();
@@ -66,10 +59,23 @@ function FirebaseLogin() {
   useEffect(() => {
     try {
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          setCurrentUser(user);
+        const idTokenUrlParam = urlParams.get("idToken");
+        const userInfoFromStorage = localStorage.getItem("userInfo")
+          ? JSON.parse(localStorage.getItem("userInfo"))
+          : {};
+        const { token } = userInfoFromStorage;
+
+        if (user && !idTokenUrlParam && typeof token !== "string") {
+          const idToken = await getIdToken(user);
+          const currentSearchParams = new URLSearchParams(urlParams);
+          const path = "/login";
+          navigate(
+            `${path}?${currentSearchParams.toString()}&idToken=${idToken}`
+          );
+
           dispatch(gmailLogin(user));
         }
+
         if (firebaseError) {
           if (firebaseError.code === "auth/multi-factor-auth-required") {
             handleMFA(firebaseError);
@@ -90,18 +96,9 @@ function FirebaseLogin() {
   }, [firebaseError]);
 
   if (resolver && verificationId) {
-    return (
-      <CodeSignIn
-        verificationId={verificationId}
-        resolver={resolver}
-        redirect={redirect}
-      />
-    );
+    return <CodeSignIn verificationId={verificationId} resolver={resolver} />;
   }
 
-  if (currentUser && token) {
-    return <TFADialog user={currentUser} redirect={redirect} />;
-  }
   return <GmailLogin handleGmail={handleGmail} />;
 }
 

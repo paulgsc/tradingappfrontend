@@ -6,7 +6,7 @@ function NavSideMenu() {
       {
         id: "dashboard",
         title: "dashboard",
-        path: "/admin",
+        path: "/admin/dashboard",
         icon: (
           <svg
             className="w-6 h-6 stroke-current"
@@ -83,6 +83,28 @@ function NavSideMenu() {
       },
     ],
     bottom: [
+      {
+        id: "django",
+        title: "Django Portal Link",
+        path: "/admin/dashboard?djangoLink=showDialog",
+        icon: (
+          <svg
+            className="w-4 h-4 text-gray-800 "
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 18 18"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"
+            />
+          </svg>
+        ),
+      },
       {
         id: "documents",
         title: "documents",

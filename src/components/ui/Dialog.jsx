@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect } from "react";
 import { CloseSvg } from "../../constants/svgs/Svg";
 
@@ -20,7 +19,7 @@ function Dialog({ children, onClose }) {
       role="dialog"
       aria-modal="true"
       tabIndex="-1"
-      className="z-[1055] min-h-screen fixed inset-0 flex justify-center items-center  backdrop-blur-md backdrop-brightness-50"
+      className="z-[1055] min-h-screen fixed inset-0 flex justify-center items-center  backdrop-blur-sm bg-transparent backdrop-brightness-75"
     >
       <button
         type="button"

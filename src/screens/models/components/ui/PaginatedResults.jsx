@@ -120,7 +120,7 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
       case "header-row":
         return "flex xl:flex-1 w-full bg-stone-50 shadow-inner rounded-t-sm p-2";
       case "header":
-        return "flex flex-1 text-sm xl:text-base font-semibold uppercase";
+        return "flex flex-1 text-sm xl:text-base font-semibold capitalize";
       case "tbody":
         return "h-96 w-full overflow-y-auto scroll-m-0 outline outline-gray-50";
       case "row":
