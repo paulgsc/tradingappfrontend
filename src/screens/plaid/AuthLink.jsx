@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { usePlaidLink } from "react-plaid-link";
 import { useDispatch, useSelector } from "react-redux";
 import { exchangePublicTokenForAccessToken } from "../../contexts/redux/actions/plaidActions";

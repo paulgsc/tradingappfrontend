@@ -26,7 +26,7 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
     data: {
       next,
       previous,
-      results: { data, fields = [], import_enabled } = {},
+      results: { data, fields = [], import_enabled, form_view_path } = {},
     },
     error,
     isLoading,
@@ -70,9 +70,9 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
             <div
               className="cursor-pointer hover:text-emerald-500"
               onClick={() => {
-                model.toLowerCase().includes("propertyimage")
+                form_view_path
                   ? navigate(
-                      `/models/${model}/images/uploads?recordId=${row.original?.id}`
+                      `/models/${model}/${form_view_path}?recordId=${row.original?.id}`
                     )
                   : navigate(
                       `/models/${model}/form-view?recordId=${row.original?.id}`
@@ -96,9 +96,9 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
             <div
               className="cursor-pointer hover:text-emerald-500"
               onClick={() => {
-                model.toLowerCase().includes("propertyimage")
+                form_view_path
                   ? navigate(
-                      `/models/${model}/images/form-view?recordId=${row.original?.id}`
+                      `/models/${model}/${form_view_path}?recordId=${row.original?.id}`
                     )
                   : navigate(
                       `/models/${model}/form-view?recordId=${row.original?.id}`
