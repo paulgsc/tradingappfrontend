@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { broadcastLogout } from "../../../../contexts/redux/actions/userActions";
 
-import SuccessCard from "../ui/SuccessCard";
+import SuccessCard from "../../../../components/ui/SuccessCard";
 import { useState } from "react";
 
 function AdminRegisterSuccess() {

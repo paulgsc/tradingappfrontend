@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  gmailLogin,
   login,
   setLoginRoute,
 } from "../../../../contexts/redux/actions/userActions";
@@ -21,7 +22,10 @@ function LoginForm() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    if (typeof password_required === "undefined") {
+      dispatch(setLoginRoute(email));
+      return;
+    }
     if (typeof password_required === "boolean" && !password_required) {
       const formData = {
         username: email,
@@ -43,17 +47,16 @@ function LoginForm() {
         email: urlParams.get("idToken") ? gmailInfo?.email : email,
         password: password,
         redirect: redirect,
+        providedPassword: password,
       };
       // Dispatch login action
-
+      if (urlParams.get("idToken")) {
+        dispatch(gmailLogin(formData));
+        return;
+      }
       dispatch(login(formData));
     }
   };
-
-  useEffect(() => {
-    const emailToCheck = email ? email : gmailInfo?.email;
-    if (emailToCheck) dispatch(setLoginRoute(emailToCheck));
-  }, [dispatch, email, gmailInfo]);
 
   return (
     <form onSubmit={handleLogin} className="space-y-4">
@@ -65,6 +68,7 @@ function LoginForm() {
               type="email"
               name="email"
               id="email"
+              required
               onChange={(e) => setEmail(e.target.value)}
               onInput={(e) => setEmail(e.target.value)}
               className={`${
@@ -76,7 +80,6 @@ function LoginForm() {
         bg-gray-100 pl-12 pr-4 h-12 text-gray-600 invalid:ring-2 invalid:ring-red-400
         focus:ring-2 focus:ring-black`}
               placeholder="Enter Email"
-              required=""
             />
           )}
           {password_required && (
