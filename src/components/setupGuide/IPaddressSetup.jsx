@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addIPAddress } from "../../contexts/redux/actions/adminActions";
 import SkeletonLoading from "../loading/SkeletonLoading";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { broadcastLogout } from "../../contexts/redux/actions/userActions";
 
 function IPaddressSetup({ step = 1, handleContinue }) {
   const dispatch = useDispatch();
-  const { userInfo: { ip_address = "" } = {} } = useSelector(
+  const { userInfo: { ip_address } = {} } = useSelector(
     (state) => state.userAuth
   );
   const {
@@ -27,16 +28,17 @@ function IPaddressSetup({ step = 1, handleContinue }) {
   };
   const handleInput = (e) => {
     e.preventDefault();
-    if (!e.target.value.includes(ip_address)) {
+
+    const storedIp = isValidIP(ip_address);
+    if (storedIp && !e.target.value.includes(ip_address)) {
       return;
     }
     const addresses = e.target.value.split(",");
-
     const invalidInput = addresses.find((address) => {
       return !isValidIP(address);
     });
 
-    setIsValid(!invalidInput);
+    setIsValid(invalidInput === undefined);
     setAdditionalIPs(e.target.value);
   };
 
@@ -100,7 +102,7 @@ const Step1 = () => {
   );
 };
 
-const Step2 = ({ additionalIPs, isValid, handleInput }) => {
+const Step2 = ({ isValid, handleInput }) => {
   return (
     <div className="">
       <div className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -117,13 +119,14 @@ const Step2 = ({ additionalIPs, isValid, handleInput }) => {
             : "focus:ring-blue-500 focus:border-blue-500"
         }`}
         placeholder="Write additional IP addresses here, separated by comma..."
-        value={additionalIPs}
         onChange={handleInput}
       ></textarea>
     </div>
   );
 };
 const Step3 = ({ loading, successMessage, error, handleAddIps }) => {
+  const [queryParameters] = useSearchParams();
+  const dispatch = useDispatch();
   useEffect(() => {
     handleAddIps();
   }, []);
@@ -148,12 +151,17 @@ const Step3 = ({ loading, successMessage, error, handleAddIps }) => {
             />
           </svg>
           <span className="text-2xl font-medium">{successMessage}</span>
-          <Link
-            to={"/admin"}
+          <button
+            onClick={() => {
+              dispatch(broadcastLogout());
+              window.location.href = `/login?redirect${
+                queryParameters.get("redirect") || "/admin"
+              }`;
+            }}
             className="p-3 bg-[#4F46E5] rounded-lg w-full text-white"
           >
-            Go to admin dashboard
-          </Link>
+            Login again to access Admin page
+          </button>
         </div>
       ) : (
         <div

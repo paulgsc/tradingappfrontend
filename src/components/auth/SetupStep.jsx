@@ -1,4 +1,3 @@
-import React from "react";
 import DemoDialog from "../ui/DemoDialog";
 import { useState } from "react";
 import IPaddressSetup from "../setupGuide/IPaddressSetup";
@@ -11,7 +10,6 @@ function SetupStep() {
   const handleContinue = (maxStep) => {
     setStep((prevStep) => (prevStep < maxStep ? prevStep + 1 : prevStep));
   };
-
 
   return (
     <DemoDialog
