@@ -10,7 +10,7 @@ import {
 import { gmailLogin } from "../../../../../../contexts/redux/actions/userActions";
 
 export function CodeSignIn({ verificationId, resolver, redirect }) {
-  const user = useCurrentUser();
+  const { user } = useCurrentUser();
   const dispatch = useDispatch();
   const { loading, userInfo: { token = "" } = {} } = useSelector(
     (state) => state.userAuth

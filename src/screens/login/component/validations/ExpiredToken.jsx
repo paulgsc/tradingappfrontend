@@ -3,20 +3,22 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { broadcastLogout } from "../../../../contexts/redux/actions/userActions";
+import { useCurrentUser } from "../../../../hooks/firebase-hooks";
+import TFADialog from "../clients/firebase/multifactorOauth/dialog/TFADialog";
+import { useSearchParams } from "react-router-dom";
 
 function ExpiredToken({ login = true, children }) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const redirect = location.search
-    ? location.search.split("redirect=")[1]
-    : "/";
+  const { user, loading } = useCurrentUser();
+  const [queryParameters] = useSearchParams();
   const { userInfo: { token = null } = {} } = useSelector(
     (state) => state.userAuth
   );
   const dispatch = useDispatch();
   const [isTokenExpired, setIsTokenExpired] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   useEffect(() => {
     let timeoutId;
@@ -24,9 +26,10 @@ function ExpiredToken({ login = true, children }) {
       if (token) {
         const decodedToken = jwtDecode(token);
         if (decodedToken?.email_verified) {
+          setIsEmailVerified(decodedToken?.email_verified);
           const broadcastChannel = new BroadcastChannel("authChannel");
           broadcastChannel.postMessage({ type: "AUTH_SUCCESS" });
-          navigate(redirect);
+          if (!user && !loading) navigate(queryParameters.get("redirect"));
         }
         const currentTime = Date.now() / 1000; // Convert to seconds
 
@@ -45,7 +48,7 @@ function ExpiredToken({ login = true, children }) {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [token]);
+  }, [dispatch, navigate, token, user, loading, queryParameters]);
 
   useEffect(() => {
     if (isTokenExpired) {
@@ -56,12 +59,15 @@ function ExpiredToken({ login = true, children }) {
         className: "bg-gradient-to-r from-pink-100 to-red-500",
       });
       dispatch(broadcastLogout());
+      navigate(
+        `/${login ? "login" : "register"}/?redirect=${queryParameters.get(
+          "redirect"
+        )}`
+      );
     }
-    if (!token) {
-      navigate(`/${login ? "login" : "register"}/?redirect=${redirect}`);
-    }
-  }, [isTokenExpired, token]);
+  }, [dispatch, login, navigate, isTokenExpired, token, queryParameters]);
 
+  if (isEmailVerified) return <TFADialog user={user} />;
   return <>{children}</>;
 }
 

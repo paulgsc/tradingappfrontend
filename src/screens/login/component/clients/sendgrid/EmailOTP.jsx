@@ -13,11 +13,9 @@ function EmailOTP() {
   const redirect = location.search
     ? location.search.split("redirect=")[1]
     : "/";
-  const {
-    loading = false,
-    error = null,
-    userInfo: { email = "" } = {},
-  } = useSelector((state) => state.userAuth);
+  const { loading, userInfo: { email = "" } = {} } = useSelector(
+    (state) => state.userAuth
+  );
   let code = new Array(6).fill("");
 
   function handleClick() {
@@ -28,7 +26,8 @@ function EmailOTP() {
     const isValid = /^\d{6}$/.test(finalCode);
 
     const handleOtp = (otp) => async (dispatch) => {
-      await dispatch(verifyLoginEmail(otp));
+      console.log(location.pathname);
+      await dispatch(verifyLoginEmail(otp, location.pathname));
     };
     isValid && dispatch(handleOtp(finalCode));
   }
@@ -67,6 +66,7 @@ function EmailOTP() {
         <button
           onClick={() => {
             dispatch(broadcastLogout());
+            window.location.href = "/login";
           }}
           className="rounded-xl flex gap-x-4 mb-8 text-black h-11 w-1/2 items-center justify-center px-6 border border-gray-500"
         >

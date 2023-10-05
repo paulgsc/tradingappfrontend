@@ -9,7 +9,7 @@ function Home() {
   if (location.pathname === "/models") {
     return (
       <>
-        <section>
+        <section className=" sticky top-0 z-50">
           <Navbar globalFilter={searchQuery} setGlobalFilter={setSearchQuery} />
         </section>
         <main>

@@ -1,4 +1,3 @@
-import React from "react";
 import { GoogleIcon } from "../../../../constants/svgs/Svg";
 
 function GmailLogin({ handleGmail }) {

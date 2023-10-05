@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto"; // Use the "auto" build for Chart.js
 
 const UserActivity = ({ title, data }) => {
-  console.log(data);
   const chartRef = useRef(null);
 
   useEffect(() => {

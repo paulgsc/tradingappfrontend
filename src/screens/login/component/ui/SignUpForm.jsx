@@ -20,6 +20,7 @@ function SignUpForm() {
         username: email,
         email: email,
         redirect: redirect,
+        requiresOtp: true,
       };
       dispatch(register(formData));
     }

@@ -15,6 +15,7 @@ import {
   historyPaths,
   homePaths,
   modelsPaths,
+  myProfilePaths,
   settingsPaths,
   setupPaths,
 } from "./constants/routes/routes";
@@ -36,6 +37,8 @@ import HomePage from "./screens/home/routes/HomePage";
 import IndexModels from "./screens/models/IndexModels";
 import AdminDashboardIndex from "./screens/adminDashboard/AdminDashboardIndex";
 import PropertyImagesPages from "./screens/propertyImages/routes/PropertyImagesPages";
+import AdminRegisterPage from "./screens/adminInvite/routes/AdminRegisterPage";
+import MyprofilePage from "./screens/myprofile/routes/MyprofilePage";
 
 function App() {
   return (
@@ -47,139 +50,158 @@ function App() {
         <EnvVariablesLoader />
         <Layout>
           <Routes>
-            <Route
-              exact
-              path="/login/:redirect?"
-              element={
-                <>
-                  <LoginScreen />
-                </>
-              }
-            />
-            <Route
-              exact
-              path="/login/otp/:sessionId?/:redirect?"
-              element={
-                <>
-                  <LoginOTPScreen />
-                </>
-              }
-            />
-            <Route
-              exact
-              path="/login/magic-link/:sessionId?/:otp?/:redirect?"
-              element={
-                <>
-                  <MagicLinkScreen />
-                </>
-              }
-            />
-            <Route
-              exact
-              path="/register"
-              element={
-                <>
-                  <SignUpScreen />
-                </>
-              }
-            />
             <Route element={<OTPRoute />}>
-              {homePaths.map((path, index) => (
+              <Route
+                exact
+                path="/login/:redirect?"
+                element={
+                  <>
+                    <LoginScreen />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/login/otp/:sessionId?/:redirect?"
+                element={
+                  <>
+                    <LoginOTPScreen />
+                  </>
+                }
+              />
+
+              <Route
+                exact
+                path="/register/otp/:sessionId?/:redirect?"
+                element={
+                  <>
+                    <LoginOTPScreen />
+                  </>
+                }
+              />
+
+              <Route
+                exact
+                path="/login/magic-link/:sessionId?/:otp?/:redirect?"
+                element={
+                  <>
+                    <MagicLinkScreen />
+                  </>
+                }
+              />
+              <Route
+                exact
+                path="/register"
+                element={
+                  <>
+                    <SignUpScreen />
+                  </>
+                }
+              />
+            </Route>
+            {homePaths.map((path, index) => (
+              <Route
+                key={index}
+                exact
+                path={`/${path}`}
+                element={<HomePage />}
+              />
+            ))}
+            <Route exact path="/trade" element={<Trading />} />
+            <Route path="/test/:foo?" element={<Test />} />
+            <Route element={<AuthRoute />}>
+              <Route
+                exact
+                path="/register/admin/magic-link/:sessionId?"
+                element={<AdminRegisterPage />}
+              />
+              {setupPaths.map((path, index) => (
+                <Route key={index} exact path={path} element={<SetupStep />} />
+              ))}
+
+              <Route exact path="/personal" element={<ProfileScreen />} />
+              <Route
+                exact
+                path="/personal/balances"
+                element={<ProfileScreen />}
+              />
+
+              {settingsPaths.map((path, index) => (
+                <Route
+                  key={index}
+                  exact
+                  path={path}
+                  element={<ProfileSettings />}
+                />
+              ))}
+              {myProfilePaths.map((path, index) => (
+                <Route
+                  key={index}
+                  exact
+                  path={path}
+                  element={<MyprofilePage />}
+                />
+              ))}
+              {historyPaths.map((path, index) => (
+                <Route
+                  key={index}
+                  exact
+                  path={`/personal${path}`}
+                  element={<UserScreen />}
+                />
+              ))}
+              <Route exact path="/personal/banking" element={<Index />} />
+              <Route
+                exact
+                path="/personal/banking/transfer/:redirect?"
+                element={<PlaidHome />}
+              />
+              <Route
+                exact
+                path="/personal/register"
+                element={<CreateAccount />}
+              />
+              <Route
+                exact
+                path="/personal/banking/link/:redirect?"
+                element={<LinkAccount />}
+              />
+            </Route>
+            <Route element={<AdminRoute />}>
+              {adminPaths.map((path, index) => (
                 <Route
                   key={index}
                   exact
                   path={`/${path}`}
-                  element={<HomePage />}
+                  element={<AdminPage />}
                 />
               ))}
-              <Route exact path="/trade" element={<Trading />} />
-              <Route path="/test/:someParam?" element={<Test />} />
-              <Route element={<AuthRoute />}>
-                {setupPaths.map((path, index) => (
-                  <Route
-                    key={index}
-                    exact
-                    path={path}
-                    element={<SetupStep />}
-                  />
-                ))}
-
-                <Route exact path="/personal" element={<ProfileScreen />} />
+              {adminDashboardPaths.map((path, index) => (
                 <Route
+                  key={index}
                   exact
-                  path="/personal/balances"
-                  element={<ProfileScreen />}
+                  path={`${path}`}
+                  element={<AdminDashboardIndex />}
                 />
-
-                {settingsPaths.map((path, index) => (
-                  <Route
-                    key={index}
-                    exact
-                    path={path}
-                    element={<ProfileSettings />}
-                  />
-                ))}
-                {historyPaths.map((path, index) => (
-                  <Route
-                    key={index}
-                    exact
-                    path={`/personal${path}`}
-                    element={<UserScreen />}
-                  />
-                ))}
-                <Route exact path="/personal/banking" element={<Index />} />
+              ))}
+              {modelsPaths.map((path, index) => (
                 <Route
+                  key={index}
                   exact
-                  path="/personal/banking/transfer/:redirect?"
-                  element={<PlaidHome />}
+                  path={path}
+                  element={<IndexModels />}
                 />
+              ))}
+              {adminPropertyImagesPaths.map((path, index) => (
                 <Route
+                  key={index}
                   exact
-                  path="/personal/register"
-                  element={<CreateAccount />}
+                  path={path}
+                  element={<PropertyImagesPages />}
                 />
-                <Route
-                  exact
-                  path="/personal/banking/link/:redirect?"
-                  element={<LinkAccount />}
-                />
-              </Route>
-              <Route element={<AdminRoute />}>
-                {adminPaths.map((path, index) => (
-                  <Route
-                    key={index}
-                    exact
-                    path={`/${path}`}
-                    element={<AdminPage />}
-                  />
-                ))}
-                {adminDashboardPaths.map((path, index) => (
-                  <Route
-                    key={index}
-                    exact
-                    path={`${path}`}
-                    element={<AdminDashboardIndex />}
-                  />
-                ))}
-                {modelsPaths.map((path, index) => (
-                  <Route
-                    key={index}
-                    exact
-                    path={path}
-                    element={<IndexModels />}
-                  />
-                ))}
-                {adminPropertyImagesPaths.map((path, index) => (
-                  <Route
-                    key={index}
-                    exact
-                    path={path}
-                    element={<PropertyImagesPages />}
-                  />
-                ))}
-              </Route>
-              <Route exact path="/*" element={<NotFound404 />} />
+              ))}
             </Route>
+            <Route exact path="/*" element={<NotFound404 />} />
           </Routes>
         </Layout>
       </ErrorBoundary>

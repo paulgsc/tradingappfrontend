@@ -2,9 +2,12 @@ import { useLocation } from "react-router";
 import Navbar from "../components/ui/Navbar";
 import Metrics from "../components/ui/metricCard/Metrics";
 import ChartCarousel from "../components/ui/carousel/ChartCarousel";
+import DjangoLink from "../components/ui/DjangoLink";
+import { useSearchParams } from "react-router-dom";
 
 function Home() {
   const location = useLocation();
+  const [queryParameters] = useSearchParams();
   if (location.pathname === "/admin/dashboard") {
     return (
       <div className="block w-full">
@@ -19,6 +22,7 @@ function Home() {
             <ChartCarousel />
           </section>
         </main>
+        {queryParameters.get("djangoLink") && <DjangoLink />}
       </div>
     );
   }

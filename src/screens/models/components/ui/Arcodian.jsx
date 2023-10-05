@@ -6,7 +6,7 @@ function Arcodian({ content = [] }) {
       {content.map((item, i) => (
         <section
           key={i}
-          className="flex items-start gap-12 w-full border-t last:border-b border-gray-600/60"
+          className="flex items-start gap-12 w-full  border-gray-600/60"
         >
           <details
             open

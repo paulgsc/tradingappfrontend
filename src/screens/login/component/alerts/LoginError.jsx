@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -14,7 +13,7 @@ function LoginError() {
         position: "top-center",
         className: "bg-gradient-to-r from-pink-100 to-red-500",
       });
-  }, [error]);
+  }, [error, msg]);
   return (
     <>
       <Toaster />

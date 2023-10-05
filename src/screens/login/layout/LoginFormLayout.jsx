@@ -1,4 +1,3 @@
-import React from "react";
 import LoginTitle from "../component/ui/LoginTitle";
 import LoginForm from "../component/ui/LoginForm";
 import LoginFooter from "../component/ui/LoginFooter";
@@ -9,9 +8,12 @@ import WiggleLoader from "../../../components/loading/WiggleLoader";
 import { useSelector } from "react-redux";
 
 function LoginFormLayout() {
-  const { loading = false, userInfo: { token = null } = {} } = useSelector(
-    (state) => state.userAuth
-  );
+  const {
+    loading = false,
+    password_required,
+    userInfo: { token = null } = {},
+  } = useSelector((state) => state.userAuth);
+
   if (loading && !token) {
     return (
       <div className="fixed inset-0 min-h-screen flex items-center justify-center bg-gradient-to-br from-stone-200 via-stone-100 to-stone-300">
@@ -26,7 +28,7 @@ function LoginFormLayout() {
         <hr className="mt-1" />
         <LoginTitle />
         <div className="px-4">
-          <FirebaseLogin />
+          {!password_required && <FirebaseLogin />}
           <hr className="mt-4" />
           <LoginForm />
           <hr className="mt-4" />

@@ -4,7 +4,6 @@ import InputField from "../../../../components/ui/InputField";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { getModelRowRecord } from "../../hooks/reactQuery";
-import { useEffect } from "react";
 
 function ModelEditForm() {
   const { model } = useParams();
@@ -13,20 +12,11 @@ function ModelEditForm() {
     (state) => state.userAuth
   );
 
-  const {
-    data: { data, sections = {}, import_enabled } = {},
-    error,
-    refetch,
-  } = getModelRowRecord(token, model.toLowerCase(), {
-    model_name: model,
-    record_id: queryParameters.get("recordId"),
-  });
-
-  useEffect(() => {
-    if (data === undefined && error === null) {
-      refetch();
-    }
-  }, [data, error, refetch]);
+  const { data: { data, sections = {}, import_enabled } = {} } =
+    getModelRowRecord(token, model.toLowerCase(), {
+      model_name: model,
+      record_id: queryParameters.get("recordId"),
+    });
 
   return (
     <form className="w-full flex flex-col justify-between px-12 py-6 space-y-6">

@@ -26,7 +26,7 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
     data: {
       next,
       previous,
-      results: { data, fields = [], import_enabled } = {},
+      results: { data, fields = [], import_enabled, form_view_path } = {},
     },
     error,
     isLoading,
@@ -70,9 +70,9 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
             <div
               className="cursor-pointer hover:text-emerald-500"
               onClick={() => {
-                model.toLowerCase().includes("propertyimage")
+                form_view_path
                   ? navigate(
-                      `/models/${model}/images/uploads?recordId=${row.original?.id}`
+                      `/models/${model}/${form_view_path}?recordId=${row.original?.id}`
                     )
                   : navigate(
                       `/models/${model}/form-view?recordId=${row.original?.id}`
@@ -96,9 +96,9 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
             <div
               className="cursor-pointer hover:text-emerald-500"
               onClick={() => {
-                model.toLowerCase().includes("propertyimage")
+                form_view_path
                   ? navigate(
-                      `/models/${model}/images/form-view?recordId=${row.original?.id}`
+                      `/models/${model}/${form_view_path}?recordId=${row.original?.id}`
                     )
                   : navigate(
                       `/models/${model}/form-view?recordId=${row.original?.id}`
@@ -120,7 +120,7 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
       case "header-row":
         return "flex xl:flex-1 w-full bg-stone-50 shadow-inner rounded-t-sm p-2";
       case "header":
-        return "flex flex-1 text-sm xl:text-base font-semibold uppercase";
+        return "flex flex-1 text-sm xl:text-base font-semibold capitalize";
       case "tbody":
         return "h-96 w-full overflow-y-auto scroll-m-0 outline outline-gray-50";
       case "row":
