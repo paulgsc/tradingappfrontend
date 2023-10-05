@@ -14,7 +14,7 @@ function AdminRoute() {
     adminHash,
     access,
     refreshingSession = false,
-    userInfo: { token = "" },
+    userInfo: { token, onboarding: { is_onboarding_completed } = {} },
   } = useSelector((state) => state.userAuth);
   const dispatch = useDispatch();
   const [isloading, checkLoading] = useState(true);
@@ -50,7 +50,14 @@ function AdminRoute() {
       checkLoading(false);
     };
     dispatch(grantAcces());
-  }, [navigate, access]);
+  }, [dispatch, navigate, access]);
+
+  if (
+    token &&
+    typeof is_onboarding_completed === "boolean" &&
+    !is_onboarding_completed
+  )
+    return <Navigate to={`/admin/setup/guide?redirect=${redirect}`} />;
 
   if (!token && refreshingSession) {
     return <Navigate to={`/login/?redirect=${redirect}`} />;
