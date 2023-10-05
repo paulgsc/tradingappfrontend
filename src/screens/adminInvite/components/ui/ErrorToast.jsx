@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 
-function LoginError() {
-  const { error = null } = useSelector((state) => state.userAuth);
+function ErrorToast() {
+  const { error } = useSelector((state) => state.adminActions);
   const regex = /(status code)/i;
   const msg = regex.test(error) ? "Invalid request" : error;
   useEffect(() => {
@@ -21,4 +21,4 @@ function LoginError() {
   );
 }
 
-export default LoginError;
+export default ErrorToast;

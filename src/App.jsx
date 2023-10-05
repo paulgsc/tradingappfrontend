@@ -15,6 +15,7 @@ import {
   historyPaths,
   homePaths,
   modelsPaths,
+  myProfilePaths,
   settingsPaths,
   setupPaths,
 } from "./constants/routes/routes";
@@ -36,6 +37,8 @@ import HomePage from "./screens/home/routes/HomePage";
 import IndexModels from "./screens/models/IndexModels";
 import AdminDashboardIndex from "./screens/adminDashboard/AdminDashboardIndex";
 import PropertyImagesPages from "./screens/propertyImages/routes/PropertyImagesPages";
+import AdminRegisterPage from "./screens/adminInvite/routes/AdminRegisterPage";
+import MyprofilePage from "./screens/myprofile/routes/MyprofilePage";
 
 function App() {
   return (
@@ -107,6 +110,11 @@ function App() {
             <Route exact path="/trade" element={<Trading />} />
             <Route path="/test/:foo?" element={<Test />} />
             <Route element={<AuthRoute />}>
+              <Route
+                exact
+                path="/register/admin/magic-link/:sessionId?"
+                element={<AdminRegisterPage />}
+              />
               {setupPaths.map((path, index) => (
                 <Route key={index} exact path={path} element={<SetupStep />} />
               ))}
@@ -124,6 +132,14 @@ function App() {
                   exact
                   path={path}
                   element={<ProfileSettings />}
+                />
+              ))}
+              {myProfilePaths.map((path, index) => (
+                <Route
+                  key={index}
+                  exact
+                  path={path}
+                  element={<MyprofilePage />}
                 />
               ))}
               {historyPaths.map((path, index) => (

@@ -22,6 +22,8 @@ import {
   adminStartUpdate,
   adminUpdateSettingsFailed,
   adminUpdateSettingsSuccess,
+  userCreateAdminAccountFailed,
+  userCreateAdminAccountSuccessful,
 } from "../../../reducers/adminActionsReducers";
 import {
   addSelectedImagesSuccess,
@@ -380,3 +382,27 @@ export const sendNewAdminInviteEmail =
       dispatch(adminSendNewAdminInviteFailed(error.message));
     }
   };
+
+export const createAdminUser = (formdata) => async (dispatch, getState) => {
+  try {
+    dispatch(adminStartUpdate());
+
+    const {
+      userAuth: { userInfo: { token = "" } = {} },
+    } = getState();
+
+    const path = "admin/create_admin/";
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await API.post(path, formdata, config);
+
+    dispatch(userCreateAdminAccountSuccessful(response.data));
+  } catch (error) {
+    dispatch(userCreateAdminAccountFailed(error.message));
+  }
+};

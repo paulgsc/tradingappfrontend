@@ -1,7 +1,7 @@
-import UserView from "./screens/models/routes/UserView";
+import MyprofilePage from "./screens/myprofile/routes/MyprofilePage";
 
 function Test() {
-  return <UserView />;
+  return <MyprofilePage />;
 }
 
 export default Test;

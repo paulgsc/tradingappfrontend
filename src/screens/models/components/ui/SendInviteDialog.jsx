@@ -32,7 +32,7 @@ function SendInviteDialog({ userData }) {
   return (
     <Dialog onClose={onClose}>
       <section className="bg-red-200 w-full max-w-md h-fit rounded-lg p-6 shadow-lg outline outline-neutral-200">
-        {!inviteStatus && !loading ? (
+        {!inviteStatus && !loading && !error ? (
           <form
             onSubmit={handleConfirm}
             className="w-full items-start space-y-3"

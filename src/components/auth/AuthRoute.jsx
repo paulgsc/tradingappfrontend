@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { accessProtectedView } from "../../contexts/redux/actions/userActions";
@@ -56,7 +56,7 @@ function AuthRoute() {
   }
 
   if (!token) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={`/login?redirect=${location.pathname}`} />;
   }
 
   if (isloading) {

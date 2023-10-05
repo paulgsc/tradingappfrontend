@@ -108,6 +108,12 @@ const adminActionsReducers = createSlice({
     adminSendNewAdminInviteFailed(state, action) {
       return { ...state, loading: false, error: action.payload };
     },
+    userCreateAdminAccountSuccessful(state, action) {
+      return { ...state, loading: false, createAdminResult: action.payload };
+    },
+    userCreateAdminAccountFailed(state, action) {
+      return { ...state, loading: false, error: action.payload };
+    },
   },
 });
 
@@ -134,6 +140,8 @@ export const {
   adminSelectMetric,
   adminSendNewAdminInviteFailed,
   adminSendNewAdminInviteSuccessful,
+  userCreateAdminAccountFailed,
+  userCreateAdminAccountSuccessful,
 } = adminActionsReducers.actions;
 
 export default adminActionsReducers.reducer;

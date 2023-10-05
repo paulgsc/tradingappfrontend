@@ -60,3 +60,8 @@ export const adminPropertyImagesPaths = [
   "/models/:model/images/uploads/published/:recordId?/:propertyId?",
   "/models/:model/images/uploads/stage/:recordId?/:propertyId?",
 ];
+
+export const myProfilePaths = [
+  "/personal/myprofile",
+  "/personal/myprofile/general/:?params",
+];
