@@ -2,33 +2,33 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { verifyLoginEmail } from "../../../../contexts/redux/actions/userActions";
-import MagicLinkCard from "../ui/MagicLinkCard";
 import WiggleLoader from "../../../../components/loading/WiggleLoader";
 import ExpiredMagicLinkCard from "../ui/ExpiredMagicLinkCard";
 import jwtDecode from "jwt-decode";
+import { useSearchParams } from "react-router-dom";
+import SuccessCard from "../../../../components/ui/SuccessCard";
+import MagicLinkCard from "./MagicLinkCard";
 
 function ValidOTPSession() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const otp = location.search.match(/otp=(\d{6})/)[1];
-  const redirect = location.search.match(/redirect=(.+)$/)[1];
+  const [queryParameters] = useSearchParams();
   const { userInfo: { token, loading } = {} } = useSelector(
     (state) => state.userAuth
   );
 
   useEffect(() => {
-    const handleMagicLink = (otp) => async (dispatch) => {
-      if (token) {
-        const decodedToken = jwtDecode(token);
-        if (decodedToken?.verified_email) await dispatch(verifyLoginEmail(otp));
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const emailVerified = decodedToken?.email_verified;
+      if (typeof emailVerified === "boolean" && !emailVerified) {
+        const otp = queryParameters.get("otp");
+        dispatch(verifyLoginEmail(otp, location.pathname));
+        return;
       }
-
-      token && navigate(redirect);
-    };
-
-    dispatch(handleMagicLink(otp));
-  }, [dispatch, navigate, otp, redirect, token]);
+    }
+  }, [dispatch, navigate, queryParameters, token, location]);
 
   if (loading) {
     return <WiggleLoader />;

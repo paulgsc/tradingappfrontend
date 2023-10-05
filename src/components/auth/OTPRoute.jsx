@@ -4,15 +4,20 @@ import { broadcastLogout } from "../../contexts/redux/actions/userActions";
 import { Navigate, Outlet, useLocation } from "react-router";
 import jwtDecode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
+import { useCurrentUser } from "../../hooks/firebase-hooks";
 
 function OTPRoute() {
   const location = useLocation();
   const redirect = location?.pathname;
+  const { user } = useCurrentUser();
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
   const dispatch = useDispatch();
   const [isTokenExpired, setIsTokenExpired] = useState(false);
 
   useEffect(() => {
+    const handleExpired = () => {
+      setIsTokenExpired(true);
+    };
     let timeoutId;
     const checkTokenExpiration = () => {
       if (token) {
@@ -27,15 +32,13 @@ function OTPRoute() {
           const broadcastChannel = new BroadcastChannel("authChannel");
           broadcastChannel.postMessage({ type: "AUTH_SUCCESS" });
         } else {
-          const handleExpired = () => {
-            setIsTokenExpired(true);
-            dispatch(broadcastLogout());
-          };
           const expirationTime = decodedToken.exp * 1000;
           const timeRemaining = expirationTime - Date.now();
           timeoutId = setTimeout(() => handleExpired(), timeRemaining);
         }
-      }
+      } else if (user) {
+        timeoutId = setTimeout(() => handleExpired(), 300000);
+      } else return;
     };
 
     checkTokenExpiration();
@@ -43,13 +46,16 @@ function OTPRoute() {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [token, dispatch]);
+  }, [token, dispatch, user]);
 
-  return isTokenExpired ? (
-    <Navigate to={`/login/?redirect=${redirect}`} />
-  ) : (
-    <Outlet />
-  );
+  useEffect(() => {
+    if (isTokenExpired) {
+      dispatch(broadcastLogout());
+      window.location.href = location.pathname;
+    }
+  }, [dispatch, isTokenExpired, location]);
+
+  return <Outlet />;
 }
 
 export default OTPRoute;

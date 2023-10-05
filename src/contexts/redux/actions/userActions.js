@@ -8,7 +8,6 @@ import {
   userLoginWithGmailRequest,
   userLoginWithGmailSuccessful,
   userProtectedView,
-  userRefreshLoginSession,
   userRegisterWithGmailSuccessful,
   userRegistration,
   userRegistrationFailure,
@@ -231,7 +230,7 @@ export const login = (formData) => async (dispatch, getState) => {
   }
 };
 
-export const gmailLogin = (gmailInfo) => async (dispatch, getState) => {
+export const gmailLogin = (gmailInfo) => async (dispatch) => {
   dispatch(userLoginWithGmailRequest());
   try {
     const {
@@ -241,6 +240,7 @@ export const gmailLogin = (gmailInfo) => async (dispatch, getState) => {
       metadata = {},
       photoURL = "",
       providerId = "",
+      providedPassword,
     } = gmailInfo;
 
     const config = {
@@ -258,24 +258,34 @@ export const gmailLogin = (gmailInfo) => async (dispatch, getState) => {
       ...config,
     });
 
-    dispatch(
-      userLoginWithGmailSuccessful({
-        gmailInfo: {
-          email: email,
-          uid: uid,
-          displayName: displayName,
-          password_required: password_required,
-          photoURL: photoURL,
-          providerId: providerId,
-          ...metadata,
-        },
-      })
-    );
-
     let password;
     let requestData;
-    if (password_required) {
+    if (password_required && typeof providedPassword === "undefined") {
+      dispatch(
+        userLoginWithGmailSuccessful({
+          gmailInfo: {
+            email: email,
+            uid: uid,
+            displayName: displayName,
+            password_required: password_required,
+            photoURL: photoURL,
+            providerId: providerId,
+            ...metadata,
+          },
+        })
+      );
+      dispatch(
+        userLoginRoute({
+          password_required: password_required,
+        })
+      );
       return;
+    } else if (password_required && typeof providedPassword === "string") {
+      requestData = {
+        username: email,
+        email: email,
+        password: providedPassword,
+      };
     } else {
       password = await get_user_password(email);
       requestData = { username: email, email: email, password: password };
@@ -374,7 +384,8 @@ export const verifyLoginEmail =
             )
           );
         } else {
-          await dispatch(broadcastLogout());
+          console.log(error);
+          // await dispatch(broadcastLogout());
         }
       } catch (error) {
         throw new Error("can't catch me!");
