@@ -1,9 +1,10 @@
-import DemoDialog from "../ui/DemoDialog";
 import { useState } from "react";
-import IPaddressSetup from "../setupGuide/IPaddressSetup";
+import DemoDialog from "../../../components/ui/DemoDialog";
+import IPaddressSetup from "../components/ui/IPaddressSetup";
 
-function SetupStep() {
+function IpSetup() {
   const [step, setStep] = useState(1);
+  const [disableContinue, setDisableContinue] = useState(true);
   const handleBack = () => {
     setStep(step < 2 ? step : step - 1);
   };
@@ -17,10 +18,15 @@ function SetupStep() {
       maxStep={3}
       handleBack={handleBack}
       handleContinue={handleContinue}
+      disableContinue={disableContinue}
     >
-      <IPaddressSetup step={step} handleContinue={handleContinue} />
+      <IPaddressSetup
+        step={step}
+        handleContinue={handleContinue}
+        setDisableContinue={setDisableContinue}
+      />
     </DemoDialog>
   );
 }
 
-export default SetupStep;
+export default IpSetup;

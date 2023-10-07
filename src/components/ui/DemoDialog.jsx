@@ -3,7 +3,14 @@ import { CloseSvg } from "../../constants/svgs/Svg";
 import { useSearchParams } from "react-router-dom";
 
 // Usage
-function DemoDialog({ step, maxStep, handleBack, handleContinue, children }) {
+function DemoDialog({
+  step,
+  maxStep,
+  handleBack,
+  handleContinue,
+  disableContinue = false,
+  children,
+}) {
   const [queryParameters] = useSearchParams();
 
   const handleClose = () => {
@@ -23,7 +30,7 @@ function DemoDialog({ step, maxStep, handleBack, handleContinue, children }) {
   }, []);
 
   return (
-    <div className="relative flex min-h-full flex-1 flex-col items-center justify-center bg-gray-900/60 p-4 backdrop-blur-md sm:aspect-[4/3] md:aspect-[2/1]">
+    <div className="relative flex min-h-screen w-full flex-1 flex-col items-center justify-center p-4 backdrop-brightness-75 backdrop-blur-md sm:aspect-[4/3] md:aspect-[2/1]">
       <button
         onClick={handleClose}
         title="finish setup later"
@@ -45,12 +52,13 @@ function DemoDialog({ step, maxStep, handleBack, handleContinue, children }) {
               Back
             </button>
             <button
+              disabled={disableContinue}
               onClick={() => {
                 handleContinue(maxStep);
               }}
               className={`${
                 step === maxStep ? "pointer-events-none opacity-20" : ""
-              } bg duration-350 flex items-center justify-center rounded-full bg-blue-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-blue-600 active:bg-blue-700`}
+              } bg duration-350 flex items-center justify-center rounded-full bg-blue-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition-all hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-200/60 disabled:scale-90 disabled:pointer-events-none transform duration-200 ease-in-out`}
             >
               Continue
             </button>

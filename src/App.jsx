@@ -24,7 +24,6 @@ import AdminRoute from "./components/auth/AdminRoute";
 import ProfileSettings from "./screens/profile/ProfileSettings";
 import Layout from "./Layout";
 import EnvVariablesLoader from "./components/auth/EnvVariablesLoader";
-import SetupStep from "./components/auth/SetupStep";
 import UserScreen from "./screens/user/component/UserScreen";
 import { ErrorBoundary } from "react-error-boundary";
 import FallBackUi from "./components/ui/FallBackUi";
@@ -39,6 +38,7 @@ import AdminDashboardIndex from "./screens/adminDashboard/AdminDashboardIndex";
 import PropertyImagesPages from "./screens/propertyImages/routes/PropertyImagesPages";
 import AdminRegisterPage from "./screens/adminInvite/routes/AdminRegisterPage";
 import MyprofilePage from "./screens/myprofile/routes/MyprofilePage";
+import IpSetup from "./screens/ipAddressSetup/routes/IpSetup";
 
 function App() {
   return (
@@ -116,7 +116,7 @@ function App() {
                 element={<AdminRegisterPage />}
               />
               {setupPaths.map((path, index) => (
-                <Route key={index} exact path={path} element={<SetupStep />} />
+                <Route key={index} exact path={path} element={<IpSetup />} />
               ))}
 
               <Route exact path="/personal" element={<ProfileScreen />} />
