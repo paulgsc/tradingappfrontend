@@ -1,7 +1,7 @@
-import MyprofilePage from "./screens/myprofile/routes/MyprofilePage";
+import IpSetup from "./screens/ipAddressSetup/routes/IpSetup";
 
 function Test() {
-  return <MyprofilePage />;
+  return <IpSetup />;
 }
 
 export default Test;
