@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   useRecaptcha,
@@ -54,11 +54,11 @@ function FirebaseLogin() {
             position: "top-center",
             className: "bg-gradient-to-r from-pink-100 to-red-500",
           });
-
         setFirebaseError(null);
       }
     }
   });
+
   const handleGmail = async () => {
     try {
       await handleSignInWithGoogle();

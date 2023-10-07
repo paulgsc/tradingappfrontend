@@ -19,7 +19,6 @@ function ExpiredToken({ login = true, children }) {
   const dispatch = useDispatch();
   const [isTokenExpired, setIsTokenExpired] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
-
   useEffect(() => {
     let timeoutId;
     const checkTokenExpiration = () => {
@@ -65,7 +64,23 @@ function ExpiredToken({ login = true, children }) {
         )}`
       );
     }
-  }, [dispatch, login, navigate, isTokenExpired, token, queryParameters]);
+
+    if (!loading && !user && queryParameters.get("idToken"))
+      navigate(
+        `${location.pathname}?redirect=${
+          queryParameters.get("redirect") || "/"
+        }`
+      );
+  }, [
+    dispatch,
+    login,
+    navigate,
+    isTokenExpired,
+    token,
+    user,
+    loading,
+    queryParameters,
+  ]);
 
   if (isEmailVerified) return <TFADialog user={user} />;
   return <>{children}</>;
