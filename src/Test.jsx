@@ -1,7 +1,7 @@
-import IpSetup from "./screens/ipAddressSetup/routes/IpSetup";
+import SiteSettings from "./screens/siteSettings/routes/SiteSettings";
 
 function Test() {
-  return <IpSetup />;
+  return <SiteSettings />;
 }
 
 export default Test;

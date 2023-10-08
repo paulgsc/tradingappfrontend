@@ -20,9 +20,6 @@ export const adminPaths = [
   "/admin/site/models/propertyimages/published",
   "/admin/site/models/trade/settings/listings-mode",
   "/admin/site/models/trade",
-  "/admin/site/settings",
-  "/admin/site/settings/login",
-  "/admin/site/settings/network-security",
   "admin/timeline",
   "admin/timeline/task/:id",
   "admin/timeline/task/:id/taskline/:lineId",
@@ -64,4 +61,10 @@ export const adminPropertyImagesPaths = [
 export const myProfilePaths = [
   "/personal/myprofile",
   "/personal/myprofile/general/:?params",
+];
+
+export const siteSettingsPaths = [
+  "/admin/site/settings",
+  "/admin/site/settings/login",
+  "/admin/site/settings/network-security",
 ];

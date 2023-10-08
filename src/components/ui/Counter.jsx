@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { reduceTokenDuration } from "../../lib/utils";
 
-function Counter({ handleSubmit = (par) => {}, initial = 0 }) {
+function Counter({ handleSubmit = () => {}, initial = 0 }) {
   const { title, duration } = reduceTokenDuration(initial);
   const [counter, setCounter] = useState(duration);
   const [type, setType] = useState(title);
@@ -35,7 +35,7 @@ function Counter({ handleSubmit = (par) => {}, initial = 0 }) {
   useEffect(() => {
     setCounter(duration);
     setType(title);
-  }, [initial]);
+  }, [initial, duration, title]);
 
   const counterType = ["seconds", "minutes", "hours", "days", "weeks"];
 
