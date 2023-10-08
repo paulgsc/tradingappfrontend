@@ -18,6 +18,7 @@ import {
   myProfilePaths,
   settingsPaths,
   setupPaths,
+  siteSettingsPaths,
 } from "./constants/routes/routes";
 import AdminPage from "./screens/admin/AdminPage";
 import AdminRoute from "./components/auth/AdminRoute";
@@ -39,6 +40,7 @@ import PropertyImagesPages from "./screens/propertyImages/routes/PropertyImagesP
 import AdminRegisterPage from "./screens/adminInvite/routes/AdminRegisterPage";
 import MyprofilePage from "./screens/myprofile/routes/MyprofilePage";
 import IpSetup from "./screens/ipAddressSetup/routes/IpSetup";
+import SiteSettings from "./screens/siteSettings/routes/SiteSettings";
 
 function App() {
   return (
@@ -182,6 +184,14 @@ function App() {
                   exact
                   path={`${path}`}
                   element={<AdminDashboardIndex />}
+                />
+              ))}
+              {siteSettingsPaths.map((path, index) => (
+                <Route
+                  key={index}
+                  exact
+                  path={`${path}`}
+                  element={<SiteSettings />}
                 />
               ))}
               {modelsPaths.map((path, index) => (
