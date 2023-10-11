@@ -1,5 +1,3 @@
-import React from "react";
-
 function DeleteSingleImage({ handleOpen }) {
   return (
     <div className="relative group">

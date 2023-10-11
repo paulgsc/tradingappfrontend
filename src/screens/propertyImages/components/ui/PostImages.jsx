@@ -1,13 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { publishImageFiles } from "../../../../contexts/redux/actions/adminActions";
+import { publishImageFiles } from "../../hooks/reduxActions";
 import { showNotify } from "../../../../lib/utils";
 
 function PostImages() {
   const dispatch = useDispatch();
-  const {
-    imageUpload = [],
-    imagesSelectedQuery: { id = null, images = [] } = {},
-  } = useSelector((state) => state.adminFetchData);
+  const { imagesSelectedQuery: { id = null } = {} } = useSelector(
+    (state) => state.adminFetchData
+  );
   const { imageActions: { overwrite = [] } = {} } = useSelector(
     (state) => state.adminActions
   );

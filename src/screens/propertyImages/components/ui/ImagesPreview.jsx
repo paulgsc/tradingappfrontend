@@ -1,6 +1,6 @@
 import { DeleteIcon } from "../../../../constants/svgs/Svg";
 import { useDispatch, useSelector } from "react-redux";
-import { removePreviewImageFile } from "../../../../contexts/redux/actions/adminActions";
+import { removePreviewImageFile } from "../../hooks/reduxActions";
 
 function ImagesPreview() {
   const { imageUpload = [] } = useSelector((state) => state.adminFetchData);

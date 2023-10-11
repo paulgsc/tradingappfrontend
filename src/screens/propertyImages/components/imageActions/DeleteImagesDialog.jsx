@@ -2,12 +2,12 @@ import { useState } from "react";
 import ImageDeleteForm from "./ImageDeleteForm";
 import Dialog from "../../../../components/ui/Dialog";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
+import { Toaster } from "react-hot-toast";
 import {
   deletePropertyImages,
   removePreviewImageFile,
-} from "../../../../contexts/redux/actions/adminActions";
-import { useLocation } from "react-router";
-import { Toaster } from "react-hot-toast";
+} from "../../hooks/reduxActions";
 
 function DeleteImagesDialog({ rowIds, handleClose, clearIds }) {
   const [actionCount, setActionCount] = useState(0);

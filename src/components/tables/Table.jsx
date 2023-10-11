@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   useTable,
   useSortBy,
@@ -7,6 +7,7 @@ import {
   useGlobalFilter,
 } from "react-table";
 import { cn } from "../../lib/utils";
+import { filter } from "lodash";
 
 function Table({
   columnData,
@@ -18,7 +19,6 @@ function Table({
   globalFilter,
   setGlobalFilter,
 }) {
-  const [selected, setSelected] = useState(false);
   const data = useMemo(() => history, [history]);
 
   const ColumnFilter = ({ column }) => {
@@ -72,9 +72,7 @@ function Table({
         <div className={`${getClassName("check-box-header")}`}>
           <input
             type="checkbox"
-            onClick={() => {
-              setSelected(true);
-            }}
+            onClick={() => {}}
             {...getToggleAllRowsSelectedProps({ indeterminate: "false" })}
           />
         </div>
@@ -83,9 +81,7 @@ function Table({
         <div>
           <input
             type="checkbox"
-            onClick={() => {
-              setSelected(true);
-            }}
+            checked={row.isSelected}
             {...row.getToggleRowSelectedProps()}
             indeterminate={
               row.isSelected && !row.isSomeSelected ? "true" : undefined
@@ -108,12 +104,17 @@ function Table({
     []
   );
 
+  const rowIdsToSelect = data.map((row) => row.id);
+
   const tableInstance = useTable(
     {
       columns,
       data,
       defaultColumn,
-      initialState: { globalFilter }, // Set initial global filter state
+      initialState: {
+        globalFilter,
+        selectedRowIds: { [rowIdsToSelect]: true },
+      }, // Set initial global filter state
     },
     useFilters,
     useGlobalFilter,
@@ -128,17 +129,22 @@ function Table({
     rows,
     prepareRow,
     selectedFlatRows,
+    state,
   } = tableInstance;
 
-  useEffect(() => {
-    if (selected) {
-      setSelected(false);
-      const selectedIds = selectedFlatRows.map((row) => row.original.id);
-      getSelectedIds(selectedIds);
-    }
+  const selectedRowIds = useMemo(
+    () => state.selectedRowIds,
+    [state.selectedRowIds]
+  );
 
-    // Dispatch the selected row IDs to Redux using the action creator
-  }, [selectedFlatRows]);
+  useEffect(() => {
+    const selectedRowIdsArray = Object.keys(selectedRowIds)
+      .filter((item) => !isNaN(parseInt(item)))
+      .map((item) => parseInt(item));
+
+    getSelectedIds(selectedRowIdsArray);
+  }, [selectedRowIds, getSelectedIds]);
+
   return (
     <div className={getClassName("table")}>
       <div className="">

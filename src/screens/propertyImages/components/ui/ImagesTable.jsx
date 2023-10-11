@@ -1,30 +1,25 @@
 import { useState } from "react";
 import Table from "../../../../components/tables/Table";
 import { ColumnFilter } from "../../../admin/TableModels";
-import { useDispatch, useSelector } from "react-redux";
-import { stageImageIds } from "../../../../contexts/redux/actions/adminActions";
+import { useDispatch } from "react-redux";
+import { stageImageIds } from "../../hooks/reduxActions";
 import DeleteImagesDialog from "../imageActions/DeleteImagesDialog";
 import DeleteImageDialog from "../imageActions/DeleteImageDialog";
+import { useEffect } from "react";
 
 function ImagesTable({ type = "", data = [] }) {
   const [showDialog, setShowDialog] = useState(false);
   const dispatch = useDispatch();
   const [deleteImageIds, setDeleteImageIds] = useState([]);
-  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
-    (state) => state.env
-  );
+  const [selectedRowIds, setSelectedRowIds] = useState([]);
 
   const columns = [
     {
       Header: "Image",
-      accessor: (row) => row.imageUrl || row.image.value, // Use imageUrl if available, otherwise use image
+      accessor: (row) => row?.imageUrl || row?.image?.value, // Use imageUrl if available, otherwise use image
       Cell: ({ row }) => {
-        const formatUrl = (imageUrl) =>
-          import.meta.env.DEV
-            ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${imageUrl}`
-            : `${VITE_APP_BACKEND_URL}${imageUrl}`;
-        const imageUrl =
-          row.original.imageUrl || formatUrl(row.original.image.value);
+        const objectUrl = `https://${row?.bucket_name?.value}s3.amazonaws.com/${row?.object_key?.value}`;
+        const imageUrl = row?.original?.imageUrl || objectUrl;
         return (
           <img className="h-12 w-12 rounded-md" src={imageUrl} alt="Property" />
         );
@@ -33,7 +28,7 @@ function ImagesTable({ type = "", data = [] }) {
     },
     {
       Header: "Title",
-      accessor: (row) => row.imageName || row.image_title.value, // Use imageName if available, otherwise use image_title
+      accessor: (row) => row?.imageName || row?.image_title?.value, // Use imageName if available, otherwise use image_title
       Filter: ColumnFilter,
       width: "100%",
     },
@@ -51,7 +46,10 @@ function ImagesTable({ type = "", data = [] }) {
         ...column,
         Cell: ({ row }) => (
           <>
-            <DeleteImageDialog rowId={row.original.id} />
+            <DeleteImageDialog
+              rowId={row?.original?.id}
+              imageTitle={row?.imageName || row?.image_title?.value}
+            />
           </>
         ),
       };
@@ -83,11 +81,6 @@ function ImagesTable({ type = "", data = [] }) {
     }
   };
 
-  const getSelectedIds = (selectedIds) => {
-    dispatch(stageImageIds(type, selectedIds || []));
-    setDeleteImageIds(() => [...selectedIds]);
-  };
-
   const handleClose = () => {
     setShowDialog(false);
   };
@@ -98,6 +91,13 @@ function ImagesTable({ type = "", data = [] }) {
   const clearIds = () => {
     setDeleteImageIds([]);
   };
+
+  useEffect(() => {
+    dispatch(stageImageIds(type, selectedRowIds || []));
+    setDeleteImageIds(() => [...selectedRowIds]);
+  }, [selectedRowIds, dispatch, type]);
+
+  console.log(selectedRowIds);
 
   return (
     <div className="relative w-11/12 h-fit bg-white md:block">
@@ -117,7 +117,7 @@ function ImagesTable({ type = "", data = [] }) {
         ColumnFilter={ColumnFilter}
         getClassName={getClassName}
         showCheckboxColumn={true}
-        getSelectedIds={getSelectedIds}
+        getSelectedIds={setSelectedRowIds}
       />
       {showDialog && (
         <DeleteImagesDialog

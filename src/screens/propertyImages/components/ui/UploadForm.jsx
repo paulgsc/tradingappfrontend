@@ -55,7 +55,8 @@ function UploadForm() {
       <div className="flex justify-end w-10/12 gap-2">
         <button
           onClick={handleUploadImages}
-          className="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none"
+          disabled={uploaded}
+          className="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none disabled:scale-95 disabled:brightness-75 disabled:pointer-events-none disabled:opacity-60"
         >
           Upload now
         </button>
