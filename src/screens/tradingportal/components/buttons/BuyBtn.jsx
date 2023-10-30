@@ -1,10 +1,9 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 import { excersiseTrade } from "../../../../contexts/redux/actions/tradingActions";
 
 function BuyBtn() {
   const dispatch = useDispatch();
-  const handleClick = () => {
+  const handleClick = async () => {
     dispatch(excersiseTrade());
   };
   return (

@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProfileScreen from "./screens/profile/ProfileScreen";
 import PlaidHome from "./screens/plaid/PlaidHome";
 import CreateAccount from "./screens/legal/CreateAccount";
 import AuthRoute from "./components/auth/AuthRoute";
@@ -19,12 +18,13 @@ import {
   settingsPaths,
   setupPaths,
   siteSettingsPaths,
+  userDashboardPaths,
+  userHistoryPaths,
 } from "./constants/routes/routes";
 import AdminPage from "./screens/admin/AdminPage";
 import AdminRoute from "./components/auth/AdminRoute";
 import ProfileSettings from "./screens/profile/ProfileSettings";
 import Layout from "./Layout";
-import EnvVariablesLoader from "./components/auth/EnvVariablesLoader";
 import UserScreen from "./screens/user/component/UserScreen";
 import { ErrorBoundary } from "react-error-boundary";
 import FallBackUi from "./components/ui/FallBackUi";
@@ -41,6 +41,9 @@ import AdminRegisterPage from "./screens/adminInvite/routes/AdminRegisterPage";
 import MyprofilePage from "./screens/myprofile/routes/MyprofilePage";
 import IpSetup from "./screens/ipAddressSetup/routes/IpSetup";
 import SiteSettings from "./screens/siteSettings/routes/SiteSettings";
+import Account from "./screens/profile/Account";
+import UserDashboard from "./screens/userDashboard/routes/UserDashboard";
+import MyHistory from "./screens/userHistory/routes/MyHistory";
 
 function App() {
   return (
@@ -49,7 +52,6 @@ function App() {
         FallbackComponent={() => <FallBackUi />}
         onError={() => {}}
       >
-        <EnvVariablesLoader />
         <Layout>
           <Routes>
             <Route element={<OTPRoute />}>
@@ -121,12 +123,18 @@ function App() {
                 <Route key={index} exact path={path} element={<IpSetup />} />
               ))}
 
-              <Route exact path="/personal" element={<ProfileScreen />} />
-              <Route
-                exact
-                path="/personal/balances"
-                element={<ProfileScreen />}
-              />
+              {userDashboardPaths.map((path, index) => (
+                <Route
+                  key={index}
+                  exact
+                  path={path}
+                  element={<UserDashboard />}
+                />
+              ))}
+              {userHistoryPaths.map((path, index) => (
+                <Route key={index} exact path={path} element={<MyHistory />} />
+              ))}
+              <Route exact path="/personal/balances" element={<Account />} />
 
               {settingsPaths.map((path, index) => (
                 <Route

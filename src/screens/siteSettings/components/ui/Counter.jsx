@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { reduceTokenDuration } from "../../lib/utils";
+import { reduceTokenDuration } from "../../../../lib/utils";
 
 function Counter({ handleSubmit = () => {}, initial = 0 }) {
   const { title, duration } = reduceTokenDuration(initial);

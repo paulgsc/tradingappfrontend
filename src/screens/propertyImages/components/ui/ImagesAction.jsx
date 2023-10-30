@@ -1,20 +1,25 @@
-import { useEffect, useState } from "react";
 import TabMenu from "../../../../components/ui/TabMenu";
 import UploadForm from "./UploadForm";
-import { useSelector } from "react-redux";
 import ImageSubmitCard from "./ImageSubmitCard";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 function ImagesAction() {
-  const [activeTab, setActiveTab] = useState("Dashboard");
-  const { uploadState: { uploaded = false } = {} } = useSelector(
-    (state) => state.adminFetchData
-  );
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [queryParameters] = useSearchParams();
 
   const handleTabClick = (tabId) => {
-    setActiveTab(tabId);
+    const currentSearchParams = new URLSearchParams(queryParameters);
+    currentSearchParams.has("imageForm")
+      ? currentSearchParams.set("imageForm", tabId)
+      : currentSearchParams.append("imageForm", tabId);
+    navigate(`${location.pathname}?${currentSearchParams.toString()}`);
   };
 
   const isTabActive = (tabId) => {
+    const activeTab = queryParameters.get("imageForm")
+      ? queryParameters.get("imageForm")
+      : "Dashboard";
     return activeTab === tabId;
   };
   const headers = [
@@ -29,15 +34,6 @@ function ImagesAction() {
       content: <UploadForm />,
     },
   ];
-
-  useEffect(() => {
-    if (uploaded) {
-      if (activeTab !== "Dashboard") {
-        setActiveTab("Dashboard");
-        return;
-      }
-    }
-  }, [uploaded, activeTab]);
 
   return (
     <TabMenu className={"w-full h-full"}>

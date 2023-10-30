@@ -1,4 +1,3 @@
-import React from "react";
 import BuyIn from "../components/ui/BuyIn";
 import PriceInfo from "../components/ui/PriceInfo";
 

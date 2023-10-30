@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PortfolioChart from "./PortfolioChart";
 
 import SideMenu from "./SideMenu";
 import CustomSvg from "../../components/ui/CustomSvg";
 import NavbarLogo from "../../components/navbar/navlogo/NavbarLogo";
-import { Navigate, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchSummary,
-  fetchShares,
-} from "../../contexts/redux/actions/fetchDataActions";
+import { fetchShares } from "../../contexts/redux/actions/fetchDataActions";
 
 import Profile from "../../components/profile/Profile";
-import currency from "currency.js";
 
 function Account() {
   const location = useLocation();
@@ -27,8 +23,6 @@ function Account() {
       transfers_total = "",
     } = {},
     sharesData = [],
-    propertyData = [],
-    loading,
   } = useSelector((state) => state.fetchData);
 
   const { adminHash = null, userInfo: { token = "" } = {} } = useSelector(
@@ -52,9 +46,8 @@ function Account() {
   };
 
   useEffect(() => {
-    dispatch(fetchSummary());
     dispatch(fetchShares());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="bg-gray-50 h-screen w-full flex flex-col flex-1">
@@ -150,7 +143,7 @@ Account.Header = ({ transfers_total }) => (
   <div className=" flex items-center justify-center h-8 sm:h-16 md:h-16 xl:h-20  w-full mb-4 rounded shadow-sm bg-white dark:bg-gray-800">
     <h3 className="text-base sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold">
       {" "}
-      {currency(transfers_total).format()}
+      {transfers_total}
     </h3>
   </div>
 );
@@ -186,7 +179,7 @@ Account.Subtitle = ({
           </span>
           <div className="flex items-center justify-center h-10 xl:h-16 rounded shadow-sm bg-green-50 dark:bg-gray-800">
             <p className="text-sm md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-900 dark:text-gray-500">
-              {currency(item.amount).format()}
+              {item.amount}
             </p>
           </div>
         </div>

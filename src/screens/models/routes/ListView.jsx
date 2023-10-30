@@ -24,10 +24,7 @@ function ListView() {
             <QuickSummary />
           </header>
 
-          <PaginatedResults
-            globalFilter={globalFilter}
-            setGlobalFilter={setGlobalFilter}
-          />
+          <PaginatedResults globalFilter={globalFilter} />
         </section>
       </>
     );

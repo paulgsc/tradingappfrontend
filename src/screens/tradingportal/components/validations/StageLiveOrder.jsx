@@ -1,14 +1,13 @@
-import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { stageLiveOrder } from "../../../../contexts/redux/actions/tradingActions";
 
 import { showSummaryPortal } from "../../../../reducers/tradingReducers";
-import { getActivePropertyData } from "../hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function StageLiveOrder() {
   const dispatch = useDispatch();
-
+  const queryClient = useQueryClient();
   const {
     orderInfo: {
       transactionType = null,
@@ -18,8 +17,8 @@ function StageLiveOrder() {
     orderValidation: { isWholeShares = false, isLessThanBalance = false } = {},
   } = useSelector((state) => state.trade);
 
-  const { data: { price_per_share = 0 } = {} } =
-    getActivePropertyData(orderInput);
+  const { price_per_share = 0, id } =
+    queryClient.getQueryData(["active-property"]) || {};
 
   const setShares = () => {
     if (transactionType === "Shares") {
@@ -48,6 +47,8 @@ function StageLiveOrder() {
       const orderInfo = {
         shares: shares,
         amount: amount,
+        propertyId: id,
+        pricePerShare: price_per_share,
       };
 
       dispatch(stageLiveOrder(orderInfo));

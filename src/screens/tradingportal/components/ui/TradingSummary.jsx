@@ -1,29 +1,23 @@
-import React from "react";
-import currency from "currency.js";
 import { useSelector } from "react-redux";
 import OrderSummary from "../../../../components/ui/OrderSummary";
 import SummaryPageImage from "../images/SummaryPageImage";
 import Goback from "../buttons/Goback";
+import { useQueryClient } from "@tanstack/react-query";
 
 function TradingSummary() {
-  const {
-    orderInfo: {
-      amount = "",
-      shares = "",
-      pricePerShare = "",
-      orderInput = "",
-    } = {},
-  } = useSelector((state) => state.trade);
+  const queryClient = useQueryClient();
+  const { orderInfo: { amount = "", shares = "" } = {} } = useSelector(
+    (state) => state.trade
+  );
 
   const {
-    data: {
-      property_name = "",
-      property_address = "",
-      rental_status = "",
-      dividend = "",
-      total_property_shares = 0,
-    } = {},
-  } = getActivePropertyData(orderInput);
+    property_name = "",
+    property_address = "",
+    rental_status = "",
+    dividend_formated = "",
+    total_property_shares = 0,
+    price_per_share_formated = 0,
+  } = queryClient.getQueryData(["active-property"]) || {};
   return (
     <OrderSummary
       className={"relative min-h-screen w-full px-6  border-l border-t"}
@@ -32,9 +26,7 @@ function TradingSummary() {
       <OrderSummary.Card
         className={"flex items-center justify-center w-full p-4"}
       >
-        <OrderSummary.TotalCard className={""}>
-          {currency(amount).format()}
-        </OrderSummary.TotalCard>
+        <OrderSummary.TotalCard className={""}>{amount}</OrderSummary.TotalCard>
       </OrderSummary.Card>
       <OrderSummary.Title>Order Summary</OrderSummary.Title>
       <OrderSummary.Card className={"border-t-2 border-slate-400"}>
@@ -43,7 +35,7 @@ function TradingSummary() {
 
           <span className="flex flex-col justify-center text-center">
             <span className="font-semibold text-2xl">
-              {currency(pricePerShare).format()}
+              {price_per_share_formated}
             </span>
             <span className="text-xs text-slate-400 font-light">
               Price per share
@@ -54,9 +46,7 @@ function TradingSummary() {
             <span className="text-xs text-slate-400 font-light">Shares</span>
           </span>
           <span className="flex flex-col justify-center text-center">
-            <span className="font-semibold text-2xl">
-              {currency(amount).format()}
-            </span>
+            <span className="font-semibold text-2xl">{amount}</span>
             <span className="text-xs text-slate-400 font-light">Total</span>
           </span>
         </div>
@@ -77,12 +67,12 @@ function TradingSummary() {
               </span>
             </div>
             <div className="grid text-sm xl:text-base gap-2 ">
-              <span>Price Per Share: {currency(pricePerShare).format()}</span>
+              <span>Price Per Share: {price_per_share_formated}</span>
               <span>Shares: {shares || 0}</span>
-              <span>Purchase Amount: {currency(amount).format()}</span>
+              <span>Purchase Amount: {amount}</span>
             </div>
             <div className="grid text-sm xl:text-base gap-2 ">
-              <span>Current dividend:{` ${dividend}`}</span>
+              <span>Current dividend:{` ${dividend_formated}`}</span>
               <span>Outstanding shares:{` ${total_property_shares}`}</span>
               <span>Percent shares sold: 0%</span>
             </div>

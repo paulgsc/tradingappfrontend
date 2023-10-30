@@ -1,5 +1,3 @@
-import React from "react";
-import currency from "currency.js";
 import { useSelector } from "react-redux";
 import OrderSummary from "../../../components/ui/OrderSummary";
 import { ProfileSvg } from "../../../constants/svgs/Svg";
@@ -36,7 +34,7 @@ function SummaryPageLayout() {
         <div className="border-t mb-2">
           <div>
             <span>You're paying: </span>
-            <span>{currency(amount).format()}</span>
+            <span>{amount}</span>
           </div>
           <div>
             <span>You're receiving: </span>

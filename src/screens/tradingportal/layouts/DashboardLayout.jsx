@@ -1,4 +1,3 @@
-import React from "react";
 import ProgressBar from "../components/dashboard/ProgressBar";
 import ValidateAmount from "../components/validations/ValidateAmount";
 import StageLiveOrder from "../components/validations/StageLiveOrder";

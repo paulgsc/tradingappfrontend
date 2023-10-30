@@ -7,11 +7,8 @@ function DjangoLink() {
   const location = useLocation();
   const navigate = useNavigate();
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
-  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
-    (state) => state.env
-  );
 
-  const { data: { admin_token } = {} } = fetchDjangoAdminLink(token);
+  const { data: { admin_link } = {} } = fetchDjangoAdminLink(token);
   const onClose = () => {
     navigate(location.pathname);
   };
@@ -30,10 +27,7 @@ function DjangoLink() {
               type="text"
               name="django-link"
               id="django-link"
-              defaultValue={
-                admin_token &&
-                `${VITE_APP_BACKEND_URL}/admin?_token=${admin_token}`
-              }
+              defaultValue={admin_link}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               disabled
             />

@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import TradingSummary from "../components/ui/TradingSummary";
 import OrderPropertyImages from "../components/images/OrderPropertyImages";

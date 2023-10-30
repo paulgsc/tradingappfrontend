@@ -1,5 +1,3 @@
-import React from "react";
-
 function ToggleButton({ handleClick = () => {}, checked = false }) {
   return (
     <div>

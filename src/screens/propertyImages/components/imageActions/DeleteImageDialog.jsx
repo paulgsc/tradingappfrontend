@@ -1,62 +1,56 @@
-import { useState } from "react";
 import ImageDeleteForm from "./ImageDeleteForm";
 import Dialog from "../../../../components/ui/Dialog";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import DeleteSingleImage from "./DeleteSingleImage";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import {
   deletePropertyImages,
   removePreviewImageFile,
-} from "../../../../contexts/redux/actions/adminActions";
+} from "../../hooks/reduxActions";
 
-function DeleteImageDialog({ rowId }) {
-  const [showDialog, setShowDialog] = useState(false);
-  const [actionCount, setActionCount] = useState(0);
+function DeleteImageDialog({ rowId, imageTitle = "image" }) {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { imagesSelectedQuery: { images = [] } = {}, imageUpload = [] } =
-    useSelector((state) => state.adminFetchData);
+  const navigate = useNavigate();
+  const [queryParameters] = useSearchParams();
+
   const handleClose = () => {
-    setShowDialog(false);
+    const currentSearchParams = new URLSearchParams(queryParameters);
+    currentSearchParams.delete("dialogDelete");
+    navigate(`${location.pathname}?${currentSearchParams.toString()}`);
   };
   const handleOpen = () => {
-    setShowDialog(true);
+    const currentSearchParams = new URLSearchParams(queryParameters);
+    currentSearchParams.has("dialogDelete")
+      ? currentSearchParams.set("dialogDelete", imageTitle)
+      : currentSearchParams.append("dialogDelete", imageTitle);
+    navigate(`${location.pathname}?${currentSearchParams.toString()}`);
   };
-  const { image_title = "", id = null } =
-    images.find((image) => image?.id === rowId) || {};
-  const { imageName = "" } =
-    imageUpload.find((image) => image?.id === rowId) || {};
 
-  const confirmation = location.pathname.includes("published")
-    ? image_title
-    : imageName;
   const handleDelete = () => {
     if (location.pathname.includes("published")) {
       const formData = {
-        image_ids: [id],
+        image_ids: [rowId],
       };
       dispatch(deletePropertyImages(formData));
     }
     if (location.pathname.includes("uploads")) {
-      dispatch(removePreviewImageFile(imageName));
+      dispatch(removePreviewImageFile(imageTitle));
     }
   };
 
-  return (
-    <>
-      {!showDialog ? (
-        <DeleteSingleImage handleOpen={handleOpen} />
-      ) : (
-        <Dialog onClose={handleClose}>
-          <ImageDeleteForm
-            confirmation={confirmation}
-            handleDelete={handleDelete}
-          />
-        </Dialog>
-      )}
-    </>
-  );
+  if (queryParameters.get("dialogDelete"))
+    return (
+      <Dialog onClose={handleClose}>
+        <ImageDeleteForm
+          confirmation={imageTitle}
+          handleDelete={handleDelete}
+        />
+      </Dialog>
+    );
+  return <DeleteSingleImage handleOpen={handleOpen} />;
 }
 
 export default DeleteImageDialog;

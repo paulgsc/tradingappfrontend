@@ -1,15 +1,12 @@
-import currency from "currency.js";
-import React from "react";
-import { getActivePropertyData } from "../hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ProgressBar() {
+  const queryClient = useQueryClient();
   const {
-    data: {
-      total_property_shares = 0,
-      total_purchased_shares = 0,
-      total_purchased_amount = 0,
-    } = {},
-  } = getActivePropertyData();
+    total_property_shares = 0,
+    total_purchased_shares = 0,
+    total_purchased_amount_formated = 0,
+  } = queryClient.getQueryData(["active-property"]) || {};
 
   const percent =
     100 *
@@ -27,14 +24,14 @@ function ProgressBar() {
         <div className="w-full orange-gradient">
           <div className="mb-1 text-sm xl:text-lg font-light">
             <p className="px-2">
-              {parseInt(total_purchased_shares) || 0} shares sold of{" "}
-              {parseInt(total_property_shares) || 0} shares
+              {total_purchased_shares || 0} shares sold of{" "}
+              {total_property_shares || 0} shares
             </p>
           </div>
           <div className="">
             <p className="px-4 text-stat-title text-gray-600 font-normal text-stat text-xs xl:text-base leading-5 mb-0">
               {" "}
-              {currency(total_purchased_amount).format() || 0} funds raised{" "}
+              {total_purchased_amount_formated || 0} funds raised{" "}
             </p>
           </div>
         </div>

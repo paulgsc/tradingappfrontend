@@ -20,7 +20,7 @@ function Navbar() {
             <NavbarItems />
           </div>
           <div className="flex items-center lg:order-2">
-            {token && <DashboardLink path={"/personal"} />}
+            {token && <DashboardLink path={"/personal/dashboard"} />}
             {token ? <ProfileMenu /> : <NavbarLogins />}
           </div>
         </div>

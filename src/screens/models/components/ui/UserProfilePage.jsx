@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import TabMenu from "../../../../components/ui/TabMenu";
 import UserSettingsCard from "./UserSettingsCard";
+import ProfileRolesSettings from "./ProfileRolesSettings";
 
 function UserProfilePage() {
   const location = useLocation();
@@ -22,6 +23,11 @@ function UserProfilePage() {
       id: "tab_1",
       title: "Settings",
       content: <UserSettingsCard />,
+    },
+    {
+      id: "tab_2",
+      title: "Roles",
+      content: <ProfileRolesSettings />,
     },
   ];
 

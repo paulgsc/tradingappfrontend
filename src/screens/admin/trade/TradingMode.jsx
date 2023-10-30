@@ -1,21 +1,24 @@
-import React from "react";
 import ToggleButton from "../../../components/ui/ToggleButton";
 import { AngleDownSVG } from "../../../constants/svgs/Svg";
 import { useLocation, useNavigate } from "react-router";
 import Alert from "../../../components/alerts/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveProperty } from "../../../contexts/redux/actions/adminActions";
-import { getActivePropertyData } from "../../tradingportal/components/hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function TradingMode() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const redirect = location.pathname;
-  const { data: { property_address = "" } = {} } = getActivePropertyData();
+  const { property_address = "" } = queryClient.getQueryData([
+    "active-property",
+  ]);
 
-  const { tradingActions: { propertyId = null, setToActive = false } = {} } =
-    useSelector((state) => state.adminActions);
+  const { tradingActions: { propertyId } = {} } = useSelector(
+    (state) => state.adminActions
+  );
 
   const handleSave = () => {
     dispatch(setActiveProperty());

@@ -49,7 +49,7 @@ function AuthRoute() {
       checkLoading(false);
     };
     dispatch(grantAcces());
-  }, [navigate, access]);
+  }, [dispatch, navigate, access]);
 
   if (!token && refreshingSession) {
     return <Navigate to={`/login/?redirect=${redirect}`} />;

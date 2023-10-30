@@ -1,39 +1,37 @@
 import { useState } from "react";
 import Table from "../../../../components/tables/Table";
 import { ColumnFilter } from "../../../admin/TableModels";
-import { useDispatch, useSelector } from "react-redux";
-import { stageImageIds } from "../../../../contexts/redux/actions/adminActions";
+import { useDispatch } from "react-redux";
+import { stageImageIds } from "../../hooks/reduxActions";
 import DeleteImagesDialog from "../imageActions/DeleteImagesDialog";
 import DeleteImageDialog from "../imageActions/DeleteImageDialog";
+import { useEffect } from "react";
 
-function ImagesTable({ type = "", data = [] }) {
+function ImagesTable({ type = "", data }) {
   const [showDialog, setShowDialog] = useState(false);
   const dispatch = useDispatch();
-  const [deleteImageIds, setDeleteImageIds] = useState([]);
-  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
-    (state) => state.env
-  );
+  const [selectedRowIds, setSelectedRowIds] = useState([]);
 
   const columns = [
     {
       Header: "Image",
-      accessor: (row) => row.imageUrl || row.image.value, // Use imageUrl if available, otherwise use image
+      accessor: (row) => row?.imageUrl || row?.object_key?.value, // Use imageUrl if available, otherwise use image
       Cell: ({ row }) => {
-        const formatUrl = (imageUrl) =>
-          import.meta.env.DEV
-            ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${imageUrl}`
-            : `${VITE_APP_BACKEND_URL}${imageUrl}`;
-        const imageUrl =
-          row.original.imageUrl || formatUrl(row.original.image.value);
         return (
-          <img className="h-12 w-12 rounded-md" src={imageUrl} alt="Property" />
+          <img
+            className="h-12 w-12 rounded-md"
+            src={
+              row?.original?.imageUrl || row?.original?.property_image?.value
+            }
+            alt="Property"
+          />
         );
       },
       width: "100%",
     },
     {
       Header: "Title",
-      accessor: (row) => row.imageName || row.image_title.value, // Use imageName if available, otherwise use image_title
+      accessor: (row) => row?.imageName || row?.image_title?.value, // Use imageName if available, otherwise use image_title
       Filter: ColumnFilter,
       width: "100%",
     },
@@ -51,7 +49,10 @@ function ImagesTable({ type = "", data = [] }) {
         ...column,
         Cell: ({ row }) => (
           <>
-            <DeleteImageDialog rowId={row.original.id} />
+            <DeleteImageDialog
+              rowId={row?.original?.id}
+              imageTitle={row?.imageName || row?.image_title?.value}
+            />
           </>
         ),
       };
@@ -83,11 +84,6 @@ function ImagesTable({ type = "", data = [] }) {
     }
   };
 
-  const getSelectedIds = (selectedIds) => {
-    dispatch(stageImageIds(type, selectedIds || []));
-    setDeleteImageIds(() => [...selectedIds]);
-  };
-
   const handleClose = () => {
     setShowDialog(false);
   };
@@ -95,16 +91,16 @@ function ImagesTable({ type = "", data = [] }) {
     setShowDialog(true);
   };
 
-  const clearIds = () => {
-    setDeleteImageIds([]);
-  };
+  useEffect(() => {
+    dispatch(stageImageIds(type, selectedRowIds));
+  }, [type, dispatch, selectedRowIds]);
 
   return (
     <div className="relative w-11/12 h-fit bg-white md:block">
       <button
         onClick={handleOpen}
         className={`absolute right-2 xl:right-3 xl:top-1 h-2 xl:h-4 w-2 xl:w-4 flex items-center justify-center ${
-          deleteImageIds.length
+          selectedRowIds.length
             ? "top-1 text-red-600 hover:rounded-full xl:hover:bg-red-800 xl:hover:p-2 hover:ring-1 hover:ring-red-300 xl:hover:text-red-200 shadow-md"
             : "pointer-events-none invisible top-2"
         }`}
@@ -112,18 +108,18 @@ function ImagesTable({ type = "", data = [] }) {
         <i className="fa fa-trash fa-2xs " aria-hidden="true"></i>
       </button>
       <Table
-        history={data}
+        history={data || []}
         columnData={updatedColumns}
         ColumnFilter={ColumnFilter}
         getClassName={getClassName}
         showCheckboxColumn={true}
-        getSelectedIds={getSelectedIds}
+        getSelectedIds={setSelectedRowIds}
       />
       {showDialog && (
         <DeleteImagesDialog
           handleClose={handleClose}
           clearIds={clearIds}
-          rowIds={deleteImageIds}
+          rowIds={selectedRowIds}
         />
       )}
     </div>

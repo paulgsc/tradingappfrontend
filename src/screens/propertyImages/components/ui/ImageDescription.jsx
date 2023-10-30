@@ -1,37 +1,29 @@
-import { useState } from "react";
 import TabMenu from "../../../../components/ui/TabMenu";
 import { useNavigate, useParams } from "react-router";
-import ImagesTable from "./ImagesTable";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import ImagesTable from "./ImagesTable";
 
 function ImageDescription({ publishedImages }) {
   const { model } = useParams();
   const [queryParameters] = useSearchParams();
-  const [activeTab, setActiveTab] = useState("How to");
   const navigate = useNavigate();
-  const { imageUpload = [], uploadState: { uploaded = false } = {} } =
-    useSelector((state) => state.adminFetchData);
+  const { imageUpload = [] } = useSelector((state) => state.adminFetchData);
 
   const handleTabClick = (tabId, path = "") => {
     const currentSearchParams = new URLSearchParams(queryParameters);
-    setActiveTab(tabId);
+    currentSearchParams.has("tab")
+      ? currentSearchParams.set("tab", tabId)
+      : currentSearchParams.append("tab", tabId);
     navigate(`${path}?${currentSearchParams.toString()}`);
   };
 
   const isTabActive = (tabId) => {
+    const activeTab = queryParameters.get("tab")
+      ? queryParameters.get("tab")
+      : "Published Images";
     return activeTab === tabId;
   };
-
-  useEffect(() => {
-    if (uploaded) {
-      setActiveTab("Published Images");
-      const currentSearchParams = new URLSearchParams(queryParameters);
-      const path = `/models/${model}/images/uploads/published`;
-      navigate(`${path}?${currentSearchParams.toString()}`);
-    }
-  }, [uploaded, navigate, model, queryParameters]);
 
   const headers = [
     {
@@ -49,6 +41,7 @@ function ImageDescription({ publishedImages }) {
     {
       id: "tab_2",
       title: "Uploaded Images",
+
       content: <ImagesTable type="uploads" data={imageUpload} />,
       path: `/models/${model}/images/uploads/stage`,
     },

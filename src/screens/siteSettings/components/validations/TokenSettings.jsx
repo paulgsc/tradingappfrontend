@@ -3,7 +3,7 @@ import { removeToast, showNotify } from "../../../../lib/utils";
 import { useState } from "react";
 import { useEffect } from "react";
 import SettingsCard from "../ui/SettingsCard";
-import Counter from "../../../../components/ui/Counter";
+import Counter from "../ui/Counter";
 import { updateConfigurationsSettings } from "../../../../contexts/redux/actions/adminActions";
 import ToastAlerts from "../../../../components/ui/ToastAlerts";
 

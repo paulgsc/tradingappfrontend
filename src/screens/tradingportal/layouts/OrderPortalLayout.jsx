@@ -1,19 +1,27 @@
-import React from "react";
-import { useState } from "react";
 import DashboardLayout from "./DashboardLayout";
 import TabMenu from "../../../components/ui/TabMenu";
 import OrdersLayout from "./OrdersLayout";
 import Investments from "../components/ui/Investments";
+import { useLocation, useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 
 function OrderPortalLayout() {
-  const [activeTab, setActiveTab] = useState("Dashboard");
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [queryParameters] = useSearchParams();
   const handleTabClick = (tabId) => {
-    setActiveTab(tabId);
+    const currentSearchParams = new URLSearchParams(queryParameters);
+    if (currentSearchParams.has("activeTradePortal")) {
+      currentSearchParams.set("activeTradePortal", tabId);
+    } else {
+      currentSearchParams.append("activeTradePortal", tabId);
+    }
+    navigate(`${location.pathname}?${currentSearchParams.toString()}`);
   };
 
   const isTabActive = (tabId) => {
-    return activeTab === tabId;
+    const selectedTab = queryParameters.get("activeTradePortal") || "Dashboard";
+    return selectedTab === tabId;
   };
   const headers = [
     {

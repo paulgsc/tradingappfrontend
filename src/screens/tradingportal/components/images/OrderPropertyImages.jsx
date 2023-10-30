@@ -1,28 +1,16 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import Caraousel from "../../../../components/animation/Caraousel";
 import ImageSkeleton from "./ImageSkeleton";
-import { getActivePropertyData } from "../hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function OrderPropertyImages() {
-  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
-    (state) => state.env
-  );
-
-  const { data: { images = [] } = {}, isLoading: propertyLoading } =
-    getActivePropertyData();
-
-  const propertyImages =
-    images.map((item) =>
-      import.meta.env.DEV
-        ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${item.image}`
-        : `${VITE_APP_BACKEND_URL}${item.image}`
-    ) || [];
+  const queryClient = useQueryClient();
+  let propertyLoading = false;
+  const { images = [] } = queryClient.getQueryData(["active-property"]) || {};
 
   if (propertyLoading) {
     return <ImageSkeleton />;
   }
-  return <Caraousel getClassname={getClassname} imageUrls={propertyImages} />;
+  return <Caraousel getClassname={getClassname} imageUrls={images} />;
 }
 
 const getClassname = (name) => {
