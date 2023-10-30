@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
 
 function LoginTitle() {
-  const { password_required } = useSelector((state) => state.userAuth);
+  const { login_route: { password_required } = {} } = useSelector(
+    (state) => state.userAuth
+  );
 
   if (password_required) {
     return (

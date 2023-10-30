@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   gmailLogin,
@@ -16,24 +16,15 @@ function LoginForm() {
     : "/";
 
   const dispatch = useDispatch();
-  const { password_required, userInfo: { gmailInfo } = {} } = useSelector(
-    (state) => state.userAuth
-  );
+  const {
+    login_route: { password_required, provided_email } = {},
+    userInfo: { gmailInfo } = {},
+  } = useSelector((state) => state.userAuth);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     if (typeof password_required === "undefined") {
       dispatch(setLoginRoute(email));
-      return;
-    }
-    if (typeof password_required === "boolean" && !password_required) {
-      const formData = {
-        username: email,
-        email: email,
-        redirect: redirect,
-      };
-      // Dispatch login action
-      dispatch(login(formData));
       return;
     }
 
@@ -43,8 +34,8 @@ function LoginForm() {
       typeof password === "string"
     ) {
       const formData = {
-        username: urlParams.get("idToken") ? gmailInfo?.email : email,
-        email: urlParams.get("idToken") ? gmailInfo?.email : email,
+        username: urlParams.get("idToken") ? gmailInfo?.email : provided_email,
+        email: urlParams.get("idToken") ? gmailInfo?.email : provided_email,
         password: password,
         redirect: redirect,
         providedPassword: password,
@@ -58,6 +49,18 @@ function LoginForm() {
     }
   };
 
+  useEffect(() => {
+    if (typeof password_required === "boolean" && !password_required) {
+      const formData = {
+        username: provided_email,
+        email: provided_email,
+        redirect: redirect,
+      };
+      // Dispatch login action
+      dispatch(login(formData));
+      return;
+    }
+  }, [dispatch, password_required, provided_email, redirect]);
   return (
     <form onSubmit={handleLogin} className="space-y-4">
       <div className="space-y-4">
