@@ -203,7 +203,9 @@ export const login = (formData) => async (dispatch, getState) => {
     dispatch(userLoginRequest());
     const { email } = formData;
     const {
-      userAuth: { password_required },
+      userAuth: {
+        login_route: { password_required },
+      },
     } = await getState();
     let password;
     let requestData;
@@ -258,7 +260,9 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
     };
 
     const {
-      data: { password_required },
+      data: {
+        login_route: { password_required },
+      },
     } = await API.get("users/login_route/", {
       params: {
         email: email,
@@ -284,7 +288,9 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
       );
       dispatch(
         userLoginRoute({
-          password_required: password_required,
+          login_route: {
+            password_required: password_required,
+          },
         })
       );
       return;

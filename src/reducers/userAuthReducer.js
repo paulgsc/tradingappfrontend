@@ -16,7 +16,7 @@ const userAuthentification = createSlice({
   },
   reducers: {
     userLoginRoute(state, action) {
-      return { ...state, ...action.payload };
+      return { ...state, loading: false, ...action.payload };
     },
     userRegistration(state, action) {
       return { ...state, loading: true };

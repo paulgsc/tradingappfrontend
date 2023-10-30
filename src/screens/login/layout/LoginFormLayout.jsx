@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 function LoginFormLayout() {
   const {
     loading = false,
-    password_required,
+    login_route: { password_required } = {},
     userInfo: { token = null } = {},
   } = useSelector((state) => state.userAuth);
 
