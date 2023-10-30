@@ -24,6 +24,7 @@ import jwtDecode from "jwt-decode";
 
 export const setLoginRoute = (email) => async (dispatch) => {
   try {
+    dispatch(userLoginRequest());
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -38,7 +39,14 @@ export const setLoginRoute = (email) => async (dispatch) => {
 
     dispatch(userLoginRoute(response.data));
   } catch (error) {
-    console.log(error);
+    console.log(error.response.status);
+    dispatch(
+      userLoginFailure(
+        error.response && error.response.status === 404
+          ? "No active account found"
+          : error.message
+      )
+    );
   }
 };
 
