@@ -1,19 +1,22 @@
-import React from "react";
 import { quickActionMenu } from "../../constants/navbar/profileMenu";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { broadcastLogout } from "../../contexts/redux/actions/userActions";
 import PlaceHolder from "../loading/PlaceHolder";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ProfileMenu({ user }) {
-  const { userInfo: { email, username } = {}, l } = useSelector(
+  const { userInfo: { email, username } = {} } = useSelector(
     (state) => state.userAuth
   );
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
   const handleAuthentication = (e, path, id) => {
     e.preventDefault();
     if (id === "signOut") {
+      queryClient.clear();
       dispatch(broadcastLogout());
     } else {
       navigate(path);

@@ -2,10 +2,12 @@ import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import SkeletonLoading from "../../../../components/loading/SkeletonLoading";
 import { broadcastLogout } from "../../../../contexts/redux/actions/userActions";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Step3({ loading, successMessage, error }) {
   const [queryParameters] = useSearchParams();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   return (
     <div>
@@ -31,6 +33,7 @@ function Step3({ loading, successMessage, error }) {
           <button
             onClick={() => {
               dispatch(broadcastLogout());
+              queryClient.clear();
               window.location.href = `/login?redirect${
                 queryParameters.get("redirect") || "/admin"
               }`;

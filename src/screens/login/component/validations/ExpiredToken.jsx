@@ -8,6 +8,7 @@ import { broadcastLogout } from "../../../../contexts/redux/actions/userActions"
 import { useCurrentUser } from "../../../../hooks/firebase-hooks";
 import TFADialog from "../clients/firebase/multifactorOauth/dialog/TFADialog";
 import { useSearchParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ExpiredToken({ login = true, children }) {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function ExpiredToken({ login = true, children }) {
   const dispatch = useDispatch();
   const [isTokenExpired, setIsTokenExpired] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const queryClient = useQueryClient();
   useEffect(() => {
     let timeoutId;
     const checkTokenExpiration = () => {
@@ -58,6 +60,7 @@ function ExpiredToken({ login = true, children }) {
         className: "bg-gradient-to-r from-pink-100 to-red-500",
       });
       dispatch(broadcastLogout());
+      queryClient.clear();
       navigate(
         `/${login ? "login" : "register"}/?redirect=${queryParameters.get(
           "redirect"
@@ -80,6 +83,7 @@ function ExpiredToken({ login = true, children }) {
     user,
     loading,
     queryParameters,
+    queryClient,
   ]);
 
   if (isEmailVerified) return <TFADialog user={user} />;

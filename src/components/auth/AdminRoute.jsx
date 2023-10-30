@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router";
 import { accessAdminView } from "../../contexts/redux/actions/userActions";
