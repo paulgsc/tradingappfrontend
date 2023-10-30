@@ -3,20 +3,24 @@ import { useDispatch } from "react-redux";
 import { broadcastLogout } from "../../contexts/redux/actions/userActions";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ExpiredSession() {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleExit = () => {
     dispatch(broadcastLogout());
+    queryClient.clear();
     window.location.href = "/";
   };
 
   const handlRefresh = () => {
     dispatch(broadcastLogout());
+    queryClient.clear();
     navigate(`/login?redirect=${location.pathname}`);
   };
 

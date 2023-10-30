@@ -2,13 +2,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { broadcastLogout } from "../../contexts/redux/actions/userActions";
 import { Link } from "react-router-dom";
 import UserLetterIcon from "./UserLetterIcon";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ProfileMenu() {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const { userInfo: { email, username, is_admin, profile_img } = {} } =
     useSelector((state) => state.userAuth);
   const handleSignOut = () => {
     dispatch(broadcastLogout());
+    queryClient.clear();
   };
   return (
     <div tabIndex={-1} className="group relative">

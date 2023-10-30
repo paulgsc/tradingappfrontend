@@ -1,27 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   userProcessChannelBroadcast,
   userStartBroadcastChannel,
 } from "../../reducers/userAuthReducer";
 import { logout } from "../../contexts/redux/actions/userActions";
+import { useQueryClient } from "@tanstack/react-query";
 
 function AuthBroadcast({ children }) {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
   const tokenFromRedux =
     useSelector((state) => state?.userAuth?.userInfo?.token) || null;
 
-  const processBroadcastMessage = (userInfoFromStorage) => {
-    try {
-      dispatch(userStartBroadcastChannel());
-
-      dispatch(userProcessChannelBroadcast(userInfoFromStorage));
-    } catch (error) {
-      dispatch(logout());
-    }
-  };
-
   useEffect(() => {
+    console.log("foo foo");
+    const processBroadcastMessage = (userInfoFromStorage) => {
+      try {
+        dispatch(userStartBroadcastChannel());
+
+        dispatch(userProcessChannelBroadcast(userInfoFromStorage));
+      } catch (error) {
+        dispatch(logout());
+      }
+    };
+
     // Set up the Broadcast Channel listener to receive messages from other tabs
 
     const broadcastChannel = new BroadcastChannel("authChannel");
@@ -42,6 +46,7 @@ function AuthBroadcast({ children }) {
         // Mark that the broadcast channel was created by another tab
       }
       if (event.data.type === "AUTH_LOGOUT") {
+        queryClient.clear();
         if (tokenFromRedux === null && token === null) {
           return;
         }
@@ -52,7 +57,7 @@ function AuthBroadcast({ children }) {
     return () => {
       broadcastChannel.close();
     };
-  }, []);
+  }, [dispatch, tokenFromRedux, queryClient]);
 
   return <>{children}</>;
 }
