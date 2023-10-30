@@ -1,9 +1,4 @@
-import { useSelector } from "react-redux";
-
 function ImageUpdateTable({ toPubish = [], toReplace = [] }) {
-  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
-    (state) => state.env
-  );
   return (
     <div className="flex flex-col justify-start h-full w-full shadow-inner ring-1 ring-gray-400 p-2 bg-gradient-to-br from-white via-blue-50 to-gray-100 ">
       <div className="grid grid-cols-2">
@@ -56,20 +51,17 @@ function ImageUpdateTable({ toPubish = [], toReplace = [] }) {
         </ul>
         <ul className="h-full shadow-inner">
           {toReplace.map((image, i) => {
-            const formatUrl = (imageUrl) =>
-              import.meta.env.DEV
-                ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${imageUrl}`
-                : `${VITE_APP_BACKEND_URL}${imageUrl}`;
+            const Url = `https://${image?.bucket_name?.value}.s3.amazonaws.com/${image?.object_key?.value}`;
             return (
               <li
                 key={`replace_${i}`}
                 className="h-12 w-10/12 flex justify-between items-center gap-20 even:border-t border-gray-300"
               >
                 <span className="ml-4 text-xs xl:text-sm font-normal">
-                  {image?.image_title}
+                  {image?.image_title?.value}
                 </span>
                 <img
-                  src={formatUrl(image?.image)}
+                  src={Url}
                   alt="proertyImage"
                   className=" h-8 xl:h-10 w-8 xl:w-10 object-cover border rounded-full"
                 />

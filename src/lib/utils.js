@@ -1,15 +1,13 @@
-
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 
 export function cn(...inputs) {
-    const classes = inputs.filter((input) => input != null && input !== false);
-    return classes.join(" ");
-  }
-  
-  export function absoluteUrl(path) {
-    return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
-  }
+  const classes = inputs.filter((input) => input != null && input !== false);
+  return classes.join(" ");
+}
+
+export function absoluteUrl(path) {
+  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
+}
 
 export const popupStyles = (element) => {
   element.style.position = "fixed";
@@ -28,25 +26,25 @@ export const popupStyles = (element) => {
   element.style.boxShadow = "0 7px 100px 0 rgba(0,0,0,.40)";
   element.style.borderRadius = "4px";
   element.style.zIndex = "1000";
-}
-
-
+};
 
 export function notify(message, position, type) {
-const getClassname = (type) => {
-  switch (type){
-    case "success":
-      return "bg-gradient-to-r from-indigo-100 to-blue-600"
-    default:
-      return ""
-  }
-}
+  const getClassname = (type) => {
+    switch (type) {
+      case "success":
+        return "bg-gradient-to-r from-indigo-100 to-blue-600";
+      default:
+        return "";
+    }
+  };
   const toastId = toast(message, {
-    className: `${getClassname(type)} relative h-full w-80 flex justify-center p-0 m-0`,
+    className: `${getClassname(
+      type
+    )} relative h-full w-80 flex justify-center p-0 m-0`,
     duration: 5000,
-    position: position
+    position: position,
   });
-  return toastId
+  return toastId;
 }
 
 export const removeToast = () => {
@@ -54,7 +52,7 @@ export const removeToast = () => {
 };
 
 export const showNotify = (type, className, content, position) => {
-  switch (type){
+  switch (type) {
     case "error":
       return toast.error(content, {
         duration: 5000,
@@ -68,9 +66,9 @@ export const showNotify = (type, className, content, position) => {
         className: className,
       });
     default:
-      break
+      break;
   }
-}
+};
 
 export const djangoToReactTypes = {
   charfield: "text",
@@ -98,7 +96,6 @@ export const djangoToReactTypes = {
   ImageField: "file",
   UrlField: "url",
 };
-
 
 export function formatTimestamp(created_at) {
   const now = new Date();
@@ -131,11 +128,11 @@ export function formatTimestamp(created_at) {
 
 export const reduceTokenDuration = (secs) => {
   const durationArray = [
-    { title: 'seconds', duration: 1 },
-    { title: 'minutes', duration: 60 },
-    { title: 'hours', duration: 60 * 60 },
-    { title: 'days', duration: 60 * 60 * 24 },
-    { title: 'weeks', duration: 60 * 60 * 24 * 7 }
+    { title: "seconds", duration: 1 },
+    { title: "minutes", duration: 60 },
+    { title: "hours", duration: 60 * 60 },
+    { title: "days", duration: 60 * 60 * 24 },
+    { title: "weeks", duration: 60 * 60 * 24 * 7 },
   ];
 
   for (let i = durationArray.length - 1; i >= 0; i--) {
@@ -143,26 +140,27 @@ export const reduceTokenDuration = (secs) => {
     if (secs >= duration) {
       return {
         title: title,
-        duration: Math.floor(secs / duration)
+        duration: Math.floor(secs / duration),
       };
     }
   }
 
   return {
-    title: 'seconds',
-    duration: secs
+    title: "seconds",
+    duration: secs,
   };
 };
 
 // csrf.js
 export function getCsrfToken() {
-  const csrfCookie = document.cookie.split('; ').find((cookie) => cookie.startsWith('csrftoken='));
+  const csrfCookie = document.cookie
+    .split("; ")
+    .find((cookie) => cookie.startsWith("csrftoken="));
   if (csrfCookie) {
-    return csrfCookie.split('=')[1];
+    return csrfCookie.split("=")[1];
   }
   return null;
 }
-
 
 // Function to clear local storage, except for specific items
 export function clearLocalStorageExcept(...keysToKeep) {
@@ -200,9 +198,16 @@ export function clearSessionStorageExcept(...keysToKeep) {
   }
 }
 
-
-
-
-
-
-
+export const unpackObjects = (key, val) => {
+  if (val === null || typeof val !== "object")
+    return {
+      [key]: val,
+    };
+  return Object.entries(val).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      ...unpackObjects(key, value),
+    }),
+    {}
+  );
+};

@@ -10,7 +10,7 @@ function Arcodian({ content = [] }) {
         >
           <details
             open
-            className="peer group list-none  p-2 lg:p-3 xl:p-4 cursor-pointer"
+            className="relative peer group list-none  p-2 lg:p-3 xl:p-4 cursor-pointer w-full open:max-w-fit"
           >
             <summary className="inline-flex items-center flex-row-reverse max-w-fit text-center gap-4 p-2 ">
               <h3 className="lg:text-lg xl:text-xl font-normal capitalize">
@@ -23,7 +23,7 @@ function Arcodian({ content = [] }) {
               />
             </summary>
           </details>
-          <main className="hidden peer-open:flex flex-col flex-1 p-2 blur-sm opacity-50 peer-open:blur-none peer-open:opacity-100 transition-all duration-500">
+          <main className="hidden w-full peer-open:flex flex-col flex-1 p-2 blur-sm opacity-50 peer-open:blur-none peer-open:opacity-100 transition-all duration-500">
             {item.content}
           </main>
         </section>

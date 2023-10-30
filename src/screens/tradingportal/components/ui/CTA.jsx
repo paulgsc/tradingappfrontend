@@ -1,5 +1,3 @@
-import React from "react";
-
 function CTA() {
   return (
     <div className="flex items-center xl:my-4">

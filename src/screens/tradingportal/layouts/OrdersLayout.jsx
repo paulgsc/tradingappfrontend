@@ -1,10 +1,9 @@
-import React from "react";
-import RecentOrders from "../components/orders/RecentOrders";
+import FetchOrders from "../components/orders/FetchOrders";
 
 function OrdersLayout() {
   return (
-    <div className="w-full">
-      <RecentOrders />
+    <div className="w-full bg-zinc-50">
+      <FetchOrders />
     </div>
   );
 }

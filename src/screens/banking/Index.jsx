@@ -1,18 +1,13 @@
-import React, { useState } from "react";
-import HomeIcon from "@mui/icons-material/Home";
+import { useState } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useLocation, useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import TransfersTable from "../../components/tables/TransfersTable";
-import TabWidget from "../../components/ui/TabWidget";
 import KeyPad from "../../components/ui/KeyPad";
 import Selection from "../../components/ui/Selection";
-import currency from "currency.js";
 import {
   fetchLinkedAccounts,
-  fetchSummary,
   fetchTransfers,
 } from "../../contexts/redux/actions/fetchDataActions";
 import {
@@ -24,7 +19,6 @@ import {
 import { FramerNotifications } from "../../components/animation/Framer";
 import Dropdown from "../../components/ui/Dropdown";
 import SkeletonLoading from "../../components/loading/SkeletonLoading";
-import { validate } from "uuid";
 import TabMenu from "../../components/ui/TabMenu";
 
 const Index = () => {
@@ -141,7 +135,6 @@ const Index = () => {
 
   useEffect(() => {
     dispatch(fetchLinkedAccounts());
-    dispatch(fetchSummary());
     dispatch(fetchTransfers());
     dispatch(getTransferStatus());
   }, [dispatch, fetchingData]);
@@ -324,15 +317,11 @@ Index.Balance = ({ transferRemaining, transferPending }) => (
       </div>
       <div className="flex items-end justify-between w-11/12 h-10 border-b ">
         <span className="ml-10 text-base">Withdrawable cash</span>
-        <span className=" mr-20 text-base">
-          {currency(transferRemaining).format()}
-        </span>
+        <span className=" mr-20 text-base">{transferRemaining}</span>
       </div>
       <div className="flex items-end justify-between w-11/12 h-10 border-b">
         <span className="ml-10 text-base">Pending deposits</span>
-        <span className="mr-20 text-base">
-          {currency(transferPending).format()}
-        </span>
+        <span className="mr-20 text-base">{transferPending}</span>
       </div>
     </div>
   </div>
@@ -584,7 +573,7 @@ Index.Summary = ({
     </button>
     <div className="flex w-full items-center justify-center">
       <span className="text-base lg:text-6xl xl:text-8xl">
-        {currency(transferAmount).format()}
+        {transferAmount}
       </span>
     </div>
     <div className="flex flex-col lg:h-12 xl:h-16 w-full border-b border-gray-400 ">

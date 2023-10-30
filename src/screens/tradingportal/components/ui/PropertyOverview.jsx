@@ -1,13 +1,9 @@
-import React from "react";
-import { getActivePropertyData } from "../hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function PropertyOverview() {
-  const {
-    data: {
-      property_address = "property name",
-      description = "description...",
-    } = {},
-  } = getActivePropertyData();
+  const queryClient = useQueryClient();
+  const { property_address = "property name", description = "description..." } =
+    queryClient.getQueryData(["active-property"]) || {};
 
   return (
     <div className="flex flex-col mx-auto my-2 space-y-4">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Callout from "../../../../../components/ui/Callout";
 import { useDispatch, useSelector } from "react-redux";
 import { showCalloutAlert } from "../../../../../reducers/tradingReducers";

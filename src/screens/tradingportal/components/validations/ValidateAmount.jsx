@@ -1,11 +1,11 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { validateOrderInput } from "../../../../contexts/redux/actions/tradingActions";
-import { getActivePropertyData, getUserBalance } from "../hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ValidateAmount() {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const {
     orderInfo: {
       transactionType = null,
@@ -15,20 +15,11 @@ function ValidateAmount() {
     } = {},
   } = useSelector((state) => state.trade);
 
-  const { userInfo: { token = null } = {} } = useSelector(
-    (state) => state.userAuth
-  );
+  const { price_per_share = 0 } =
+    queryClient.getQueryData(["active-property"]) || {};
 
-  const {
-    data: { price_per_share = 0 },
-  } = getActivePropertyData(orderInput);
-
-  // Second API call
-
-  const { data: { transfer_remaining = 0 } = {} } = getUserBalance(
-    orderInput,
-    token
-  );
+  const { transfer_remaining = 0 } =
+    queryClient.getQueryData(["user-balance"]) || {};
 
   const orderAmount = () => {
     if (transactionType === "Dollars") {

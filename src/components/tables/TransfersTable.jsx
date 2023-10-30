@@ -1,8 +1,7 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTable, useSortBy, useFilters } from "react-table";
 import Dropdown from "../ui/Dropdown";
-import currency from "currency.js";
 import { simulateTransferEvent } from "../../contexts/redux/actions/plaidActions";
 import Spinner from "../loading/Spinner";
 import { useState } from "react";
@@ -41,9 +40,7 @@ function TransfersTable() {
         accessor: (row) => {
           if (row.recordType === "Transfer") {
             const amount = parseFloat(row.amount);
-            return row.type === "debit"
-              ? "+" + currency(amount).format()
-              : "-" + amount;
+            return row.type === "debit" ? "+" + amount : "-" + amount;
           } else {
             return row.order_amount;
           }

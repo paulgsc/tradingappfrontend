@@ -1,21 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { storeOrderInput } from "../../../../contexts/redux/actions/tradingActions";
 import NotEnoughFunds from "../alerts/orders/NotEnoughFunds";
 import NotWholeShares from "../alerts/orders/NotWholeShares";
-import { getActivePropertyData } from "../hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ManualInput() {
   const dispatch = useDispatch();
   const [input, setInput] = useState("0");
   const [counter, setCounter] = useState(0);
-
-  const {
-    data: { available_shares = 0 } = {},
-
-    refetch: propertyRefetch,
-  } = getActivePropertyData();
+  const queryClient = useQueryClient();
+  const { available_shares = 0 } =
+    queryClient.getQueryData(["active-property"]) || {};
 
   const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
     useSelector((state) => state.trade);
@@ -33,7 +30,7 @@ function ManualInput() {
   };
 
   const digitOnly = (val) => {
-    const digitRegex = /^\d+$/;
+    const digitRegex = /^(?!0)\d+$/;
     return digitRegex.test(val);
   };
 
@@ -75,15 +72,11 @@ function ManualInput() {
     };
 
     dispatch(storeOrderInput(orderInfo));
-  }, [input, counter]);
+  }, [dispatch, input, counter]);
 
   useEffect(() => {
     setInput("");
   }, [transactionType]);
-
-  useEffect(() => {
-    propertyRefetch();
-  }, [orderInput]);
 
   return (
     <div className="flex flex-1 h-full">

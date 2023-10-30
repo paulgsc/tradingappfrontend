@@ -1,29 +1,22 @@
-import React from "react";
 import "./tradeslider.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import { storeOrderInput } from "../../../../contexts/redux/actions/tradingActions";
-import { getActivePropertyData, getUserBalance } from "../hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Slider() {
   const dispatch = useDispatch();
   const [sliderVal, setSliderVal] = useState(0);
-  const { userInfo: { token = null } = {} } = useSelector(
-    (state) => state.userAuth
+  const queryClient = useQueryClient();
+  const { orderInfo: { transactionType } = {} } = useSelector(
+    (state) => state.trade
   );
-  const { orderInfo: { transactionType = null, orderInput = "" } = {} } =
-    useSelector((state) => state.trade);
 
-  const { data: { available_shares = 0 } = {} } =
-    getActivePropertyData(orderInput);
-
-  // Second API call
-
-  const { data: { transfer_remaining = 0 } = {} } = getUserBalance(
-    orderInput,
-    token
-  );
+  const { transfer_remaining = 0 } =
+    queryClient.getQueryData(["user-balance"]) || {};
+  const { available_shares = 0 } =
+    queryClient.getQueryData(["active-property"]) || {};
 
   const max =
     transactionType === "Shares"
@@ -42,7 +35,7 @@ function Slider() {
     };
 
     dispatch(storeOrderInput(orderInfo));
-  }, [sliderVal]);
+  }, [dispatch, sliderVal]);
 
   return (
     <div

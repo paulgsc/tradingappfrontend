@@ -21,7 +21,8 @@ function Navbar() {
           <div className="flex items-center lg:order-2">
             {token && (
               <>
-                <LiveNotifications /> <DashboardLink path={"/personal"} />
+                <LiveNotifications />{" "}
+                <DashboardLink path={"/personal/dashboard"} />
               </>
             )}
             {token ? <ProfileMenu /> : <NavbarLogins />}

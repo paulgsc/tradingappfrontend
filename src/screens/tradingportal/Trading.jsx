@@ -2,8 +2,18 @@ import TradingHeader from "./components/ui/TradingHeader";
 import NoFunds from "./components/alerts/transfer/NoFunds";
 import TradingInfoLayout from "./layouts/TradingInfoLayout";
 import Navbar from "./components/ui/Navbar";
+import {
+  getActivePropertyData,
+  getUserBalance,
+} from "./components/hooks/reactQuery";
+import { useSelector } from "react-redux";
+import SubmissionError from "./components/alerts/orders/SubmissionError";
 
 function Trading() {
+  const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
+  const { isLoading: propertyLoading } = getActivePropertyData();
+  const { isLoading: userBalanceLoading } = getUserBalance(token);
+
   return (
     <div className="">
       <section className="w-full sticky top-0 z-50">
@@ -14,7 +24,8 @@ function Trading() {
           <TradingHeader />
           <hr className="  w-full mb-2" />
 
-          <NoFunds />
+          <NoFunds isLoading={userBalanceLoading} token={token} />
+          <SubmissionError />
 
           <TradingInfoLayout />
         </section>

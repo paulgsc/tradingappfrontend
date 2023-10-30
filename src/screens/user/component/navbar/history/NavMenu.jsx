@@ -1,4 +1,3 @@
-import React from "react";
 import NavMenuItems from "./NavMenuItems";
 import DropDownIcon from "../../ui/DropDownIcon";
 import { transactionsNavbar } from "../../../../../constants/navbar/menubar";

@@ -1,4 +1,3 @@
-import React from "react";
 import OrderEntryLayout from "../../layouts/OrderEntryLayout";
 
 function OrderPage({ flipped }) {

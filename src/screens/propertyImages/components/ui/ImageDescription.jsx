@@ -2,8 +2,7 @@ import TabMenu from "../../../../components/ui/TabMenu";
 import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import PublishedImages from "../pages/PublishedImages";
-import UploadedImages from "../pages/UploadedImages";
+import ImagesTable from "./ImagesTable";
 
 function ImageDescription({ publishedImages }) {
   const { model } = useParams();
@@ -36,13 +35,14 @@ function ImageDescription({ publishedImages }) {
     {
       id: "tab_1",
       title: "Published Images",
-      content: <PublishedImages publishedImages={publishedImages} />,
+      content: <ImagesTable type="published" data={publishedImages} />,
       path: `/models/${model}/images/uploads/published`,
     },
     {
       id: "tab_2",
       title: "Uploaded Images",
-      content: <UploadedImages uploadedImages={imageUpload} />,
+
+      content: <ImagesTable type="uploads" data={imageUpload} />,
       path: `/models/${model}/images/uploads/stage`,
     },
   ];

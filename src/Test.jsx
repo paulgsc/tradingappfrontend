@@ -1,7 +1,11 @@
-import SiteSettings from "./screens/siteSettings/routes/SiteSettings";
+import Orders from "./screens/userHistory/routes/orders/Orders";
 
 function Test() {
-  return <SiteSettings />;
+  return (
+    <main>
+      <Orders />
+    </main>
+  );
 }
 
 export default Test;

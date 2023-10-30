@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import OrderPortalLayout from "./OrderPortalLayout";
 import PropertyTabs from "../components/ui/PropertyTabs";

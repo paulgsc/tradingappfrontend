@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { validateOrderInput } from "../../../../contexts/redux/actions/tradingActions";
-import { getActivePropertyData, getUserBalance } from "../hooks/reactQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ValidShares() {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const {
     orderInfo: {
       transactionType = null,
@@ -13,19 +14,10 @@ function ValidShares() {
     } = {},
   } = useSelector((state) => state.trade);
 
-  const { userInfo: { token = null } = {} } = useSelector(
-    (state) => state.userAuth
-  );
-
-  const { data: { price_per_share = 0, available_shares = 0 } = {} } =
-    getActivePropertyData(orderInput);
-
-  // Second API call
-
-  const { data: { transfer_remaining = 0 } = {} } = getUserBalance(
-    orderInput,
-    token
-  );
+  const { price_per_share = 0, available_shares = 0 } =
+    queryClient.getQueryData(["active-property"]) || {};
+  const { transfer_remaining = 0 } =
+    queryClient.getQueryData(["user-balance"]) || {};
 
   const isWholeShares = () => {
     if (price_per_share > 0 && !isNaN(parseFloat(orderInput))) {
@@ -55,7 +47,13 @@ function ValidShares() {
         return;
       }
     }
-  }, [orderInput, price_per_share, available_shares, transfer_remaining]);
+  }, [
+    dispatch,
+    orderInput,
+    price_per_share,
+    available_shares,
+    transfer_remaining,
+  ]);
   return <></>;
 }
 

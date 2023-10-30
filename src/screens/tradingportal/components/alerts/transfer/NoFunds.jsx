@@ -1,44 +1,14 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import SkeletonLoading from "../../../../../components/loading/SkeletonLoading";
-import { fetchUserBalance } from "../../../../../contexts/redux/actions/userActions";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
-function NoFunds() {
+function NoFunds({ isLoading, token }) {
   const location = useLocation();
-  const redirect = location.pathname;
-  const { userInfo: { token = null } = {} } = useSelector(
-    (state) => state.userAuth
-  );
-  const queryKey = ["user-balance"];
-  const {
-    data: { transfer_remaining = 0 } = {},
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery(
-    queryKey,
-    async () => {
-      return await fetchUserBalance(token);
-    },
-    {
-      enabled: !!token,
-    }
-  );
   const queryClient = useQueryClient();
+  const redirect = location.pathname;
 
-  const clearCache = () => {
-    queryClient.invalidateQueries("user-balance");
-    queryClient.clear();
-  };
-
-  useEffect(() => {
-    clearCache();
-
-    refetch();
-  }, [token]);
+  const { transfer_remaining = 0 } =
+    queryClient.getQueryData(["user-balance"]) || {};
 
   if (isLoading && token) {
     return (

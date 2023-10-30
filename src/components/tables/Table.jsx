@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import {
   useTable,
   useSortBy,
@@ -7,20 +7,19 @@ import {
   useGlobalFilter,
 } from "react-table";
 import { cn } from "../../lib/utils";
-import { filter } from "lodash";
+import { useState } from "react";
 
 function Table({
   columnData,
   history,
-  getClassName,
-  handleScroll = () => {},
+  getClassName = () => {},
   showCheckboxColumn = false,
   getSelectedIds = () => {},
+  preselectedRowIds,
   globalFilter,
-  setGlobalFilter,
 }) {
   const data = useMemo(() => history, [history]);
-
+  const [rowSelected, setRowSelected] = useState(false);
   const ColumnFilter = ({ column }) => {
     const { filterValue, setFilter } = column;
     return (
@@ -72,7 +71,7 @@ function Table({
         <div className={`${getClassName("check-box-header")}`}>
           <input
             type="checkbox"
-            onClick={() => {}}
+            onClick={() => setRowSelected(true)}
             {...getToggleAllRowsSelectedProps({ indeterminate: "false" })}
           />
         </div>
@@ -83,6 +82,7 @@ function Table({
             type="checkbox"
             checked={row.isSelected}
             {...row.getToggleRowSelectedProps()}
+            onClick={() => setRowSelected(true)}
             indeterminate={
               row.isSelected && !row.isSomeSelected ? "true" : undefined
             }
@@ -104,8 +104,6 @@ function Table({
     []
   );
 
-  const rowIdsToSelect = data.map((row) => row.id);
-
   const tableInstance = useTable(
     {
       columns,
@@ -113,7 +111,7 @@ function Table({
       defaultColumn,
       initialState: {
         globalFilter,
-        selectedRowIds: { [rowIdsToSelect]: true },
+        selectedRowIds: { [preselectedRowIds]: true },
       }, // Set initial global filter state
     },
     useFilters,
@@ -123,13 +121,12 @@ function Table({
   );
 
   const {
-    getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-    selectedFlatRows,
     state,
+    setGlobalFilter,
   } = tableInstance;
 
   const selectedRowIds = useMemo(
@@ -138,12 +135,18 @@ function Table({
   );
 
   useEffect(() => {
-    const selectedRowIdsArray = Object.keys(selectedRowIds)
-      .filter((item) => !isNaN(parseInt(item)))
-      .map((item) => parseInt(item));
+    if (history?.length > 0 && rowSelected) {
+      const selectedRowIdsArray = Object.keys(selectedRowIds)
+        .filter((item) => !isNaN(parseInt(item)))
+        .map((item) => parseInt(item));
 
-    getSelectedIds(selectedRowIdsArray);
-  }, [selectedRowIds, getSelectedIds]);
+      getSelectedIds(selectedRowIdsArray);
+    }
+  }, [selectedRowIds, getSelectedIds, history, rowSelected, preselectedRowIds]);
+
+  useEffect(() => {
+    setGlobalFilter(globalFilter);
+  }, [globalFilter, setGlobalFilter]);
 
   return (
     <div className={getClassName("table")}>
@@ -178,17 +181,18 @@ function Table({
         ))}
       </div>
       {history.length ? (
-        <div
-          className={getClassName("tbody")}
-          {...getTableBodyProps()}
-          onScroll={handleScroll}
-        >
-          {rows.map((row) => {
+        <div className={getClassName("tbody")} {...getTableBodyProps()}>
+          {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <div className={`${getClassName("row")}`} {...row.getRowProps()}>
-                {row.cells.map((cell) => (
+              <div
+                key={i}
+                className={`${getClassName("row")}`}
+                {...row.getRowProps()}
+              >
+                {row.cells.map((cell, i) => (
                   <div
+                    key={i}
                     className={`${getClassName("cell")}`}
                     {...cell.getCellProps({
                       style: {

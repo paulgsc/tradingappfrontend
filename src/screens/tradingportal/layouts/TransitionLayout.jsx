@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import Transition from "../components/ui/Transition";
 import FlipCard from "../components/dashboard/FlipCard";

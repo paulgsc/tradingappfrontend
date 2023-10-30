@@ -1,13 +1,8 @@
-import React from "react";
-import { useState } from "react";
 import { useEffect } from "react";
 import { FaBackspace } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { setTransferAmount } from "../../contexts/redux/actions/plaidActions";
-import Selection from "./Selection";
+import { useDispatch } from "react-redux";
 import { fetchLinkedAccounts } from "../../contexts/redux/actions/fetchDataActions";
-import currency from "currency.js";
-import PlaidHome from "../../screens/plaid/PlaidHome";
+
 const keyPad = [
   {
     id: "",
@@ -114,7 +109,7 @@ KeyPad.Amount = ({ amount }) => (
 KeyPad.ReviewAmount = ({ transferAmount }) => (
   <div className="flex items-center justify-center text-right h-full  bg-transparent">
     <p className="font-thin text-base lg:text-6xl xl:text-8xl text-gray-700 dark:text-gray-900">
-      {currency(transferAmount).format()}
+      {transferAmount}
     </p>
   </div>
 );

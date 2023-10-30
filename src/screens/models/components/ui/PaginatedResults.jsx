@@ -11,15 +11,12 @@ import SetFields from "../actions/SetFields";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-function PaginatedResults({ globalFilter, setGlobalFilter }) {
+function PaginatedResults({ globalFilter }) {
   const navigate = useNavigate();
   const { model } = useParams();
   const [queryParameters] = useSearchParams();
   const { userInfo: { token = null } = {} } = useSelector(
     (state) => state.userAuth
-  );
-  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
-    (state) => state.env
   );
 
   const {
@@ -62,7 +59,7 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
         const cellValue = row.original[column.accessor];
 
         // Check if the cell value is a URL with a jpg, jpeg, or png extension
-        const isImage = /property_images\/.*\.(jpg|jpeg|png)$/i.test(cellValue);
+        const isImage = /^http.*\.(jpg|jpeg|png)$/i.test(cellValue);
 
         if (isImage) {
           // If it's an image URL, render the image
@@ -81,11 +78,7 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
             >
               <img
                 className=" bg-cover h-12 w-12 rounded-full"
-                src={
-                  import.meta.env.DEV
-                    ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${cellValue}`
-                    : `${VITE_APP_BACKEND_URL}${cellValue}`
-                }
+                src={cellValue}
                 alt="Image"
               />
             </div>
@@ -152,6 +145,9 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
                 <DateRange />
                 <SetFields />
               </section>
+              <h1 className="uppercase font-bold text-lg text-zinc-500">
+                {model}
+              </h1>
               {!!import_enabled && <FileImportExport />}
             </header>
             <main className="">
@@ -161,7 +157,6 @@ function PaginatedResults({ globalFilter, setGlobalFilter }) {
                 getClassName={getClassName}
                 showCheckboxColumn={true}
                 globalFilter={globalFilter}
-                setGlobalFilter={setGlobalFilter}
                 tbodyId={"orders-table-container"}
               />
               {!Array.isArray(data) ||

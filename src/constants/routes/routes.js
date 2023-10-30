@@ -50,7 +50,11 @@ export const modelsPaths = [
   "/models/:model/form-view/:params?",
   "/models/:model/user/form-view/:params?",
 ];
-export const adminDashboardPaths = ["admin/dashboard/:params?"];
+export const adminDashboardPaths = ["/admin/dashboard/:params?"];
+
+export const userDashboardPaths = ["/personal/dashboard/:params?"];
+
+export const userHistoryPaths = ["/personal/myhistory/:model/:params?"];
 
 export const adminPropertyImagesPaths = [
   "/models/:model/images/uploads/:recordId?/:propertyId?",

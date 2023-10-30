@@ -1,31 +1,78 @@
+import TableSummaryCard from "../../../../components/ui/TableSummaryCard";
+
 function QuickSummary() {
-  return (
-    <div className="flex flex-1 justify-center p-4 space-x-6">
-      {Array(3)
-        .fill("")
-        .map((_, i) => (
-          <section
-            key={i}
-            className="max-w-sm h-fit flex flex-1 justify-start items-center space-x-4 p-4 rounded-lg border border-gray-300/80 bg-white"
-          >
-            <div>
-              <span className="sr-only">some icon</span>
-              <div className="flex items-center justify-center h-16 w-16 p-2 outline outline-neutral-100/20 rounded-lg bg-blue-300/20"></div>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-normal ">Lorem ipsum</span>
-              <span
-                role="status"
-                aria-live="polite"
-                className="font-bold text-xl xl:text-2xl"
-              >
-                100
-              </span>
-            </div>
-          </section>
-        ))}
-    </div>
-  );
+  const summary = [
+    {
+      id: 1,
+      title: "records",
+      value: 2,
+      icon: (
+        <svg
+          className="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="20"
+          fill="none"
+          viewBox="0 0 18 20"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2"
+            d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0v3H6V2m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M5 5h8m-5 5h5m-8 0h.01M5 14h.01M8 14h5"
+          />
+        </svg>
+      ),
+    },
+    {
+      id: 1,
+      title: "records",
+      value: 2,
+      icon: (
+        <svg
+          className="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="20"
+          fill="none"
+          viewBox="0 0 18 20"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2"
+            d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0v3H6V2m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M5 5h8m-5 5h5m-8 0h.01M5 14h.01M8 14h5"
+          />
+        </svg>
+      ),
+    },
+    {
+      id: 1,
+      title: "records",
+      value: 2,
+      icon: (
+        <svg
+          className="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="20"
+          fill="none"
+          viewBox="0 0 18 20"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2"
+            d="M12 2h4a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4m6 0v3H6V2m6 0a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M5 5h8m-5 5h5m-8 0h.01M5 14h.01M8 14h5"
+          />
+        </svg>
+      ),
+    },
+  ];
+  return <TableSummaryCard summary={summary} />;
 }
 
 export default QuickSummary;

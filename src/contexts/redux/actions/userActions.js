@@ -605,25 +605,6 @@ export const fetchUserOrders = async (token, page = 1) => {
     },
   };
 
-  const response = await API.get(`users/orders/?page=${page}`, config);
+  const response = await API.get(`users/orders/history/?page=${page}`, config);
   return response.data;
-};
-
-export const fetchUserBalance = async (token) => {
-  if (!token) {
-    return {};
-  }
-  try {
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const response = await API.get("users/summary/", config);
-    return response.data;
-  } catch (error) {
-    throw new Error(error);
-  }
 };

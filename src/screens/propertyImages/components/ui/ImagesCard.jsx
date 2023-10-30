@@ -9,9 +9,6 @@ function ImagesCard() {
   const [queryParameters] = useSearchParams();
 
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
-  const { envVariables: { VITE_APP_BACKEND_URL = "" } = {} } = useSelector(
-    (state) => state.env
-  );
   const { imageUpload = [] } = useSelector((state) => state.adminFetchData);
   const images = imageUpload.map((image) => image.imageUrl);
 
@@ -19,14 +16,16 @@ function ImagesCard() {
     (state) => state.adminActions
   );
 
-  const { data } = fetchRentalPhotos(token);
+  const currentSearchParams = new URLSearchParams(queryParameters);
+  // Convert the searchParams into an object
+  const queryParamsObject = {};
+  for (const [key, value] of currentSearchParams) {
+    queryParamsObject[key] = value;
+  }
+  const { data } = fetchRentalPhotos(token, queryParamsObject);
+
   const publishedImages =
-    (Array.isArray(data) &&
-      data.map((item) =>
-        import.meta.env.DEV
-          ? `${import.meta.env.VITE_APP_DEVELOPMENT_URL}${item?.image?.value}`
-          : `${VITE_APP_BACKEND_URL}${item?.image?.value}`
-      )) ||
+    (Array.isArray(data) && data.map((item) => item?.property_image?.value)) ||
     [];
 
   const getClassname = (name) => {
@@ -39,14 +38,14 @@ function ImagesCard() {
         return "";
     }
   };
-  console.log(publish.length);
+
   return (
     <div className="flex flex-col w-full h-full gap-2 ">
       <div className="flex justify-center items-center row-span-1 xl:row-span-1 h-full">
         {queryParameters.get("tab") === "How to" && <ImagePropertyCard />}
         {queryParameters.get("tab") === "Published Images" &&
           (overwrite?.length > 0 ? (
-            <ImagePropertyCard />
+            <ImagePropertyCard imageData={data} />
           ) : (
             <Caraousel
               key={`${publishedImages.length}`}
@@ -56,7 +55,7 @@ function ImagesCard() {
           ))}
         {queryParameters.get("tab") === "Uploaded Images" &&
           (publish?.length > 0 ? (
-            <ImagePropertyCard />
+            <ImagePropertyCard imageData={data} />
           ) : (
             <Caraousel imageUrls={images} getClassname={getClassname} />
           ))}

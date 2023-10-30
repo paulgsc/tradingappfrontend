@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ImageSkeleton from "../../screens/tradingportal/components/images/ImageSkeleton";
 
 function Caraousel({ getClassname = () => {}, imageUrls = [] }) {
@@ -217,7 +217,7 @@ const Images = ({ images }) => {
               data-carousel-item
             >
               <img
-                src={image}
+                src={image?.aws_url}
                 className="absolute block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                 alt="..."
                 title="hover to pause"

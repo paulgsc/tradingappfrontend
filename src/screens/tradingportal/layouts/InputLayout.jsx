@@ -1,4 +1,3 @@
-import React from "react";
 import TypeLayout from "./TypeLayout";
 import ManualInput from "../components/inputs/ManualInput";
 import Slider from "../components/inputs/Slider";
