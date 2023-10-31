@@ -92,8 +92,8 @@ function ProfileMenu() {
             </a>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              to={"/personal/myhistory/orders"}
               className="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
             >
               <svg
@@ -105,7 +105,7 @@ function ProfileMenu() {
                 <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
               </svg>{" "}
               History
-            </a>
+            </Link>
           </li>
           {is_admin && (
             <li>

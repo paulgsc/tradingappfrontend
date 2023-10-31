@@ -6,6 +6,7 @@ import AutoUploadTabs from "../components/ui/AutoUploadTabs";
 import WorkFlows from "../components/gsheets/WorkFlows";
 import SchedulerSetup from "../components/schedulerSetup/SchedulerSetup";
 import { useState } from "react";
+import NavLayout from "../../../components/ui/NavLayout";
 
 function UploadsView() {
   const locaton = useLocation();
@@ -14,12 +15,12 @@ function UploadsView() {
   if (locaton.pathname.includes(`/models/${model}/uploads`)) {
     return (
       <>
-        <section>
+        <NavLayout>
           <Navbar
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />
-        </section>
+        </NavLayout>
         <div className="min-h-screen xl:m-12 space-x-4">
           <section className="relative w-full rounded-md outline outline-neutral-200 shadow-inner p-4 ">
             <header className=" flex flex-col flex-1 space-y-2 m-2 border-b border-neutral-200">

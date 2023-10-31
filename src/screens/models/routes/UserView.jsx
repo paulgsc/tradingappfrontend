@@ -1,6 +1,7 @@
 import { useLocation, useParams } from "react-router";
 import Navbar from "../../adminDashboard/components/ui/Navbar";
 import UserProfilePage from "../components/ui/UserProfilePage";
+import NavLayout from "../../../components/ui/NavLayout";
 
 function UserView() {
   const location = useLocation();
@@ -12,9 +13,9 @@ function UserView() {
   )
     return (
       <>
-        <section className="bg-white sticky top-0 z-50">
+        <NavLayout>
           <Navbar />
-        </section>
+        </NavLayout>
         <main className="flex justify-center p-1">
           <UserProfilePage />
         </main>

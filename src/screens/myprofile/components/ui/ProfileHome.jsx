@@ -6,12 +6,12 @@ function ProfileHome() {
     <ProfileInfo className={"relative col-span-5 w-full h-full bg-white"}>
       <ProfileInfo.Background
         className={
-          "flex justify-end items-end w-full h-1/5 bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500"
+          "flex justify-end items-end w-full h-1/5 px-4 bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500"
         }
       >
         <ProfileInfo.Button
           className={
-            " hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-mediu items-end gap-2 w-20 p-1 bg-blue-600 rounded-sm shadow-md text-sm text-white flex  justify-center"
+            "  hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-mediu items-end gap-2 w-20 p-1 bg-blue-600 rounded-sm shadow-md text-sm text-white flex  justify-center"
           }
         >
           <span>

@@ -1,15 +1,20 @@
+import { useSearchParams } from "react-router-dom";
+import NavLayout from "../../../components/ui/NavLayout";
 import General from "../components/pages/General";
 import Navbar from "../components/ui/Navbar";
+import Advanced from "../components/pages/Advanced";
 
 function MyprofilePage() {
+  const [searchParams] = useSearchParams();
+  const currentTab = searchParams.get("tab");
+
   return (
     <div className="block w-full">
-      <section className="w-full sticky top-0 z-50">
+      <NavLayout>
         <Navbar />
-      </section>
-      <>
-        <General />
-      </>
+      </NavLayout>
+      {currentTab === "general" || (!currentTab && <General />)}
+      {currentTab === "advanced" && <Advanced />}
     </div>
   );
 }
