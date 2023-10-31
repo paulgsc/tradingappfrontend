@@ -12,9 +12,8 @@ import { getIdToken } from "firebase/auth";
 
 function LoginSuccess() {
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
-  const { user, loading } = useCurrentUser();
+  const { user, loadingRef } = useCurrentUser();
   const [idToken, setIdToken] = useState(null);
-  const [decodedToken, setDecodedToken] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,33 +21,28 @@ function LoginSuccess() {
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
-    try {
-      setDecodedToken(jwtDecode(token));
-    } catch (error) {
-      setDecodedToken(null);
-    }
-  }, [token]);
-
-  useEffect(() => {
     const checkTokenExpiration = async () => {
-      if (decodedToken && !decodedToken?.verified_email) {
+      const { exp, email_verified, session_id } =
+        typeof token === "string" ? jwtDecode(token) : {};
+
+      if (token && !email_verified) {
         const currentTime = Date.now() / 1000; // Convert to seconds
-        if (decodedToken.exp > currentTime && typeof idToken === "string") {
+        if (exp > currentTime && typeof idToken === "string") {
           // call backend to create emailverified token for authenticated firebase user
           if (location.pathname.includes("/login"))
             dispatch(verifyGmailLogin(idToken));
           if (location.pathname.includes("/register"))
             dispatch(verifyGmailSignup(idToken));
         }
-        if (decodedToken.exp > currentTime && !user && !loading && token) {
+        if (exp > currentTime && !user && !loadingRef.current && token) {
           // render otp dialog
           if (location.pathname.includes("/login"))
             navigate(
-              `/login/otp/?sessionId=${decodedToken?.session_id}/?redirect=${redirect}`
+              `/login/otp/?sessionId=${session_id}/?redirect=${redirect}`
             );
           if (location.pathname.includes("/register"))
             navigate(
-              `/register/otp/?sessionId=${decodedToken?.session_id}/?redirect=${redirect}`
+              `/register/otp/?sessionId=${session_id}/?redirect=${redirect}`
             );
         }
       }
@@ -57,11 +51,10 @@ function LoginSuccess() {
   }, [
     dispatch,
     idToken,
-    decodedToken,
     navigate,
     redirect,
     user,
-    loading,
+    loadingRef,
     token,
     location,
   ]);

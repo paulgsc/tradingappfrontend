@@ -12,7 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 function ExpiredToken({ login = true, children }) {
   const navigate = useNavigate();
-  const { user, loading } = useCurrentUser();
+  const { user, loadingRef } = useCurrentUser();
   const [queryParameters] = useSearchParams();
   const { userInfo: { token = null } = {} } = useSelector(
     (state) => state.userAuth
@@ -30,7 +30,8 @@ function ExpiredToken({ login = true, children }) {
           setIsEmailVerified(decodedToken?.email_verified);
           const broadcastChannel = new BroadcastChannel("authChannel");
           broadcastChannel.postMessage({ type: "AUTH_SUCCESS" });
-          if (!user && !loading) navigate(queryParameters.get("redirect"));
+          if (!user && !loadingRef.current)
+            navigate(queryParameters.get("redirect"));
         }
         const currentTime = Date.now() / 1000; // Convert to seconds
 
@@ -49,7 +50,7 @@ function ExpiredToken({ login = true, children }) {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [dispatch, navigate, token, user, loading, queryParameters]);
+  }, [dispatch, navigate, token, user, loadingRef, queryParameters]);
 
   useEffect(() => {
     if (isTokenExpired) {
@@ -68,7 +69,7 @@ function ExpiredToken({ login = true, children }) {
       );
     }
 
-    if (!loading && !user && queryParameters.get("idToken"))
+    if (!loadingRef.current && !user && queryParameters.get("idToken"))
       navigate(
         `${location.pathname}?redirect=${
           queryParameters.get("redirect") || "/"
@@ -81,7 +82,7 @@ function ExpiredToken({ login = true, children }) {
     isTokenExpired,
     token,
     user,
-    loading,
+    loadingRef,
     queryParameters,
     queryClient,
   ]);

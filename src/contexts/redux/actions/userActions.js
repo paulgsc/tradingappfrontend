@@ -306,30 +306,15 @@ export const gmailLogin = (gmailInfo) => async (dispatch) => {
     }
 
     const response = await API.post("users/login/", requestData, config);
+
     // localStorage.setItem('userInfo', JSON.stringify(response.data));
     dispatch(userLoginSuccess(response.data));
   } catch (error) {
-    let payload;
-    switch (error.code) {
-      case "auth/invalid-email":
-        payload = "Invalid email address";
-        break;
-      case "auth/user-disabled":
-        payload = "User account has been disabled";
-        break;
-      case "auth/user-not-found":
-        payload = "User not found";
-        break;
-      case "auth/wrong-password":
-        payload = "Invalid password";
-        break;
-      default:
-        payload =
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : "something went wrong!";
-        break;
-    }
+    const payload =
+      error.response && error.response.data.detail
+        ? error.response.data.detail
+        : "something went wrong!";
+
     dispatch(logout());
     dispatch(userLoginFailure(payload));
   }

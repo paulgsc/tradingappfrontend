@@ -28,7 +28,7 @@ function Investments() {
   ];
 
   return (
-    <div className="flex flex-col flex-1 justify-start items-center gap-6 h-[29.7rem] px-0.5 pt-2 rounded-lg shadow-inner bg-zinc-200/60">
+    <div className="flex flex-col flex-1 justify-start items-center gap-6 h-[29.7rem] px-0.5 pt-2 rounded-lg shadow-inner bg-zinc-50/60">
       <div className="p-6 h-32 w-32 2xl:h-36 2xl:w-36 rounded-full flex items-center justify-center border border-slate-200 bg-white shadow-inner">
         <h1 className="font-semibold 2xl:text-xl">
           {transfers_total_formated}
@@ -38,9 +38,9 @@ function Investments() {
         {summary.map((item) => (
           <div
             key={item?.id}
-            className="flex items-center justify-between w-full rounded-sm border-b border-gray-300 p-2 2xl:px-10 bg-blue-50 brightness-95"
+            className="flex items-center justify-center w-full rounded-sm border-b border-gray-300 p-2 2xl:px-10 bg-blue-50 brightness-95"
           >
-            <h3 className="w-full capitalize font-medium">{item?.title}</h3>
+            <h3 className="w-3/5 capitalize font-medium">{item?.title}</h3>
             <span
               role="text"
               className="text-center font-semibold w-full max-w-[6.65rem] p-2 rounded-lg shadow-sm outline outline-neutral-50/60 bg-emerald-100"

@@ -15,7 +15,6 @@ function AuthBroadcast({ children }) {
     useSelector((state) => state?.userAuth?.userInfo?.token) || null;
 
   useEffect(() => {
-    console.log("foo foo");
     const processBroadcastMessage = (userInfoFromStorage) => {
       try {
         dispatch(userStartBroadcastChannel());
