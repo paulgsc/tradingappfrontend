@@ -1,13 +1,14 @@
 import { Toaster } from "react-hot-toast";
 import Authentication from "../components/pages/Authentication";
 import Navbar from "../components/ui/Navbar";
+import NavLayout from "../../../components/ui/NavLayout";
 
 function SiteSettings() {
   return (
     <div className="block w-full">
-      <section className="w-full sticky top-0 z-50">
+      <NavLayout>
         <Navbar />
-      </section>
+      </NavLayout>
       <main className="w-full ">
         <Authentication />
       </main>

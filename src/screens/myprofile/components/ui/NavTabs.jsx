@@ -17,21 +17,25 @@ function NavTabs() {
       id: "tab1",
       title: "General",
       path: "/test",
+      tabId: "general",
     },
     {
       id: "tab2",
       title: "Security & privacy",
       path: "/test",
+      tabId: "security",
     },
     {
       id: "tab3",
       title: "Personal Info",
       path: "/test",
+      tabId: "info",
     },
     {
       id: "tab4",
       title: "Advanced",
       path: "/test",
+      tabId: "advanced",
     },
   ];
   return (
@@ -40,8 +44,8 @@ function NavTabs() {
         <li
           role="tab"
           key={link.id}
-          aria-selected={queryParameters.get("tab") === link.title}
-          onClick={() => handleTab(link.title)}
+          aria-selected={queryParameters.get("tab") === link.tabId}
+          onClick={() => handleTab(link.tabId)}
           className="max-h-12 h-16 p-2 cursor-pointer aria-selected:content-none aria-selected:before:absolute aria-selected:before:bottom-0 aria-selected:before:w-10 aria-selected:before:h-1 aria-selected:before:rounded-full aria-selected:before:bg-blue-600 hover:content-none hover:before:absolute hover:before:bottom-0 hover:before:w-10 hover:before:h-1 hover:before:rounded-full hover:before:bg-blue-600/20 hover:outline hover:outline-zinc-100 hover:rounded-t-lg hover:shadow-sm hover:bg-zinc-100 "
         >
           {link.title}

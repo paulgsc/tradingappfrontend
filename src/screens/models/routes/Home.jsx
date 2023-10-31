@@ -2,6 +2,7 @@ import Navbar from "../components/ui/Navbar";
 import Dashboard from "../components/ui/Dashboard";
 import { useLocation } from "react-router";
 import { useState } from "react";
+import NavLayout from "../../../components/ui/NavLayout";
 
 function Home() {
   const location = useLocation();
@@ -9,9 +10,9 @@ function Home() {
   if (location.pathname === "/models") {
     return (
       <>
-        <section className=" sticky top-0 z-50">
+        <NavLayout>
           <Navbar globalFilter={searchQuery} setGlobalFilter={setSearchQuery} />
-        </section>
+        </NavLayout>
         <main>
           <Dashboard searchQuery={searchQuery} />
         </main>

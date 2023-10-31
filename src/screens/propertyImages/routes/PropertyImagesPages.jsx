@@ -1,12 +1,13 @@
+import NavLayout from "../../../components/ui/NavLayout";
 import ImagesPortal from "../components/ui/ImagesPortal";
 import Navbar from "../components/ui/Navbar";
 
 function PropertyImagesPages() {
   return (
     <>
-      <section>
+      <NavLayout>
         <Navbar />
-      </section>
+      </NavLayout>
       <main className="">
         <ImagesPortal />
       </main>

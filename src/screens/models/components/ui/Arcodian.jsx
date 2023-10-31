@@ -1,12 +1,16 @@
 import { AngleDownSVG } from "../../../../constants/svgs/Svg";
 
-function Arcodian({ content = [] }) {
+function Arcodian({ content = [], className }) {
   return (
     <>
       {content.map((item, i) => (
         <section
           key={i}
-          className="flex items-start gap-12 w-full  border-gray-600/60"
+          className={
+            className
+              ? className
+              : "flex items-start gap-12 w-full  border-gray-600/60"
+          }
         >
           <details
             open

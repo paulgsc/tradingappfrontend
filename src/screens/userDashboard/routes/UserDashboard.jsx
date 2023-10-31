@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { getUserBalance } from "../../tradingportal/components/hooks/reactQuery";
 import DashboardLayout from "../components/ui/DashboardLayout";
 import Navbar from "../components/ui/Navbar";
+import NavLayout from "../../../components/ui/NavLayout";
 
 function UserDashboard() {
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
@@ -9,9 +10,9 @@ function UserDashboard() {
   const { isLoading: userBalanceLoading } = getUserBalance(token);
   return (
     <div className="block w-full">
-      <section className="w-full sticky top-0 z-50 bg-white">
+      <NavLayout>
         <Navbar />
-      </section>
+      </NavLayout>
       <DashboardLayout />
     </div>
   );

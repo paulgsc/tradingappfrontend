@@ -8,6 +8,7 @@ import {
 } from "./components/hooks/reactQuery";
 import { useSelector } from "react-redux";
 import SubmissionError from "./components/alerts/orders/SubmissionError";
+import NavLayout from "../../components/ui/NavLayout";
 
 function Trading() {
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
@@ -16,9 +17,9 @@ function Trading() {
 
   return (
     <div className="">
-      <section className="w-full sticky top-0 z-50">
+      <NavLayout>
         <Navbar />
-      </section>
+      </NavLayout>
       <main className="min-h-screen flex flex-col items-center justify-center w-full h-full ">
         <section className="relative flex flex-col w-full  h-full justify-center items-center px-4 border-gray-200 rounded-lg ">
           <TradingHeader />

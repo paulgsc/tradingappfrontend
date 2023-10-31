@@ -5,7 +5,7 @@ function HoldingItemCard({ accessor, value, row }) {
         <img
           src="https://source.unsplash.com/75x75/?modern-house?3"
           alt=""
-          className="w-12 h-12  rounded-md bg-red-800 aspect-square"
+          className="w-12 h-12  rounded-md aspect-square"
         />
         <div>
           <h3 className="text-base capitalize font-medium">{value || ""}</h3>
