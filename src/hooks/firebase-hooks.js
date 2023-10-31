@@ -9,11 +9,10 @@ import {
 } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useEffect } from "react";
-import { useState } from "react";
-import { notify } from "../lib/utils";
+import { useState, useRef } from "react";
 
 export function useRecaptcha(componentId) {
-  const [recaptcha, setRecaptcha] = useState();
+  const recaptchaRef = useRef();
 
   useEffect(() => {
     try {
@@ -25,7 +24,7 @@ export function useRecaptcha(componentId) {
         auth
       );
 
-      setRecaptcha(recaptchaVerifier);
+      recaptchaRef.current = recaptchaVerifier;
 
       return () => {
         recaptchaVerifier.clear();
@@ -33,7 +32,7 @@ export function useRecaptcha(componentId) {
     } catch (error) {}
   }, [componentId]);
 
-  return recaptcha;
+  return recaptchaRef.current;
 }
 
 export async function enrollUser(user, verificationCodeId, verificationCode) {
@@ -66,19 +65,19 @@ export const unEnrollMultiFactor = async (user) => {
 };
 
 export function useCurrentUser() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const userRef = useRef(null);
+  const loadingRef = useRef(true); // Add loading state
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      setLoading(false); // Set loading to false when user data is available
+      userRef.current = user;
+      loadingRef.current = false; // Set loading to false only after user data is available
     });
 
     return () => unsubscribe();
   }, []); // Provide an empty dependency array to run this effect only once
 
-  return { user: currentUser, loading }; // Return both user and loading states
+  return { user: userRef.current, loadingRef }; // Return both user and loading states
 }
 
 export async function verifyPhoneNumber(user, phoneNumber, recaptchaVerifier) {

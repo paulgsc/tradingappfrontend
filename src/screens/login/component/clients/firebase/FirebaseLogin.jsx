@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useRecaptcha,
   verifyUserMFA,
@@ -27,6 +27,8 @@ function FirebaseLogin() {
 
   const [firebaseError, setFirebaseError] = useState(null);
 
+  const { loading } = useSelector((state) => state.userAuth);
+
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     const idTokenUrlParam = urlParams.get("idToken");
     const userInfoFromStorage = localStorage.getItem("userInfo")
@@ -40,7 +42,7 @@ function FirebaseLogin() {
       const path = "/login";
       navigate(`${path}?${currentSearchParams.toString()}&idToken=${idToken}`);
 
-      dispatch(gmailLogin(user));
+      !loading && dispatch(gmailLogin(user));
     }
 
     if (firebaseError) {
