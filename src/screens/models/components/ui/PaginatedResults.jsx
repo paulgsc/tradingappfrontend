@@ -23,6 +23,7 @@ function PaginatedResults({ globalFilter }) {
     data: {
       next,
       previous,
+      num_pages,
       results: { data, fields = [], import_enabled, form_view_path } = {},
     },
     error,
@@ -109,13 +110,13 @@ function PaginatedResults({ globalFilter }) {
   const getClassName = (componentType) => {
     switch (componentType) {
       case "table":
-        return "h-full border-l rounded-t-lg ";
+        return "h-full border-l rounded-t-lg mb-2";
       case "header-row":
         return "flex xl:flex-1 w-full bg-stone-50 shadow-inner rounded-t-sm p-2";
       case "header":
         return "flex flex-1 text-sm xl:text-base font-semibold capitalize";
       case "tbody":
-        return "h-96 w-full overflow-y-auto scroll-m-0 outline outline-gray-50";
+        return "h-full w-full overflow-y-auto scroll-m-0 outline outline-gray-50";
       case "row":
         return "flex xl:flex-1 w-full  space-x-2 p-2 border-b border-neutral-300";
       case "cell":
@@ -130,7 +131,6 @@ function PaginatedResults({ globalFilter }) {
       refetch();
     }
   }, [data, error, refetch]);
-
   return (
     <div className="flex flex-col flex-1 justify-center px-6 xl:px-12 py-6 h-full bg-white">
       <div className="w-full flex justify-center">
@@ -174,8 +174,13 @@ function PaginatedResults({ globalFilter }) {
           </div>
         )}
       </div>
-      <footer>
-        <Pagination next={next} previous={previous} />
+      <footer className="mb-28">
+        <Pagination
+          data={data}
+          next={next}
+          previous={previous}
+          numPages={num_pages}
+        />
       </footer>
     </div>
   );

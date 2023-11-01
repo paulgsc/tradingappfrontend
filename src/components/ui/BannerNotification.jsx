@@ -1,8 +1,11 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function BannerNotification() {
-  const { bannerNotification } = useSelector((state) => state.userAuth);
-  if (bannerNotification) {
+  const { userInfo: { banner_notification } = {} } = useSelector(
+    (state) => state.userAuth
+  );
+  if (banner_notification) {
     return (
       <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
         <div
@@ -55,11 +58,11 @@ BannerNotification.AdminInvite = () => (
       </svg>
       You have been sent a new admin invite. Go to link to create admin account.
     </p>
-    <a
-      href="#"
+    <Link
+      to={"/personal/myprofile?tab=advanced"}
       className="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
     >
       Admin invite <span aria-hidden="true">&rarr;</span>
-    </a>
+    </Link>
   </div>
 );
