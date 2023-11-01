@@ -26,7 +26,7 @@ function QuickAccess() {
     {
       id: "transfer",
       title: "Transfers",
-      path: "/models",
+      path: "/personal/myhistory/transfers",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -417,6 +417,7 @@ export const getModelRowRecord = (token, model, queryParams) => {
     retry: false,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
+    staleTime: Infinity,
   });
 
   return {
