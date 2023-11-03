@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 function NavMenuItems({ dropdown }) {
   return (
     <div
-      className="hidden group-focus-within:block absolute right-0 top-12 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+      className="hidden z-50 backdrop:blur-sm group-focus-within:block absolute right-0 top-12 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
       role="menu"
     >
       {dropdown.map((item) => (
