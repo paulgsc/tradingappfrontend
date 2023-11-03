@@ -13,7 +13,7 @@ function AdminInviteLink({ adminInviteLink }) {
     const res = await requestNewInviteLink(setLoading, token);
     setResponse(res);
   };
-  console.log(response, !!response);
+
   return (
     <li className="hidden w-4/5 lg:flex items-center justify-between px-6 border-b pb-2 border-slate-200">
       <span
@@ -67,7 +67,7 @@ function AdminInviteLink({ adminInviteLink }) {
           to={adminInviteLink}
           className="-translate-x-full flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
         >
-          Admin invite <span aria-hidden="true">&r</span>
+          Admin invite <span aria-hidden="true">&rarr;</span>
         </Link>
       ) : (
         <div>

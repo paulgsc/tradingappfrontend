@@ -8,7 +8,7 @@ function GetAdminInviteLink() {
   const location = useLocation();
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
   const queryKey = ["admin-invite-token"];
-  const { data } = useQuery(
+  const { data: { new_admin_link } = {} } = useQuery(
     queryKey,
     () => {
       return fetchAdminInviteToken(token, location.pathname);
@@ -20,8 +20,8 @@ function GetAdminInviteLink() {
       retry: false,
     }
   );
-  console.log(data);
-  return <AdminInviteLink adminInviteLink={data} />;
+
+  return <AdminInviteLink adminInviteLink={new_admin_link} />;
 }
 
 export default GetAdminInviteLink;
