@@ -1,20 +1,14 @@
-import { fetchSiteSettings } from "../../hooks/reactQuery";
-import { useSelector } from "react-redux";
 import TokenSettings from "../validations/TokenSettings";
-import SkeletonLoading from "../../../../components/loading/SkeletonLoading";
+import { useQueryClient } from "@tanstack/react-query";
 
 function LoginSettings() {
-  const { userInfo: { token = "" } = {} } = useSelector(
-    (state) => state.userAuth
-  );
+  const queryClient = useQueryClient();
   const {
-    isLoading,
-    settings: {
-      token_expiration = 0,
-      admin_portal_token_expiration = 0,
-      create_admin_token_expiration = 0,
-    } = {},
-  } = fetchSiteSettings(token);
+    token_expiration = 0,
+    admin_portal_token_expiration = 0,
+    create_admin_token_expiration = 0,
+  } = queryClient.getQueryData(["site-settings"]) || {};
+
   const tokenSettings = [
     {
       title: "userToken",
@@ -35,8 +29,6 @@ function LoginSettings() {
       info: "after each login, authenticated user is assigned an access token with a given expiration. You can set the duration needed before a new login session is required.",
     },
   ];
-
-  if (isLoading) return <SkeletonLoading size={1} />;
 
   return (
     <ul className="w-full space-y-2">

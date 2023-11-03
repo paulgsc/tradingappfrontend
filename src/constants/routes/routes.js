@@ -68,7 +68,8 @@ export const myProfilePaths = [
 ];
 
 export const siteSettingsPaths = [
-  "/admin/site/settings",
-  "/admin/site/settings/login",
-  "/admin/site/settings/network-security",
+  "/admin/site-settings/overview",
+  "/admin/site-settings/login",
+  "/admin/site-settings/security/authentication",
+  "/admin/site-settings/overview/info",
 ];

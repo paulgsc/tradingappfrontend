@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
-
-import AdminInviteLink from "./AdminInviteLink";
+import GetAdminInviteLink from "../../data/GetAdminInviteLink";
 
 function Roles() {
   const {
@@ -17,9 +16,7 @@ function Roles() {
         <li className="w-4/5 flex items-center justify-between px-6 border-b pb-2 border-slate-300">
           <h3 className="text-end font-semibold leading-6">User Roles</h3>
         </li>
-        {pending_new_admin_acct && (
-          <AdminInviteLink adminInviteLink={pending_new_admin_acct} />
-        )}
+        {pending_new_admin_acct && <GetAdminInviteLink />}
       </ul>
     </article>
   );

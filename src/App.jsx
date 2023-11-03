@@ -25,7 +25,6 @@ import AdminPage from "./screens/admin/AdminPage";
 import AdminRoute from "./components/auth/AdminRoute";
 import ProfileSettings from "./screens/profile/ProfileSettings";
 import Layout from "./Layout";
-import UserScreen from "./screens/user/component/UserScreen";
 import { ErrorBoundary } from "react-error-boundary";
 import FallBackUi from "./components/ui/FallBackUi";
 import OTPRoute from "./components/auth/OTPRoute";
@@ -152,14 +151,7 @@ function App() {
                   element={<MyprofilePage />}
                 />
               ))}
-              {historyPaths.map((path, index) => (
-                <Route
-                  key={index}
-                  exact
-                  path={`/personal${path}`}
-                  element={<UserScreen />}
-                />
-              ))}
+
               <Route exact path="/personal/banking" element={<Index />} />
               <Route
                 exact

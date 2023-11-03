@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Table from "../../../../components/tables/Table";
-import { ColumnFilter } from "../../../admin/TableModels";
 import { useDispatch } from "react-redux";
 import { stageImageIds } from "../../hooks/reduxActions";
 import DeleteImagesDialog from "../imageActions/DeleteImagesDialog";
@@ -32,7 +31,6 @@ function ImagesTable({ type = "", data }) {
     {
       Header: "Title",
       accessor: (row) => row?.imageName || row?.image_title?.value, // Use imageName if available, otherwise use image_title
-      Filter: ColumnFilter,
       width: "100%",
     },
 
@@ -110,7 +108,6 @@ function ImagesTable({ type = "", data }) {
       <Table
         history={data || []}
         columnData={updatedColumns}
-        ColumnFilter={ColumnFilter}
         getClassName={getClassName}
         showCheckboxColumn={true}
         getSelectedIds={setSelectedRowIds}

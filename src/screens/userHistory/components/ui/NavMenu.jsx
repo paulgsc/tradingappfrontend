@@ -1,6 +1,5 @@
 import NavMenuItems from "./NavMenuItems";
 import { transactionsNavbar } from "../../../../constants/navbar/menubar";
-import DropDownIcon from "../../../user/component/ui/DropDownIcon";
 
 function NavMenu() {
   return (
@@ -16,7 +15,7 @@ function NavMenu() {
             aria-controls={`headlessui-menu-items-${menu.id}`}
           >
             <span className="relative z-10">{menu.title}</span>
-            {menu?.content && <DropDownIcon />}
+            {menu?.content && "&#x25BC;"}
           </button>
 
           {menu?.content && <NavMenuItems dropdown={menu.content} />}

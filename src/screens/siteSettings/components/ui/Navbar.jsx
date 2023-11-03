@@ -17,7 +17,7 @@ function Navbar() {
           <NavTabs />
           <div className="flex items-center lg:order-2">
             <LiveNotifications />
-            <DashboardLink path={"/personal"} />
+            <DashboardLink path={"/admin/dashboard"} />
             <ProfileMenu />
           </div>
         </div>
