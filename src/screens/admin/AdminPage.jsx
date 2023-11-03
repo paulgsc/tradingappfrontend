@@ -5,7 +5,6 @@ import { useState } from "react";
 import Sidebar from "../../components/sidemenu/SideBar";
 import Timeline from "./Timeline";
 import { useLocation, useNavigate, useParams } from "react-router";
-import TableModels from "./TableModels";
 import Tasks from "./Tasks";
 import TaskStatusPage from "../../components/tasks/Status";
 
@@ -83,11 +82,6 @@ function AdminPage() {
       <Sidebar closeAdminMenu={closeAdminMenu} />
       <Account.Nav openMenu={openAdminMenu} profileInitial={profileInitial} />
       {location.pathname === `/admin/timeline` && <Timeline />}
-      {location.pathname.includes(`/admin/site/models`) && (
-        <div className="mt-14">
-          <TableModels />
-        </div>
-      )}
 
       {location.pathname === `/admin/timeline/task/${taskId}` && (
         <TaskStatusPage />

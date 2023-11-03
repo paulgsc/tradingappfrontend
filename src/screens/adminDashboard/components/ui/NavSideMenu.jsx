@@ -129,7 +129,7 @@ function NavSideMenu() {
       {
         id: "settings",
         title: "settings",
-        path: "/admin/site/settings?tab=Authentication",
+        path: "/admin/site-settings/overview/info",
         icon: (
           <svg
             className="w-6 h-6 stroke-current"

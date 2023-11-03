@@ -1,86 +1,47 @@
 function Test() {
-  const portfolio = [
-    {
-      id: 1,
-      summary: "Account Balance",
-      content: [
-        {
-          id: 1,
-          title: "Equity",
-          amount: 80.0,
-        },
-        {
-          id: 2,
-          title: "Cash",
-          amount: 80.0,
-        },
-        {
-          id: 3,
-          title: "accrued dividends",
-          amount: 80.0,
-        },
-      ],
-    },
-    {
-      id: 2,
-      summary: "Holdings",
-      content: [
-        {
-          id: 1,
-          title: "",
-          image: true,
-          amount: 80.0,
-        },
-      ],
-    },
-  ];
   return (
-    <article className="flex max-2xl:flex-col w-full max-w-full 2xl:max-h-[500px] rounded-[2rem] shadow-lg border border-neutral-100">
-      <div className="w-1/2 max-2xl:w-full flex 2xl:flex-col items-center justify-center gap-6 py-6 rounded-[2rem] bg-sky-200/80">
-        <div className="h-44 w-44 rounded-full flex items-center justify-center text-center shadow-inner bg-sky-300">
-          <span role="text" className="text-3xl max-2xl:text-2xl text-white">
-            $5000000.00
-          </span>
-        </div>
+    <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
+      <div className="relative p-8 bg-white rounded-lg shadow-lg dark:bg-dark-2 sm:p-12">
+        <form>
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Your Name"
+              className="border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none"
+            />
+          </div>
+          <div className="mb-6">
+            <input
+              type="email"
+              placeholder="Your Email"
+              className="border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none"
+            />
+          </div>
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Your Phone"
+              className="border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none"
+            />
+          </div>
+          <div className="mb-6">
+            <textarea
+              rows="6"
+              placeholder="Your Message"
+              className="border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-primary w-full resize-none rounded border py-3 px-[14px] text-base outline-none"
+            ></textarea>
+          </div>
+          <div>
+            <button
+              type="submit"
+              className="w-full p-3 text-white transition border rounded border-primary bg-primary hover:bg-opacity-90"
+            >
+              Send Message
+            </button>
+          </div>
+        </form>
       </div>
-      <div className="w-1/2 max-2xl:w-full rounded-[2rem] px-1 pt-6 overflow-y-auto no-scrollbar">
-        <ul className="mb-12">
-          {portfolio.map((item) => (
-            <li key={item.id} className="mb-4">
-              <h3 className="text-start leading-10 pl-4 pb-2 font-bold">
-                {item?.summary}
-              </h3>
-              <div className="flex flex-col items-center">
-                <ul className="w-11/12 flex flex-col gap-4 ">
-                  {item.content.map((content) => (
-                    <li
-                      key={content.id}
-                      className="flex items-center justify-between w-full h-fit xl:h-16 p-2 px-4 rounded-l-lg rounded-r-2xl bg-gradient-to-tr even:from-blue-100 odd:from-teal-200/60 via-white to-transparent"
-                    >
-                      {content?.image ? (
-                        <img
-                          src="https://source.unsplash.com/75x75/?modern-house?3"
-                          alt=""
-                          className="w-12 h-12  rounded-full object-cover aspect-square"
-                        />
-                      ) : (
-                        <span className="capitalize text-sm">
-                          {content?.title}
-                        </span>
-                      )}
-
-                      <span className="p-1 px-2 rounded-md bg-blue-100/60">
-                        {content?.amount}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </article>
+    </div>
   );
 }
 
