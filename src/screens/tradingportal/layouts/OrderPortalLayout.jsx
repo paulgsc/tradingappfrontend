@@ -4,6 +4,7 @@ import OrdersLayout from "./OrdersLayout";
 import Investments from "../components/ui/Investments";
 import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
+import NewOrdersIcon from "../components/ui/NewOrdersIcon";
 
 function OrderPortalLayout() {
   const navigate = useNavigate();
@@ -20,23 +21,23 @@ function OrderPortalLayout() {
   };
 
   const isTabActive = (tabId) => {
-    const selectedTab = queryParameters.get("activeTradePortal") || "Dashboard";
+    const selectedTab = queryParameters.get("activeTradePortal") || "dashboard";
     return selectedTab === tabId;
   };
   const headers = [
     {
-      id: "tab_1",
+      id: "dashboard",
       title: "Dashboard",
       content: <DashboardLayout />,
     },
     {
-      id: "tab_2",
+      id: "portfolio",
       title: "Portfolio",
       content: <Investments />,
     },
     {
-      id: "tab_3",
-      title: "Orders",
+      id: "orders",
+      title: <NewOrdersIcon />,
       content: <OrdersLayout />,
     },
   ];

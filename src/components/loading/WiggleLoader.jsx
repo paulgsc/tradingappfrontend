@@ -1,5 +1,3 @@
-import React from "react";
-
 function WiggleLoader() {
   return (
     <div className=" shadow-sm rounded-md w-96 h-96 bg-white p-2 flex items-center justify-center space-x-6">
