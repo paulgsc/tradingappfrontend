@@ -1,7 +1,7 @@
 import TabMenu from "../../../../components/ui/TabMenu";
 import { useEffect, useState } from "react";
 import ModelFields from "../gsheets/ModelFields";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import CronJobs from "../gsheets/CronJobs";
 import RangePreview from "../gsheets/RangePreview";
 import { getActionTrace } from "../../hooks/reactQuery";
@@ -10,8 +10,8 @@ import SettingsArccordian from "../settings/SettingsArccordian";
 import { useSelector } from "react-redux";
 
 function AutoUploadTabs() {
-  const [activeTab, setActiveTab] = useState("");
   const { model } = useParams();
+  const location = useLocation();
   const [queryParameters] = useSearchParams();
   const cronId = queryParameters.get("jobId");
   const navigate = useNavigate();
@@ -28,46 +28,50 @@ function AutoUploadTabs() {
   const match = sheet_url.match(/\/d\/(.+?)\//);
   const sheetId = match ? match[1] : null;
   const handleTabClick = (tabId, path = null) => {
-    setActiveTab(tabId);
+    const currentSearchParams = new URLSearchParams(queryParameters);
+    currentSearchParams.has("activeTab")
+      ? currentSearchParams.set("activeTab", tabId)
+      : currentSearchParams.append("activeTab", tabId);
     if (path) {
-      navigate(path);
+      navigate(`${path}?${currentSearchParams.toString()}`);
+    } else {
+      navigate(`${location.pathname}?${currentSearchParams.toString()}`);
     }
   };
 
   const isTabActive = (tabId) => {
+    const activeTab = queryParameters.get("activeTab")
+      ? queryParameters.get("activeTab")
+      : cronId
+      ? "status"
+      : "fields";
+
     return activeTab === tabId;
   };
   const headers = [
     {
-      id: "tab_1",
+      id: "fields",
       title: "Model Fields",
       content: <ModelFields />,
     },
     {
-      id: "tab_2",
+      id: "preview",
       title: "Sheets Preview",
       content: <RangePreview />,
       path: `/models/${model}/uploads/gsheets/cron/?jobId=${cronId}&sheetId=${sheetId}&dataRange=${data_range}`,
     },
     {
-      id: "tab_3",
+      id: "status",
       title: "Upload Status",
       content: <CronJobs />,
     },
     {
-      id: "tab_4",
+      id: "config",
       title: "Configurations",
       content: <SettingsArccordian />,
     },
   ];
 
-  useEffect(() => {
-    if (cronId) {
-      setActiveTab("Upload Status");
-    } else {
-      setActiveTab("Model Fields");
-    }
-  }, [cronId]);
   return (
     <TabMenu className="min-w-full col-span-10">
       <TabMenu.List
@@ -94,18 +98,10 @@ function AutoUploadTabs() {
           </TabMenu.ListItems>
         ))}
       </TabMenu.List>
-      <TabMenu.ContentCard className={"w-full border rounded-sm"}>
-        {headers.map(
-          (item, i) =>
-            isTabActive(item.title) && (
-              <TabMenu.Content
-                className={"w-full"}
-                key={i}
-                item={item}
-                isTabActive={isTabActive}
-              />
-            )
-        )}
+      <TabMenu.ContentCard className={"w-full"}>
+        {headers.map((item, i) => (
+          <TabMenu.Content key={i} item={item} isTabActive={isTabActive} />
+        ))}
       </TabMenu.ContentCard>
     </TabMenu>
   );

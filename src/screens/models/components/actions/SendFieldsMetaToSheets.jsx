@@ -1,4 +1,4 @@
-import SwitchBtn from "../ui/SwitchBtn";
+import SwitchBtn from "../../../../components/ui/SwitchBtn";
 import { useSelector } from "react-redux";
 import API from "../../../../api/django";
 import { useEffect } from "react";

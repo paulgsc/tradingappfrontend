@@ -71,5 +71,6 @@ export const siteSettingsPaths = [
   "/admin/site-settings/overview",
   "/admin/site-settings/login",
   "/admin/site-settings/security/authentication",
+  "/admin/site-settings/security/notifications",
   "/admin/site-settings/overview/info",
 ];
