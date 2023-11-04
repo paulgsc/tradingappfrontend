@@ -1,25 +1,34 @@
-import ToggleButton from "../../../../../../components/ui/ToggleButton";
+import Arcodian from "../../../../../models/components/ui/Arcodian";
 import AddNewArcodian from "../../../ui/AddNewArcodian";
+import NotificationsCard from "../../../ui/NotificationsCard";
 
 function SiteNotifications() {
+  const data = [
+    {
+      id: 1,
+      title: "orders",
+      content: <NotificationsCard />,
+    },
+    {
+      id: 2,
+      title: "transfers",
+      content: <NotificationsCard />,
+    },
+    {
+      id: 1,
+      title: "profile",
+      content: <NotificationsCard />,
+    },
+    {
+      id: 1,
+      title: "property",
+      content: <NotificationsCard />,
+    },
+  ];
   return (
     <main className="w-full h-full">
       <AddNewArcodian />
-      <ul className="w-full flex flex-col items-center">
-        {Array(12)
-          .fill()
-          .map((item, i) => (
-            <li
-              key={i}
-              className="w-8/12 inline-flex items-center justify-between"
-            >
-              <span role="text" className="">
-                notifications
-              </span>
-              <ToggleButton />
-            </li>
-          ))}
-      </ul>
+      <Arcodian content={data} />
     </main>
   );
 }

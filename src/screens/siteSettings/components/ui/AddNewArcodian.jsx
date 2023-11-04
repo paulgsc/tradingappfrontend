@@ -2,12 +2,6 @@ import { AngleDownSVG } from "../../../../constants/svgs/Svg";
 import NewNotifications from "./NewNotifications";
 
 function AddNewArcodian() {
-  const content = [
-    {
-      title: "General",
-      content: <NewNotifications />,
-    },
-  ];
   return (
     <section
       className={
