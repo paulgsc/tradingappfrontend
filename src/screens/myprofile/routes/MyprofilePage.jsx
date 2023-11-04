@@ -13,7 +13,7 @@ function MyprofilePage() {
       <NavLayout>
         <Navbar />
       </NavLayout>
-      {currentTab === "general" || (!currentTab && <General />)}
+      {(currentTab === "general" || !currentTab) && <General />}
       {currentTab === "advanced" && <Advanced />}
     </div>
   );
