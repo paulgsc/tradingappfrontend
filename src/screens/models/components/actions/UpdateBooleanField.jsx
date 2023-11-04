@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import EditInputField from "./EditInputField";
 import { adminStageCronChanges } from "../../../../reducers/adminActionsReducers";
-import SwitchBtn from "../ui/SwitchBtn";
+import SwitchBtn from "../../../../components/ui/SwitchBtn";
 
 function UpdateBooleanField({ field, value = undefined, label = "" }) {
   const dispatch = useDispatch();

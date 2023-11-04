@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import Callout from "../../../../components/ui/Callout";
+import Callout from "./Callout";
 
 function SwitchBtn({ checked, label, result, error, handleChecked }) {
   const [showNotification, setShowNotification] = useState(false);

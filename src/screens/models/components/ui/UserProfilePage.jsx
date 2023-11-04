@@ -10,7 +10,7 @@ function UserProfilePage() {
   const isTabActive = (tabId) => {
     return queryParameters.get("activeTab")
       ? queryParameters.get("activeTab") === tabId
-      : "Settings" === tabId;
+      : "settings" === tabId;
   };
   const handleTabClick = (tab, path = location.pathname) => {
     const currentSearchParams = new URLSearchParams(queryParameters);
@@ -20,12 +20,12 @@ function UserProfilePage() {
 
   const headers = [
     {
-      id: "tab_1",
+      id: "settings",
       title: "Settings",
       content: <UserSettingsCard />,
     },
     {
-      id: "tab_2",
+      id: "roles",
       title: "Roles",
       content: <ProfileRolesSettings />,
     },
@@ -57,18 +57,10 @@ function UserProfilePage() {
           </TabMenu.ListItems>
         ))}
       </TabMenu.List>
-      <TabMenu.ContentCard className={"w-full "}>
-        {headers.map(
-          (item, i) =>
-            isTabActive(item.title) && (
-              <TabMenu.Content
-                className={"w-full"}
-                key={i}
-                item={item}
-                isTabActive={isTabActive}
-              />
-            )
-        )}
+      <TabMenu.ContentCard className={"w-full"}>
+        {headers.map((item, i) => (
+          <TabMenu.Content key={i} item={item} isTabActive={isTabActive} />
+        ))}
       </TabMenu.ContentCard>
     </TabMenu>
   );
