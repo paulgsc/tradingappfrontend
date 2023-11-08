@@ -19,7 +19,6 @@ function LoginSuccess() {
   const dispatch = useDispatch();
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
-
   useEffect(() => {
     const checkTokenExpiration = async () => {
       const { exp, email_verified, session_id } =

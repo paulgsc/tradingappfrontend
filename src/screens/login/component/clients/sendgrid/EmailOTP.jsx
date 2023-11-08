@@ -26,7 +26,6 @@ function EmailOTP() {
     const isValid = /^\d{6}$/.test(finalCode);
 
     const handleOtp = (otp) => async (dispatch) => {
-      console.log(location.pathname);
       await dispatch(verifyLoginEmail(otp, location.pathname));
     };
     isValid && dispatch(handleOtp(finalCode));

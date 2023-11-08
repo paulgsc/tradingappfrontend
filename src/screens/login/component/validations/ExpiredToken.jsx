@@ -24,24 +24,21 @@ function ExpiredToken({ login = true, children }) {
   useEffect(() => {
     let timeoutId;
     const checkTokenExpiration = () => {
-      if (token) {
-        const decodedToken = jwtDecode(token);
-        if (decodedToken?.email_verified) {
-          setIsEmailVerified(decodedToken?.email_verified);
-          const broadcastChannel = new BroadcastChannel("authChannel");
-          broadcastChannel.postMessage({ type: "AUTH_SUCCESS" });
-          if (!user && !loadingRef.current)
-            navigate(queryParameters.get("redirect"));
-        }
-        const currentTime = Date.now() / 1000; // Convert to seconds
-
-        if (decodedToken.exp < currentTime) {
-          setIsTokenExpired(true);
-        } else {
-          const expirationTime = decodedToken.exp * 1000;
-          const timeRemaining = expirationTime - Date.now();
-          timeoutId = setTimeout(() => setIsTokenExpired(true), timeRemaining);
-        }
+      const { email_verified, exp } =
+        typeof token === "string" ? jwtDecode(token) : {};
+      if (email_verified) {
+        const broadcastChannel = new BroadcastChannel("authChannel");
+        broadcastChannel.postMessage({ type: "AUTH_SUCCESS" });
+        if (!user && !loadingRef.current)
+          navigate(queryParameters.get("redirect") || "/");
+      }
+      setIsEmailVerified(email_verified);
+      if (exp) {
+        const expirationTime = exp * 1000;
+        const timeRemaining = expirationTime - Date.now();
+        timeoutId = setTimeout(() => setIsTokenExpired(true), timeRemaining);
+      } else {
+        setIsTokenExpired(!!exp);
       }
     };
 
@@ -51,7 +48,6 @@ function ExpiredToken({ login = true, children }) {
       clearTimeout(timeoutId);
     };
   }, [dispatch, navigate, token, user, loadingRef, queryParameters]);
-
   useEffect(() => {
     if (isTokenExpired) {
       const error = "Login session timed out!";

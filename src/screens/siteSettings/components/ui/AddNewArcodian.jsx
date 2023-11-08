@@ -1,5 +1,5 @@
 import { AngleDownSVG } from "../../../../constants/svgs/Svg";
-import NewNotifications from "./NewNotifications";
+import NewNotifications from "./notification/NewNotifications";
 
 function AddNewArcodian() {
   return (

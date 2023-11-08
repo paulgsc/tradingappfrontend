@@ -1,6 +1,6 @@
 import Arcodian from "../../../../../models/components/ui/Arcodian";
 import AddNewArcodian from "../../../ui/AddNewArcodian";
-import NotificationsCard from "../../../ui/NotificationsCard";
+import NotificationsCard from "../../../ui/notification/NotificationsCard";
 
 function SiteNotifications() {
   const data = [
