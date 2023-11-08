@@ -1,6 +1,6 @@
-import UpdateBooleanField from "../../../models/components/actions/UpdateBooleanField";
-import InputField from "./InputField";
-import UpdateSelection from "./UpdateSelection";
+import UpdateBooleanField from "../../../../models/components/actions/UpdateBooleanField";
+import InputField from "../InputField";
+import UpdateSelection from "../UpdateSelection";
 
 function NewNotifications() {
   const settings = [

@@ -16,6 +16,7 @@ import { CodeSignIn } from "./multifactorOauth/CodeSignIn";
 import { auth, handleSignInWithGoogle } from "../../../../../../firebase";
 import { toast } from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function FirebaseLogin() {
   const recaptcha = useRecaptcha("sign-in");
@@ -27,39 +28,7 @@ function FirebaseLogin() {
 
   const [firebaseError, setFirebaseError] = useState(null);
 
-  const { loading } = useSelector((state) => state.userAuth);
-
-  const unsubscribe = onAuthStateChanged(auth, async (user) => {
-    const idTokenUrlParam = urlParams.get("idToken");
-    const userInfoFromStorage = localStorage.getItem("userInfo")
-      ? JSON.parse(localStorage.getItem("userInfo"))
-      : {};
-    const { token } = userInfoFromStorage;
-
-    if (user && !idTokenUrlParam && typeof token !== "string") {
-      const idToken = await getIdToken(user);
-      const currentSearchParams = new URLSearchParams(urlParams);
-      const path = "/login";
-      navigate(`${path}?${currentSearchParams.toString()}&idToken=${idToken}`);
-
-      !loading && dispatch(gmailLogin(user));
-    }
-
-    if (firebaseError) {
-      if (firebaseError.code === "auth/multi-factor-auth-required") {
-        handleMFA(firebaseError);
-        return;
-      } else {
-        firebaseError?.code &&
-          toast.error(firebaseError.code, {
-            duration: 5000,
-            position: "top-center",
-            className: "bg-gradient-to-r from-pink-100 to-red-500",
-          });
-        setFirebaseError(null);
-      }
-    }
-  });
+  console.log("running");
 
   const handleGmail = async () => {
     try {
@@ -92,6 +61,45 @@ function FirebaseLogin() {
       }
     } catch (error) {}
   }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      const idTokenUrlParam = urlParams.get("idToken");
+      const userInfoFromStorage = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : {};
+      const { token } = userInfoFromStorage;
+
+      if (user && !idTokenUrlParam && typeof token !== "string") {
+        const idToken = await getIdToken(user);
+        const currentSearchParams = new URLSearchParams(urlParams);
+        const path = "/login";
+        navigate(
+          `${path}?${currentSearchParams.toString()}&idToken=${idToken}`
+        );
+        console.log("this is triggered", user);
+
+        dispatch(gmailLogin(user));
+      }
+
+      if (firebaseError) {
+        if (firebaseError.code === "auth/multi-factor-auth-required") {
+          handleMFA(firebaseError);
+          return;
+        } else {
+          firebaseError?.code &&
+            toast.error(firebaseError.code, {
+              duration: 5000,
+              position: "top-center",
+              className: "bg-gradient-to-r from-pink-100 to-red-500",
+            });
+        }
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [dispatch, navigate, urlParams, firebaseError]);
 
   if (resolver && verificationId) {
     return <CodeSignIn verificationId={verificationId} resolver={resolver} />;

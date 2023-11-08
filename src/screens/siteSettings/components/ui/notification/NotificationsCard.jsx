@@ -1,4 +1,4 @@
-import ToggleButton from "../../../../components/ui/ToggleButton";
+import ToggleButton from "../../../../../components/ui/ToggleButton";
 
 function NotificationsCard() {
   return (
