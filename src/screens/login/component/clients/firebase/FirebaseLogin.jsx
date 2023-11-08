@@ -29,8 +29,6 @@ function FirebaseLogin() {
 
   const [firebaseError, setFirebaseError] = useState(null);
 
-  console.log("running");
-
   const handleGmail = async () => {
     try {
       await handleSignInWithGoogle();
