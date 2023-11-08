@@ -30,9 +30,9 @@ function LoginFormLayout() {
       <div className="bg-white mx-auto rounded-xl p-8 ">
         <hr className="mt-1" />
         <LoginTitle />
-        {queryParameters.get("idToken") ? (
+        {queryParameters.get("idToken") && !password_required ? (
           <div className="px-4">
-            {!password_required && <FirebaseLogin />}
+            <FirebaseLogin />
             <hr className="mt-4" />
             <BackBtn />
           </div>
