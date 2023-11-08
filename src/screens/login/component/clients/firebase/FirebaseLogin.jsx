@@ -17,6 +17,7 @@ import { auth, handleSignInWithGoogle } from "../../../../../../firebase";
 import { toast } from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import LoadingBtn from "../../../../../components/ui/LoadingBtn";
 
 function FirebaseLogin() {
   const recaptcha = useRecaptcha("sign-in");
@@ -27,8 +28,6 @@ function FirebaseLogin() {
   const [urlParams] = useSearchParams();
 
   const [firebaseError, setFirebaseError] = useState(null);
-
-  console.log("running");
 
   const handleGmail = async () => {
     try {
@@ -77,7 +76,6 @@ function FirebaseLogin() {
         navigate(
           `${path}?${currentSearchParams.toString()}&idToken=${idToken}`
         );
-        console.log("this is triggered", user);
 
         dispatch(gmailLogin(user));
       }
@@ -104,7 +102,7 @@ function FirebaseLogin() {
   if (resolver && verificationId) {
     return <CodeSignIn verificationId={verificationId} resolver={resolver} />;
   }
-
+  if (urlParams.get("idToken")) return <LoadingBtn />;
   return <GmailLogin handleGmail={handleGmail} />;
 }
 

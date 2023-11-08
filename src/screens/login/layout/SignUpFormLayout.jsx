@@ -6,8 +6,11 @@ import SignUpForm from "../component/ui/SignUpForm";
 import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import SignUpError from "../component/alerts/SignUpError";
+import BackBtn from "../component/ui/BackBtn";
+import { useSearchParams } from "react-router-dom";
 
 function SignUpFormLayout() {
+  const [queryParameters] = useSearchParams();
   const { loading = false, userInfo: { token = null } = {} } = useSelector(
     (state) => state.userAuth
   );
@@ -24,13 +27,22 @@ function SignUpFormLayout() {
       <div className="bg-white mx-auto rounded-xl p-8 ">
         <hr className="mt-1" />
         <SignUpTitle />
-        <div className="px-4">
-          <FirebaseSignUp />
-          <hr className="mt-4" />
-          <SignUpForm />
-          <hr className="mt-4" />
-          <SignUpFooter />
-        </div>
+
+        {queryParameters.get("idToken") ? (
+          <div className="px-4">
+            <FirebaseSignUp />
+            <hr className="mt-4" />
+            <BackBtn />
+          </div>
+        ) : (
+          <div className="px-4">
+            <FirebaseSignUp />
+            <hr className="mt-4" />
+            <SignUpForm />
+            <hr className="mt-4" />
+            <SignUpFooter />
+          </div>
+        )}
       </div>
       <div id="sign-up"></div>
       <SignUpError />
