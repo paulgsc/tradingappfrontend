@@ -1,43 +1,50 @@
-import { useState } from "react";
 import PropertyOverview from "./PropertyOverview";
 import TabMenu from "../../../../components/ui/TabMenu";
 import FinancialsLayout from "../../layouts/FinancialsLayout";
 import Documents from "./Documents";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 function PropertyTabs() {
-  const [activeTab, setActiveTab] = useState("Overview");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [queryParameters] = useSearchParams();
 
   const handleTabClick = (tabId) => {
-    setActiveTab(tabId);
+    const currentSearchParams = new URLSearchParams(queryParameters);
+    currentSearchParams.has("info")
+      ? currentSearchParams.set("info", tabId)
+      : currentSearchParams.append("info", tabId);
+    navigate(`${location.pathname}?${currentSearchParams.toString()}`);
   };
   const isTabActive = (tabId) => {
-    return activeTab === tabId;
+    const info = queryParameters.get("info");
+    return info ? tabId === info : tabId === "overview";
   };
   const headers = [
     {
-      id: "1_1",
+      id: "overview",
       title: "Overview",
       content: <PropertyOverview />,
     },
     {
-      id: "1_2",
+      id: "facts",
       title: "Facts",
       content: "",
     },
     {
-      id: "1_3",
+      id: "financials",
       title: "Financials",
       content: <FinancialsLayout />,
     },
     {
-      id: "1_3",
+      id: "documents",
       title: "Documents",
       content: <Documents />,
     },
   ];
 
   return (
-    <TabMenu className={"min-h-screen"}>
+    <TabMenu className={"hidden md:block h-fit lg:min-h-screen"}>
       <TabMenu.List
         className={
           " rounded-t-md shadow-sm  py-2 shadow-neutral-50 bg-gradient-to-r from-stone-200 via-white to-stone-50"
