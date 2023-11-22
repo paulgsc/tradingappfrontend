@@ -2,6 +2,7 @@ import { useState } from "react";
 import CustomSvg from "./CustomSvg";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { CloseSvg } from "../../constants/svgs/Svg";
 
 function SideMenu({ sidenavslinks }) {
   const [active, setActive] = useState(false);
@@ -22,7 +23,7 @@ function SideMenu({ sidenavslinks }) {
     <div id="admin-dashboard-sidebar" className="relative group">
       <button
         onClick={() => {
-          setActive(!active);
+          setActive((prevActive) => !prevActive);
         }}
         aria-label="open"
         className="h-full p-2 focus:outline-none cursor-pointer"
@@ -31,11 +32,23 @@ function SideMenu({ sidenavslinks }) {
       </button>
       <aside
         tabIndex={-1}
-        className={`pointer-events-none fixed top-[68px] left-0 w-64 h-screen border-r-2 transition-transform -translate-x-full ${
-          active ? "translate-x-0 pointer-events-auto bg-white" : ""
+        className={`pointer-events-none fixed max-lg:inset-0 top-[68px] left-0 lg:w-64  h-screen border-r-2 transition-transform -translate-x-full ${
+          active
+            ? "translate-x-0 pointer-events-auto bg-emerald-50 z-50 backdrop:pointer-events-none"
+            : ""
         }`}
         aria-label="Sidebar"
       >
+        <div className="lg:hidden max-lg:flex flex-1 justify-end w-full p-2 px-6">
+          <button
+            className=""
+            onClick={() => {
+              setActive(false);
+            }}
+          >
+            <CloseSvg className="text-neutral-400 h-5 w-5" />
+          </button>
+        </div>
         <div className="h-full px-3 py-4 overflow-y-auto">
           <ul className="space-y-2 font-medium z-50">
             {sidenavslinks.top.map((item) => (

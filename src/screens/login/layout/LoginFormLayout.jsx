@@ -24,7 +24,7 @@ function LoginFormLayout() {
       </div>
     );
   }
-  console.log("subparent");
+
   return (
     <div className="fixed inset-0 min-h-screen flex items-center justify-center bg-gradient-to-br from-stone-200 via-stone-100 to-stone-300">
       <div className="bg-white mx-auto rounded-xl p-8 ">

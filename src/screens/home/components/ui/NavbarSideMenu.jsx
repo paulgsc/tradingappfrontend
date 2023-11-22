@@ -46,9 +46,9 @@ function NavSideMenu() {
         ),
       },
       {
-        id: "insights",
-        title: "insights",
-        path: "/admin",
+        id: "trade",
+        title: "trade",
+        path: "/trade",
         icon: (
           <svg
             className="w-6 h-6 stroke-current"

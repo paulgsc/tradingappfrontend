@@ -13,7 +13,7 @@ const Footer = () => {
             <div className="  flex items-center text-start justify-start rounded-lg shadow-sm h-12  w-36">
               <img
                 src={siteLogo1}
-                className=" z-50 flex justify-start text-start object-left"
+                className="flex justify-start text-start object-left"
               />
             </div>
           </Link>

@@ -2,6 +2,7 @@ function ProfileCard({ userData }) {
   const username = userData?.first_name?.value
     ? `${userData?.first_name?.value} ${userData?.last_name?.value}`
     : "Anonymous Platypus";
+
   return (
     <div className="flex flex-col justify-center w-96 max-w-xs p-6 bg-zinc-100 shadow-md rounded-xl sm:px-12">
       <img
@@ -15,6 +16,7 @@ function ProfileCard({ userData }) {
           <p className="px-5 text-xs sm:text-base dark:text-gray-400">
             Customer
           </p>
+          <small className="font-thin text-xs">{`last login ${userData?.last_login?.value}`}</small>
         </div>
         <div className="flex justify-center pt-2 space-x-4 align-center">
           <a
