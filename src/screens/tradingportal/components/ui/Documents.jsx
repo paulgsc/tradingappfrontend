@@ -75,7 +75,7 @@ function Documents() {
     },
   ];
   return (
-    <div className="grid grid-cols-3 gap-6">
+    <div className="flex flex-col lg:grid lg:grid-cols-3 gap-2 lg:gap-6">
       {pdfs.map((pdf) => (
         <section
           key={pdf.id}

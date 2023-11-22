@@ -20,8 +20,8 @@ function Trading() {
       <NavLayout>
         <Navbar />
       </NavLayout>
-      <main className="min-h-screen flex flex-col items-center justify-center w-full h-full ">
-        <section className="relative flex flex-col w-full  h-full justify-center items-center px-4 border-gray-200 rounded-lg ">
+      <main className="min-h-screen flex flex-col  w-full h-full ">
+        <section className="relative flex flex-col w-full h-full justify-center items-center px-4 border-gray-200 rounded-lg ">
           <TradingHeader />
           <hr className="  w-full mb-2" />
 
