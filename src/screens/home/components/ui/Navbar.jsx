@@ -15,7 +15,9 @@ function Navbar() {
       <nav className="shadow-inner border-b-2 border-neutral-300/60 px-4 lg:px-6 py-2.5 ">
         <div className="flex flex-wrap justify-between items-center">
           <div className="flex flex-1 justify-start items-center">
-            <NavSideMenu />
+            <div className="block lg:hidden">
+              <NavSideMenu />
+            </div>
             <NavbarLogo />
             <NavbarItems />
           </div>

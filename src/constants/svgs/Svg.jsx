@@ -139,10 +139,10 @@ export const CrossSign = () => (
   </svg>
 );
 
-export const CloseSvg = () => (
+export const CloseSvg = ({ className = "w-5 h-5" }) => (
   <svg
     aria-hidden="true"
-    className="w-5 h-5"
+    className={className}
     fill="currentColor"
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"

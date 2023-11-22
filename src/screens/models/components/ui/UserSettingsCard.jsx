@@ -31,7 +31,7 @@ function UserSettingsCard() {
       </header>
       <main className="flex items-start w-full space-x-2 p-2">
         <section className="w-full max-w-fit">
-          <ProfileCard />{" "}
+          <ProfileCard userData={data} />{" "}
         </section>
         <section className=" w-full">
           <UserDetailsCard userData={data} />

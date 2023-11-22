@@ -9,7 +9,7 @@ function NavbarItems() {
     },
   ];
   return (
-    <div className=" ">
+    <div className="max-lg:hidden">
       {navItems.map((menu) => (
         <ul key={menu.id} className="">
           <li key={menu.id} className="">
