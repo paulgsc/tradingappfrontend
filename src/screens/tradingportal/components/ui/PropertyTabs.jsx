@@ -3,6 +3,7 @@ import TabMenu from "../../../../components/ui/TabMenu";
 import FinancialsLayout from "../../layouts/FinancialsLayout";
 import Documents from "./Documents";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import TimeLineCard from "../events/TimeLineCard";
 
 function PropertyTabs() {
   const location = useLocation();
@@ -27,9 +28,9 @@ function PropertyTabs() {
       content: <PropertyOverview />,
     },
     {
-      id: "facts",
-      title: "Facts",
-      content: "",
+      id: "events",
+      title: "Timeline",
+      content: <TimeLineCard />,
     },
     {
       id: "financials",

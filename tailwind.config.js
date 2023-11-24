@@ -95,6 +95,13 @@ export default {
             transform: "scale3d(1, 1, 1)",
           },
         },
+        shine: {
+          "0%": { left: "-100%" },
+          "100%": { left: "100%" },
+        },
+      },
+      animation: {
+        shine: "shine 1.3s ease-in-out infinite",
       },
     },
   },
