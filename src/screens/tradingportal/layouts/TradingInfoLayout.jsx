@@ -38,8 +38,8 @@ function TradingInfoLayout() {
         </div>
       </div>
 
-      <div className="w-full md:w-2/5">
-        <div className="lg:w-11/12 ">
+      <div className="w-full md:w-2/5 min-h-screen">
+        <div className="lg:w-11/12 md:sticky md:top-20">
           <OrderPortalLayout />
         </div>
       </div>
