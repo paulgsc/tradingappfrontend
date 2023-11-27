@@ -99,9 +99,18 @@ export default {
           "0%": { left: "-100%" },
           "100%": { left: "100%" },
         },
+        falling: {
+          "0%": {},
+          "100%": {
+            transform: "translate3d(-200px, 100vh, 0) scale(.1)",
+            opacity: 0,
+          },
+        },
       },
       animation: {
         shine: "shine 1.3s ease-in-out infinite",
+        wiggle: "tada 2s ease-in-out 1",
+        falling: "falling 4.2s ease-in-out infinite",
       },
     },
   },

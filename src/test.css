@@ -1,15 +1,17 @@
 /* styles.css */
 .typing {
-    overflow: hidden; /* Hide overflow text */
-    white-space: nowrap; /* Prevent text from wrapping */
-    border-right: 0.15em solid #000; /* Create the blinking cursor */
-    animation: blink-caret 0.75s step-end infinite;
-  }
-  
+  overflow: hidden; /* Hide overflow text */
+  white-space: nowrap; /* Prevent text from wrapping */
+  border-right: 0.15em solid #000; /* Create the blinking cursor */
+  animation: blink-caret 0.75s step-end infinite;
+}
 
-  
-  @keyframes blink-caret {
-    from, to { border-color: transparent; }
-    50% { border-color: #000; }
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
   }
-  
+  50% {
+    border-color: #000;
+  }
+}
