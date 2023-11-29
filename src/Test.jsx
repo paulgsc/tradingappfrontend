@@ -1,7 +1,11 @@
-import React from "react";
+import LiveNotifications from "./components/alerts/LiveNotifications";
 
 function Test() {
-  return <div></div>;
+  return (
+    <div className="flex justify-center items-center min-h-screen">
+      <LiveNotifications />
+    </div>
+  );
 }
 
 export default Test;

@@ -14,7 +14,7 @@ function IpSetup() {
     setStep((prevStep) => (prevStep < maxStep ? prevStep + 1 : prevStep));
   };
   const handleClose = () => {
-    navigate("/personal");
+    navigate("/personal/dashboard");
   };
 
   return (
