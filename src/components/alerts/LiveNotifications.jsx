@@ -41,8 +41,13 @@ function LiveNotifications() {
     [];
 
   useEffect(() => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
     const socket = createWebSocket(
-      `user-notifications/?authorization=${token}`
+      "ws://localhost:8080/user-notifications",
+      headers
     );
 
     const onNotificationReceived = () => {
