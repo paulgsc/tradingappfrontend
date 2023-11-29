@@ -26,7 +26,7 @@ function LiveNotifications() {
     return response.data.notifications;
   };
 
-  const { data, fetchNextPage } = useInfiniteQuery(
+  const { data: { pages } = {}, fetchNextPage } = useInfiniteQuery(
     ["notifications"],
     ({ pageParam = 1 }) => fetchNotifications(pageParam, 2, 4),
     {
@@ -34,6 +34,11 @@ function LiveNotifications() {
       refetchOnWindowFocus: false,
     }
   );
+
+  const unpackPagesData =
+    (Array.isArray(pages) &&
+      pages.reduce((acc, curr) => acc.concat(curr), [])) ||
+    [];
 
   useEffect(() => {
     const socket = createWebSocket(
@@ -66,7 +71,7 @@ function LiveNotifications() {
     };
   }, [fetchNextPage]);
 
-  return <Notification data={data?.pages} />;
+  return <Notification notifications={unpackPagesData} />;
 }
 
 export default LiveNotifications;

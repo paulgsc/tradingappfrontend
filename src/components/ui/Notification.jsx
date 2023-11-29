@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { formatTimestamp } from "../../lib/utils";
 import { useSelector } from "react-redux";
 
 function Notification({ notifications }) {
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
+  console.log("notifs: ", notifications);
   if (token) {
     return (
       <div className="group relative">
@@ -62,34 +62,45 @@ function Notification({ notifications }) {
           </div>
           <div>
             {Array.isArray(notifications) &&
-              notifications.map((notification, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600"
-                >
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-11 h-11 rounded-full"
-                      src={notification.icon}
-                      alt="app icon"
-                    />
-                  </div>
-                  <div className="pl-3 w-full">
-                    <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                      {notification.title}
-                      <span className="font-semibold text-gray-900 dark:text-white">
-                        {notification.model}
-                      </span>
-                      {notification.content}
+              notifications.map(
+                (
+                  {
+                    created_at,
+                    message,
+                    status,
+                    notification_type,
+                    user,
+                    content_type,
+                  },
+                  i
+                ) => (
+                  <a
+                    key={i}
+                    href="#"
+                    className="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600"
+                  >
+                    <div className="flex-shrink-0">
+                      <img
+                        className="w-11 h-11 rounded-full"
+                        src={""}
+                        alt="app icon"
+                      />
                     </div>
-                    <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
-                      {notification.timeStamp &&
-                        formatTimestamp(notification.timeStamp)}
+                    <div className="pl-3 w-full">
+                      <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
+                        {notification_type}
+                        <span className="font-semibold text-gray-900 dark:text-white">
+                          {content_type}
+                        </span>
+                        {message}
+                      </div>
+                      <div className="text-xs font-medium text-primary-700 dark:text-primary-400">
+                        {created_at}
+                      </div>
                     </div>
-                  </div>
-                </a>
-              ))}
+                  </a>
+                )
+              )}
           </div>
         </div>
       </div>
