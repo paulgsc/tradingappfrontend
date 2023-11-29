@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import PortfolioChart from "./PortfolioChart";
 
-import SideMenu from "./SideMenu";
 import CustomSvg from "../../components/ui/CustomSvg";
 import NavbarLogo from "../../components/navbar/navlogo/NavbarLogo";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchShares } from "../../contexts/redux/actions/fetchDataActions";
 
 import Profile from "../../components/profile/Profile";
 
 function Account() {
-  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

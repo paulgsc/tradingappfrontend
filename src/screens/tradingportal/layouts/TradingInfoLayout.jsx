@@ -7,8 +7,8 @@ import TradingSummary from "../components/ui/TradingSummary";
 function TradingInfoLayout() {
   const { showSummaryPortal = false } = useSelector((state) => state.trade);
   return (
-    <div className="flex max-md:flex-col justify-between w-full h-full">
-      <div className="flex flex-col max-md:flex-1 md:w-3/5 p-2 ml-2 xl:ml-16 space-y-2">
+    <div className="flex max-lg:flex-col justify-between w-full h-full">
+      <div className="flex flex-col max-lg:flex-1 lg:w-3/5 p-2 ml-2 xl:ml-16 space-y-2">
         <div
           className={`${
             !showSummaryPortal

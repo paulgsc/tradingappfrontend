@@ -30,6 +30,7 @@ function TFADialog({ user }) {
             maxStep={2}
             handleBack={handleBack}
             handleContinue={handleContinue}
+            handleClose={onClose}
           >
             <TFASetup step={step} user={user} />
           </DemoDialog>
