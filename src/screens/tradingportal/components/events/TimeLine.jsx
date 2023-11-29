@@ -7,12 +7,16 @@ import FallingLeaves from "../../../../components/animation/FallingLeaves";
 export default function TimeLine() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isIntersecting, setIsIntersecting] = useState();
+  const [hideAnimation, setHideAnimation] = useState(false);
   const containerRef = useRef(null);
   const scrollCartRef = useRef(null);
   const timelineRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
+      setHideAnimation(true);
+      // Add a delay to set scrolling back to false after some time
+      setTimeout(() => setHideAnimation(false), 3000);
       if (containerRef.current) {
         if (scrollCartRef.current) {
           const scrollCartRect = scrollCartRef.current.getBoundingClientRect();
@@ -54,6 +58,8 @@ export default function TimeLine() {
     if (containerRef.current)
       containerRef.current.addEventListener("scroll", handleScroll);
 
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
       if (containerRef.current)
         containerRef.current.removeEventListener("scroll", handleScroll);
@@ -65,8 +71,8 @@ export default function TimeLine() {
       ref={containerRef}
       className="relative h-[40rem] w-full max-w-6xl overflow-y-auto bg-gradient-to-br from-indigo-100 via-slate-200/80 to-blue-100"
     >
-      <div className="absolute -top-full min-h-screen ">
-        {isIntersecting?.instersects && <FallingLeaves />}
+      <div className="absolute max-2xl:-translate-y-full 2xl:-top-full min-h-screen ">
+        {isIntersecting?.instersects && !hideAnimation && <FallingLeaves />}
       </div>
       <div className="w-0 h-20" />
       <div className="flex justify-center items-center">

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { CloseSvg } from "../../constants/svgs/Svg";
-import { useSearchParams } from "react-router-dom";
 
 // Usage
 function DemoDialog({
@@ -9,13 +8,9 @@ function DemoDialog({
   handleBack,
   handleContinue,
   disableContinue = false,
+  handleClose = () => {},
   children,
 }) {
-  const [queryParameters] = useSearchParams();
-
-  const handleClose = () => {
-    window.location.href = queryParameters.get("redirect") || "/";
-  };
   const handleEsc = (e) => {
     if (e.keyCode === 27) {
       handleClose();

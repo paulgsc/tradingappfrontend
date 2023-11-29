@@ -24,7 +24,7 @@ export default function EventCard({ isIntersecting }) {
               ))}
             </ul>
           </div>
-          <p className="w-11/12 max-h-32 text-base break-words break-before-auto  overflow-hidden">
+          <p className="w-11/12 max-h-32 max-2xl:text-sm text-base break-words break-before-auto  overflow-hidden">
             A tenant has paid rent on a unit in the complex. Received rent is on
             time, this unit has a 2 yr lease. quick summary... To view the the
             event in great detail view the links below.
