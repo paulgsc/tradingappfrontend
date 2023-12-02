@@ -19,17 +19,17 @@ function ImagesAction() {
   const isTabActive = (tabId) => {
     const activeTab = queryParameters.get("imageForm")
       ? queryParameters.get("imageForm")
-      : "Dashboard";
+      : "dashboard";
     return activeTab === tabId;
   };
   const headers = [
     {
-      id: "tab_1",
+      id: "dashboard",
       title: "Dashboard",
       content: <ImageSubmitCard />,
     },
     {
-      id: "tab_2",
+      id: "upload",
       title: "Upload",
       content: <UploadForm />,
     },

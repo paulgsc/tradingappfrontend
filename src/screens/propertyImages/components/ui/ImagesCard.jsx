@@ -42,8 +42,8 @@ function ImagesCard() {
   return (
     <div className="flex flex-col w-full h-full gap-2 ">
       <div className="flex justify-center items-center row-span-1 xl:row-span-1 h-full">
-        {queryParameters.get("tab") === "How to" && <ImagePropertyCard />}
-        {queryParameters.get("tab") === "Published Images" &&
+        {queryParameters.get("tab") === "guide" && <ImagePropertyCard />}
+        {queryParameters.get("tab") === "published" &&
           (overwrite?.length > 0 ? (
             <ImagePropertyCard imageData={data} />
           ) : (
@@ -53,7 +53,7 @@ function ImagesCard() {
               getClassname={getClassname}
             />
           ))}
-        {queryParameters.get("tab") === "Uploaded Images" &&
+        {queryParameters.get("tab") === "uploaded" &&
           (publish?.length > 0 ? (
             <ImagePropertyCard imageData={data} />
           ) : (

@@ -5,6 +5,7 @@ import { useCurrentUser } from "../../../../hooks/firebase-hooks";
 import { useLocation, useNavigate } from "react-router";
 import { useEffect } from "react";
 import {
+  broadcastLogout,
   verifyGmailLogin,
   verifyGmailSignup,
 } from "../../../../contexts/redux/actions/userActions";

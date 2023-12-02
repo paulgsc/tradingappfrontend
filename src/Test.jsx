@@ -1,9 +1,9 @@
-import LiveNotifications from "./components/alerts/LiveNotifications";
+import PendingTransfersCard from "./screens/banking/components/ui/PendingTransfersCard";
 
 function Test() {
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <LiveNotifications />
+      <PendingTransfersCard />
     </div>
   );
 }

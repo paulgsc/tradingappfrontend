@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, Navigate, useNavigate, useLocation } from "react-router-dom";
-import { accessProtectedView } from "../../contexts/redux/actions/userActions";
-import Spinner from "../loading/Spinner";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
+
 import jwtDecode from "jwt-decode";
 import ExpiredSession from "./ExpiredSession";
+import { userSetAuthenticationStatus } from "../../reducers/userAuthReducer";
 
 function AuthRoute() {
-  const navigate = useNavigate();
   const location = useLocation();
   const redirect = location?.pathname;
+  const dispatch = useDispatch();
   const {
-    access,
     refreshingSession = false,
     userInfo: { token = "" },
   } = useSelector((state) => state.userAuth);
-  const dispatch = useDispatch();
-  const [isloading, checkLoading] = useState(true);
   const [isTokenExpired, setIsTokenExpired] = useState(false);
 
   useEffect(() => {
     let timeoutId;
+    // retrieve jwt expiration and set timeout to mount expired session modal
     const checkTokenExpiration = () => {
       if (token) {
         const decodedToken = jwtDecode(token);
@@ -38,36 +36,29 @@ function AuthRoute() {
 
     checkTokenExpiration();
 
+    // on first mount of auth route upgrade user to authenticated
+    // to prevent user from navigating back to /login path
+    if (token) {
+      const authenticatedStatus = {
+        isLoggedIn: true,
+      };
+      dispatch(userSetAuthenticationStatus(authenticatedStatus));
+    }
+
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [token]);
-
-  useEffect(() => {
-    const grantAcces = () => async (dispatch) => {
-      const response = await dispatch(accessProtectedView());
-      checkLoading(false);
-    };
-    dispatch(grantAcces());
-  }, [dispatch, navigate, access]);
+  }, [token, dispatch]);
 
   if (!token && refreshingSession) {
     return <Navigate to={`/login/?redirect=${redirect}`} />;
-  }
-
-  if (!token) {
-    return <Navigate to={`/login?redirect=${location.pathname}`} />;
-  }
-
-  if (isloading) {
-    return <Spinner />;
   }
 
   if (isTokenExpired && token && !refreshingSession) {
     return <ExpiredSession />;
   }
 
-  return access ? <Outlet /> : <Navigate to={`/login/?redirect=${redirect}`} />;
+  return <Outlet />;
 }
 
 export default AuthRoute;

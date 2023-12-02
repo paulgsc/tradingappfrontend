@@ -11,7 +11,6 @@ import {
   adminDashboardPaths,
   adminPaths,
   adminPropertyImagesPaths,
-  historyPaths,
   homePaths,
   modelsPaths,
   myProfilePaths,
@@ -43,6 +42,7 @@ import SiteSettings from "./screens/siteSettings/routes/SiteSettings";
 import Account from "./screens/profile/Account";
 import UserDashboard from "./screens/userDashboard/routes/UserDashboard";
 import MyHistory from "./screens/userHistory/routes/MyHistory";
+import UserProtectedRoute from "./components/auth/UserProtectedRoute";
 
 function App() {
   return (
@@ -102,114 +102,120 @@ function App() {
                 }
               />
             </Route>
-            {homePaths.map((path, index) => (
-              <Route
-                key={index}
-                exact
-                path={`/${path}`}
-                element={<HomePage />}
-              />
-            ))}
-            <Route exact path="/trade" element={<Trading />} />
-            <Route path="/test/:foo?" element={<Test />} />
             <Route element={<AuthRoute />}>
-              <Route
-                exact
-                path="/register/admin/magic-link/:sessionId?"
-                element={<AdminRegisterPage />}
-              />
-              {setupPaths.map((path, index) => (
-                <Route key={index} exact path={path} element={<IpSetup />} />
-              ))}
-
-              {userDashboardPaths.map((path, index) => (
-                <Route
-                  key={index}
-                  exact
-                  path={path}
-                  element={<UserDashboard />}
-                />
-              ))}
-              {userHistoryPaths.map((path, index) => (
-                <Route key={index} exact path={path} element={<MyHistory />} />
-              ))}
-              <Route exact path="/personal/balances" element={<Account />} />
-
-              {settingsPaths.map((path, index) => (
-                <Route
-                  key={index}
-                  exact
-                  path={path}
-                  element={<ProfileSettings />}
-                />
-              ))}
-              {myProfilePaths.map((path, index) => (
-                <Route
-                  key={index}
-                  exact
-                  path={path}
-                  element={<MyprofilePage />}
-                />
-              ))}
-
-              <Route exact path="/personal/banking" element={<Index />} />
-              <Route
-                exact
-                path="/personal/banking/transfer/:redirect?"
-                element={<PlaidHome />}
-              />
-              <Route
-                exact
-                path="/personal/register"
-                element={<CreateAccount />}
-              />
-              <Route
-                exact
-                path="/personal/banking/link/:redirect?"
-                element={<LinkAccount />}
-              />
-            </Route>
-            <Route element={<AdminRoute />}>
-              {adminPaths.map((path, index) => (
+              {homePaths.map((path, index) => (
                 <Route
                   key={index}
                   exact
                   path={`/${path}`}
-                  element={<AdminPage />}
+                  element={<HomePage />}
                 />
               ))}
-              {adminDashboardPaths.map((path, index) => (
+              <Route exact path="/trade" element={<Trading />} />
+              <Route path="/test/:foo?" element={<Test />} />
+              <Route element={<UserProtectedRoute />}>
                 <Route
-                  key={index}
                   exact
-                  path={`${path}`}
-                  element={<AdminDashboardIndex />}
+                  path="/register/admin/magic-link/:sessionId?"
+                  element={<AdminRegisterPage />}
                 />
-              ))}
-              {siteSettingsPaths.map((path, index) => (
+                {setupPaths.map((path, index) => (
+                  <Route key={index} exact path={path} element={<IpSetup />} />
+                ))}
+
+                {userDashboardPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<UserDashboard />}
+                  />
+                ))}
+                {userHistoryPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<MyHistory />}
+                  />
+                ))}
+                <Route exact path="/personal/balances" element={<Account />} />
+
+                {settingsPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<ProfileSettings />}
+                  />
+                ))}
+                {myProfilePaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<MyprofilePage />}
+                  />
+                ))}
+                <Route exact path="/personal/banking" element={<Index />} />
                 <Route
-                  key={index}
                   exact
-                  path={`${path}`}
-                  element={<SiteSettings />}
+                  path="/personal/banking/transfer/:redirect?"
+                  element={<PlaidHome />}
                 />
-              ))}
-              {modelsPaths.map((path, index) => (
                 <Route
-                  key={index}
                   exact
-                  path={path}
-                  element={<IndexModels />}
+                  path="/personal/register"
+                  element={<CreateAccount />}
                 />
-              ))}
-              {adminPropertyImagesPaths.map((path, index) => (
                 <Route
-                  key={index}
                   exact
-                  path={path}
-                  element={<PropertyImagesPages />}
+                  path="/personal/banking/link/:redirect?"
+                  element={<LinkAccount />}
                 />
-              ))}
+              </Route>
+              <Route element={<AdminRoute />}>
+                {adminPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={`/${path}`}
+                    element={<AdminPage />}
+                  />
+                ))}
+                {adminDashboardPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={`${path}`}
+                    element={<AdminDashboardIndex />}
+                  />
+                ))}
+                {siteSettingsPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={`${path}`}
+                    element={<SiteSettings />}
+                  />
+                ))}
+                {modelsPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<IndexModels />}
+                  />
+                ))}
+                {adminPropertyImagesPaths.map((path, index) => (
+                  <Route
+                    key={index}
+                    exact
+                    path={path}
+                    element={<PropertyImagesPages />}
+                  />
+                ))}
+              </Route>
             </Route>
             <Route exact path="/*" element={<NotFound404 />} />
           </Routes>

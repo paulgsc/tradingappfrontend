@@ -65,7 +65,7 @@ function ExpiredToken({ login = true, children }) {
       );
     }
 
-    if (!loadingRef.current && !user && queryParameters.get("idToken"))
+    if (!loadingRef.current && !user && queryParameters.get("vfPath"))
       navigate(
         `${location.pathname}?redirect=${
           queryParameters.get("redirect") || "/"

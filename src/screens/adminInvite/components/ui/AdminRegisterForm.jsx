@@ -13,8 +13,8 @@ function AdminRegisterForm({ handleSubmit, adminEmail }) {
     password && setPwdMatches(password === confirmPassword);
   }, [password, confirmPassword]);
   return (
-    <section className="grid grid-cols-4 items-center bg-gray-50 dark:bg-gray-900">
-      <div className=" col-span-1 flex flex-col max-w-lg min-h-screen justify-center p-6 bg-white border border-gray-50 shadow">
+    <section className="flex max-lg:justify-center max-lg:min-h-screen lg:grid lg:grid-cols-4 items-center bg-gray-50">
+      <div className="hidden lg:flex col-span-1 flex-col max-w-lg min-h-screen justify-center p-6 bg-white border border-gray-50 shadow">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Admin Setup
         </h5>
@@ -46,7 +46,7 @@ function AdminRegisterForm({ handleSubmit, adminEmail }) {
         </Link>
       </div>
 
-      <div className=" col-span-3 flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-full">
+      <div className="lg:col-span-3 flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-full">
         <header className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
           <NavbarLogo />
         </header>
