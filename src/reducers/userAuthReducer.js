@@ -35,10 +35,10 @@ const userAuthentification = createSlice({
     userRegistrationFailure(state, action) {
       return { ...state, loading: false, error: action.payload };
     },
-    userLoginRequest(state, action) {
+    userLoginRequest(state) {
       return { ...state, loading: true, error: null };
     },
-    userRefreshLoginSession(state, action) {
+    userRefreshLoginSession(state) {
       return { ...state, refreshingSession: true };
     },
     userLoginSuccess(state, action) {
@@ -53,16 +53,28 @@ const userAuthentification = createSlice({
         userInfo: { ...state.userInfo, ...action.payload },
       };
     },
-    userStartBroadcastChannel(state, action) {
+    userSetAuthenticationStatus(state, action) {
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({ ...state.userInfo, ...action.payload })
+      );
+      return {
+        access: false,
+        loading: false,
+        refreshingSession: false,
+        userInfo: { ...state.userInfo, ...action.payload },
+      };
+    },
+    userStartBroadcastChannel(state) {
       return { ...state, broadcasting: true };
     },
     userProcessChannelBroadcast(state, action) {
       return { ...state, broadcasting: false, userInfo: { ...action.payload } };
     },
-    userLogOut(state, action) {
+    userLogOut() {
       return { access: false, loading: false, userInfo: {} };
     },
-    userLoginWithGmailRequest(state, actiion) {
+    userLoginWithGmailRequest(state) {
       return { ...state, loading: true, error: null };
     },
     userLoginWithGmailSuccessful(state, action) {
@@ -79,7 +91,7 @@ const userAuthentification = createSlice({
         loading: false,
       };
     },
-    userVerifyEmailRequest(state, action) {
+    userVerifyEmailRequest(state) {
       return { ...state, loading: true };
     },
     userVerifyEmailSuccessful(state, action) {
@@ -96,7 +108,7 @@ const userAuthentification = createSlice({
     userLoginFailure(state, action) {
       return { ...state, access: false, loading: false, error: action.payload };
     },
-    userProtectedView(state, action) {
+    userProtectedView(state) {
       return { ...state, loading: false, access: true };
     },
     adminProtectedView(state, action) {
@@ -123,6 +135,7 @@ export const {
   adminProtectedView,
   userLoginWithGmailSuccessful,
   userRegisterWithGmailSuccessful,
+  userSetAuthenticationStatus,
   userVerifyEmailRequest,
   userVerifyEmailSuccessful,
   userStartBroadcastChannel,

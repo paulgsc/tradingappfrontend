@@ -41,31 +41,18 @@ function LiveNotifications() {
     [];
 
   useEffect(() => {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    const socket = createWebSocket(
-      "ws://localhost:8080/user-notifications",
-      headers
-    );
+    const socket = createWebSocket("user-notifications/");
 
     const onNotificationReceived = () => {
       fetchNextPage();
     };
 
     socket.addEventListener("open", () => {
-      const headers = { Authorization: `Bearer ${token}` };
-      const config = {
-        page: 1,
-        pageSize: 2,
+      const authMessage = {
+        type: "authenticate",
+        token: token,
       };
-      const payload = {
-        headers,
-        config,
-      };
-      socket.send(JSON.stringify(payload));
-      fetchNextPage();
+      socket.send(JSON.stringify(authMessage));
     });
 
     socket.addEventListener("message", onNotificationReceived);
@@ -74,7 +61,7 @@ function LiveNotifications() {
       socket.removeEventListener("message", onNotificationReceived);
       socket.close();
     };
-  }, [fetchNextPage]);
+  }, [token, fetchNextPage]);
 
   return <Notification notifications={unpackPagesData} />;
 }

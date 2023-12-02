@@ -1,10 +1,18 @@
 import { useDispatch } from "react-redux";
 import { broadcastLogout } from "../../../../contexts/redux/actions/userActions";
+import { useLocation, useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 
 function BackBtn() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [queryParameters] = useSearchParams();
   const handleBack = () => {
     dispatch(broadcastLogout());
+    navigate(
+      `${location.pathname}?redirect=${queryParameters.get("redirect")}`
+    );
   };
   return (
     <div className="w-full">

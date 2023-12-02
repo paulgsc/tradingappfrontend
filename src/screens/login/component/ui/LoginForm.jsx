@@ -34,14 +34,14 @@ function LoginForm() {
       typeof password === "string"
     ) {
       const formData = {
-        username: urlParams.get("idToken") ? gmailInfo?.email : provided_email,
-        email: urlParams.get("idToken") ? gmailInfo?.email : provided_email,
+        username: urlParams.get("vfPath") ? gmailInfo?.email : provided_email,
+        email: urlParams.get("vfPath") ? gmailInfo?.email : provided_email,
         password: password,
         redirect: redirect,
         providedPassword: password,
       };
       // Dispatch login action
-      if (urlParams.get("idToken")) {
+      if (urlParams.get("vfPath")) {
         dispatch(gmailLogin(formData));
         return;
       }
@@ -101,7 +101,7 @@ function LoginForm() {
         bg-gray-100 pl-12 pr-4 h-12 text-gray-600 invalid:ring-2 invalid:ring-red-400
         focus:ring-2 focus:ring-black`}
               placeholder="Enter Password"
-              required=""
+              required
             />
           )}
         </div>

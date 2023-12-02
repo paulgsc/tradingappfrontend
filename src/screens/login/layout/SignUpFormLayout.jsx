@@ -28,7 +28,7 @@ function SignUpFormLayout() {
         <hr className="mt-1" />
         <SignUpTitle />
 
-        {queryParameters.get("idToken") ? (
+        {queryParameters.get("vfPath") ? (
           <div className="px-4">
             <FirebaseSignUp />
             <hr className="mt-4" />

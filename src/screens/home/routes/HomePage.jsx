@@ -1,3 +1,4 @@
+import EditWrapper from "../../../components/wrapper/EditWrapper";
 import Footer from "../components/footer/Footer";
 import Hero from "../components/hero/Hero";
 import Testimonials from "../components/testimonials/Testimonials";
@@ -13,7 +14,9 @@ function HomePage() {
         <Hero />
       </section>
       <section className="w-full">
-        <Testimonials />
+        <EditWrapper path={"/admin/dashboard"}>
+          <Testimonials />
+        </EditWrapper>
       </section>
       <section className="">
         <Footer />

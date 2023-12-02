@@ -1,16 +1,12 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   useRecaptcha,
   verifyUserMFA,
 } from "../../../../../hooks/firebase-hooks";
 import { useNavigate } from "react-router";
 import GmailLogin from "../../ui/GmailLogin";
-import {
-  RecaptchaVerifier,
-  getIdToken,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { RecaptchaVerifier, onAuthStateChanged } from "firebase/auth";
 import { gmailLogin } from "../../../../../contexts/redux/actions/userActions";
 import { CodeSignIn } from "./multifactorOauth/CodeSignIn";
 import { auth, handleSignInWithGoogle } from "../../../../../../firebase";
@@ -63,19 +59,18 @@ function FirebaseLogin() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      const idTokenUrlParam = urlParams.get("idToken");
+      // check if verifiation path is set
+      const verifiationPathParam = urlParams.get("vfPath");
       const userInfoFromStorage = localStorage.getItem("userInfo")
         ? JSON.parse(localStorage.getItem("userInfo"))
         : {};
       const { token } = userInfoFromStorage;
 
-      if (user && !idTokenUrlParam && typeof token !== "string") {
-        const idToken = await getIdToken(user);
+      if (user && !verifiationPathParam && typeof token !== "string") {
         const currentSearchParams = new URLSearchParams(urlParams);
+        currentSearchParams.append("vfPath", "firebase");
         const path = "/login";
-        navigate(
-          `${path}?${currentSearchParams.toString()}&idToken=${idToken}`
-        );
+        navigate(`${path}?${currentSearchParams.toString()}`);
 
         dispatch(gmailLogin(user));
       }
@@ -102,7 +97,7 @@ function FirebaseLogin() {
   if (resolver && verificationId) {
     return <CodeSignIn verificationId={verificationId} resolver={resolver} />;
   }
-  if (urlParams.get("idToken")) return <LoadingBtn />;
+  if (urlParams.get("vfPath")) return <LoadingBtn />;
   return <GmailLogin handleGmail={handleGmail} />;
 }
 

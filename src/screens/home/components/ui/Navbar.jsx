@@ -5,9 +5,10 @@ import ProfileMenu from "../../../../components/ui/ProfileMenu";
 import NavSideMenu from "./NavbarSideMenu";
 import NavbarItems from "./NavbarItems";
 import NavbarLogins from "../../../../components/ui/NavbarLogins";
+import DebugMode from "../../../../components/ui/DebugMode";
 
 function Navbar() {
-  const { userInfo: { token = null } = {} } = useSelector(
+  const { userInfo: { token, is_admin } = {} } = useSelector(
     (state) => state.userAuth
   );
   return (
@@ -22,6 +23,7 @@ function Navbar() {
             <NavbarItems />
           </div>
           <div className="flex items-center lg:order-2">
+            {token && is_admin && <DebugMode />}
             {token && <DashboardLink path={"/personal/dashboard"} />}
             {token ? <ProfileMenu /> : <NavbarLogins />}
           </div>

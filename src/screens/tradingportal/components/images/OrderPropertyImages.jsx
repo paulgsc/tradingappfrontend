@@ -1,4 +1,5 @@
 import Caraousel from "../../../../components/animation/Caraousel";
+import EditWrapper from "../../../../components/wrapper/EditWrapper";
 import ImageSkeleton from "./ImageSkeleton";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -10,7 +11,11 @@ function OrderPropertyImages() {
   if (propertyLoading) {
     return <ImageSkeleton />;
   }
-  return <Caraousel getClassname={getClassname} imageUrls={images} />;
+  return (
+    <EditWrapper path={"/models/PropertyImage/images/uploads"}>
+      <Caraousel getClassname={getClassname} imageUrls={images} />
+    </EditWrapper>
+  );
 }
 
 const getClassname = (name) => {

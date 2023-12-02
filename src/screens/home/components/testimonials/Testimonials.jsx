@@ -6,7 +6,6 @@ import { useState } from "react";
 function Testimonials() {
   const [index, setIndex] = useState(0);
 
-  console.log(index);
   return (
     <div className="mx-auto w-full px-4 py-16 sm:px-6 sm:py-24 lg:me-0 lg:pe-0 lg:ps-8 ">
       <div className="max-w-screen w-full overflow-hidden grid grid-cols-1 gap-y-8 lg:grid-cols-3 lg:items-center lg:gap-x-16 ">

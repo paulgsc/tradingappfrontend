@@ -21,25 +21,25 @@ function ImageDescription({ publishedImages }) {
   const isTabActive = (tabId) => {
     const activeTab = queryParameters.get("tab")
       ? queryParameters.get("tab")
-      : "Published Images";
+      : "guide";
     return activeTab === tabId;
   };
 
   const headers = [
     {
-      id: "tab_4",
+      id: "guide",
       title: "How to",
       content: <Instructions />,
       path: `/models/${model}/images/uploads`,
     },
     {
-      id: "tab_1",
+      id: "published",
       title: "Published Images",
       content: <ImagesTable type="published" data={publishedImages} />,
       path: `/models/${model}/images/uploads/published`,
     },
     {
-      id: "tab_2",
+      id: "uploaded",
       title: "Uploaded Images",
 
       content: <ImagesTable type="uploads" data={imageUpload} />,
