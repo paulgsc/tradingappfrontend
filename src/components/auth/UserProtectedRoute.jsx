@@ -11,19 +11,23 @@ function UserProtectedRoute() {
   const redirect = location?.pathname;
   const {
     access,
-
-    userInfo: { token = "" },
+    error,
+    userInfo: { token },
   } = useSelector((state) => state.userAuth);
   const dispatch = useDispatch();
   const [isloading, checkLoading] = useState(true);
 
   useEffect(() => {
     const grantAcces = () => async (dispatch) => {
-      const response = await dispatch(accessProtectedView());
+      await dispatch(accessProtectedView());
       checkLoading(false);
     };
     dispatch(grantAcces());
   }, [dispatch, navigate, access]);
+
+  useEffect(() => {
+    if (token && typeof error === "string") throw new Error(error);
+  }, [token, error]);
 
   if (!token) {
     return <Navigate to={`/login?redirect=${location.pathname}`} />;

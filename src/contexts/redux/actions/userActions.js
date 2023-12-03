@@ -538,14 +538,10 @@ export const accessProtectedView = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const response = await API.get("users/access/", config);
+    await API.get("users/access/", config);
     dispatch(userProtectedView());
-    return true;
   } catch (error) {
-    localStorage.removeItem("userInfo");
-    localStorage.removeItem("link_token");
     dispatch(userLoginFailure(error.message));
-    return false;
   }
 };
 
