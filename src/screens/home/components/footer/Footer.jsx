@@ -12,6 +12,10 @@ const Footer = () => {
           <Link to={"/"} className="">
             <div className="  flex items-center text-start justify-start rounded-lg shadow-sm h-12  w-36">
               <img
+                height={"48px"}
+                width={"144px"}
+                loading="lazy"
+                alt="site logo"
                 src={siteLogo1}
                 className="flex justify-start text-start object-left"
               />
