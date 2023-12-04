@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /personal/
+
+Sitemap: https://leafiproperties.com/sitemaps/sitemap.xml
