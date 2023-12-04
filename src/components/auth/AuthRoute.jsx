@@ -17,17 +17,19 @@ function AuthRoute() {
   const [isTokenExpired, setIsTokenExpired] = useState(false);
 
   useEffect(() => {
+    // decode JWT token to get claims
+    const { exp, auth_session } = token && jwtDecode(token);
+
     let timeoutId;
     // retrieve jwt expiration and set timeout to mount expired session modal
     const checkTokenExpiration = () => {
       if (token) {
-        const decodedToken = jwtDecode(token);
         const currentTime = Date.now() / 1000; // Convert to seconds
 
-        if (decodedToken.exp < currentTime) {
+        if (exp < currentTime) {
           setIsTokenExpired(true);
         } else {
-          const expirationTime = decodedToken.exp * 1000;
+          const expirationTime = exp * 1000;
           const timeRemaining = expirationTime - Date.now();
           timeoutId = setTimeout(() => setIsTokenExpired(true), timeRemaining);
         }
@@ -41,6 +43,7 @@ function AuthRoute() {
     if (token) {
       const authenticatedStatus = {
         isLoggedIn: true,
+        authSession: auth_session,
       };
       dispatch(userSetAuthenticationStatus(authenticatedStatus));
     }

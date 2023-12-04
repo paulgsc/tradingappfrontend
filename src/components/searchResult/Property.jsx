@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { getSelectedPropertyById } from "../../contexts/redux/selectors/propertySelectors";
 import "./property.css";
