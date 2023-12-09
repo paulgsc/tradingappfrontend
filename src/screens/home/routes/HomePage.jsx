@@ -1,6 +1,7 @@
 import EditWrapper from "../../../components/wrapper/EditWrapper";
 import Layout from "../Layout";
 import Footer from "../components/footer/Footer";
+import FeatureCard from "../components/hero/FeatureCard";
 import Hero from "../components/hero/Hero";
 import Testimonials from "../components/testimonials/Testimonials";
 import Navbar from "../components/ui/Navbar";
@@ -12,7 +13,8 @@ function HomePage() {
         <section className="w-full sticky top-0 z-50 bg-white">
           <Navbar />
         </section>
-        <section className="xl:padding-l wide:padding-r padding-b">
+        <section className="w-full">
+          <FeatureCard />
           <Hero />
         </section>
         <section className="w-full">

@@ -1,7 +1,6 @@
-import { AngleDownSVG } from "./constants/svgs/Svg";
-import AccordianHeroCard from "./screens/home/components/ui/Accordian";
-import "./test.css";
-function Test() {
+import AccordianHeroCard from "../ui/Accordian";
+
+function FeatureCard() {
   const content = [
     {
       id: 1,
@@ -56,24 +55,22 @@ function Test() {
   ];
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="container flex max-md:flex-col grow flex-1 max-md:items-center justify-center w-full h-full max-md:mt-4 mb-2.5 gap-4 xl:gap-12 2xl:gap-20">
-        <div className="relative w-11/12 md:w-5/12 2xl:w-full 2xl:max-w-screen-md border border-slate-300 shadow-inner rounded-lg">
-          <div className="relative w-full h-full max-md:h-72 overflow-hidden rounded-lg">
-            <div className="circle duration-200 ease-linear">
-              <img
-                loading="lazy"
-                src="https://source.unsplash.com/featured/?marketing"
-                className="logo absolute inset-0 w-full h-full object-cover"
-                alt="..."
-              />
-            </div>
+    <div className="max-md:container flex max-md:flex-col grow flex-1 max-md:items-center justify-center w-full h-full max-md:mt-4 md:mt-10 mb-6 gap-4 xl:gap-12 2xl:gap-20">
+      <div className="relative w-11/12 md:w-5/12 2xl:w-full 2xl:max-w-screen-md border border-slate-300 shadow-inner rounded-lg">
+        <div className="relative w-full h-full max-md:h-72 overflow-hidden rounded-lg">
+          <div className="circle duration-200 ease-linear">
+            <img
+              loading="lazy"
+              src="https://source.unsplash.com/featured/?marketing"
+              className="logo absolute inset-0 w-full h-full object-cover"
+              alt="..."
+            />
           </div>
         </div>
-        <AccordianHeroCard content={content} />
       </div>
+      <AccordianHeroCard content={content} />
     </div>
   );
 }
 
-export default Test;
+export default FeatureCard;

@@ -112,6 +112,10 @@ export default {
         wiggle: "tada 2s ease-in-out 1",
         falling: "falling 4.2s ease-in-out infinite",
       },
+      backgroundImage: {
+        "hero-text-pattern":
+          "url('https://hippodigital.b-cdn.net/wp-content/themes/impression/media/dist/img/background-texture.svg')",
+      },
     },
   },
   plugins: [
