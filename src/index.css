@@ -78,7 +78,7 @@
   /* Blue outline background */
   background: var(--c) 0 0, var(--c) 100% 0, var(--c) 100% 100%, var(--c) 0 100%;
 
-  animation: l1 10s infinite alternate;
+  animation: l1 30s infinite alternate;
 }
 
 @keyframes l1 {
