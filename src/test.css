@@ -1,140 +1,8 @@
-/* Add more media queries as needed */
-
-.circle {
-  animation: basePulse 7s infinite cubic-bezier(0.33, 0.5, 0.64, 1.43);
-}
-
-.logo,
-.sparkles {
-  animation: logoReveal 7s infinite ease-in-out;
-}
-
-.base {
-  width: 40px;
-  height: 100px;
-  animation-name: basePulse;
-  animation: midPulse 2s infinite cubic-bezier(0.33, 0.5, 0.64, 1.43);
-}
-
-.mid {
-  animation-name: midPulse;
-}
-
-.top {
-  animation-name: topPulse;
-}
-
-/* HTML: <div class="loader"></div> */
-
-@keyframes basePulse {
-  0% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-  6% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-  16% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  92% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-}
-
-@keyframes midPulse {
-  0% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-  4% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-  14% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  94% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-}
-
-@keyframes topPulse {
-  0% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-  2% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-  12% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  96% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-}
-
-.logo,
-.sparkles {
-  animation: logoReveal 7s infinite ease-in-out;
-}
-
-@keyframes logoReveal {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
 .sparkles path {
-  fill: white;
+  fill: whitesmoke;
   transform-origin: 50% 50%;
   transform-box: fill-box;
-  animation: sparkle var(--duration) var(--delay) infinite ease-in-out;
+  animation: sparkle 2.2s infinite ease-in-out;
 }
 
 @keyframes sparkle {
@@ -145,10 +13,10 @@
     transform: scale(0);
   }
   70% {
-    transform: scale(-1, 0);
+    transform: scale(-0.7, 0);
   }
   80% {
-    transform: scale(1);
+    transform: scale(0.7);
   }
   100% {
     transform: scale(0);
