@@ -1,7 +1,9 @@
+import { useAccordion } from "../hooks/useAccordian";
 import AccordianHeroCard from "../ui/Accordian";
 import SiteTutorialImagesCard from "../ui/SiteTutorialImagesCard";
 
 function FeatureCard() {
+  const [openIndex, handleFocus, handleBlur] = useAccordion(3, 10000);
   const content = [
     {
       id: 1,
@@ -57,8 +59,13 @@ function FeatureCard() {
 
   return (
     <div className="max-md:container flex max-md:flex-col grow flex-1 max-md:items-center justify-center w-full h-full max-md:mt-4 md:mt-10 mb-6 gap-4 xl:gap-12 2xl:gap-20">
-      <SiteTutorialImagesCard />
-      <AccordianHeroCard content={content} />
+      <SiteTutorialImagesCard openIndex={openIndex} />
+      <AccordianHeroCard
+        content={content}
+        handleBlur={handleBlur}
+        handleFocus={handleFocus}
+        openIndex={openIndex}
+      />
     </div>
   );
 }

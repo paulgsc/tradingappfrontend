@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // custom hook to animate open and close accordian
 export const useAccordion = (totalItems, interval = 15000) => {
@@ -27,26 +27,4 @@ export const useAccordion = (totalItems, interval = 15000) => {
   };
 
   return [openIndex, handleFocus, handleBlur];
-};
-
-export const useDimensions = (ref) => {
-  const [dimensions, setDimensions] = useState({
-    width: 0,
-    height: 0,
-    top: 0,
-    bottom: 0,
-  });
-  const observer = useRef(null);
-
-  useEffect(() => {
-    observer.current = new ResizeObserver((entries) => {
-      const { width, height, top, bottom } = entries[0].contentRect;
-      setDimensions({ width, height, top, bottom });
-    });
-    observer.current.observe(ref.current);
-
-    return () => observer.current.disconnect();
-  }, [ref]);
-
-  return dimensions;
 };
