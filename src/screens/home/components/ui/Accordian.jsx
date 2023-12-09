@@ -1,6 +1,4 @@
 import { AngleDownSVG } from "../../../../constants/svgs/Svg";
-
-import "../../../../test.css"; // Import your CSS file
 import { useAccordion } from "../hooks/useAccordian";
 
 function AccordianHeroCard({ content }) {
