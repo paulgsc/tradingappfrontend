@@ -3,7 +3,7 @@ import AccordianHeroCard from "../ui/Accordian";
 import SiteTutorialImagesCard from "../ui/SiteTutorialImagesCard";
 
 function FeatureCard() {
-  const [openIndex, handleFocus, handleBlur] = useAccordion(3, 10000);
+  const [openIndex, handleFocus, handleBlur] = useAccordion(3, 30000);
   const content = [
     {
       id: 1,
