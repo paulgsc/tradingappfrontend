@@ -1,11 +1,6 @@
 import { AngleDownSVG } from "../../../../constants/svgs/Svg";
 
-import "../../../../test.css"; // Import your CSS file
-import { useAccordion } from "../hooks/useAccordian";
-
-function AccordianHeroCard({ content }) {
-  const [openIndex, handleFocus, handleBlur] = useAccordion(3, 10000);
-
+function AccordianHeroCard({ content, handleFocus, handleBlur, openIndex }) {
   return (
     <div className="w-11/12 max-md:p-1.5 md:w-5/12 2xl:w-full 2xl:max-w-screen-sm border-t ">
       {content.map((item, i) => (

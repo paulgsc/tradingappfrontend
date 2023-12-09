@@ -36,7 +36,7 @@ function Navbar() {
                   </div>
                   <Link
                     to={"/register"}
-                    class="text-sm md:text-base text-center text-white tracking-tight w-6/12 max-h-12 overflow-hidden bg-gray-800 px-2 py-1 rounded-full hover:bg-zinc-50 hover:text-black"
+                    className="text-sm md:text-base text-center text-white tracking-tight w-6/12 max-h-12 overflow-hidden bg-gray-800 px-2 py-1 rounded-full hover:bg-zinc-50 hover:text-black"
                     rel="noopener noreferrer"
                   >
                     Start investing
