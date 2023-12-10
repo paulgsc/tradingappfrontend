@@ -3,6 +3,7 @@ import Layout from "../Layout";
 import Footer from "../components/footer/Footer";
 import FeatureCard from "../components/hero/FeatureCard";
 import Hero from "../components/hero/Hero";
+import OurStory from "../components/our-story/OurStory";
 import Testimonials from "../components/testimonials/Testimonials";
 import Navbar from "../components/ui/Navbar";
 
@@ -17,7 +18,10 @@ function HomePage() {
           <FeatureCard />
           <Hero />
         </section>
-        <section className="w-full">
+        <section className="w-full flex justify-center items-center">
+          <OurStory />
+        </section>
+        <section className="w-full bg-emerald-50">
           <EditWrapper path={"/admin/dashboard"}>
             <Testimonials />
           </EditWrapper>
