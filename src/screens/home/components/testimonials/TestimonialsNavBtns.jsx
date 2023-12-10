@@ -1,9 +1,9 @@
-function TestimonialsNavBtns({ setIndex }) {
+function TestimonialsNavBtns({ setIndex, maxIndex }) {
   return (
     <div className="inline-flex items-center w-full justify-center gap-16">
       <button
         onClick={() => {
-          setIndex((prevIndex) => prevIndex + 100);
+          setIndex((prevIndex) => Math.min(0, prevIndex + 100));
         }}
         className="prev-button rounded-full border border-teal-600 p-3 text-teal-600 hover:bg-teal-600 hover:text-white"
       >
@@ -26,7 +26,7 @@ function TestimonialsNavBtns({ setIndex }) {
 
       <button
         onClick={() => {
-          setIndex((prevIndex) => prevIndex - 100);
+          setIndex((prevIndex) => Math.max(prevIndex - 100, -maxIndex));
         }}
         className="next-button rounded-full border border-teal-600 p-3 text-teal-600 hover:bg-teal-600 hover:text-white"
       >
