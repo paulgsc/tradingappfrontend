@@ -1,6 +1,7 @@
 import useTimeout from "../../../../hooks/useTimeout";
 import "../../../../test.css";
-function SiteTutorialImagesCard({ openIndex }) {
+import ImageCycle from "./ImageCycle";
+function SiteTutorialImagesCard({ openIndex, currentImageIndex }) {
   const isVisible = useTimeout(openIndex, 2000);
   return (
     <div className="relative w-11/12 md:w-5/12 2xl:w-full 2xl:max-w-screen-md border border-slate-300 shadow-inner rounded-lg">
@@ -118,14 +119,10 @@ function SiteTutorialImagesCard({ openIndex }) {
           </>
         )}
 
-        <div className="duration-200 ease-linear z-0">
-          <img
-            loading="lazy"
-            src={`https://source.unsplash.com/featured/?finance&${openIndex}`}
-            className="animate-wigge absolute inset-0 w-full h-full object-cover"
-            alt="..."
-          />
-        </div>
+        <ImageCycle
+          openIndex={openIndex}
+          currentImageIndex={currentImageIndex}
+        />
       </div>
     </div>
   );
