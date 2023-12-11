@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 
 // custom hook to animate open and close accordian
-export const useAccordion = (totalItems, interval = 15000) => {
+export const useAccordion = (totalItems, interval = 15000, imagesLength) => {
   const [openIndex, setOpenIndex] = useState(0); // store the id of the open accordian
   const [isFocused, setIsFocused] = useState(false); // monitor focus
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // store the id of the image index
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -17,6 +18,24 @@ export const useAccordion = (totalItems, interval = 15000) => {
     return () => clearInterval(intervalId);
   }, [isFocused, totalItems, interval]);
 
+  useEffect(() => {
+    let intervalId;
+    // listen for changes in openIndex to sync with animation above
+    if (intervalId) {
+      setCurrentImageIndex(0); // set back to first index
+      clearInterval(intervalId); // clear old interval
+    }
+    // give uniform duration to each image
+    const duration = interval / imagesLength;
+    intervalId = setInterval(() => {
+      // Increment the image index, and loop back to 0 if reached the end
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagesLength);
+    }, duration); // 30 seconds
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [imagesLength, interval, openIndex]);
+
   const handleFocus = (index) => {
     setOpenIndex(index);
     setIsFocused(true);
@@ -26,5 +45,5 @@ export const useAccordion = (totalItems, interval = 15000) => {
     setIsFocused(false);
   };
 
-  return [openIndex, handleFocus, handleBlur];
+  return [openIndex, handleFocus, handleBlur, currentImageIndex];
 };
