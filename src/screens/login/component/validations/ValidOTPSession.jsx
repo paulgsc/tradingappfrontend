@@ -6,7 +6,6 @@ import WiggleLoader from "../../../../components/loading/WiggleLoader";
 import ExpiredMagicLinkCard from "../ui/ExpiredMagicLinkCard";
 import jwtDecode from "jwt-decode";
 import { useSearchParams } from "react-router-dom";
-import SuccessCard from "../../../../components/ui/SuccessCard";
 import MagicLinkCard from "./MagicLinkCard";
 
 function ValidOTPSession() {

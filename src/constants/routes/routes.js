@@ -52,7 +52,10 @@ export const modelsPaths = [
 ];
 export const adminDashboardPaths = ["/admin/dashboard/:params?"];
 
-export const userDashboardPaths = ["/personal/dashboard/:params?"];
+export const userDashboardPaths = [
+  "/personal/dashboard/:params?",
+  "/personal/dashboard/coinbase/oauth/callback",
+];
 
 export const userHistoryPaths = ["/personal/myhistory/:model/:params?"];
 

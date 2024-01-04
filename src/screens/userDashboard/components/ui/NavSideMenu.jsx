@@ -37,8 +37,8 @@ function NavSideMenu() {
         icon: <MagnifyingGlass className={"w-6 h-6"} />,
       },
       {
-        id: "insights",
-        title: "insights",
+        id: "coinbase",
+        title: "coinbase",
         path: "/admin",
         icon: (
           <svg
