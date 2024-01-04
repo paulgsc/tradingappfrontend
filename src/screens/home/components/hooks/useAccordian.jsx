@@ -22,8 +22,8 @@ export const useAccordion = (totalItems, interval = 15000, imagesLength) => {
     let intervalId;
     // listen for changes in openIndex to sync with animation above
     if (intervalId) {
-      setCurrentImageIndex(0); // set back to first index
       clearInterval(intervalId); // clear old interval
+      setCurrentImageIndex(0); // set back to first index
     }
     // give uniform duration to each image
     const duration = interval / imagesLength;

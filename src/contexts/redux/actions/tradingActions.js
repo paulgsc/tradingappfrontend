@@ -2,8 +2,6 @@ import jwtDecode from "jwt-decode";
 import API from "../../../api/django";
 import {
   clearOrderInfo,
-  fetchBalanceInfoSuccessful,
-  requestBalanceInfo,
   startTradeRequest,
   storeOrderInfo,
   storeOrderInfoFailed,
