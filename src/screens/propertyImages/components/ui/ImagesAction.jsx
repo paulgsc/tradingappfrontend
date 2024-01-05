@@ -1,27 +1,14 @@
 import TabMenu from "../../../../components/ui/TabMenu";
 import UploadForm from "./UploadForm";
 import ImageSubmitCard from "./ImageSubmitCard";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import useTabNavigation from "../../../../hooks/useTabNavigation";
 
 function ImagesAction() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [queryParameters] = useSearchParams();
+  const { handleTabClick, isTabActive } = useTabNavigation(
+    "imForm",
+    "dashboard"
+  );
 
-  const handleTabClick = (tabId) => {
-    const currentSearchParams = new URLSearchParams(queryParameters);
-    currentSearchParams.has("imageForm")
-      ? currentSearchParams.set("imageForm", tabId)
-      : currentSearchParams.append("imageForm", tabId);
-    navigate(`${location.pathname}?${currentSearchParams.toString()}`);
-  };
-
-  const isTabActive = (tabId) => {
-    const activeTab = queryParameters.get("imageForm")
-      ? queryParameters.get("imageForm")
-      : "dashboard";
-    return activeTab === tabId;
-  };
   const headers = [
     {
       id: "dashboard",

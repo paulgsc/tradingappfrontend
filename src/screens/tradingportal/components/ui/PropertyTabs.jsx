@@ -2,25 +2,12 @@ import PropertyOverview from "./PropertyOverview";
 import TabMenu from "../../../../components/ui/TabMenu";
 import FinancialsLayout from "../../layouts/FinancialsLayout";
 import Documents from "./Documents";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import TimeLineCard from "../events/TimeLineCard";
+import useTabNavigation from "../../../../hooks/useTabNavigation";
 
 function PropertyTabs() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [queryParameters] = useSearchParams();
+  const { handleTabClick, isTabActive } = useTabNavigation("info", "overview");
 
-  const handleTabClick = (tabId) => {
-    const currentSearchParams = new URLSearchParams(queryParameters);
-    currentSearchParams.has("info")
-      ? currentSearchParams.set("info", tabId)
-      : currentSearchParams.append("info", tabId);
-    navigate(`${location.pathname}?${currentSearchParams.toString()}`);
-  };
-  const isTabActive = (tabId) => {
-    const info = queryParameters.get("info");
-    return info ? tabId === info : tabId === "overview";
-  };
   const headers = [
     {
       id: "overview",

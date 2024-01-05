@@ -1,29 +1,13 @@
 import TabMenu from "../../../../components/ui/TabMenu";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
 import ImagesTable from "./ImagesTable";
+import useTabNavigation from "../../../../hooks/useTabNavigation";
 
 function ImageDescription({ publishedImages }) {
+  const { handleTabClick, isTabActive } = useTabNavigation("mTab", "guide");
   const { model } = useParams();
-  const [queryParameters] = useSearchParams();
-  const navigate = useNavigate();
   const { imageUpload = [] } = useSelector((state) => state.adminFetchData);
-
-  const handleTabClick = (tabId, path = "") => {
-    const currentSearchParams = new URLSearchParams(queryParameters);
-    currentSearchParams.has("tab")
-      ? currentSearchParams.set("tab", tabId)
-      : currentSearchParams.append("tab", tabId);
-    navigate(`${path}?${currentSearchParams.toString()}`);
-  };
-
-  const isTabActive = (tabId) => {
-    const activeTab = queryParameters.get("tab")
-      ? queryParameters.get("tab")
-      : "guide";
-    return activeTab === tabId;
-  };
 
   const headers = [
     {

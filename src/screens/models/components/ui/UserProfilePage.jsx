@@ -1,22 +1,13 @@
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import TabMenu from "../../../../components/ui/TabMenu";
 import UserSettingsCard from "./UserSettingsCard";
 import ProfileRolesSettings from "./ProfileRolesSettings";
+import useTabNavigation from "../../../../hooks/useTabNavigation";
 
 function UserProfilePage() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [queryParameters] = useSearchParams();
-  const isTabActive = (tabId) => {
-    return queryParameters.get("activeTab")
-      ? queryParameters.get("activeTab") === tabId
-      : "settings" === tabId;
-  };
-  const handleTabClick = (tab, path = location.pathname) => {
-    const currentSearchParams = new URLSearchParams(queryParameters);
-    currentSearchParams.set("activeTab", tab);
-    navigate(`${path}?${currentSearchParams.toString()}`);
-  };
+  const { handleTabClick, isTabActive } = useTabNavigation(
+    "activeTab",
+    "settings"
+  );
 
   const headers = [
     {

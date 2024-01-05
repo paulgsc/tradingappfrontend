@@ -1,20 +1,23 @@
 import TabMenu from "../../../../components/ui/TabMenu";
-import { useEffect, useState } from "react";
 import ModelFields from "../gsheets/ModelFields";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import CronJobs from "../gsheets/CronJobs";
 import RangePreview from "../gsheets/RangePreview";
 import { getActionTrace } from "../../hooks/reactQuery";
 import { useSearchParams } from "react-router-dom";
 import SettingsArccordian from "../settings/SettingsArccordian";
 import { useSelector } from "react-redux";
+import useTabNavigation from "../../../../hooks/useTabNavigation";
 
 function AutoUploadTabs() {
+  const { handleTabClick, isTabActive } = useTabNavigation(
+    "activeTab",
+    "status"
+  );
   const { model } = useParams();
-  const location = useLocation();
   const [queryParameters] = useSearchParams();
   const cronId = queryParameters.get("jobId");
-  const navigate = useNavigate();
+
   const { userInfo: { token = null } = {} } = useSelector(
     (state) => state.userAuth
   );
@@ -27,27 +30,7 @@ function AutoUploadTabs() {
   );
   const match = sheet_url.match(/\/d\/(.+?)\//);
   const sheetId = match ? match[1] : null;
-  const handleTabClick = (tabId, path = null) => {
-    const currentSearchParams = new URLSearchParams(queryParameters);
-    currentSearchParams.has("activeTab")
-      ? currentSearchParams.set("activeTab", tabId)
-      : currentSearchParams.append("activeTab", tabId);
-    if (path) {
-      navigate(`${path}?${currentSearchParams.toString()}`);
-    } else {
-      navigate(`${location.pathname}?${currentSearchParams.toString()}`);
-    }
-  };
 
-  const isTabActive = (tabId) => {
-    const activeTab = queryParameters.get("activeTab")
-      ? queryParameters.get("activeTab")
-      : cronId
-      ? "status"
-      : "fields";
-
-    return activeTab === tabId;
-  };
   const headers = [
     {
       id: "fields",

@@ -1,52 +1,53 @@
-import { Link } from "react-router-dom";
+import TabMenu from "./components/ui/TabMenu";
+import useTabNavigation from "./hooks/useTabNavigation";
 
-function Test({ timer }) {
+function Test() {
+  const { handleTabClick, isTabActive } = useTabNavigation("test", "dashboard");
+
+  const headers = [
+    {
+      id: "dashboard",
+      title: "Dashboard",
+      content: "",
+    },
+    {
+      id: "portfolio",
+      title: "Portfolio",
+      content: "",
+    },
+  ];
   return (
-    <div className="fixed inset-0 min-h-screen bg-gradient-to-tr from-blue-500 to-indigo-100 flex justify-center items-center py-20">
-      <div className=" mx-auto p-5 border w-full max-w-lg h-96 shadow-lg rounded-md bg-white">
-        <div className="mt-3 text-center">
-          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
-            <svg
-              className="h-6 w-6 text-blue-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+    <TabMenu>
+      <TabMenu.List
+        className={
+          " rounded-t-md shadow-sm shadow-neutral-50 bg-gradient-to-tr from-white via-stone-100 to-white"
+        }
+      >
+        {headers.map((item, i) => (
+          <TabMenu.ListItems key={i}>
+            <TabMenu.ButtonAction
+              handleTabClick={handleTabClick}
+              isTabActive={isTabActive}
+              item={item}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 13l4 4L19 7"
-              ></path>
-            </svg>
-          </div>
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Successfull
-          </h3>
-          <div className="mt-2 px-7 py-3">
-            <p className="text-sm text-gray-500">
-              Login authentication successful.
-            </p>
-          </div>
-          <div className="items-center px-4 py-3">
-            <Link
-              to={"/"}
-              className="px-4 py-2 bg-blue-600 text-white
-                      text-base font-medium rounded-md w-full
-                      shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            >
-              Go to Coinbase Acct.
-            </Link>
-          </div>
-          <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
-            <span className="countdown font-thin text-sm">
-              <span>{`Auto redirecting in ${timer} seconds`}</span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+              <div className="flex relative">
+                <span>{item.title}</span>
+                {item?.icon && (
+                  <span className="absolute -right-4 xl:-right-6 -top-2">
+                    {item?.icon}
+                  </span>
+                )}
+              </div>
+            </TabMenu.ButtonAction>
+          </TabMenu.ListItems>
+        ))}
+      </TabMenu.List>
+      <TabMenu.ContentCard className={"w-full"}>
+        {headers.map((item, i) => (
+          <TabMenu.Content key={i} item={item} isTabActive={isTabActive} />
+        ))}
+      </TabMenu.ContentCard>
+    </TabMenu>
   );
 }
 
