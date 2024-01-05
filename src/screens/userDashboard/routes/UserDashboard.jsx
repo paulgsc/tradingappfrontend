@@ -12,8 +12,7 @@ function UserDashboard() {
 
   const { isLoading: userBalanceLoading } = getUserBalance(token);
 
-  if (location.pathname === "/personal/dashboard/coinbase/oauth/callback")
-    return <CoinbaseAuthCard />;
+  if (location.pathname === "/coinbase/callback") return <CoinbaseAuthCard />;
 
   return (
     <div className="block w-full">
