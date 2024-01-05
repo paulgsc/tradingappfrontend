@@ -1,29 +1,21 @@
-import React from "react";
 import TabMenu from "../../../components/ui/TabMenu";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import useTabNavigation from "../../../hooks/useTabNavigation";
 import TradeGeneralSettings from "./TradeGeneralSettings";
 
 function TradeSettingsTabs() {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("General Settings");
+  const { handleTabClick, isTabActive } = useTabNavigation(
+    "settingsTab",
+    "general"
+  );
 
-  const handleTabClick = (tabId, path = "") => {
-    setActiveTab(tabId);
-    path && navigate(path);
-  };
-
-  const isTabActive = (tabId) => {
-    return activeTab === tabId;
-  };
   const headers = [
     {
-      id: "tab_1",
+      id: "general",
       title: "General Settings",
       content: <TradeGeneralSettings />,
     },
     {
-      id: "tab_1",
+      id: "content",
       title: "Content page",
       content: "",
       path: "/admin/site/models/trade/content",
