@@ -11,6 +11,8 @@ const useCoinbaseGetAccessToken = () => {
     const data = {
       code: searchParams.get("code"),
       state: searchParams.get("state"),
+      redirect_uri:
+        "https://leafiproperties.com/personal/dashboard/coinbase/oauth/callback",
     };
     dispatch(userRequestCoinBaseAccessToken(data));
   }, [dispatch, searchParams]); // Dependency array ensures the effect runs only once on mount
