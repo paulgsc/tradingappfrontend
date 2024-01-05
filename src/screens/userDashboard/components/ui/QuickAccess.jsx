@@ -9,7 +9,8 @@ function QuickAccess() {
   );
   const { userInfo: { token } = {} } = useSelector((state) => state.userAuth);
   const coinbaseAuthURL = coinbaseAuthorizeUrl(url, params);
-  useCoinbaseExchangeToken(token);
+  const [userHasLinkedCoinbaseAcct] = useCoinbaseExchangeToken(token);
+
   const links = [
     {
       id: "trade",
@@ -74,7 +75,9 @@ function QuickAccess() {
     {
       id: "coinbase",
       title: "coinbase",
-      path: coinbaseAuthURL,
+      path: userHasLinkedCoinbaseAcct
+        ? "/personal/coinbase/dashboard"
+        : coinbaseAuthURL,
       type: "external",
       icon: (
         <svg
@@ -124,7 +127,7 @@ function QuickAccess() {
           aria-selected={false}
           className="flex justify-center py-2 rounded-lg bg-teal-50 aria-selected:bg-teal-100 hover:bg-teal-100 scale-95 hover:scale-100 transition-all ease-in-out "
         >
-          {item?.type ? (
+          {item?.type && !userHasLinkedCoinbaseAcct ? (
             <a
               href={item?.path}
               className="w-28 capitalize text-gray-600/80 text-sm font-medium text-start inline-flex justify-start items-center gap-4 px-2 hover:text-blue-600"
