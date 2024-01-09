@@ -5,6 +5,7 @@ import Navbar from "../components/ui/Navbar";
 import NavLayout from "../../../components/ui/NavLayout";
 import { useLocation } from "react-router";
 import CoinbaseAuthCard from "../components/ui/CoinbaseAuthCard";
+import CoinbaseSetup from "../pages/CoinbaseSetup";
 
 function UserDashboard() {
   const location = useLocation();
@@ -15,12 +16,15 @@ function UserDashboard() {
   if (location.pathname === "/coinbase/callback") return <CoinbaseAuthCard />;
 
   return (
-    <div className="block w-full">
-      <NavLayout>
-        <Navbar />
-      </NavLayout>
-      <DashboardLayout />
-    </div>
+    <>
+      {location.pathname.includes("/coinbase/setup") && <CoinbaseSetup />}
+      <div className="block w-full">
+        <NavLayout>
+          <Navbar />
+        </NavLayout>
+        <DashboardLayout />
+      </div>
+    </>
   );
 }
 

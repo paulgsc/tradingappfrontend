@@ -15,14 +15,16 @@ const useTabNavigation = (tabParam, defaultTab) => {
     navigate(`${location.pathname}?${currentSearchParams.toString()}`);
   };
 
+  const selectedTab = queryParameters.get(tabParam) || defaultTab;
+
   const isTabActive = (tabId) => {
-    const selectedTab = queryParameters.get(tabParam) || defaultTab;
     return selectedTab === tabId;
   };
 
   return {
     handleTabClick,
     isTabActive,
+    selectedTab,
   };
 };
 

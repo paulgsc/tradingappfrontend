@@ -1,9 +1,9 @@
-import CoinBaseInfoCard from "./screens/userDashboard/components/ui/CoinBaseInfoCard";
+import CoinbaseSetup from "./screens/userDashboard/pages/CoinbaseSetup";
 
 function Test() {
   return (
     <div className="flex flex-1 min-h-screen w-full justify-center items-center">
-      <CoinBaseInfoCard />
+      <CoinbaseSetup />
     </div>
   );
 }

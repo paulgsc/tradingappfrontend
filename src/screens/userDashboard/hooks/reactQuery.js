@@ -59,3 +59,33 @@ export const fetchUserHolding = (token) => {
     isError,
   };
 };
+
+export const useFetchCoinbaseActions = (token) => {
+  const fetchUserShares = async () => {
+    if (!token) throw new Error("Authentication required.");
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await API.get(
+      `users/coinbase/get/coinbase_actions/`,
+      config
+    );
+    return response.data;
+  };
+
+  const queryKey = ["coinbase-scopes"];
+  const { data, isLoading, isError } = useQuery(queryKey, fetchUserShares, {
+    retry: false,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
+  return {
+    data: data,
+    isLoading,
+    isError,
+  };
+};
