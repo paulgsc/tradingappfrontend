@@ -52,7 +52,6 @@ export const userRequestCoinBaseAccessToken =
         data,
         config
       );
-      console.log("coinbase res: ", response.data);
       dispatch(requestAccessTokenSuccess(response.data));
     } catch (error) {
       dispatch(requestAccessTokenFailed(error.message));

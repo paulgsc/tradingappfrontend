@@ -11,29 +11,29 @@ function DemoDialog({
   handleClose = () => {},
   children,
 }) {
-  const handleEsc = (e) => {
-    if (e.keyCode === 27) {
-      handleClose();
-    }
-  };
   useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.keyCode === 27) {
+        handleClose();
+      }
+    };
     document.addEventListener("keydown", handleEsc);
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
     };
-  }, []);
+  }, [handleClose]);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-1 flex-col items-center justify-center p-4 backdrop-brightness-75 backdrop-blur-md sm:aspect-[4/3] md:aspect-[2/1]">
+    <div className="fixed bg-none backdrop-blur-sm backdrop-brightness-90 z-[1000] flex flex-1 min-h-screen w-full items-center justify-center">
       <button
         onClick={handleClose}
         title="finish setup later"
-        className="bg-gray-400/80 absolute right-6 xl:right-60 top-4 xl:top-32 z-50 rounded-sm scale-90 hover:scale-100 transition-all duration-200 ease-in-out hover:rounded-md hover:bg-white"
+        className="bg-gray-400/80 fixed top-8 right-12 z-50 rounded-sm scale-90 hover:scale-100 transition-all duration-200 ease-in-out hover:rounded-md hover:bg-white"
       >
         <CloseSvg />
       </button>
-      <div className="mx-auto w-full max-w-xl rounded-lg bg-white shadow-xl">
+      <div className="mx-auto w-fit max-w-4xl h-fit max-h-[80vh] rounded-lg bg-white shadow-xl overflow-y-auto ">
         {children}
 
         <div className="px-8 pb-8">
