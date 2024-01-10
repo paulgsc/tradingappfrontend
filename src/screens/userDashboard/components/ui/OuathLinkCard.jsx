@@ -1,4 +1,4 @@
-function OuathLinkCard() {
+function OuathLinkCard({ grantedActions = [] }) {
   return (
     <div className="w-full max-w-lg mx-auto">
       <img
@@ -36,27 +36,39 @@ function OuathLinkCard() {
                 role="list"
                 className="h-20 p-1.5 overflow-clip divide-y divide-gray-200 bg-gray-50"
               >
-                {Array.from({ length: 6 }, (_, i) => (
-                  <li key={i} className="py-3 sm:py-4">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
-                        <img
-                          className="w-8 h-8 rounded-full"
-                          src="/docs/images/people/profile-picture-1.jpg"
-                          alt="Neil image"
-                        />
+                {Array.isArray(grantedActions) && grantedActions.length > 0 ? (
+                  grantedActions.map((action) => (
+                    <li key={action.id} className="py-3 sm:py-4">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                          <img
+                            className="w-8 h-8 rounded-full"
+                            src="/docs/images/people/profile-picture-1.jpg"
+                            alt="Neil image"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0 ms-4">
+                          <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                            {action.action_name}
+                          </p>
+                          <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                            {action.description}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0 ms-4">
-                        <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                          Neil Sims
-                        </p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                          email@windster.com
-                        </p>
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  ))
+                ) : (
+                  <div className="flex-1 min-w-0 ms-4">
+                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                      no actions granted
+                    </p>
+                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                      There are no actions granted so far, new actions will
+                      appear here.
+                    </p>
+                  </div>
+                )}
               </ul>
             </div>
           </div>
