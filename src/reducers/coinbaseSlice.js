@@ -2,22 +2,37 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const coinbaseSlice = createSlice({
   name: "coinbase",
-  initialState: { loading: false, data: {}, error: null },
+  initialState: {
+    loading: false,
+    data: {},
+    actionIds: [],
+    requiredScopeIds: [],
+    suggestedScopeIds: [],
+    error: null,
+  },
   reducers: {
-    requestExchangeToken: () => {
+    requestExchangeToken: (state) => {
       return {
+        ...state,
         loading: true,
         error: null,
         data: {},
       };
     },
     requestAccessToken: (state) => {
-      state.loading = true;
-      state.error = null;
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        data: {},
+      };
     },
     requestExchangeTokenSuccess: (state, action) => {
-      state.loading = false;
-      state.data = action.payload;
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+      };
     },
     requestAccessTokenSuccess: (state, action) => {
       return { ...state, loading: false, ...action.payload };
@@ -29,6 +44,23 @@ const coinbaseSlice = createSlice({
     requestAccessTokenFailed: (state, action) => {
       return { loading: false, error: action.payload };
     },
+    userSetCoinbaseOauthScopes(state, action) {
+      return { ...state, ...action.payload };
+    },
+    userAddCoinbaseOuathScopes(state, action) {
+      return {
+        ...state,
+        suggestedScopeIds: [...state.suggestedScopeIds, action.payload],
+      };
+    },
+    userRemoveCoinbaseOuathScopes(state, action) {
+      return {
+        ...state,
+        suggestedScopeIds: [
+          ...state.suggestedScopeIds.filter((id) => id !== action.payload),
+        ],
+      };
+    },
   },
 });
 
@@ -39,6 +71,9 @@ export const {
   requestAccessTokenFailed,
   requestExchangeTokenSuccess,
   requestAccessTokenSuccess,
+  userSetCoinbaseOauthScopes,
+  userAddCoinbaseOuathScopes,
+  userRemoveCoinbaseOuathScopes,
 } = coinbaseSlice.actions;
 
 export default coinbaseSlice.reducer;

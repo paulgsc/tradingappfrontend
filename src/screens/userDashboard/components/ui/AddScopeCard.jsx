@@ -1,6 +1,8 @@
 import { AlertTriangleSvg } from "../../../../constants/svgs/Svg";
+import useScopesSelection from "../../hooks/useScopeSelection";
 
 function AddScopeCard({ required_scopes = [], suggested_scopes = [] }) {
+  const { handleToggleScope, isChecked } = useScopesSelection();
   return (
     <div>
       <div
@@ -37,7 +39,6 @@ function AddScopeCard({ required_scopes = [], suggested_scopes = [] }) {
                 readOnly
                 id="bordered-checkbox-2"
                 type="checkbox"
-                value=""
                 name="bordered-checkbox"
                 className="w-4 h-4 text-blue-600 opacity-60 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
@@ -60,8 +61,8 @@ function AddScopeCard({ required_scopes = [], suggested_scopes = [] }) {
           <li key={scope.id}>
             <div className="flex items-center ps-4 border-t border-l border-gray-200 rounded dark:border-gray-700">
               <input
-                checked={false}
-                readOnly
+                checked={isChecked(scope.id)}
+                onChange={() => handleToggleScope(scope.id)}
                 id="bordered-checkbox-2"
                 type="checkbox"
                 value=""

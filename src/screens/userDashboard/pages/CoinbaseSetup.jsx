@@ -2,8 +2,10 @@ import { useNavigate } from "react-router";
 import DemoDialog from "../../../components/ui/DemoDialog";
 import CoinbaseSetupStepsCard from "../components/coinbase/CoinbaseSetupStepsCard";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 function CoinbaseSetup() {
   const [step, setStep] = useState(1);
+  const { actionIds } = useSelector((state) => state.coinbaseActions);
 
   const navigate = useNavigate();
   const handleBack = () => {
@@ -23,6 +25,9 @@ function CoinbaseSetup() {
       handleBack={handleBack}
       handleContinue={handleContinue}
       handleClose={handleClose}
+      disableContinue={
+        Array.isArray(actionIds) && actionIds.length < 1 && step === 2
+      }
     >
       <CoinbaseSetupStepsCard step={step} />
     </DemoDialog>

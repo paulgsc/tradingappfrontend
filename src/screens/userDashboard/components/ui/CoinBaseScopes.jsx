@@ -2,7 +2,11 @@ import useTabNavigation from "../../../../hooks/useTabNavigation";
 import ItemSelector from "./ItemSelector";
 import ScopesAccordian from "./ScopesAccordian";
 
-function CoinBaseScopes({ data = [] }) {
+function CoinBaseScopes({
+  data = [],
+  thirdPartyCoinbaseActions,
+  setThridPartyCoinbaseActions,
+}) {
   const { handleTabClick, selectedTab } = useTabNavigation("action");
   const selectedAction = data?.find(
     (item) => item.id === parseInt(selectedTab)
@@ -16,7 +20,11 @@ function CoinBaseScopes({ data = [] }) {
       </div>
       <div className="flex">
         <aside className=" mx-auto py-2.5 bg-gray-50">
-          <ItemSelector allItems={data} handleTabClick={handleTabClick} />
+          <ItemSelector
+            thirdPartyCoinbaseActions={thirdPartyCoinbaseActions}
+            setThridPartyCoinbaseActions={setThridPartyCoinbaseActions}
+            handleTabClick={handleTabClick}
+          />
         </aside>
         <div className="w-full ps-6">
           <div className="mx-auto pt-2.5">
