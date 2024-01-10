@@ -28,6 +28,7 @@ function OuathLinkCard({ grantedActions = [] }) {
                 href="#"
                 className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
               >
+                {/* TO DO: set this up so it renders detailed view of all granted actions */}
                 View all
               </a>
             </div>
@@ -73,6 +74,7 @@ function OuathLinkCard({ grantedActions = [] }) {
             </div>
           </div>
         </div>
+        {/* TO DO: Make the buttons their own component, add fn to post to backend */}
         <div className="bg-blue-500 w-72 lg:w-5/6 m-auto mt-2.5 p-2 hover:bg-blue-700 rounded-2xl  text-white text-center shadow-xl shadow-bg-blue-700">
           <button className="lg:text-sm text-lg font-bold">
             Proceed to Coinbase Oauth
